@@ -14,7 +14,7 @@ gem 'turbolinks'
 gem 'jbuilder'
 gem 'sdoc'
 gem 'high_voltage'
-gem 'redcarpet'
+gem 'devise'
 
 group :development, :test do
   gem 'sqlite3'

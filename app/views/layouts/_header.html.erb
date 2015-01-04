@@ -4,7 +4,7 @@
     <nav>
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
-          <li class="navbar-text">Logged in as <strong><%= link_to current_user.email, records_path %></strong>.</li>
+          <li class="navbar-text">Logged in as <strong><%= link_to current_user.email, my_profile_path %></strong>.</li>
           <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %></li>
           <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
         <% else %>

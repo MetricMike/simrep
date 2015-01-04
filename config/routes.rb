@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
-  resource :records
+
+  resource :record, :only => :show, :as => :my_profile, :type => :my_profile
+  resources :records, :only => :show
+  
+  resources :characters
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

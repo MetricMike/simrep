@@ -1,0 +1,9 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+@import "base/mixins.scss";
+@import "base/universal.scss";
+@import "base/layouts.scss";
+
+@import "styles/characters.scss";
+@import "styles/records.scss";

@@ -11,9 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141231025912) do
+ActiveRecord::Schema.define(version: 20150102194004) do
 
-  create_table "users", force: true do |t|
+  create_table "characters", force: :cascade do |t|
+    t.text     "name"
+    t.integer  "experience"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "characters", ["user_id"], name: "index_characters_on_user_id"
+
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"

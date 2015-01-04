@@ -15,12 +15,16 @@ gem 'jbuilder'
 gem 'sdoc'
 gem 'high_voltage'
 gem 'devise'
+gem 'simple_form'
 
 group :development, :test do
   gem 'sqlite3'
-  gem 'byebug'
+  gem 'jazz_hands', github: 'jkrmr/jazz_hands'
   gem 'web-console'
+  gem "better_errors"
+  gem "binding_of_caller"
   gem 'spring'
+  gem 'rb-readline'
 end
 
 group :test do

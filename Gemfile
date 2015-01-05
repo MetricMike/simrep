@@ -16,6 +16,7 @@ gem 'sdoc'
 gem 'high_voltage'
 gem 'devise'
 gem 'simple_form'
+gem 'pundit'
 
 group :development, :test do
   gem 'sqlite3'

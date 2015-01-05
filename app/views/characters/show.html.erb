@@ -1,0 +1,12 @@
+<% provide(:title, @character.name) %>
+<div class="row">
+  <div class="col-md-4">
+    <strong><%= @character.name %></strong>
+  </div>
+  <div class="col-md-4">
+    <%= "Experience: #{@character.experience} / #{@exp_to_next} until next skillpoint" %> 
+  </div>
+  <div class="col-md-4">
+    <%= "Skill Points: skills_used spent / #{@sp_total} total" %>
+  </div>
+</div>

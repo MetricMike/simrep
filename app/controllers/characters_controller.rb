@@ -1,9 +1,9 @@
 class CharactersController < ApplicationController
-  before_action authenticate_user!
+  before_action :authenticate_user!
   
   def index
     # Show all orphaned characters
-    @characters = User.find_by(email: 'orphaned@example.com').characters.all
+    @characters = policy_scope(Character)
   end
   
   def new
@@ -11,7 +11,12 @@ class CharactersController < ApplicationController
   end
   
   def show
-    #sheet with all pertinent
+    #sheet with all pertinent info
+    @character = Character.find_by :id => params[:id]
+    authorize @character
+    @char_level = Character::EXP_CHART.find_index { |i| @character.experience <= i }
+    @exp_to_next = Character::EXP_CHART[@char_level] - @character.experience
+    @sp_total = Character::SKILL_CHART[@char_level]
   end
   
   def edit

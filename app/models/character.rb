@@ -1,7 +1,7 @@
 class Character < ActiveRecord::Base
   belongs_to :user
   validates :name, presence: true
-  validates :experience, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :experience, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   default_scope -> { order(experience: :desc) }
   
   # (1..50).each { |i| EXP_CHART << EXP_CHART[i-1] + 15 + i-1 }

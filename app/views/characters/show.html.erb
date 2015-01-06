@@ -1,12 +1,44 @@
 <% provide(:title, @character.name) %>
-<div class="row">
-  <div class="col-md-4">
-    <strong><%= @character.name %></strong>
+<div class="row" id="demographics">
+  <div class="col-md-5 col-md-offset-1">
+    Vitals
+    <dl class="dl-horizontal">
+      <dt>Name</dt><dd><%= "#{@character.name}" %></dd>
+      <dt>Race</dt><dd><%= "#{@character.race}" %></dd>
+      <dt>Culture</dt><dd><%= "#{@character.culture}" %></dd>
+      <dt>Experience</dt><dd><%= "#{@character.experience} / #{@exp_to_next} until next level" %></dd>
+      <dt>Costume</dt><dd><%= "#{@character.costume} (last checked on #{@character.costume_checked})" %></dd>
+      <dt>History</dt><dd><%= raw "#{@character.history_approval} / #{link_to 'GoogleDoc', @character.history_link}" %></dd>
+    </dl>
   </div>
-  <div class="col-md-4">
-    <%= "Experience: #{@character.experience} / #{@exp_to_next} until next skillpoint" %> 
+  <div class="col-md-3">
+    Backgrounds
+    <dl class="dl-horizontal">
+      <dt>Background1</dt><dd>Filler</dd>
+      <dt>Background2</dt><dd>Filler</dd>
+      <dt>Background3</dt><dd>Filler</dd>
+    </dl>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
+    Birthrights & Origins
+    <dl class="dl-horizontal">
+      <dt>Example</dt><dd>Filler</dd>
+    </dl>
+  </div>
+</div>
+<div class="row" id="system">
+  <div class="col-md-4" id="skills">
     <%= "Skill Points: skills_used spent / #{@sp_total} total" %>
+  </div>
+  <div class="col-md-4" id="perks">
+    <%= "Perk Points: perks_used spent / perks total" %>
+  </div>
+  <div class="col-md-4" id="talents">
+    <%= "Talent Points: talents_used unspent" %>
+  </div>
+</div>
+<div class="row" id="history">
+  <div class="col-md-12">
+    Character Transactions
   </div>
 </div>

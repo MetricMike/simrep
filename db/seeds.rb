@@ -6,44 +6,33 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+def self.make_fake_user(email)
+  User.create!(email: email, password: email[/(\w+)/], password_confirmation: email[/(\w+)/])
+end
+
+def self.make_fake_character(user)
+  user.characters.create!(
+    name: Faker::Name.name,
+    experience: rand(0..999),
+    race: Faker::SimTerra.race,
+    culture: Faker::SimTerra.culture,
+    costume: rand(0..3),
+    costume_checked: Faker::Date.backward(365),
+    history_approval: [true, false].sample,
+    history_link: Faker::Internet.url
+    )
+end
+
 #Users
-User.create!(email:                  "orphaned@example.com",
-             password:               "orphaned",
-             password_confirmation:  "orphaned")
-
-
-User.create!(email:                  "sterling.archer@isis.gov",
-             password:               "sterling",
-             password_confirmation:  "sterling")
-             
-User.create!(email:                  "malory.archer@isis.gov",
-             password:               "malory",
-             password_confirmation:  "malory")
-             
-User.create!(email:                  "lana.kane@isis.gov",
-             password:               "lana",
-             password_confirmation:  "lana")
-             
-User.create!(email:                  "cyril.figgis@isis.gov",
-             password:               "cyril",
-             password_confirmation:  "cyril")
+make_fake_user("orphaned@example.com")
+make_fake_user("sterling.archer@isis.gov")
+make_fake_user("malory.archer@isis.gov")
+make_fake_user("lana.kane@isis.gov")
+make_fake_user("cyril.figgis@isis.gov")
              
 #Characters
 3.times do |n|
-  User.second.characters.create!(
-    name: Faker::Name.name,
-    experience: Faker::Number.number(3))
-end
-
-3.times do |n|
-  User.last.characters.create!(
-    name: Faker::Name.name,
-    experience: Faker::Number.number(3))
-end
-
-#orphans!
-5.times do |n|
-  User.first.characters.create!(
-    name: Faker::Name.name,
-    experience: Faker::Number.number(3))
+  make_fake_character(User.first)
+  make_fake_character(User.second)
+  make_fake_character(User.last)
 end

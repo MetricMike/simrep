@@ -6,7 +6,7 @@
       <dt>Name</dt><dd><%= "#{@character.name}" %></dd>
       <dt>Race</dt><dd><%= "#{@character.race}" %></dd>
       <dt>Culture</dt><dd><%= "#{@character.culture}" %></dd>
-      <dt>Experience</dt><dd><%= "#{@character.experience} / #{@exp_to_next} until next level" %></dd>
+      <dt>Experience</dt><dd><%= "#{@character.experience} / #{@character.exp_to_next} until next level" %></dd>
       <dt>Costume</dt><dd><%= "#{@character.costume} (last checked on #{@character.costume_checked})" %></dd>
       <dt>History</dt><dd><%= raw "#{@character.history_approval} / #{link_to 'GoogleDoc', @character.history_link}" %></dd>
     </dl>
@@ -28,13 +28,43 @@
 </div>
 <div class="row" id="system">
   <div class="col-md-4" id="skills">
-    <%= "Skill Points: skills_used spent / #{@sp_total} total" %>
+    <%= "Skill Points: #{@character.skill_points_used} spent / #{@character.skill_points_total} total" %>
+    <table class="table table-condensed table-hover table-responsive">
+      <tr>
+        <th>Name</th>
+        <th>Cost</th>
+      </tr>
+      <% @character.skills.each do |skill| %>
+        <%= render partial: 'skill', locals: { skill: skill } =%>
+      <% end %>
+    </table>
   </div>
   <div class="col-md-4" id="perks">
-    <%= "Perk Points: perks_used spent / perks total" %>
+    <%= "Perk Points: #{@character.perk_points_used} spent / #{@character.perk_points_total} total" %>
+    <table class="table table-condensed table-hover table-responsive">
+      <tr>
+        <th>Name</th>
+        <th>Cost</th>
+      </tr>
+      <% @character.perks.each do |perk| %>
+        <%= render partial: 'perk', locals: { perk: perk } =%>
+      <% end %>
+    </table>
   </div>
   <div class="col-md-4" id="talents">
-    <%= "Talent Points: talents_used unspent" %>
+    <%= "Talent Points: #{@character.talent_points_used} spent / #{@character.talent_points_total} total" %>
+    <table class="table table-condensed table-hover table-responsive">
+      <tr>
+        <th>Spec?</th>
+        <th>Rank</th>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+      <% @character.talents.each do |talent| %>
+        <%= render partial: 'talent', locals: { talent: talent } =%>
+      <% end %>
+    </table>
   </div>
 </div>
 <div class="row" id="history">

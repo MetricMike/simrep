@@ -1,5 +1,5 @@
 en:
   faker:
     simterra:
-      race: [Human, Illugar, Illumen, Shaigar, Shaiden, Gnome, Ent]
-      culture: [Cryogen, Venthos, Sengra, Lumiend, Alkon\'Gol, Unan Gens, Om\'oihanna]
+      race: ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
+      culture: ["Cryogen", "Venthos", "Sengra", "Illumen/Lumiend", "Shaiden/Om'Oihanna", "Illugar/Unan Gens", "Shaigar/Alkon'Gol", "Minor", "Custom"]

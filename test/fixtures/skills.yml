@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  source: MyString
+  parent: 1
+  string: 
+  cost: 1
+
+two:
+  source: MyString
+  parent: 1
+  string: 
+  cost: 1

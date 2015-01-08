@@ -11,7 +11,54 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150106022319) do
+ActiveRecord::Schema.define(version: 20150108024816) do
+
+  create_table "backgrounds", force: :cascade do |t|
+    t.string   "name"
+    t.string   "detail"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "character_backgrounds", force: :cascade do |t|
+    t.integer  "character_id"
+    t.integer  "background_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "character_backgrounds", ["background_id"], name: "index_character_backgrounds_on_background_id"
+  add_index "character_backgrounds", ["character_id"], name: "index_character_backgrounds_on_character_id"
+
+  create_table "character_origins", force: :cascade do |t|
+    t.integer  "character_id"
+    t.integer  "origin_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "character_origins", ["character_id"], name: "index_character_origins_on_character_id"
+  add_index "character_origins", ["origin_id"], name: "index_character_origins_on_origin_id"
+
+  create_table "character_perks", force: :cascade do |t|
+    t.integer  "character_id"
+    t.integer  "perk_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "character_perks", ["character_id"], name: "index_character_perks_on_character_id"
+  add_index "character_perks", ["perk_id"], name: "index_character_perks_on_perk_id"
+
+  create_table "character_skills", force: :cascade do |t|
+    t.integer  "character_id"
+    t.integer  "skill_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "character_skills", ["character_id"], name: "index_character_skills_on_character_id"
+  add_index "character_skills", ["skill_id"], name: "index_character_skills_on_skill_id"
 
   create_table "characters", force: :cascade do |t|
     t.text     "name"
@@ -25,14 +72,59 @@ ActiveRecord::Schema.define(version: 20150106022319) do
     t.date     "costume_checked"
     t.boolean  "history_approval"
     t.string   "history_link"
-    t.text     "backgrounds"
-    t.text     "origins"
-    t.text     "skills"
-    t.text     "perks"
-    t.text     "talents"
   end
 
   add_index "characters", ["user_id"], name: "index_characters_on_user_id"
+
+  create_table "deaths", force: :cascade do |t|
+    t.text     "description"
+    t.string   "physical"
+    t.string   "roleplay"
+    t.date     "date"
+    t.boolean  "perm_chance"
+    t.integer  "character_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "deaths", ["character_id"], name: "index_deaths_on_character_id"
+
+  create_table "origins", force: :cascade do |t|
+    t.string   "source"
+    t.string   "name"
+    t.string   "detail"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "perks", force: :cascade do |t|
+    t.string   "source"
+    t.string   "name"
+    t.integer  "cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "skills", force: :cascade do |t|
+    t.string   "source"
+    t.string   "name"
+    t.integer  "cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "talents", force: :cascade do |t|
+    t.string   "group"
+    t.string   "name"
+    t.string   "rank"
+    t.integer  "value"
+    t.boolean  "spec"
+    t.integer  "character_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "talents", ["character_id"], name: "index_talents_on_character_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

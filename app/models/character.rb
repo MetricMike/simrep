@@ -1,18 +1,6 @@
 class Character < ActiveRecord::Base
-  belongs_to :user
-  
-  validates :name, presence: true
-  validates :experience, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :race, inclusion: { in: ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"] }
-  validates :culture, inclusion: { in: ["Cryogen", "Venthos", "Sengra", "Illumen/Lumiend", "Shaiden/Om'Oihanna", "Illugar/Unan Gens", "Shaigar/Alkon'Gol", "Minor", "Custom"] }
-  validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
-  
-  serialize :backgrounds, Array
-  serialize :origins, Array
-  serialize :skills, Array
-  serialize :perks, Array
-  serialize :talents, Array
-  
+  RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
+  CULTURES = ["Cryogen", "Venthos", "Sengra", "Illumen/Lumiend", "Shaiden/Om'Oihanna", "Illugar/Unan Gens", "Shaigar/Alkon'Gol", "Minor", "Custom"]
   # (1..50).each { |i| EXP_CHART << EXP_CHART[i-1] + 15 + i-1 }
   EXP_CHART = [0, 15, 31, 48, 66, 85, 105, 126, 148, 171, 195, 220,
   246, 273, 301, 330, 360, 391, 423, 456, 490, 525, 561, 598, 636, 675, 715,
@@ -22,6 +10,25 @@ class Character < ActiveRecord::Base
   SKILL_CHART = [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 18, 19,
   20, 21, 22, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 36, 37, 38, 39, 40,
   42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60]
+  
+  belongs_to :user
+  has_many :character_backgrounds
+  has_many :backgrounds, through: :character_backgrounds
+  has_many :character_origins
+  has_many :origins, through: :character_origins
+  has_many :character_skills
+  has_many :skills, through: :character_skills
+  has_many :character_perks
+  has_many :perks, through: :character_perks
+  
+  has_many :talents
+  has_many :deaths
+  
+  validates :name, presence: true
+  validates :experience, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :race, inclusion: { in: RACES }
+  validates :culture, inclusion: { in: CULTURES }
+  validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
   
   def level
     @level = EXP_CHART.find_index { |i| self.experience <= i }
@@ -66,6 +73,7 @@ class Character < ActiveRecord::Base
     @history_approval ? "official" : "unofficial"
   end
   
-  class SystemPoint < Struct.new(:name, :cost); end
-  class TalentPoint < Struct.new(:spec, :type, :name, :rank, :value); end
+  def perm_chance_total
+    @perm_chance_total = "???"
+  end
 end

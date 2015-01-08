@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  name: MyString
+  rank: MyString
+  value: 1
+  spec: false
+
+two:
+  type: 
+  name: MyString
+  rank: MyString
+  value: 1
+  spec: false

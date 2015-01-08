@@ -8,47 +8,64 @@
       <dt>Culture</dt><dd><%= "#{@character.culture}" %></dd>
       <dt>Experience</dt><dd><%= "#{@character.experience} / #{@character.exp_to_next} until next level" %></dd>
       <dt>Costume</dt><dd><%= "#{@character.costume} (last checked on #{@character.costume_checked})" %></dd>
-      <dt>History</dt><dd><%= raw "#{@character.history_approval} / #{link_to 'GoogleDoc', @character.history_link}" %></dd>
-    </dl>
-  </div>
-  <div class="col-md-3">
-    Backgrounds
-    <dl class="dl-horizontal">
-      <dt>Background1</dt><dd>Filler</dd>
-      <dt>Background2</dt><dd>Filler</dd>
-      <dt>Background3</dt><dd>Filler</dd>
-    </dl>
-  </div>
-  <div class="col-md-3">
-    Birthrights & Origins
-    <dl class="dl-horizontal">
-      <dt>Example</dt><dd>Filler</dd>
     </dl>
   </div>
 </div>
-<div class="row" id="system">
+<div class="row system">
+  <div class="col-md-5">
+    <%= raw "Backgrounds: #{link_to @character.history_approval + ' History', @character.history_link}" %>
+    <table class="table table-condensed table-hover table-responsive">
+      <tr>
+        <th>Name</th>
+        <th>Detail</th>
+      </tr>
+      <%= render partial: "characters/partials/background", collection: @character.backgrounds %>
+    </table>
+    Birthrights & Origins
+      <table class="table table-condensed table-hover table-responsive">
+      <tr>
+        <th>Source</th>
+        <th>Name</th>
+        <th>Detail</th>
+      </tr>
+      <%= render partial: "characters/partials/origin", collection: @character.origins %>
+    </table>
+  </div>
+  <div class="col-md-7">
+    <%= "Deaths\t|\tPerm Chance: #{@character.perm_chance_total}" %>
+    <table class="table table-condensed table-hover table-responsive">
+      <tr>
+        <th>Description</th>
+        <th>Physical Effect</th>
+        <th>Roleplay Effect</th>
+        <th>Date</th>
+        <th>Affects Perm Chance?</th>
+      </tr>
+      <%= render partial: "characters/partials/death", collection: @character.deaths %>
+    </table>
+  </div>
+</div>
+<div class="row system">
   <div class="col-md-4" id="skills">
     <%= "Skill Points: #{@character.skill_points_used} spent / #{@character.skill_points_total} total" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
+        <th>Source</th>
         <th>Name</th>
         <th>Cost</th>
       </tr>
-      <% @character.skills.each do |skill| %>
-        <%= render partial: 'skill', locals: { skill: skill } =%>
-      <% end %>
+      <%= render partial: "characters/partials/skill", collection: @character.skills %>
     </table>
   </div>
   <div class="col-md-4" id="perks">
     <%= "Perk Points: #{@character.perk_points_used} spent / #{@character.perk_points_total} total" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
+        <th>Source</th>
         <th>Name</th>
         <th>Cost</th>
       </tr>
-      <% @character.perks.each do |perk| %>
-        <%= render partial: 'perk', locals: { perk: perk } =%>
-      <% end %>
+      <%= render partial: "characters/partials/perk", collection: @character.perks %>
     </table>
   </div>
   <div class="col-md-4" id="talents">
@@ -57,13 +74,11 @@
       <tr>
         <th>Spec?</th>
         <th>Rank</th>
-        <th>Type</th>
+        <th>Group</th>
         <th>Name</th>
         <th>Value</th>
       </tr>
-      <% @character.talents.each do |talent| %>
-        <%= render partial: 'talent', locals: { talent: talent } =%>
-      <% end %>
+      <%= render partial: "characters/partials/talent", collection: @character.talents %>
     </table>
   </div>
 </div>

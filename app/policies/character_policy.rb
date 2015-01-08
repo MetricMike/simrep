@@ -32,7 +32,7 @@ class CharacterPolicy < ApplicationPolicy
   
   class Scope < Scope
     def resolve
-      scope.where :user_id => 1 #orphaned characters belong to uid 1
+      scope.where :user_id => @user.id
     end
   end
 end

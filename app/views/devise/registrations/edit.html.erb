@@ -6,7 +6,7 @@
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
   <% end %>
-  <%= f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it" + "\n#{@minimum_password_length} characters minimum" if @validatable, required: false %>
+  <%= f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it #{@validatable ? "\n + #{@minimum_password_length} characters minimum" : ""}", required: false %>
   <%= f.input :password_confirmation, required: false %>
   <%= f.input :current_password, hint: "we need your current password to confirm your changes", required: true %>
   <%= f.button :submit, "Update" %>

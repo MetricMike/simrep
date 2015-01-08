@@ -51,7 +51,10 @@ class Character < ActiveRecord::Base
   end
   
   def perk_points_total
-    @perk_points_total = self.costume + 1
+    base = self.costume + 1
+    @perk_points_total = base
+    @perk_points_total += self.skills.reduce(base) { |sum, el| sum+ base if el.name == "Added Perks" } || 0
+    @perk_points_total += self.backgrounds.find { |el| el.name.start_with?("Paragon") } ? 4 : 0
   end
   
   def talent_points_used

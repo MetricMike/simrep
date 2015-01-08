@@ -1,17 +1,21 @@
 class CharactersController < ApplicationController
   before_action :authenticate_user!
   
+  after_action :verify_authorized, :except => :index
+  after_action :verify_policy_scoped, :only => :index
+  
   def index
-    # Show all orphaned characters
+    # Show user's characters
+    @user = current_user
     @characters = policy_scope(Character)
   end
   
   def new
-    #form
+    # Guided dialog for making a new character
   end
   
   def show
-    #sheet with all pertinent info
+    # Data for a given character
     @character = Character.find_by :id => params[:id]
     authorize @character
   end

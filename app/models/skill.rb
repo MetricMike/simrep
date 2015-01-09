@@ -2,7 +2,7 @@ class Skill < ActiveRecord::Base
   has_paper_trail
   SOURCES = ["General", "Fighter", "Marksman", "Magic"]
 
-  has_many :characters, through: :character_skills, inverse_of: skills
+  has_many :characters, through: :character_skills, inverse_of: :skills
   has_many :character_skills
 
   validates :source, inclusion: {in: SOURCES}

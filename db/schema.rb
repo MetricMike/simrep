@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150109030747) do
+ActiveRecord::Schema.define(version: 20150109040841) do
 
   create_table "backgrounds", force: :cascade do |t|
     t.string   "name"
@@ -61,6 +61,17 @@ ActiveRecord::Schema.define(version: 20150109030747) do
 
   add_index "character_perks", ["character_id"], name: "index_character_perks_on_character_id"
   add_index "character_perks", ["perk_id"], name: "index_character_perks_on_perk_id"
+
+  create_table "character_projects", force: :cascade do |t|
+    t.integer  "total_tu"
+    t.integer  "character_id"
+    t.integer  "project_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "character_projects", ["character_id"], name: "index_character_projects_on_character_id"
+  add_index "character_projects", ["project_id"], name: "index_character_projects_on_project_id"
 
   create_table "character_skills", force: :cascade do |t|
     t.integer  "character_id"
@@ -124,6 +135,16 @@ ActiveRecord::Schema.define(version: 20150109030747) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "projects", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "leader_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "projects", ["leader_id"], name: "index_projects_on_leader_id"
 
   create_table "skills", force: :cascade do |t|
     t.string   "source"

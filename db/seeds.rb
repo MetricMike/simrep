@@ -6,6 +6,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+def self.make_fake_projects()
+  20.times {Project.create!(
+    name: Faker::Hacker.adjective + Faker::Hacker.noun,
+    description: Faker::Lorem.sentence(2, true, 3))}
+end
+
 def self.make_fake_events()
   30.times {Event.create!(
     campaign: Faker::Hacker.adjective + Faker::Hacker.noun,
@@ -39,6 +45,7 @@ def self.make_fake_characters(user)
   make_fake_backgrounds(character)
   make_fake_deaths(character)
   5.times {attend_event(character)}
+  5.times {contribute_to_project(character)}
 end
 
 def self.attend_event(character)
@@ -48,6 +55,13 @@ def self.attend_event(character)
     event_id: randomEvent.id,
     paid: [true, true, true, false].sample,
     cleaned: [true, false].sample)
+end
+
+def self.contribute_to_project(character)
+  randomProject = Project.all.sample
+  characterProject = character.character_projects.find_or_initialize_by(project: randomProject)
+  characterProject.update!(total_tu: characterProject.total_tu.nil? ? 2 : characterProject.total_tu + 2)
+  if randomProject.leader.blank? then randomProject.update(leader: character) end
 end
 
 def self.make_fake_skills(character)
@@ -94,8 +108,9 @@ def self.make_fake_deaths(character)
     perm_chance: [true, true, true, false].sample)}
 end
 
-#Events
+#Events & Projects
 make_fake_events
+make_fake_projects
 
 #Users
 make_fake_user("orphaned@example.com")

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  total_tu: 1
+  character_id_id: 
+  project_id_id: 
+
+two:
+  total_tu: 1
+  character_id_id: 
+  project_id_id: 

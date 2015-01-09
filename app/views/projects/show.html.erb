@@ -1,0 +1,13 @@
+<% provide(:title, @project.name) %>
+<div class="row" id="demographics">
+  <div class="col-md-4">
+    Vitals
+    <dl class="dl-horizontal">
+      <dt>Name</dt><dd><%= "#{@project.name}" %></dd>
+      <dt>Description</dt><dd><%= "#{@project.description}" %></dd>
+      <dt>Leader</dt><dd><%= "#{@project.leader}" %></dd>
+      <dt>Experience</dt><dd><%= "#{@character.experience} / #{@character.exp_to_next} until next level" %></dd>
+      <dt>Costume</dt><dd><%= "#{@character.costume} (last checked on #{@character.costume_checked})" %></dd>
+    </dl>
+  </div>
+</div>

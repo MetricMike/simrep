@@ -18,16 +18,18 @@ class Character < ActiveRecord::Base
   has_many :skills, through: :character_skills
   has_many :perks, through: :character_perks
   has_many :events, through: :character_events
+  has_many :projects, through: :character_projects
   
   has_many :character_backgrounds
   has_many :character_origins
   has_many :character_skills
   has_many :character_perks
   has_many :character_events
+  has_many :character_projects
   has_many :talents
   has_many :deaths
   
-  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :character_events, :talents, :deaths
+  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :character_events, :character_projects, :talents, :deaths
 
   validates :name, presence: true
   validates :race, inclusion: { in: RACES }

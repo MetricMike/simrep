@@ -1,5 +1,6 @@
 class Perk < ActiveRecord::Base
   has_many :characters, through: :character_perks
+  has_many :character_perks
   
   validates :source, inclusion: {in: (Character::RACES|Character::CULTURES)}
   validates :name, presence: true

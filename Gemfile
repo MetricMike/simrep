@@ -17,6 +17,7 @@ gem 'high_voltage'
 gem 'devise'
 gem 'simple_form'
 gem 'pundit'
+gem 'cocoon'
 
 group :development, :test do
   gem 'sqlite3'

@@ -50,7 +50,6 @@ def self.make_fake_talents(character)
   5.times {character.talents.create!(
     group: Talent::GROUPS.sample,
     name: Faker::Hacker.ingverb,
-    rank: Talent::RANKS.sample,
     value: rand(0..40),
     spec: [true, false, false].sample)}
 end

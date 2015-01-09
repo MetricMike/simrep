@@ -1,35 +1,62 @@
 class CharactersController < ApplicationController
   before_action :authenticate_user!
+  before_action :find_user!
   
   after_action :verify_authorized, :except => :index
   after_action :verify_policy_scoped, :only => :index
   
   def index
-    # Show user's characters
-    @user = current_user
     @characters = policy_scope(Character)
   end
   
   def new
-    # Guided dialog for making a new character
+    @character = @user.characters.new
+    authorize @character
   end
   
   def show
-    # Data for a given character
-    @character = Character.find_by :id => params[:id]
+    @character = Character.find_by id: params[:id]
     authorize @character
   end
   
   def edit
-    #form to make changes
+    @character = Character.find_by id: params[:id]
+    authorize @character
   end
   
   def create
+    @character = @user.characters.new(character_params)
+    authorize @character
+    
+    if @character.save
+      redirect_to @character, notice: 'Character created successfully.'
+    else
+      render action: :new
+    end
   end
   
   def update
+    @character = Character.find_by id: params[:id]
+    authorize @character
+    
+    if @character.update_attributes(character_params)
+      redirect_to @character, notice: 'Character updated successfully.'
+    else
+      render action: :edit
+    end
   end
   
   def destroy
+    # Will actually be "retiring"
   end
+  
+  private
+  
+    def find_user!
+      @user = current_user
+    end
+    
+    def character_params
+      params.require(:character).permit! #ahhhhhhhh
+    end
 end

@@ -3,7 +3,6 @@ class CreateTalents < ActiveRecord::Migration
     create_table :talents do |t|
       t.string :group
       t.string :name
-      t.string :rank
       t.integer :value
       t.boolean :spec
       t.references :character, index: true

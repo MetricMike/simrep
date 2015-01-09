@@ -12,17 +12,21 @@ class Character < ActiveRecord::Base
   42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60]
   
   belongs_to :user
-  has_many :character_backgrounds
+
   has_many :backgrounds, through: :character_backgrounds
-  has_many :character_origins
   has_many :origins, through: :character_origins
-  has_many :character_skills
   has_many :skills, through: :character_skills
-  has_many :character_perks
   has_many :perks, through: :character_perks
   
+  has_many :character_backgrounds
+  has_many :character_origins
+  has_many :character_skills
+  has_many :character_perks
   has_many :talents
   has_many :deaths
+  
+  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :talents, :deaths
+
   
   validates :name, presence: true
   validates :experience, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
@@ -53,12 +57,12 @@ class Character < ActiveRecord::Base
   def perk_points_total
     base = self.costume + 1
     @perk_points_total = base
-    @perk_points_total += self.skills.reduce(base) { |sum, el| sum+ base if el.name == "Added Perks" } || 0
+    @perk_points_total += self.skills.reduce(0) { |sum, el| (sum + base) if el.name == "Added Perks" } || 0
     @perk_points_total += self.backgrounds.find { |el| el.name.start_with?("Paragon") } ? 4 : 0
   end
   
   def talent_points_used
-    @talent_points_used = self.talents.reduce(0) do |sum, el| 
+    @talent_points_used = self.talents.reduce(0) do |sum, el|
       sum + (el.name != :unused ? el.value : 0)
     end
   end

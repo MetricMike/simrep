@@ -2,6 +2,7 @@ class Skill < ActiveRecord::Base
   SOURCES = ["General", "Fighter", "Marksman", "Magic"]
   
   has_many :characters, through: :character_skills
+  has_many :character_skills
   
   validates :source, inclusion: {in: SOURCES}
   validates :name, presence: true

@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= simple_form_for @character do |f| %>
+      <%= f.error_notification %>
+      <%= f.input :name %>
+      <div class="row">
+        <div class="col-md-12">
+            Skills
+            <table class="table table-condensed table-hover table-responsive">
+              <thead>
+                <tr>
+                  <th>Source</th>
+                  <th>Name</th>
+                  <th>Cost</th>
+                </tr>
+              </thead>
+              <tbody id="character_skills">
+                <%= f.simple_fields_for :character_skills do |character_skill| %>
+                  <%= render 'character_skill_fields', f: character_skill %>
+                <% end %>
+              </tbody>
+              <tfoot class="links">
+                <tr>
+                  <th>
+                    <%= link_to_add_association 'add skill', f, :character_skills, class: "btn btn-primary",
+                    :"data-association-insertion-node" => "tbody#character_skills",
+                    :"data-association-insertion-method" => "append",
+                    wrap_object: Proc.new {|character_skill| character_skill.build_skill; character_skill} %>
+                  </th>
+                </tr>
+              </tfoot>
+            </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+            Perks
+            <table class="table table-condensed table-hover table-responsive">
+              <thead>
+                <tr>
+                  <th>Source</th>
+                  <th>Name</th>
+                  <th>Cost</th>
+                </tr>
+              </thead>
+              <tbody id="character_perks">
+                <%= f.simple_fields_for :character_perks do |character_perk| %>
+                  <%= render 'character_perk_fields', f: character_perk %>
+                <% end %>
+              </tbody>
+              <tfoot class="links">
+                <tr>
+                  <th>
+                    <%= link_to_add_association 'add perk', f, :character_perks, class: "btn btn-primary",
+                    :"data-association-insertion-node" => "tbody#character_perks",
+                    :"data-association-insertion-method" => "append",
+                    wrap_object: Proc.new {|character_perk| character_perk.build_perk; character_perk} %>
+                  </th>
+                </tr>
+              </tfoot>
+            </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+            Talents
+            <table class="table table-condensed table-hover table-responsive">
+              <thead>
+                <tr>
+                  <th>Spec?</th>
+                  <th>Rank</th>
+                  <th>Group</th>
+                  <th>Name</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody id="talents">
+                <%= f.simple_fields_for :talents do |talent| %>
+                  <%= render 'talent_fields', f: talent %>
+                <% end %>
+              </tbody>
+              <tfoot class="links">
+                <tr>
+                  <th>
+                    <%= link_to_add_association 'add talent', f, :talents, class: "btn btn-primary",
+                    :"data-association-insertion-node" => "tbody#talents",
+                    :"data-association-insertion-method" => "append" %>
+                  </th>
+                </tr>
+              </tfoot>
+            </table>
+        </div>
+      </div>
+      <%= f.button :submit, "Update #{@character.name}", class: "btn btn-lg btn-block btn-success" %>
+      <% end %>
+  </div>
+</div>

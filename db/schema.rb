@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20150108024816) do
   add_index "character_skills", ["skill_id"], name: "index_character_skills_on_skill_id"
 
   create_table "characters", force: :cascade do |t|
-    t.text     "name"
+    t.string   "name"
     t.integer  "experience"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -116,7 +116,6 @@ ActiveRecord::Schema.define(version: 20150108024816) do
   create_table "talents", force: :cascade do |t|
     t.string   "group"
     t.string   "name"
-    t.string   "rank"
     t.integer  "value"
     t.boolean  "spec"
     t.integer  "character_id"

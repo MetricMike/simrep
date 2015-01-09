@@ -1,5 +1,5 @@
 class CharacterPolicy < ApplicationPolicy
-  attr_reader :user, :character
+  attr_reader :character
   
   def initialize(user, character)
     @user = user
@@ -10,16 +10,12 @@ class CharacterPolicy < ApplicationPolicy
     @character.user_id == @user.id
   end
   
-  def index?
-    true
-  end
-  
   def show?
     owned?
   end
   
   def create?
-    true
+    @user.present?
   end
   
   def update?

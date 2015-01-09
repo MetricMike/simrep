@@ -1,7 +1,7 @@
 class CreateCharacters < ActiveRecord::Migration
   def change
     create_table :characters do |t|
-      t.text :name
+      t.string :name
       t.integer :experience
       t.references :user, index: true
 

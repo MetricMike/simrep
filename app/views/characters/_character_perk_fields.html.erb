@@ -1,0 +1,8 @@
+<tr class="nested-fields">
+  <%= f.simple_fields_for :perk do |f_perk| %>
+    <td><%= f_perk.input :source, collection: (Character::RACES|Character::CULTURES), label: false %></td>
+    <td><%= f_perk.input :name, label: false %></td>
+    <td><%= f_perk.input :cost, label: false %></td>
+    <td><%= link_to_remove_association "remove perk", f, class: "btn btn-danger"%></td>
+  <% end %>
+</tr>

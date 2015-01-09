@@ -1,6 +1,6 @@
 <% provide(:title, @character.name) %>
 <div class="row" id="demographics">
-  <div class="col-md-5">
+  <div class="col-md-4">
     Vitals
     <dl class="dl-horizontal">
       <dt>Name</dt><dd><%= "#{@character.name}" %></dd>
@@ -10,7 +10,7 @@
       <dt>Costume</dt><dd><%= "#{@character.costume} (last checked on #{@character.costume_checked})" %></dd>
     </dl>
   </div>
-  <div class="col-md-4 col-md-offset-2">
+  <div class="col-md-4">
     Birthrights & Origins
       <table class="table table-condensed table-hover table-responsive">
       <tr>
@@ -20,6 +20,10 @@
       </tr>
       <%= render partial: "characters/partials/origin", collection: @character.origins %>
     </table>
+  </div>
+  <div class="col-md-4">
+    <%= link_to "Edit Character", edit_character_path(@character), class: 'btn btn-lg btn-primary' %>
+    <%= link_to "Retire Character", character_path(@character), confirm: "Are you sure you want to retire #{@character.name}?", method: :delete, class: 'btn btn-sm btn-danger', disabled: true %>
   </div>
 </div>
 <div class="row" id="deaths">
@@ -39,7 +43,7 @@
 </div>
 <div class="row system">
   <div class="col-md-4">
-    <%= raw "Backgrounds: #{link_to @character.history_approval + ' History', @character.history_link}" %>
+    <%= raw "Backgrounds: #{(link_to @character.history_approval + ' history', @character.history_link) unless @character.history_link}" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
         <th>Name</th>

@@ -2,14 +2,14 @@ class Talent < ActiveRecord::Base
   has_paper_trail
   RANKS = ["Untrained", "Apprentice", "Journeyman", "Master", "Grandmaster"]
   GROUPS = ["Connection", "Scholarship", "Profession", "Craft", "Trick", "General", "Custom"]
-  
-  belongs_to :character
-  
+
+  belongs_to :character, inverse_of: :talent
+
   validates :name, presence: true
   validates :spec, exclusion: { in: [nil] }
   validates :group, inclusion: {in: GROUPS}
   validates :value, numericality: {only_integer: true, greater_than_or_equal_to: 0}
-  
+
   def rank
     @rank
     if self.spec

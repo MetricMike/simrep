@@ -11,15 +11,15 @@ class Character < ActiveRecord::Base
   SKILL_CHART = [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 18, 19,
   20, 21, 22, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 36, 37, 38, 39, 40,
   42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60]
-
+  
   belongs_to :user
 
-  has_many :backgrounds, through: :character_backgrounds, inverse_of: :characters
-  has_many :origins, through: :character_origins, inverse_of: :characters
-  has_many :skills, through: :character_skills, inverse_of: :characters
-  has_many :perks, through: :character_perks, inverse_of: :characters
-  has_many :events, through: :character_events, inverse_of: :characters
-
+  has_many :backgrounds, through: :character_backgrounds
+  has_many :origins, through: :character_origins
+  has_many :skills, through: :character_skills
+  has_many :perks, through: :character_perks
+  has_many :events, through: :character_events
+  
   has_many :character_backgrounds
   has_many :character_origins
   has_many :character_skills
@@ -27,14 +27,14 @@ class Character < ActiveRecord::Base
   has_many :character_events
   has_many :talents
   has_many :deaths
-
+  
   accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :character_events, :talents, :deaths
 
   validates :name, presence: true
   validates :race, inclusion: { in: RACES }
   validates :culture, inclusion: { in: CULTURES }
   validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
-
+  
   def level
     @level = EXP_CHART.find_index { |i| self.experience <= i }
   end
@@ -42,7 +42,7 @@ class Character < ActiveRecord::Base
   def exp_to_next
     @exp_to_next = EXP_CHART[self.level + 1] - self.experience
   end
-
+  
   def experience
     @experience = self.events.reduce(31) do |sum, event|
       character_event = self.character_events.find_by :event_id => event.id
@@ -51,19 +51,19 @@ class Character < ActiveRecord::Base
       sum
     end
   end
-
+  
   def skill_points_used
     @skill_points_used = self.skills.reduce(0) { |sum, el| sum + el.cost }
   end
-
+  
   def skill_points_total
     @skill_points_total = SKILL_CHART[self.level]
   end
-
+  
   def perk_points_used
     @perk_points_used = self.perks.reduce(0) { |sum, el| sum + el.cost }
   end
-
+  
   def perk_points_total
     base = self.costume + 1
     @perk_points_total = self.skills.reduce(base) do |sum, skill|
@@ -72,26 +72,26 @@ class Character < ActiveRecord::Base
     end
     @perk_points_total += self.backgrounds.find { |b| b.name.start_with?("Paragon") } ? 4 : 0
   end
-
+  
   def talent_points_used
     @talent_points_used = self.talents.reduce(0) do |sum, el|
       sum += (el.name.downcase != "unused" ? el.value : 0)
     end
   end
-
+  
   def talent_points_total
     @talent_points_total = self.talents.reduce(0) { |sum, el| sum + el.value }
   end
-
-
+  
+  
   def history_approval=(bool)
     @history_approval = bool == "official" ? true : false
   end
-
+  
   def history_approval
     @history_approval ? "official" : "unofficial"
   end
-
+  
   def perm_chance_total
     @perm_chance_total = "???"
   end

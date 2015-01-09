@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+  has_paper_trail
   has_many :characters, through: :character_events
   has_many :character_events
   

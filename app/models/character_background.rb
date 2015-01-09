@@ -1,4 +1,5 @@
 class CharacterBackground < ActiveRecord::Base
+  has_paper_trail
   belongs_to :character
   belongs_to :background
   

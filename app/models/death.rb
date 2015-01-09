@@ -1,4 +1,5 @@
 class Death < ActiveRecord::Base
+  has_paper_trail
   belongs_to :character
   
   validates :description, :physical, :roleplay, :date, presence: true

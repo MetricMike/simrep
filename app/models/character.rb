@@ -1,4 +1,5 @@
 class Character < ActiveRecord::Base
+  has_paper_trail
   RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   CULTURES = ["Cryogen", "Venthos", "Sengra", "Illumen/Lumiend", "Shaiden/Om'Oihanna", "Illugar/Unan Gens", "Shaigar/Alkon'Gol", "Minor", "Custom"]
   # (1..50).each { |i| EXP_CHART << EXP_CHART[i-1] + 15 + i-1 }

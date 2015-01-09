@@ -1,4 +1,5 @@
 class Perk < ActiveRecord::Base
+  has_paper_trail
   has_many :characters, through: :character_perks
   has_many :character_perks
   

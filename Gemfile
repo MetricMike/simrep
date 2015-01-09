@@ -3,8 +3,6 @@ source 'https://rubygems.org'
 gem 'rails'
 gem 'bcrypt'
 gem 'faker'
-gem 'will_paginate'
-gem 'bootstrap-will_paginate'
 gem 'bootstrap-sass'
 gem 'sass-rails'
 gem 'uglifier'
@@ -18,6 +16,9 @@ gem 'devise'
 gem 'simple_form'
 gem 'pundit'
 gem 'cocoon'
+gem 'rails_admin'
+gem "rails_admin_pundit", :github => "sudosu/rails_admin_pundit"
+gem 'paper_trail'
 
 group :development, :test do
   gem 'sqlite3'

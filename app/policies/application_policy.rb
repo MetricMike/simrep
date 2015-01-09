@@ -34,6 +34,31 @@ class ApplicationPolicy
   def destroy?
     false
   end
+  
+  def rails_admin?(action)
+    case action
+      when :dashboard
+        user.admin?
+      when :index
+        user.admin?
+      when :show
+        user.admin?
+      when :new
+        user.admin?
+      when :edit
+        user.admin?
+      when :destroy
+        user.admin?
+      when :export
+        user.admin?
+      when :history
+        user.admin?
+      when :show_in_app
+        user.admin?
+      else
+        raise ::Pundit::NotDefinedError, "unable to find policy #{action} for #{record}."
+    end
+  end
 
   def scope
     Pundit.policy_scope!(user, record.class)

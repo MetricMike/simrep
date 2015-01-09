@@ -15,6 +15,14 @@ GIT
       pry-stack_explorer (~> 0.4)
       railties (>= 3.0, < 5.0)
 
+GIT
+  remote: git://github.com/sudosu/rails_admin_pundit.git
+  revision: 285e3e79a37242cf7a527053e9b438782801557a
+  specs:
+    rails_admin_pundit (0.0.1)
+      pundit (>= 0.2.3)
+      rails_admin (>= 0.6.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -65,8 +73,6 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.3.1.0)
       sass (~> 3.2)
-    bootstrap-will_paginate (0.0.10)
-      will_paginate
     builder (3.2.2)
     byebug (3.5.1)
       columnize (~> 0.8)
@@ -102,6 +108,8 @@ GEM
     faker (1.4.3)
       i18n (~> 0.5)
     ffi (1.9.6)
+    font-awesome-rails (4.2.0.0)
+      railties (>= 3.2, < 5.0)
     formatador (0.2.5)
     globalid (0.3.0)
       activesupport (>= 4.1.0)
@@ -119,6 +127,8 @@ GEM
     guard-minitest (2.3.2)
       guard (~> 2.0)
       minitest (>= 3.0)
+    haml (4.0.6)
+      tilt
     high_voltage (2.2.1)
     hike (1.2.3)
     hirb (0.7.2)
@@ -131,7 +141,12 @@ GEM
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
+    jquery-ui-rails (5.0.3)
+      railties (>= 3.2.16)
     json (1.8.1)
+    kaminari (0.16.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     kgio (2.9.2)
     listen (2.8.4)
       celluloid (>= 0.15.2)
@@ -156,9 +171,13 @@ GEM
       ruby-progressbar
     multi_json (1.10.1)
     nenv (0.1.1)
+    nested_form (0.3.2)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     orm_adapter (0.5.0)
+    paper_trail (3.0.6)
+      activerecord (>= 3.0, < 5.0)
+      activesupport (>= 3.0, < 5.0)
     pg (0.17.1)
     posix-spawn (0.3.9)
     pry (0.10.1)
@@ -188,6 +207,9 @@ GEM
     pundit (0.3.0)
       activesupport (>= 3.0.0)
     rack (1.6.0)
+    rack-pjax (0.8.0)
+      nokogiri (~> 1.5)
+      rack (~> 1.1)
     rack-test (0.6.2)
       rack (>= 1.0)
     rails (4.2.0)
@@ -212,6 +234,20 @@ GEM
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
+    rails_admin (0.6.6)
+      builder (~> 3.1)
+      coffee-rails (~> 4.0)
+      font-awesome-rails (>= 3.0, < 5)
+      haml (~> 4.0)
+      jquery-rails (>= 3.0, < 5)
+      jquery-ui-rails (~> 5.0)
+      kaminari (~> 0.14)
+      nested_form (~> 0.3)
+      rack-pjax (~> 0.7)
+      rails (~> 4.0)
+      remotipart (~> 1.0)
+      safe_yaml (~> 1.0)
+      sass-rails (>= 4.0, < 6)
     rails_serve_static_assets (0.0.3)
     rails_stdout_logging (0.0.3)
     railties (4.2.0)
@@ -227,9 +263,11 @@ GEM
     rb-readline (0.5.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    remotipart (1.2.1)
     responders (2.0.2)
       railties (>= 4.2.0.alpha, < 5)
     ruby-progressbar (1.7.1)
+    safe_yaml (1.0.4)
     sass (3.4.9)
     sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -279,7 +317,6 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (~> 4.0)
       sprockets-rails (>= 2.0, < 4.0)
-    will_paginate (3.0.7)
     yard (0.8.7.6)
 
 PLATFORMS
@@ -290,7 +327,6 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass
-  bootstrap-will_paginate
   cocoon
   coffee-rails
   devise
@@ -302,10 +338,13 @@ DEPENDENCIES
   jquery-rails
   mini_backtrace
   minitest-reporters
+  paper_trail
   pg
   pundit
   rails
   rails_12factor
+  rails_admin
+  rails_admin_pundit!
   rb-readline
   sass-rails
   sdoc
@@ -316,4 +355,3 @@ DEPENDENCIES
   uglifier
   unicorn
   web-console
-  will_paginate

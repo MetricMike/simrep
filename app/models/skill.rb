@@ -1,4 +1,5 @@
 class Skill < ActiveRecord::Base
+  has_paper_trail
   SOURCES = ["General", "Fighter", "Marksman", "Magic"]
   
   has_many :characters, through: :character_skills

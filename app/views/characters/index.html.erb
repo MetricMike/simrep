@@ -6,8 +6,8 @@
     </section>
   </aside>
   <div class="col-md-8">
-    <% if @user.characters.any? %>
-      <h3>Characters (<%= @user.characters.count %>)</h3>
+    <% if @characters.any? %>
+      <h3>Characters (<%= @characters.count %>)</h3>
       <ul class="characters">
         <%= render @characters %>
       </ul>

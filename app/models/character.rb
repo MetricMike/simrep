@@ -17,19 +17,19 @@ class Character < ActiveRecord::Base
   has_many :origins, through: :character_origins
   has_many :skills, through: :character_skills
   has_many :perks, through: :character_perks
+  has_many :events, through: :character_events
   
   has_many :character_backgrounds
   has_many :character_origins
   has_many :character_skills
   has_many :character_perks
+  has_many :character_events
   has_many :talents
   has_many :deaths
   
-  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :talents, :deaths
+  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :character_events, :talents, :deaths
 
-  
   validates :name, presence: true
-  validates :experience, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :race, inclusion: { in: RACES }
   validates :culture, inclusion: { in: CULTURES }
   validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
@@ -40,6 +40,15 @@ class Character < ActiveRecord::Base
 
   def exp_to_next
     @exp_to_next = EXP_CHART[self.level + 1] - self.experience
+  end
+  
+  def experience
+    @experience = self.events.reduce(31) do |sum, event|
+      character_event = self.character_events.find_by :event_id => event.id
+      if character_event.paid then sum += event.play_exp end
+      if character_event.cleaned then sum += event.clean_exp end
+      sum
+    end
   end
   
   def skill_points_used
@@ -56,14 +65,16 @@ class Character < ActiveRecord::Base
   
   def perk_points_total
     base = self.costume + 1
-    @perk_points_total = base
-    @perk_points_total += self.skills.reduce(0) { |sum, el| (sum + base) if el.name == "Added Perks" } || 0
-    @perk_points_total += self.backgrounds.find { |el| el.name.start_with?("Paragon") } ? 4 : 0
+    @perk_points_total = self.skills.reduce(base) do |sum, skill|
+      if skill.name.downcase == "added perks" then sum += base end
+      sum
+    end
+    @perk_points_total += self.backgrounds.find { |b| b.name.start_with?("Paragon") } ? 4 : 0
   end
   
   def talent_points_used
     @talent_points_used = self.talents.reduce(0) do |sum, el|
-      sum + (el.name != :unused ? el.value : 0)
+      sum += (el.name.downcase != "unused" ? el.value : 0)
     end
   end
   

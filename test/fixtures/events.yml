@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  campaign: MyString
+  weekend: 2015-01-09
+  play_exp: 
+  clean_exp: 
+
+two:
+  campaign: MyString
+  weekend: 2015-01-09
+  play_exp: 
+  clean_exp: 

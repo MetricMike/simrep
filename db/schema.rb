@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150108024816) do
+ActiveRecord::Schema.define(version: 20150109030747) do
 
   create_table "backgrounds", force: :cascade do |t|
     t.string   "name"
@@ -29,6 +29,18 @@ ActiveRecord::Schema.define(version: 20150108024816) do
 
   add_index "character_backgrounds", ["background_id"], name: "index_character_backgrounds_on_background_id"
   add_index "character_backgrounds", ["character_id"], name: "index_character_backgrounds_on_character_id"
+
+  create_table "character_events", force: :cascade do |t|
+    t.integer  "character_id"
+    t.integer  "event_id"
+    t.boolean  "paid"
+    t.boolean  "cleaned"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "character_events", ["character_id"], name: "index_character_events_on_character_id"
+  add_index "character_events", ["event_id"], name: "index_character_events_on_event_id"
 
   create_table "character_origins", force: :cascade do |t|
     t.integer  "character_id"
@@ -62,7 +74,6 @@ ActiveRecord::Schema.define(version: 20150108024816) do
 
   create_table "characters", force: :cascade do |t|
     t.string   "name"
-    t.integer  "experience"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -88,6 +99,15 @@ ActiveRecord::Schema.define(version: 20150108024816) do
   end
 
   add_index "deaths", ["character_id"], name: "index_deaths_on_character_id"
+
+  create_table "events", force: :cascade do |t|
+    t.string   "campaign"
+    t.date     "weekend"
+    t.integer  "play_exp"
+    t.integer  "clean_exp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "origins", force: :cascade do |t|
     t.string   "source"
@@ -126,18 +146,19 @@ ActiveRecord::Schema.define(version: 20150108024816) do
   add_index "talents", ["character_id"], name: "index_talents_on_character_id"
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "admin",                  default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

@@ -6,9 +6,18 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-def self.make_fake_user(email)
+def self.make_fake_events()
+  30.times {Event.create!(
+    campaign: Faker::Hacker.adjective + Faker::Hacker.noun,
+    weekend: Faker::Date.backward(1000),
+    play_exp: [10, 20, 20, 20, 20, 40].sample,
+    clean_exp: [5, 5, 5, 5, 10].sample)}
+end
+
+def self.make_fake_user(email, admin=false)
   User.create!(
     email: email,
+    admin: admin,
     password: email[/(\w+)/],
     password_confirmation: email[/(\w+)/])
 end
@@ -16,7 +25,6 @@ end
 def self.make_fake_characters(user)
   character = user.characters.create!(
     name: Faker::Name.name,
-    experience: rand(0..999),
     race: Character::RACES.sample,
     culture: Character::CULTURES.sample,
     costume: rand(0..3),
@@ -30,6 +38,16 @@ def self.make_fake_characters(user)
   make_fake_origins(character)
   make_fake_backgrounds(character)
   make_fake_deaths(character)
+  5.times {attend_event(character)}
+end
+
+def self.attend_event(character)
+  randomEvent = Event.all.sample
+  
+  character.character_events.create!(
+    event_id: randomEvent.id,
+    paid: [true, true, true, false].sample,
+    cleaned: [true, false].sample)
 end
 
 def self.make_fake_skills(character)
@@ -76,10 +94,13 @@ def self.make_fake_deaths(character)
     perm_chance: [true, true, true, false].sample)}
 end
 
+#Events
+make_fake_events
+
 #Users
 make_fake_user("orphaned@example.com")
 make_fake_user("sterling.archer@isis.gov")
-make_fake_user("malory.archer@isis.gov")
+make_fake_user("malory.archer@isis.gov", true)
 make_fake_user("lana.kane@isis.gov")
 make_fake_user("cyril.figgis@isis.gov")
              

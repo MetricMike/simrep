@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby "2.1.5"
+
 gem 'rails'
 gem 'bcrypt'
 gem 'faker'
@@ -19,6 +21,7 @@ gem 'cocoon'
 gem 'rails_admin'
 gem "rails_admin_pundit", :github => "sudosu/rails_admin_pundit"
 gem 'paper_trail'
+gem 'pg'
 
 group :development, :test do
   gem 'sqlite3'
@@ -37,7 +40,6 @@ group :test do
 end
 
 group :production do
-  gem 'pg'
   gem 'rails_12factor'
   gem 'unicorn'
 end

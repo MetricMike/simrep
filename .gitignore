@@ -17,4 +17,4 @@
 /.c9
 
 # Ignore Spring files.
-/spring/*.pid
+/spring/*.pid.env

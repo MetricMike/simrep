@@ -5,7 +5,7 @@
       <%= f.input :name %>
       <%= f.input :race, collection: Character::RACES %>
       <%= f.input :culture, collection: Character::CULTURES %>
-      <%= f.input :experience, readonly: true, input_html: { value: 31 } %>
+      <%= f.input :experience, disabled: true, input_html: { value: 31 } %>
       <%= f.input :costume, collection: 0..3, input_html: { value: 0 } %>
       <div class="row">
         <div class="col-md-12">

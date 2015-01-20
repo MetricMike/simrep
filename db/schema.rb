@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150109074543) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "backgrounds", force: :cascade do |t|
     t.string   "name"
     t.string   "detail"
@@ -27,8 +30,8 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.datetime "updated_at",    null: false
   end
 
-  add_index "character_backgrounds", ["background_id"], name: "index_character_backgrounds_on_background_id"
-  add_index "character_backgrounds", ["character_id"], name: "index_character_backgrounds_on_character_id"
+  add_index "character_backgrounds", ["background_id"], name: "index_character_backgrounds_on_background_id", using: :btree
+  add_index "character_backgrounds", ["character_id"], name: "index_character_backgrounds_on_character_id", using: :btree
 
   create_table "character_events", force: :cascade do |t|
     t.integer  "character_id"
@@ -39,8 +42,8 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "character_events", ["character_id"], name: "index_character_events_on_character_id"
-  add_index "character_events", ["event_id"], name: "index_character_events_on_event_id"
+  add_index "character_events", ["character_id"], name: "index_character_events_on_character_id", using: :btree
+  add_index "character_events", ["event_id"], name: "index_character_events_on_event_id", using: :btree
 
   create_table "character_origins", force: :cascade do |t|
     t.integer  "character_id"
@@ -49,8 +52,8 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "character_origins", ["character_id"], name: "index_character_origins_on_character_id"
-  add_index "character_origins", ["origin_id"], name: "index_character_origins_on_origin_id"
+  add_index "character_origins", ["character_id"], name: "index_character_origins_on_character_id", using: :btree
+  add_index "character_origins", ["origin_id"], name: "index_character_origins_on_origin_id", using: :btree
 
   create_table "character_perks", force: :cascade do |t|
     t.integer  "character_id"
@@ -59,19 +62,8 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "character_perks", ["character_id"], name: "index_character_perks_on_character_id"
-  add_index "character_perks", ["perk_id"], name: "index_character_perks_on_perk_id"
-
-  create_table "character_projects", force: :cascade do |t|
-    t.integer  "total_tu"
-    t.integer  "character_id"
-    t.integer  "project_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "character_projects", ["character_id"], name: "index_character_projects_on_character_id"
-  add_index "character_projects", ["project_id"], name: "index_character_projects_on_project_id"
+  add_index "character_perks", ["character_id"], name: "index_character_perks_on_character_id", using: :btree
+  add_index "character_perks", ["perk_id"], name: "index_character_perks_on_perk_id", using: :btree
 
   create_table "character_skills", force: :cascade do |t|
     t.integer  "character_id"
@@ -80,8 +72,8 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "character_skills", ["character_id"], name: "index_character_skills_on_character_id"
-  add_index "character_skills", ["skill_id"], name: "index_character_skills_on_skill_id"
+  add_index "character_skills", ["character_id"], name: "index_character_skills_on_character_id", using: :btree
+  add_index "character_skills", ["skill_id"], name: "index_character_skills_on_skill_id", using: :btree
 
   create_table "characters", force: :cascade do |t|
     t.string   "name"
@@ -96,7 +88,7 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.string   "history_link"
   end
 
-  add_index "characters", ["user_id"], name: "index_characters_on_user_id"
+  add_index "characters", ["user_id"], name: "index_characters_on_user_id", using: :btree
 
   create_table "deaths", force: :cascade do |t|
     t.text     "description"
@@ -109,7 +101,7 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "deaths", ["character_id"], name: "index_deaths_on_character_id"
+  add_index "deaths", ["character_id"], name: "index_deaths_on_character_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "campaign"
@@ -136,16 +128,6 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "projects", force: :cascade do |t|
-    t.string   "name"
-    t.text     "description"
-    t.integer  "leader_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "projects", ["leader_id"], name: "index_projects_on_leader_id"
-
   create_table "skills", force: :cascade do |t|
     t.string   "source"
     t.string   "name"
@@ -164,7 +146,7 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "talents", ["character_id"], name: "index_talents_on_character_id"
+  add_index "talents", ["character_id"], name: "index_talents_on_character_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
@@ -183,8 +165,8 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.string   "name"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",      null: false
@@ -196,6 +178,16 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.text     "object_changes"
   end
 
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
+  add_foreign_key "character_backgrounds", "backgrounds"
+  add_foreign_key "character_backgrounds", "characters"
+  add_foreign_key "character_events", "characters"
+  add_foreign_key "character_events", "events"
+  add_foreign_key "character_origins", "characters"
+  add_foreign_key "character_origins", "origins"
+  add_foreign_key "character_perks", "characters"
+  add_foreign_key "character_perks", "perks"
+  add_foreign_key "character_skills", "characters"
+  add_foreign_key "character_skills", "skills"
 end

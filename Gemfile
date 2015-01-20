@@ -19,9 +19,9 @@ gem 'cocoon'
 gem 'rails_admin'
 gem "rails_admin_pundit", :github => "sudosu/rails_admin_pundit"
 gem 'paper_trail'
+gem 'pg'
 
 group :development, :test do
-  gem 'sqlite3'
   gem 'jazz_hands', github: 'jkrmr/jazz_hands'
   gem 'web-console'
   gem "better_errors"
@@ -34,10 +34,10 @@ group :test do
   gem 'minitest-reporters'
   gem 'mini_backtrace'
   gem 'guard-minitest'
+  gem "codeclimate-test-reporter", group: :test, require: nil
 end
 
 group :production do
-  gem 'pg'
   gem 'rails_12factor'
   gem 'unicorn'
 end

@@ -6,8 +6,6 @@
 #
 default: &default
   encoding: unicode
-  username: simterra
-  password:
   adapter: postgresql
   pool: 5
   timeout: 5000

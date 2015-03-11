@@ -1,0 +1,17 @@
+<% provide(:title, "Projects for #{@character.name}") %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="character_info">
+      <h1><%= link_to @character.name, character_path(@character) %></h1>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <% if @projects.any? %>
+      <h3>Projects (<%= @projects.count %>)</h3>
+      <ul class="projects">
+        <%= render @projects %>
+      </ul>
+    <% end %>
+    <%= link_to 'Create New Project', new_project_path, class: "btn btn-sm btn-success" %>
+  </div>
+</div>

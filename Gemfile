@@ -20,6 +20,7 @@ gem 'rails_admin'
 gem "rails_admin_pundit", :github => "sudosu/rails_admin_pundit"
 gem 'paper_trail'
 gem 'pg'
+gem 'passenger'
 
 group :development, :test do
   gem 'jazz_hands', github: 'jkrmr/jazz_hands'
@@ -39,5 +40,4 @@ end
 
 group :production do
   gem 'rails_12factor'
-  gem 'unicorn'
 end

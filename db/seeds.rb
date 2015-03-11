@@ -22,6 +22,7 @@ end
 
 def self.make_fake_user(email, admin=false)
   User.create!(
+    name: email[/(\w+)/],
     email: email,
     admin: admin,
     password: email[/(\w+)/],
@@ -37,7 +38,7 @@ def self.make_fake_characters(user)
     costume_checked: Faker::Date.backward(365),
     history_approval: [true, false].sample,
     history_link: Faker::Internet.url)
-    
+
   make_fake_skills(character)
   make_fake_perks(character)
   make_fake_talents(character)
@@ -50,7 +51,7 @@ end
 
 def self.attend_event(character)
   randomEvent = Event.all.sample
-  
+
   character.character_events.create!(
     event_id: randomEvent.id,
     paid: [true, true, true, false].sample,
@@ -118,6 +119,6 @@ make_fake_user("sterling.archer@isis.gov")
 make_fake_user("malory.archer@isis.gov", true)
 make_fake_user("lana.kane@isis.gov")
 make_fake_user("cyril.figgis@isis.gov")
-             
+
 #Characters
 [User.first, User.second, User.last].each { |u| make_fake_characters(u) }

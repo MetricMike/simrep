@@ -106,6 +106,9 @@ GEM
     diff-lcs (1.2.5)
     diffy (3.0.7)
     docile (1.1.5)
+    dotenv (1.0.2)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     erubis (2.7.0)
     execjs (2.2.2)
     faker (1.4.3)
@@ -335,6 +338,7 @@ DEPENDENCIES
   codeclimate-test-reporter
   coffee-rails
   devise
+  dotenv-rails
   faker
   guard-minitest
   high_voltage

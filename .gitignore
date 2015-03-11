@@ -11,10 +11,14 @@
 /db/*.sqlite3
 /db/*.sqlite3-journal
 
-# Ignore all logfiles and tempfiles.
+# Ignore all logfiles, tempfiles, and environment
 /log/*.log
 /tmp
 /.c9
+/.env
 
 # Ignore Spring files.
 /spring/*.pid.env
+
+# Ignore Passenger
+/passenger*

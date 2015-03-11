@@ -23,6 +23,7 @@ gem 'pg'
 gem 'passenger'
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'jazz_hands', github: 'jkrmr/jazz_hands'
   gem 'web-console'
   gem "better_errors"

@@ -1,0 +1,11 @@
+<div class="row" id="project-<%= project.id =>">
+  <div class="col-md-12">
+    <strong><%= "#{link_to <%= link_to project.name, project_path(project)}" %></strong>
+    <dl class="dl-horizontal">
+      <dt>Description</dt><dd><%= "#{project.description}" %></dd>
+      <dt>Leader</dt><dd><%= "#{Character.find_by(id: project.leader).name}" %></dd>
+      <dt>Total TU</dt><dd><%= "" %></dd>
+      <dt>Last Contribution</dt><dd><%= "#{@character.costume} (last checked on #{@character.costume_checked})" %></dd>
+    </dl>
+  </div>
+</div>

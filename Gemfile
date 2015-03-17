@@ -24,7 +24,7 @@ gem 'passenger'
 
 group :development, :test do
   gem 'dotenv-rails'
-  gem 'jazz_hands', github: 'jkrmr/jazz_hands'
+  gem 'jazz_fingers'
   gem 'web-console'
   gem "better_errors"
   gem "binding_of_caller"

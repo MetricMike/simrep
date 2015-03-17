@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150109074543) do
+ActiveRecord::Schema.define(version: 20150317023012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,17 +64,6 @@ ActiveRecord::Schema.define(version: 20150109074543) do
 
   add_index "character_perks", ["character_id"], name: "index_character_perks_on_character_id", using: :btree
   add_index "character_perks", ["perk_id"], name: "index_character_perks_on_perk_id", using: :btree
-
-  create_table "character_projects", force: :cascade do |t|
-    t.integer  "total_tu"
-    t.integer  "character_id"
-    t.integer  "project_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "character_projects", ["character_id"], name: "index_character_projects_on_character_id", using: :btree
-  add_index "character_projects", ["project_id"], name: "index_character_projects_on_project_id", using: :btree
 
   create_table "character_skills", force: :cascade do |t|
     t.integer  "character_id"
@@ -138,6 +127,18 @@ ActiveRecord::Schema.define(version: 20150109074543) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "project_contributions", force: :cascade do |t|
+    t.integer  "timeunits"
+    t.integer  "character_id"
+    t.integer  "project_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.text     "note"
+  end
+
+  add_index "project_contributions", ["character_id"], name: "index_project_contributions_on_character_id", using: :btree
+  add_index "project_contributions", ["project_id"], name: "index_project_contributions_on_project_id", using: :btree
 
   create_table "projects", force: :cascade do |t|
     t.string   "name"
@@ -209,9 +210,9 @@ ActiveRecord::Schema.define(version: 20150109074543) do
   add_foreign_key "character_origins", "origins"
   add_foreign_key "character_perks", "characters"
   add_foreign_key "character_perks", "perks"
-  add_foreign_key "character_projects", "characters"
-  add_foreign_key "character_projects", "projects"
   add_foreign_key "character_skills", "characters"
   add_foreign_key "character_skills", "skills"
+  add_foreign_key "project_contributions", "characters"
+  add_foreign_key "project_contributions", "projects"
   add_foreign_key "projects", "characters", column: "leader_id"
 end

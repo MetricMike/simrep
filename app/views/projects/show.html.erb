@@ -1,0 +1,27 @@
+<% provide(:title, @project.name) %>
+<div class="row">
+  <div class="col-md-4" id="controls">
+    <%= link_to "Projects Overview", projects_path(@character), class: 'btn btn-lg btn-warning' %>
+    <% if @character == @project.leader %>
+    <%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-lg btn-primary' %>
+    <% end %>
+  </div>
+  <div class="col-md-8" id="information">
+    <dl class="dl-horizontal">
+      <dt>Name</dt><dd><%= "#{@project.name}" %></dd>
+      <dt>Description</dt><dd><%= "#{@project.description}" %></dd>
+      <dt>Leader</dt><dd><%= "#{Character.find_by(id: @project.leader).name}"%></dd>
+      <dt>Total TU</dt><dd><%= "#{@project.total_timeunits(@character)}" %></dd>
+    </dl>
+    <hr/>
+    <table class="table table-condensed table-hover table-responsive">
+    <tr>
+      <th>Contributor</th>
+      <th>TU Amount</th>
+      <th>Notes</th>
+      <th>Date</th>
+    </tr>
+    <%= render partial: "projects/contribution", collection: (@character == @project.leader ? @project.project_contributions : @project.project_contributions.where(character: @character)), as: :contribution %>
+    </table>
+  </div>
+</div>

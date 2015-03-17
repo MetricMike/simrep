@@ -60,9 +60,8 @@ end
 
 def self.contribute_to_project(character)
   randomProject = Project.all.sample
-  characterProject = character.character_projects.find_or_initialize_by(project: randomProject)
-  characterProject.update!(total_tu: characterProject.total_tu.nil? ? 2 : characterProject.total_tu + 2)
-  if randomProject.leader.blank? then randomProject.update(leader: character) end
+  character.project_contributions.create(project: randomProject, timeunits: 2, note: Faker::Lorem.sentence(2, true, 3))
+  randomProject.update(leader: character) if randomProject.leader.blank?
 end
 
 def self.make_fake_skills(character)

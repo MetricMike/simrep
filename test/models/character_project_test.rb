@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CharacterProjectTest < ActiveSupport::TestCase
+class ProjectContributionTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

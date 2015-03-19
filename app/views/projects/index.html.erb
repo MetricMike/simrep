@@ -1,8 +1,19 @@
 <% provide(:title, "Projects for #{@character.name}") %>
 <div class="row">
   <aside class="col-md-4">
-    <section class="character_info">
+    <section class="character info">
       <h1><%= link_to @character.name, character_path(@character) %></h1>
+      <h3><%= "Unspent Time Units: #{@character.talent_points_remaining}"%></h3>
+    </section>
+    <section class="contribution info">
+      <%= link_to 'Create New Project', new_project_path, class: "btn btn-sm btn-success" %>
+      <%= simple_form_for(@project, url: @project.new) do |f| %>
+      <%= f.error_notification %>
+      <%= f.input :project_id %>
+      <%= f.input :timeunits, input_html: { min: 0, max: @character.talent_points_remaining }%>
+      <%= f.input :note, required: false %>
+      <%= f.button :submit, "Contribute", class: "btn btn-sm btn-block btn-success" %>
+      <% end %>
     </section>
   </aside>
   <div class="col-md-8">
@@ -12,6 +23,5 @@
         <%= render @projects %>
       </ul>
     <% end %>
-    <%= link_to 'Create New Project', new_project_path, class: "btn btn-sm btn-success" %>
   </div>
 </div>

@@ -85,6 +85,9 @@ class Character < ActiveRecord::Base
     @talent_points_total = self.talents.reduce(0) { |sum, el| sum + el.value }
   end
 
+  def talent_points_remaining
+    self.talent_points_total - self.talent_points_used
+  end
 
   def history_approval=(bool)
     @history_approval = bool == "official" ? true : false

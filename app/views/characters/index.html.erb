@@ -3,6 +3,7 @@
   <aside class="col-md-4">
     <section class="user_info">
       <h1><%= @user.email %></h1>
+      <%= link_to 'Create New Character', new_character_path, class: "btn btn-sm btn-success" %>
     </section>
   </aside>
   <div class="col-md-8">
@@ -12,6 +13,5 @@
         <%= render @characters %>
       </ul>
     <% end %>
-    <%= link_to 'Create New Character', new_character_path, class: "btn btn-sm btn-success" %>
   </div>
 </div>

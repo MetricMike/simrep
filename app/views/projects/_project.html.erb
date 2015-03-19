@@ -1,5 +1,5 @@
 <li class="<%= "bg-info" if (project.leader == @character) %>" id="project-<%= project.id %>">
-  <strong><%= link_to project.name, project_path(project) %></strong>
+  <strong><%= link_to "#{project.name} (ID: #{project.id})", project_path(project) %></strong>
   <dl class="dl-horizontal">
     <dt>Description</dt><dd><%= "#{project.description}" %></dd>
     <dt>Leader</dt><dd><%= "#{Character.find_by(id: project.leader).name}" %></dd>

@@ -22,4 +22,12 @@ class Project < ActiveRecord::Base
       @last_contribution = self.project_contributions.where(character: character).order(updated_at: :desc).limit(1).first.try(:updated_at)
     end
   end
+
+  def contributions(character=nil)
+    if self.leader == character or character.nil?
+      @contributions = self.project_contributions
+    else
+      @contributions = self.project_contributions.where(character: @character)
+    end
+  end
 end

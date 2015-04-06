@@ -77,8 +77,14 @@ class Character < ActiveRecord::Base
 
   def talent_points_used
     @talent_points_used = self.talents.reduce(0) do |sum, el|
-      sum += (el.name.downcase != "unused" ? el.value : 0)
+      sum += (el.name.downcase != "unassigned" ? el.value : 0)
     end
+  end
+
+  def use_talent_points(amt=nil)
+    @unassigned_talent = self.talents.find_by(name: "unassigned")
+    @unassigned_talent.value -= 2
+    @unassigned_talent.save
   end
 
   def talent_points_total

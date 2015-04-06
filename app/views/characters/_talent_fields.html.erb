@@ -4,5 +4,7 @@
     <td><%= f.input :group, collection: Talent::GROUPS, label: false %></td>
     <td><%= f.input :name, label: false %></td>
     <td><%= f.input :value, label: false %></td>
+    <% if f.object.new_record? %>
     <td><%= link_to_remove_association "remove talent", f, class: "btn btn-danger"%></td>
+    <% end %>
 </tr>

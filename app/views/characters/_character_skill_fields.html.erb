@@ -3,6 +3,8 @@
     <td><%= f_skill.input :source, collection: Skill::SOURCES, label: false %></td>
     <td><%= f_skill.input :name, label: false %></td>
     <td><%= f_skill.input :cost, label: false %></td>
+    <% if f_skill.object.new_record? %>
     <td><%= link_to_remove_association "remove skill", f, class: "btn btn-danger"%></td>
+    <% end %>
   <% end %>
 </tr>

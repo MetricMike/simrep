@@ -11,6 +11,8 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find_by id: params[:id]
+    @contributions = @project.contributions.select(&:persisted?)
+    @project_contribution = @project.project_contributions.build(character: @character, timeunits: 0)
     authorize @project
   end
 
@@ -19,10 +21,9 @@ class ProjectsController < ApplicationController
     authorize @project
   end
 
-  def edit
-    @project = Project.find_by id: params[:id]
-    authorize @project
-  end
+  # def edit
+  #   Same-page rendering done in #show
+  # end
 
   def create
     @project = @character.projects.new(project_params)
@@ -39,10 +40,21 @@ class ProjectsController < ApplicationController
     @project = Project.find_by id: params[:id]
     authorize @project
 
-    if @project.update_attributes(project_params)
-      redirect_to @project, notice: 'Project updated successfully.'
-    else
-      render action: :edit
+    # Try updating contribution
+    if params[:project_contribution]
+      params[:project_contribution][:character_id] = @character.id
+      @project_contribution = @project.project_contributions.new(project_contribution_params)
+        if @project_contribution.save && @character.use_talent_points(@project_contribution.timeunits)
+          redirect_to @project, notice: 'Project updated successfully'
+        else
+          render action: :show
+        end
+    else # Try updating project
+      if @project.update_attributes(project_params)
+        redirect_to @project, notice: 'Project updated successfully.'
+      else
+        render action: :show
+      end
     end
   end
 
@@ -54,6 +66,10 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit! #aaahhhhhhhh
+  end
+
+  def project_contribution_params
+    params.require(:project_contribution).permit! #aaahhhhhhhh
   end
 
   def pundit_user

@@ -3,6 +3,8 @@
     <td><%= f_origin.input :source, collection: (Character::RACES|Character::CULTURES), label: false %></td>
     <td><%= f_origin.input :name, label: false %></td>
     <td><%= f_origin.input :detail, label: false %></td>
+    <% if f_origin.object.new_record? %>
     <td><%= link_to_remove_association "remove origin", f, class: "btn btn-danger"%></td>
+    <% end %>
   <% end %>
 </tr>

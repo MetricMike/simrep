@@ -50,7 +50,7 @@
 </div>
 <div class="row system">
   <div class="col-md-4">
-    <%= raw "Backgrounds: #{(link_to @character.history_approval + ' history', @character.history_link) unless @character.history_link}" %>
+    <%= raw "Backgrounds: #{(link_to @character.history_approval + ' history', @character.history_link) if @character.history_link}" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
         <th>Name</th>
@@ -96,10 +96,5 @@
       </tr>
       <%= render partial: "characters/partials/talent", collection: @character.talents %>
     </table>
-  </div>
-</div>
-<div class="row" id="history">
-  <div class="col-md-12">
-    Character Transactions
   </div>
 </div>

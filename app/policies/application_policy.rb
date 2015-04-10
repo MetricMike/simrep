@@ -34,7 +34,7 @@ class ApplicationPolicy
   def destroy?
     false
   end
-  
+
   def rails_admin?(action)
     case action
       when :dashboard
@@ -58,6 +58,10 @@ class ApplicationPolicy
       else
         raise ::Pundit::NotDefinedError, "unable to find policy #{action} for #{record}."
     end
+  end
+
+  # Hash of initial attributes for :new, :create and :update actions. This is optional
+  def attributes_for(action)
   end
 
   def scope

@@ -27,10 +27,7 @@ group :development, :test do
   gem 'dotenv-rails'
 
   gem 'pry-byebug'
-  gem 'pry-coolline'
-  gem 'pry'
-  gem 'awesome_print'
-  gem 'pry-rails'
+  gem 'jazz_fingers'
 
   gem 'web-console'
   gem "better_errors"

@@ -12,23 +12,23 @@ class Character < ActiveRecord::Base
   20, 21, 22, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 36, 37, 38, 39, 40,
   42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60]
 
-  belongs_to :user
+  belongs_to :user, inverse_of: :characters
 
-  has_many :backgrounds, through: :character_backgrounds
-  has_many :origins, through: :character_origins
-  has_many :skills, through: :character_skills
-  has_many :perks, through: :character_perks
-  has_many :events, through: :character_events
-  has_many :projects, through: :project_contributions
+  has_many :backgrounds, through: :character_backgrounds, inverse_of: :characters
+  has_many :origins, through: :character_origins, inverse_of: :characters
+  has_many :skills, through: :character_skills, inverse_of: :characters
+  has_many :perks, through: :character_perks, inverse_of: :characters
+  has_many :events, through: :character_events, inverse_of: :characters
+  has_many :projects, through: :project_contributions, inverse_of: :characters
 
-  has_many :character_backgrounds
-  has_many :character_origins
-  has_many :character_skills
-  has_many :character_perks
-  has_many :character_events
-  has_many :project_contributions
-  has_many :talents
-  has_many :deaths
+  has_many :character_backgrounds, inverse_of: :character
+  has_many :character_origins, inverse_of: :character
+  has_many :character_skills, inverse_of: :character
+  has_many :character_perks, inverse_of: :character
+  has_many :character_events, inverse_of: :character
+  has_many :project_contributions, inverse_of: :character
+  has_many :talents, inverse_of: :character
+  has_many :deaths, inverse_of: :character
 
   accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :character_events, :project_contributions, :talents, :deaths
 

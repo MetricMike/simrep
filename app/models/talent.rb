@@ -3,7 +3,7 @@ class Talent < ActiveRecord::Base
   RANKS = ["Untrained", "Apprentice", "Journeyman", "Master", "Grandmaster"]
   GROUPS = ["Connection", "Scholarship", "Profession", "Craft", "Trick", "General", "Custom"]
 
-  belongs_to :character
+  belongs_to :character, inverse_of: :talents
 
   validates :name, presence: true
   validates :spec, exclusion: { in: [nil] }

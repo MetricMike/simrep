@@ -60,10 +60,6 @@ class ApplicationPolicy
     end
   end
 
-  # Hash of initial attributes for :new, :create and :update actions. This is optional
-  def attributes_for(action)
-  end
-
   def scope
     Pundit.policy_scope!(user, record.class)
   end

@@ -1,7 +1,7 @@
 class ProjectContribution < ActiveRecord::Base
   has_paper_trail
-  belongs_to :character
-  belongs_to :project
+  belongs_to :character, inverse_of: :project_contributions
+  belongs_to :project, inverse_of: :project_contributions
 
   before_save :id_to_name
 

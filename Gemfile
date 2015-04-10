@@ -21,6 +21,7 @@ gem "rails_admin_pundit", :github => "sudosu/rails_admin_pundit"
 gem 'paper_trail'
 gem 'pg'
 gem 'passenger'
+gem 'lightbox2-rails'
 
 group :development, :test do
   gem 'dotenv-rails'

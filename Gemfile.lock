@@ -121,6 +121,8 @@ GEM
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    lightbox2-rails (2.7.1)
+      railties (>= 3.1)
     loofah (2.0.1)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -287,6 +289,7 @@ DEPENDENCIES
   high_voltage
   jbuilder
   jquery-rails
+  lightbox2-rails
   mini_backtrace
   minitest-reporters
   paper_trail

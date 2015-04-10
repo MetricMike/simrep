@@ -1,0 +1,6 @@
+<tr>
+  <td><%= event.campaign %></td>
+  <td><%= event.weekend %></td>
+  <td><%= @character.character_events.find_by(event_id: event.id).paid ? event.play_exp : 0 %></td>
+  <td><%= @character.character_events.find_by(event_id: event.id).cleaned ? event.clean_exp : 0 %></td>
+</tr>

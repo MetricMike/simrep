@@ -36,6 +36,7 @@ class Character < ActiveRecord::Base
   validates :race, inclusion: { in: RACES }
   validates :culture, inclusion: { in: CULTURES }
   validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
+  validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   def level
     @level = EXP_CHART.find_index { |i| self.experience <= i }
@@ -75,24 +76,17 @@ class Character < ActiveRecord::Base
     @perk_points_total += self.backgrounds.find { |b| b.name.start_with?("Paragon") } ? 4 : 0
   end
 
-  def talent_points_used
-    @talent_points_used = self.talents.reduce(0) do |sum, el|
-      sum += (el.name.downcase != "unassigned" ? el.value : 0)
+  def invest_in_project(amt, talent=nil)
+    self.unused_talents -= amt
+    unless talent.nil?
+      investing_talent = self.talents.find_by id: talent
+      investing_talent.invest([amt, 2].min, false)
     end
-  end
-
-  def use_talent_points(amt=nil)
-    @unassigned_talent = self.talents.find_by(name: "unassigned")
-    @unassigned_talent.value -= 2
-    @unassigned_talent.save
+    self.save
   end
 
   def talent_points_total
     @talent_points_total = self.talents.reduce(0) { |sum, el| sum + el.value }
-  end
-
-  def talent_points_remaining
-    self.talent_points_total - self.talent_points_used
   end
 
   def history_approval=(bool)

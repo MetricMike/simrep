@@ -83,7 +83,7 @@
     </table>
   </div>
   <div class="col-md-4" id="talents">
-    <%= "Talent Points: #{@character.talent_points_used} spent / #{@character.talent_points_total} total" %>
+    Talent Points: <b><%= "#{@character.unused_talents} unused"%></b><%=" / #{@character.talent_points_total} total" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
         <th>Spec?</th>
@@ -91,6 +91,7 @@
         <th>Group</th>
         <th>Name</th>
         <th>Value</th>
+        <th>Investment Limit</th>
       </tr>
       <%= render partial: "characters/partials/talent", collection: @character.talents %>
     </table>

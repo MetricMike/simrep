@@ -3,7 +3,11 @@
     <td><%= f.input :rank, disabled: true, label: false %></td>
     <td><%= f.input :group, collection: Talent::GROUPS, label: false %></td>
     <td><%= f.input :name, label: false %></td>
-    <td><%= f.input :value, label: false %></td>
+    <% if f.object.new_record? %>
+    <td><%= f.input :value, label: false, input_html: { min: 0, max: [@character.unused_talents, 2].min } %></td>
+    <% else %>
+    <td><%= f.input :value, label: false, input_html: { min: f.object.value, max: f.object.value + [f.object.investment_limit, @character.unused_talents].min } %></td>
+    <% end %>
     <% if f.object.new_record? %>
     <td><%= link_to_remove_association "remove talent", f, class: "btn btn-danger"%></td>
     <% end %>

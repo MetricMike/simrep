@@ -24,7 +24,13 @@ gem 'passenger'
 
 group :development, :test do
   gem 'dotenv-rails'
-  gem 'jazz_fingers'
+
+  gem 'pry-byebug'
+  gem 'pry-coolline'
+  gem 'pry'
+  gem 'awesome_print'
+  gem 'pry-rails'
+
   gem 'web-console'
   gem "better_errors"
   gem "binding_of_caller"

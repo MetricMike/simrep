@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150317023012) do
+ActiveRecord::Schema.define(version: 20150408214141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20150317023012) do
     t.date     "costume_checked"
     t.boolean  "history_approval"
     t.string   "history_link"
+    t.integer  "unused_talents",   default: 0
   end
 
   add_index "characters", ["user_id"], name: "index_characters_on_user_id", using: :btree
@@ -135,6 +136,7 @@ ActiveRecord::Schema.define(version: 20150317023012) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.text     "note"
+    t.string   "talent"
   end
 
   add_index "project_contributions", ["character_id"], name: "index_project_contributions_on_character_id", using: :btree
@@ -164,8 +166,9 @@ ActiveRecord::Schema.define(version: 20150317023012) do
     t.integer  "value"
     t.boolean  "spec"
     t.integer  "character_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "investment_limit", default: 2
   end
 
   add_index "talents", ["character_id"], name: "index_talents_on_character_id", using: :btree

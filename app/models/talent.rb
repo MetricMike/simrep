@@ -2,14 +2,15 @@ class Talent < ActiveRecord::Base
   has_paper_trail
   RANKS = ["Untrained", "Apprentice", "Journeyman", "Master", "Grandmaster"]
   GROUPS = ["Connection", "Scholarship", "Profession", "Craft", "Trick", "General", "Custom"]
-  
+
   belongs_to :character
-  
+
   validates :name, presence: true
   validates :spec, exclusion: { in: [nil] }
   validates :group, inclusion: {in: GROUPS}
   validates :value, numericality: {only_integer: true, greater_than_or_equal_to: 0}
-  
+  validates :investment_limit, numericality: {only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 2}
+
   def rank
     @rank
     if self.spec
@@ -27,5 +28,18 @@ class Talent < ActiveRecord::Base
       when 59..200 then @rank = RANKS[4]
       end
     end
+  end
+
+  def invest(amt, expend_timeunits=true)
+    if amt <= self.investment_limit
+      self.value += amt
+      self.investment_limit -= amt
+    else
+      self.value += investment_limit
+      (self.character.unused_talents = amt - investment_limit) if expend_timeunits
+      self.investment_limit = 0
+    end
+
+    self.save
   end
 end

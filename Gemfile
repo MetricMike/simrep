@@ -20,7 +20,7 @@ gem 'activeadmin', github: 'activeadmin'
 gem 'paper_trail'
 gem 'pg'
 gem 'passenger'
-gem 'lightbox2-rails'
+gem 'active_admin_csv_import'
 
 group :development, :test do
   gem 'dotenv-rails'

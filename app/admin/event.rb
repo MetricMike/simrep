@@ -1,5 +1,6 @@
 ActiveAdmin.register Event do
 
+  csv_importable :columns => [:campaign, :weekend, :play_exp, :clean_exp]
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

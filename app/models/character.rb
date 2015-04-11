@@ -100,4 +100,11 @@ class Character < ActiveRecord::Base
   def perm_chance_total
     @perm_chance_total = "???"
   end
+
+  def attend_event(event_id, paid=true, cleaned=true)
+    attendance = self.character_events.find_or_initialize_by(event_id: event_id)
+    attendance.paid = paid
+    attendance.cleaned = cleaned
+    attendance.save
+  end
 end

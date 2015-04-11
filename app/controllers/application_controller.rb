@@ -28,6 +28,10 @@ class ApplicationController < ActionController::Base
     @character ||= session[:current_char_id] && Character.find_by(id: session[:current_char_id ])
   end
 
+  def authenticate_admin!
+    redirect_to root_path unless current_user.admin?
+  end
+
   private
 
   def user_not_authorized

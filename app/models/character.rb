@@ -30,7 +30,7 @@ class Character < ActiveRecord::Base
   has_many :talents, inverse_of: :character
   has_many :deaths, inverse_of: :character
 
-  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :character_events, :project_contributions, :talents, :deaths
+  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :character_events, :project_contributions, :talents, :deaths, allow_destroy: true
 
   validates :name, presence: true
   validates :race, inclusion: { in: RACES }

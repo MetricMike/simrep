@@ -5,7 +5,7 @@ class ProjectContribution < ActiveRecord::Base
 
   before_save :id_to_name
 
-  accepts_nested_attributes_for :project
+  accepts_nested_attributes_for :project, allow_destroy: true
 
   def id_to_name
     talent_object = Talent.find_by id: self.talent

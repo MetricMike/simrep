@@ -11,6 +11,29 @@ ActiveAdmin.register Character do
     redirect_to collection_path, notice: [ids, inputs].to_s
   end
 
+  form do |f|
+    tabs do
+      tab 'Details' do
+        f.inputs 'Details' do
+          f.inputs :user, :name, :costume, :costume_checked, :history_approval, :history_link, :unused_talents
+          f.input :race, collection: Character::RACES
+          f.input :culture, collection: Character::CULTURES
+        end
+      end
+
+      tab 'Events' do
+        f.inputs 'Events' do
+          f.has_many :character_events, allow_destroy: true do |ev_f|
+            ev_f.input :event, member_label: Proc.new { |e| "#{e.campaign} / #{e.weekend}" }
+            ev_f.input :paid
+            ev_f.input :cleaned
+          end
+        end
+      end
+    end
+    f.actions
+  end
+
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #

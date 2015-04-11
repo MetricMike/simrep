@@ -3,7 +3,7 @@ class CharacterEvent < ActiveRecord::Base
   belongs_to :character, inverse_of: :character_events
   belongs_to :event, inverse_of: :character_events
 
-  accepts_nested_attributes_for :character, :event
+  accepts_nested_attributes_for :character, :event, allow_destroy: true
 
   after_create do |character_event|
     current_character = Character.find(self.character_id)

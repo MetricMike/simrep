@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
-  devise_for :users
+  devise_for :users, controllers: {confirmations: 'confirmations', registrations: 'registrations'}
+
+  devise_scope :user do
+    patch "/confirm" => "confirmations#confirm"
+  end
+
   resources :characters
   resources :projects
   # The priority is based upon order of creation: first created -> highest priority.

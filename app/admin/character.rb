@@ -11,7 +11,7 @@ ActiveAdmin.register Character do
     redirect_to collection_path, notice: [ids, inputs].to_s
   end
 
-  action_item :view do
+  action_item :view, only: [:show, :edit] do
     link_to 'View on Site', character_path(character)
   end
 

@@ -1,0 +1,8 @@
+<div class="nested-fields">
+  <%= f.semantic_fields_for :skills, f.object.skill do |f_skill| %>
+    <%= f_skill.input :source, collection: Skill::SOURCES %>
+    <%= f_skill.input :name %>
+    <%= f_skill.input :cost %>
+    <%= link_to_remove_association "remove", f %>
+  <% end %>
+</div>

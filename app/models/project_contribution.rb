@@ -8,7 +8,9 @@ class ProjectContribution < ActiveRecord::Base
   accepts_nested_attributes_for :project, allow_destroy: true
 
   def id_to_name
-    talent_object = Talent.find_by id: self.talent
-    self.talent = "#{talent_object.rank} | #{talent_object.name}"
+    if self.talent.present?
+      talent_object = Talent.find_by id: self.talent
+      self.talent = "#{talent_object.rank} | #{talent_object.name}"
+    end
   end
 end

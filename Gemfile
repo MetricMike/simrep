@@ -22,15 +22,16 @@ gem 'pg'
 gem 'passenger'
 gem 'active_admin_csv_import'
 
+gem 'web-console'
+gem "binding_of_caller"
+
 group :development, :test do
   gem 'dotenv-rails'
 
   gem 'pry-byebug'
   gem 'jazz_fingers'
 
-  gem 'web-console'
   gem "better_errors"
-  gem "binding_of_caller"
   gem 'spring'
   gem 'rb-readline'
 end

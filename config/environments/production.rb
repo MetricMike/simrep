@@ -2,7 +2,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # I KNOW THIS IS WRONG
-  config.web_console.whitelisted_ips = 0.0.0.0/0
+  config.web_console.whitelisted_ips = '0.0.0.0/0'
 
   # Code is not reloaded between requests.
   config.cache_classes = true

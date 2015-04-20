@@ -24,13 +24,11 @@ gem 'active_admin_csv_import'
 
 gem 'web-console'
 gem "binding_of_caller"
+gem 'jazz_fingers'
 
 group :development, :test do
   gem 'dotenv-rails'
-
   gem 'pry-byebug'
-  gem 'jazz_fingers'
-
   gem "better_errors"
   gem 'spring'
   gem 'rb-readline'

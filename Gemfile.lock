@@ -336,7 +336,9 @@ DEPENDENCIES
   paper_trail
   passenger
   pg
+  pry
   pry-byebug
+  pry-rails
   pundit
   rails
   rails_12factor

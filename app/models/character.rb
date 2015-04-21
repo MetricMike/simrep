@@ -39,7 +39,7 @@ class Character < ActiveRecord::Base
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   def level
-    @level = EXP_CHART.find_index { |i| self.experience <= i }
+    @level = EXP_CHART.find_index { |i| self.experience <= i } - 1
   end
 
   def exp_to_next

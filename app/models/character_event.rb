@@ -10,6 +10,8 @@ class CharacterEvent < ActiveRecord::Base
     current_character.talents.each { |talent| talent.investment_limit += 2; talent.save }
 
     current_character.unused_talents += 2
+
+    current_character.decrement_death if self.paid
     current_character.save
   end
 end

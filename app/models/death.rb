@@ -3,5 +3,20 @@ class Death < ActiveRecord::Base
   belongs_to :character, inverse_of: :deaths
 
   validates :description, :physical, :roleplay, :date, presence: true
-  validates :perm_chance, inclusion: { in: [true, false] }
+
+  after_create :record_death, if: :affects_perm_chance?
+
+  def affects_perm_chance=(bool)
+    @affects_perm_chance = bool
+  end
+
+  def affects_perm_chance?
+    @affects_perm_chance ||= true
+  end
+
+  def record_death
+    current_character = Character.find(self.character_id)
+    current_character.increment_death
+    current_character.save
+  end
 end

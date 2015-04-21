@@ -11,6 +11,8 @@ class Character < ActiveRecord::Base
   SKILL_CHART = [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 18, 19,
   20, 21, 22, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 36, 37, 38, 39, 40,
   42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60]
+  DEATH_PERCENTAGES = [0, 10, 30, 60, 90]
+  DEATH_COUNTER = [0, 3, 2, 1, 0]
 
   belongs_to :user, inverse_of: :characters
 
@@ -37,6 +39,8 @@ class Character < ActiveRecord::Base
   validates :culture, inclusion: { in: CULTURES }
   validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :perm_chance, numericality: { only_integer: true }, inclusion: { in: DEATH_PERCENTAGES }
+  validates :perm_counter, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
 
   def level
     @level = EXP_CHART.find_index { |i| self.experience <= i } - 1
@@ -97,8 +101,20 @@ class Character < ActiveRecord::Base
     @history_approval ? "official" : "unofficial"
   end
 
-  def perm_chance_total
-    @perm_chance_total = "???"
+  def increment_death
+    index = DEATH_PERCENTAGES.index(self.perm_chance) + 1
+    self.perm_chance = DEATH_PERCENTAGES[index]
+    self.perm_counter = DEATH_COUNTER[index]
+  end
+
+  def decrement_death
+    if self.perm_counter == 0
+      index = DEATH_PERCENTAGES.index(self.perm_chance) - 1
+      self.perm_chance = DEATH_PERCENTAGES[index]
+      self.perm_counter = DEATH_COUNTER[index]
+    else
+      self.perm_counter -= 1
+    end
   end
 
   def attend_event(event_id, paid=true, cleaned=true)

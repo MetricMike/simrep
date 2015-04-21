@@ -1,7 +1,6 @@
-<tr>
+<tr class="<%= 'info' if death.events_since <= 3 %>">
   <td><%= death.description %></td>
-  <td><%= death.physical %></td>
-  <td><%= death.roleplay %></td>
+  <td><%= death.physical if death.events_since <= 1 %></td>
+  <td><%= death.roleplay if death.events_since <= 3 %></td>
   <td><%= death.date %></td>
-  <td><%= death.perm_chance %></td>
 </tr>

@@ -6,6 +6,11 @@ class Death < ActiveRecord::Base
 
   after_create :record_death, if: :affects_perm_chance?
 
+  def events_since
+    current_character = Character.find(self.character_id)
+    current_character.events.where(weekend: self.date..DateTime.now).count
+  end
+
   def affects_perm_chance=(bool)
     @affects_perm_chance = bool
   end

@@ -102,14 +102,14 @@ class Character < ActiveRecord::Base
   end
 
   def increment_death
-    index = DEATH_PERCENTAGES.index(self.perm_chance) + 1
+    index = [DEATH_PERCENTAGES.index(self.perm_chance) + 1, DEATH_PERCENTAGES.size - 1].min
     self.perm_chance = DEATH_PERCENTAGES[index]
     self.perm_counter = DEATH_COUNTER[index]
   end
 
   def decrement_death
     if self.perm_counter == 0
-      index = DEATH_PERCENTAGES.index(self.perm_chance) - 1
+      index = [DEATH_PERCENTAGES.index(self.perm_chance) - 1, 0].max
       self.perm_chance = DEATH_PERCENTAGES[index]
       self.perm_counter = DEATH_COUNTER[index]
     else

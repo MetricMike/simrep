@@ -17,9 +17,9 @@ class Project < ActiveRecord::Base
 
   def last_contribution(character=nil)
     if self.leader == character or character.nil?
-      @last_contribution = self.project_contributions.order(updated_at: :desc).limit(1).first.try(:updated_at)
+      @last_contribution = self.project_contributions.order(created_at: :desc).limit(1).first.try(:created_at)
     else
-      @last_contribution = self.project_contributions.where(character: character).order(updated_at: :desc).limit(1).first.try(:updated_at)
+      @last_contribution = self.project_contributions.where(character: character).order(created_at: :desc).limit(1).first.try(:created_at)
     end
   end
 

@@ -45,4 +45,5 @@ group :production do
   gem 'rails_12factor'
   gem 'pry'
   gem 'pry-rails'
+  gem 'pry-coolline'
 end

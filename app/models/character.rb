@@ -82,11 +82,7 @@ class Character < ActiveRecord::Base
 
   def invest_in_project(amt, talent=nil)
     self.unused_talents -= amt
-    if talent.present?
-      investing_talent = self.talents.find_by id: talent
-      investing_talent.invest([amt, 2].min, false)
-    end
-    self.save
+    self.talents.find(talent).invest(amt, false) if talent.present?
   end
 
   def talent_points_total

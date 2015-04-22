@@ -31,15 +31,14 @@ class Talent < ActiveRecord::Base
   end
 
   def invest(amt, expend_timeunits=true)
-    if amt <= self.investment_limit
-      self.value += amt
-      self.investment_limit -= amt
-    else
-      self.value += investment_limit
-      (self.character.unused_talents = amt - investment_limit) if expend_timeunits
-      self.investment_limit = 0
-    end
-
+    allowed_amt = [amt, self.investment_limit].min
+    self.value += allowed_amt
+    self.investment_limit -= allowed_amt
+    (self.character.unused_talents -= allowed_amt && self.character.save) if expend_timeunits
     self.save
+  end
+
+  def friendly_name
+    "#{self.rank} | #{self.group}: #{self.name}"
   end
 end

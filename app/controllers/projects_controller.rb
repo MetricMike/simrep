@@ -44,7 +44,7 @@ class ProjectsController < ApplicationController
     if params[:project_contribution]
       params[:project_contribution][:character_id] = @character.id
       @project_contribution = @project.project_contributions.new(project_contribution_params)
-        if @project_contribution.save && @character.invest_in_project(@project_contribution.timeunits, params[:project_contribution][:talent])
+        if @project_contribution.save
           redirect_to @project, notice: 'Project updated successfully'
         else
           flash[:notice] = "Something went wrong! Check your time units and transaction log!"

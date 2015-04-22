@@ -6,7 +6,7 @@
     <%= simple_form_for @project do |f| %>
       <%= simple_fields_for @project_contribution do |pc| %>
         <%= pc.input :timeunits, input_html: { min: 0, max: @character.unused_talents }%>
-        <%= pc.input :talent, collection: @character.talents, :label_method => lambda { |talent| "#{talent.rank} | #{talent.name}"}, include_blank: true, required: false %>
+        <%= pc.input :talent, collection: @character.talents, label_method: :friendly_name, include_blank: true, required: false %>
         <%= pc.input :note, required: false %>
       <% end %>
       <%= f.button :submit, "Contribute To This Project", class: "btn btn-sm btn-block btn-success" %>

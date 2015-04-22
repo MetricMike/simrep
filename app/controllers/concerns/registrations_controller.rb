@@ -4,10 +4,11 @@ class RegistrationsController < Devise::RegistrationsController
     resource = resource_class.find_by unconfirmed_email: params[:user][:email]
 
     if resource.nil?
-      build_resource(sign_up_params) if resource.nil?
+      build_resource(sign_up_params)
       resource.save
     else
       resource.update(sign_up_params)
+      resource.send_confirmation_instructions
     end
 
     yield resource if block_given?

@@ -6,14 +6,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   has_many :characters, inverse_of: :user
 
-  def email_required?
-    super if self.attribute_present? :encrypted_password
-  end
-
-  def confirmation_required?
-    self.encrypted_password.present? ? super : false
-  end
-
   def password_required?
     super if confirmed?
   end

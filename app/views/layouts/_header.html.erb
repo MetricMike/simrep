@@ -5,7 +5,7 @@
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
           <li class="navbar-text">Logged in as <strong><%= link_to "#{current_user.name}", characters_path %></strong>
-          <% if current_char %>
+          <% if current_char.present? && current_char.persisted? %>
           / <strong><%= link_to "#{current_char.name}", character_path(current_char) %></strong>
           <% end %>
           </li>

@@ -10,7 +10,7 @@ class ConfirmationsController < Devise::ConfirmationsController
     self.resource = resource_class.find_by_confirmation_token Devise.token_generator.
       digest(self, :confirmation_token, @original_token)
 
-    #super if resource.nil? or resource.confirmed?
+    super if resource.nil? or resource.confirmed?
   end
 
   def confirm

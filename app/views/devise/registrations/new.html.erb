@@ -6,8 +6,6 @@
       <%= f.error_notification %>
       <%= f.input :email, autofocus: true %>
       <%= f.input :name %>
-      <%= f.input :password, hint: ("#{@minimum_password_length} characters minimum" if @validatable) %>
-      <%= f.input :password_confirmation %>
       <%= f.button :submit, "Sign up" %>
     <% end %>
   </div>

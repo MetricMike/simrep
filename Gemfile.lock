@@ -338,7 +338,6 @@ DEPENDENCIES
   pg
   pry
   pry-byebug
-  pry-coolline
   pry-rails
   pundit
   rails

@@ -5,6 +5,7 @@ class RegistrationsController < Devise::RegistrationsController
 
     if resource.nil?
       build_resource(sign_up_params)
+      resource = self.resource
       resource.save
     else
       resource.update(sign_up_params)

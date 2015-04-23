@@ -5,7 +5,9 @@ class CharacterEvent < ActiveRecord::Base
 
   accepts_nested_attributes_for :character, :event, allow_destroy: true
 
-  after_create do |character_event|
+  after_create :give_attendance_awards
+
+  def give_attendance_awards
     current_character = Character.find(self.character_id)
     current_character.talents.each { |talent| talent.investment_limit += 2; talent.save }
 

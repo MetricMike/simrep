@@ -9,11 +9,6 @@ class ProjectContribution < ActiveRecord::Base
 
   def invest_talent
     self.character.invest_in_project(self.timeunits, self.talent)
-    self.id_to_name
-  end
-
-  def id_to_name
-    talent_object = Talent.find_by id: self.talent
-    self.talent = "#{talent_object.rank} | #{talent_object.group}: #{talent_object.name}"
+    self.talent = self.talent.friendly_name
   end
 end

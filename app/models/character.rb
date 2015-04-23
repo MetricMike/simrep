@@ -73,10 +73,9 @@ class Character < ActiveRecord::Base
 
   def perk_points_total
     base = self.costume + 1
-    @perk_points_total = self.skills.reduce(base) do |sum, skill|
-      if skill.name.downcase == "added perks" then sum += base end
-      sum
-    end
+    added_perks = self.skills.find { |s| s.name.downcase == "added perks" }
+
+    @perk_points_total = added_perks ? (added_perks.cost * base) : 0
     @perk_points_total += self.backgrounds.find { |b| b.name.start_with?("Paragon") } ? 4 : 0
   end
 

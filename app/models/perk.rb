@@ -5,5 +5,5 @@ class Perk < ActiveRecord::Base
 
   validates :source, inclusion: {in: (Character::RACES|Character::CULTURES|["Ghost"])}
   validates :name, presence: true
-  validates :cost, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 5 }
+  validates :cost, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 end

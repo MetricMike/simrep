@@ -3,7 +3,7 @@ class Project < ActiveRecord::Base
   belongs_to :leader, :class_name => 'Character', inverse_of: :projects
 
   has_many :project_contributions, inverse_of: :project
-  has_many :characters, through: :project_contributions, inverse_of: :projects
+  has_many :characters, -> { distinct }, through: :project_contributions, inverse_of: :projects
 
   validates :name, presence: true
 

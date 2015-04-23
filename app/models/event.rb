@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
   has_paper_trail
-  has_many :characters, through: :character_events, inverse_of: :events
+  has_many :characters, -> { distinct }, through: :character_events, inverse_of: :events
   has_many :character_events, inverse_of: :event
 
   validates :campaign, presence: true

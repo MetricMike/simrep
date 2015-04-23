@@ -74,9 +74,9 @@ class Character < ActiveRecord::Base
   def perk_points_total
     base = self.costume + 1
     added_perks = self.skills.find { |s| s.name.downcase == "added perks" }
-
-    @perk_points_total = added_perks ? (added_perks.cost * base) : 0
-    @perk_points_total += self.backgrounds.find { |b| b.name.start_with?("Paragon") } ? 4 : 0
+    @perk_points_total = base +
+                          (added_perks ? (added_perks.cost * base) : 0) +
+                          (self.backgrounds.find { |b| b.name.start_with?("Paragon") } ? 4 : 0)
   end
 
   def invest_in_project(amt, talent=nil)

@@ -70,7 +70,6 @@ ActiveAdmin.register Character do
               d_f.input :description
               d_f.input :physical
               d_f.input :roleplay
-              d_f.input :perm_chance
             end
           end
         end

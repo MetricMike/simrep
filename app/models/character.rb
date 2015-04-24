@@ -57,6 +57,7 @@ class Character < ActiveRecord::Base
       if character_event.cleaned then sum += event.clean_exp end
       sum
     end
+    @experience += (self.backgrounds.find { |b| b.name.start_with?("Experienced") }) ? 20 : 0
   end
 
   def skill_points_used

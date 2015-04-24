@@ -1,7 +1,7 @@
 class Talent < ActiveRecord::Base
   has_paper_trail
   RANKS = ["Untrained", "Apprentice", "Journeyman", "Master", "Grandmaster"]
-  GROUPS = ["Connection", "Scholarship", "Profession", "Craft", "Trick", "General", "Custom"]
+  GROUPS = ["Connection", "Scholarship", "Profession", "Craft", "Trick", "General", "Audience", "Custom"]
 
   belongs_to :character, inverse_of: :talents
 

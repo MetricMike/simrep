@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.1.5'
+
 gem 'rails'
 gem 'bcrypt'
 gem 'faker'
@@ -24,10 +26,10 @@ gem 'active_admin_csv_import'
 
 gem 'web-console'
 gem "binding_of_caller"
+gem 'pry-byebug'
 
 group :development, :test do
   gem 'dotenv-rails'
-  gem 'pry-byebug'
   gem 'jazz_fingers'
   gem "better_errors"
   gem 'spring'

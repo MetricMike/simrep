@@ -88,13 +88,13 @@ class Character < ActiveRecord::Base
     @talent_points_total = self.talents.reduce(0) { |sum, el| sum + el.value }
   end
 
-  def history_approval=(bool)
-    @history_approval = bool == "official" ? true : false
-  end
+  #def history_approval=(bool)
+  #  @history_approval = bool == "official" ? true : false
+  #end
 
-  def history_approval
-    @history_approval ? "official" : "unofficial"
-  end
+  #def history_approval
+  #  @history_approval ? "official" : "unofficial"
+  #end
 
   def increment_death
     index = [DEATH_PERCENTAGES.index(self.perm_chance) + 1, DEATH_PERCENTAGES.size - 1].min

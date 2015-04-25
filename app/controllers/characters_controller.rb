@@ -19,6 +19,15 @@ class CharactersController < ApplicationController
     @character = Character.find_by id: params[:id]
     authorize @character
     session[:current_char_id] = params[:id]
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render  pdf:            "charactersheet",
+                template:       "characters/show.html.erb",
+                show_as_html:   params[:debug].present?
+      end
+    end
   end
 
   def edit

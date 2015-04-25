@@ -23,7 +23,8 @@ gem 'paper_trail'
 gem 'pg'
 gem 'passenger'
 gem 'active_admin_csv_import'
-
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 gem 'web-console'
 gem "binding_of_caller"
 gem 'pry-byebug'

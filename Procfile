@@ -1,1 +1,1 @@
-web: bundle exec passenger start -p $PORT
+web: passenger start --nginx-config-template nginx.conf.erb --environment production

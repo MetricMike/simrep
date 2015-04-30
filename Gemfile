@@ -23,13 +23,12 @@ gem 'paper_trail'
 gem 'pg'
 gem 'passenger'
 gem 'active_admin_csv_import'
-
+gem 'dotenv-rails'
 gem 'web-console'
 gem "binding_of_caller"
 gem 'pry-byebug'
 
 group :development, :test do
-  gem 'dotenv-rails'
   gem 'jazz_fingers'
   gem "better_errors"
   gem 'spring'

@@ -1,7 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
-    resource = resource_class.find_by unconfirmed_email: params[:user][:email]
+    resource = resource_class.find_by unconfirmed_email: params[:user][:email].downcase
 
     if resource.nil?
       build_resource(sign_up_params)
@@ -25,7 +25,10 @@ class RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
-      set_minimum_password_length
+      @validatable = devise_mapping.validatable?
+      if @validatable
+        @minimum_password_length = resource_class.password_length.min
+      end
       respond_with resource
     end
   end

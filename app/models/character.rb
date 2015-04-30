@@ -43,7 +43,7 @@ class Character < ActiveRecord::Base
   validates :perm_counter, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
 
   def level
-    @level = EXP_CHART.rindex(self.experience)
+    @level = EXP_CHART.rindex { |i| self.experience >= i }
   end
 
   def exp_to_next

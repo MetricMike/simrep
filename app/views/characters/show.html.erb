@@ -1,7 +1,14 @@
 <% provide(:title, @character.name) %>
 <%= render "characters/partials/events" %>
+<div class="row" id="actionrow">
+  <% link_to "Edit Character", edit_character_path(@character), class: 'btn btn-lg btn-primary', disabled: true %>
+  <% link_to "Retire Character", character_path(@character), confirm: "Are you sure you want to retire #{@character.name}?", method: :delete, class: 'btn btn-sm btn-danger', disabled: true %>
+  <%= link_to "Projects", projects_path(@character), class: 'btn btn-primary' %>
+  <%= link_to "Bank", "#", class: 'btn btn-success', disabled: true %>
+  <%= link_to "Print", character_path(@character, format: :pdf), class: 'btn btn-info' %>
+</div>
 <div class="row" id="demographics">
-  <div class="col-md-4">
+  <div class="col-md-6">
     Vitals
     <dl class="dl-horizontal">
       <dt>Name</dt><dd><%= "#{@character.name}" %></dd>
@@ -11,7 +18,7 @@
       <dt>Costume</dt><dd><%= "#{@character.costume} (last checked on #{@character.costume_checked})" %></dd>
     </dl>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-6">
     Birthrights & Origins
       <table class="table table-condensed table-hover table-responsive">
       <tr>
@@ -21,16 +28,6 @@
       </tr>
       <%= render partial: "characters/partials/origin", collection: @character.origins %>
     </table>
-  </div>
-  <div class="col-md-4">
-    <div class="row">
-      <%= link_to "Edit Character", edit_character_path(@character), class: 'btn btn-lg btn-primary', disabled: true %>
-      <%= link_to "Retire Character", character_path(@character), confirm: "Are you sure you want to retire #{@character.name}?", method: :delete, class: 'btn btn-sm btn-danger', disabled: true %>
-    </div>
-    <div class="row">
-      <%= link_to "Projects", projects_path(@character), class: 'btn btn-lg btn-warning' %>
-      <%= link_to "Bank", "#", class: 'btn btn-sm btn-info', disabled: true %>
-    </div>
   </div>
 </div>
 <div class="row" id="deaths">

@@ -1,21 +1,25 @@
-<header class="navbar navbar-fixed-top navbar-inverse">
-  <div class="container">
-    <%= link_to "SimRep", root_path, id: "logo" %>
-    <nav>
+<nav class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+	     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to "SimRep", root_path, id: "logo" %>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <% if user_signed_in? %>
-          <li class="navbar-text">Logged in as <strong><%= link_to "#{current_user.name}", characters_path %></strong>
-          <% if current_char.present? && current_char.persisted? %>
-          / <strong><%= link_to "#{current_char.name}", character_path(current_char) %></strong>
-          <% end %>
-          </li>
-          <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %></li>
-          <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
-        <% else %>
-          <li><%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %></li>
-          <li><%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %></li>
-        <% end %>
+      <% if user_signed_in? %>
+        <li class="navbar-text">Logged in as <strong><%= link_to "#{current_user.name}", characters_path %></strong><% if current_char.present? && current_char.persisted? %>/ <strong><%= link_to "#{current_char.name}", character_path(current_char) %></strong><% end %></li>
+        <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %></li>
+        <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
+      <% else %>
+        <li><%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %></li>
+        <li><%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %></li>
+      <% end %>
       </ul>
-    </nav>
+    </div>
   </div>
-</header>
+</nav>

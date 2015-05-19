@@ -178,6 +178,15 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
+    monetize (1.1.0)
+      money (~> 6.5.0)
+    money (6.5.1)
+      i18n (>= 0.6.4, <= 0.7.0)
+    money-rails (1.4.1)
+      activesupport (>= 3.0)
+      monetize (~> 1.1.0)
+      money (~> 6.5.0)
+      railties (>= 3.0)
     multi_json (1.11.0)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
@@ -332,6 +341,7 @@ DEPENDENCIES
   jquery-rails
   mini_backtrace
   minitest-reporters
+  money-rails
   paper_trail
   passenger
   pg

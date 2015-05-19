@@ -29,6 +29,8 @@ gem 'dotenv-rails'
 gem 'web-console'
 gem "binding_of_caller"
 gem 'pry-byebug'
+gem 'money-rails'
+
 
 group :development, :test do
   gem 'jazz_fingers'

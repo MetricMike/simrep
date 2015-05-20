@@ -31,7 +31,6 @@ gem "binding_of_caller"
 gem 'pry-byebug'
 gem 'money-rails'
 
-
 group :development, :test do
   gem 'jazz_fingers'
   gem "better_errors"

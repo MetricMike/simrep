@@ -21,12 +21,15 @@ def self.make_fake_events()
 end
 
 def self.make_fake_user(email, admin=false)
-  User.create!(
+  user = User.new(
     name: email[/(\w+)/],
     email: email,
     admin: admin,
     password: email[/(\w+)/],
     password_confirmation: email[/(\w+)/])
+    
+  user.skip_confirmation!
+  user.save!
 end
 
 def self.make_fake_characters(user)
@@ -100,12 +103,15 @@ def self.make_fake_backgrounds(character)
 end
 
 def self.make_fake_deaths(character)
-  3.times {character.deaths.create!(
-    description: Faker::Lorem.sentence(2, true, 3),
-    physical: Faker::Lorem.sentence(2, true, 3),
-    roleplay: Faker::Lorem.sentence(2, true, 3),
-    date: Faker::Date.backward(365),
-    perm_chance: [true, true, true, false].sample)}
+  3.times {
+    death = character.deaths.build(
+            description: Faker::Lorem.sentence(2, true, 3),
+            physical: Faker::Lorem.sentence(2, true, 3),
+            roleplay: Faker::Lorem.sentence(2, true, 3),
+            date: Faker::Date.backward(365),)
+    death.affects_perm_chance = [true, true, true, false].sample
+    death.save!
+  }
 end
 
 #Events & Projects

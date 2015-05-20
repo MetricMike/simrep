@@ -2,6 +2,33 @@
 
 MoneyRails.configure do |config|
 
+  # Register a custom currency
+  #
+  # Example:
+  config.register_currency = {
+    :priority            => 1,
+    :iso_code            => "VMK",
+    :name                => "Venthian Mark",
+    :symbol              => "¥",
+    :symbol_first        => false,
+    :subunit             => "cent",
+    :subunit_to_unit     => 100,
+    :thousands_separator => ",",
+    :decimal_mark        => "."
+  }
+
+  config.register_currency = {
+    :priority            => 2,
+    :iso_code            => "SGD",
+    :name                => "Sengran Guilder",
+    :symbol              => "₴",
+    :symbol_first        => false,
+    :subunit             => "cent",
+    :subunit_to_unit     => 100,
+    :thousands_separator => ",",
+    :decimal_mark        => "."
+  }
+
   # To set the default currency
   #
   config.default_currency = :vmk
@@ -42,33 +69,6 @@ MoneyRails.configure do |config|
                              null: false,
                              default: 'VMK'
                            }
-
-  # Register a custom currency
-  #
-  # Example:
-  config.register_currency = {
-    :priority            => 1,
-    :iso_code            => "VMK",
-    :name                => "Venthian Mark",
-    :symbol              => "¥",
-    :symbol_first        => false,
-    :subunit             => "cent",
-    :subunit_to_unit     => 100,
-    :thousands_separator => ",",
-    :decimal_mark        => "."
-  }
-
-  config.register_currency = {
-    :priority            => 2,
-    :iso_code            => "SGD",
-    :name                => "Sengran Guilder",
-    :symbol              => "₴",
-    :symbol_first        => false,
-    :subunit             => "cent",
-    :subunit_to_unit     => 100,
-    :thousands_separator => ",",
-    :decimal_mark        => "."
-  }
 
   # Set default money format globally.
   # Default value is nil meaning "ignore this option".

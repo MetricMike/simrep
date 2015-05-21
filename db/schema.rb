@@ -40,9 +40,9 @@ ActiveRecord::Schema.define(version: 20150519224639) do
 
   create_table "bank_accounts", force: :cascade do |t|
     t.integer "owner_id"
-    t.integer "balance_cents",           default: 10,    null: false
+    t.integer "balance_cents",           default: 1000,  null: false
     t.string  "balance_currency",        default: "VMK", null: false
-    t.integer "line_of_credit_cents",    default: 5,     null: false
+    t.integer "line_of_credit_cents",    default: 500,   null: false
     t.string  "line_of_credit_currency", default: "VMK", null: false
   end
 
@@ -51,8 +51,8 @@ ActiveRecord::Schema.define(version: 20150519224639) do
   create_table "bank_transactions", force: :cascade do |t|
     t.integer "from_account_id"
     t.integer "to_account_id"
-    t.integer "amount_cents",    default: 0,     null: false
-    t.string  "amount_currency", default: "VMK", null: false
+    t.integer "funds_cents",     default: 0,     null: false
+    t.string  "funds_currency",  default: "VMK", null: false
   end
 
   create_table "character_backgrounds", force: :cascade do |t|

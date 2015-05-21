@@ -1,24 +1,21 @@
 class BankAccount < ActiveRecord::Base
-  belongs_to :owner, class_name: 'Character', inverse_of: :bank_accounts
-  has_many :bank_transactions, inverse_of: :bank_account
+  belongs_to :owner, class_name: 'Character'
+  has_many :bank_transactions
   monetize :balance_cents, :line_of_credit_cents
-  
-  #doesnt save, probably going to be an issue
-  attr_accessor :line_of_credit
 
   def withdraw(amt)
-    old_balance = balance
-    balance -= amt
-    if balance >= Money.new(0, 'VMK') - line_of_credit
+    old_balance = self.balance
+    self.balance -= amt
+    if self.balance >= Money.new(0, 'VMK') - self.line_of_credit
       self.save
     else
-      balance = old_balance
+      self.balance = old_balance
       return false
     end
   end
   
   def deposit(amt)
-    balance += amt
+    self.balance += amt
     self.save
   end
 end

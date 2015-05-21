@@ -3,7 +3,7 @@ class CreateBankTransaction < ActiveRecord::Migration
     create_table :bank_transactions do |t|
       t.references :from_account, null: true
       t.references :to_account, null: true
-      t.monetize :amount
+      t.monetize :funds
     end
     
      add_foreign_key :bank_transactions, :characters, column: :from_account_id

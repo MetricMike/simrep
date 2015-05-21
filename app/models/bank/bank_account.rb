@@ -4,7 +4,7 @@ class BankAccount < ActiveRecord::Base
   monetize :balance_cents, :line_of_credit_cents
   
   #doesnt save, probably going to be an issue
-  attr_accessible :line_of_credit
+  attr_accessor :line_of_credit
 
   def withdraw(amt)
     old_balance = balance

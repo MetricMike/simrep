@@ -1,0 +1,32 @@
+<% provide(:title, "#{@character.name}'s Bank Account") %>
+<div class="row">
+  <div class="col-md-4" id="overview">
+    <dl class="dl-horizontal">
+      <dt>Balance</dt><dd><%= humanized_money_with_symbol @bank_account.balance %></dd>
+    </dl>
+    <%= simple_form_for @bank_account do |f| %>
+      <%= simple_fields_for @bank_account_transaction do |f_bat| %>
+        <%= f_bat.input :from_account, collection: BankAccount.all, label_method: lambda { |account| "#{account.owner.name}" }, disabled: true %>
+        <%= f_bat.input :to_account, collection: BankAccount.all, label_method: lambda { |account| "#{account.owner.name}" } %>
+        <div class="input-group">
+          <%= f_bat.input :funds %>
+          <span class="input-group-addon">
+            <%= f_bat.input :funds_currency, as: :select, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd)], label_method: :name, value_method: :to_s %>
+          </span>
+        </div>
+      <% end %>
+      <%= f.button :submit, "Post Transaction", class: "btn btn-sm btn-block btn-success" %>
+    <% end %>
+  </div>
+  <div class="col-md-8" id="transaction_log">
+    <table class="table table-condensed table-hover table-responsive">
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Amount</th>
+        <th>Date</th>
+      </tr>
+      <%= render partial: "bank_accounts/transaction", collection: @transactions, as: :transaction %>
+    </table>
+  </div>
+</div>

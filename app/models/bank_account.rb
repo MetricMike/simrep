@@ -1,7 +1,17 @@
 class BankAccount < ActiveRecord::Base
   belongs_to :owner, class_name: 'Character'
-  has_many :bank_transactions
+  has_many :outgoing_transactions, class_name: 'BankTransaction', foreign_key: :from_account_id
+  has_many :incoming_transactions, class_name: 'BankTransaction', foreign_key: :to_account_id
   monetize :balance_cents, :line_of_credit_cents
+  
+  def transactions
+    outgoing_transactions + incoming_transactions
+  end
+  
+  def last_transaction
+    transactions.order(created_at: :desc).limit(1).first.try(:created_at)
+  end
+
 
   def withdraw(amt)
     old_balance = self.balance

@@ -39,20 +39,24 @@ ActiveRecord::Schema.define(version: 20150519224639) do
   end
 
   create_table "bank_accounts", force: :cascade do |t|
-    t.integer "owner_id"
-    t.integer "balance_cents",           default: 1000,  null: false
-    t.string  "balance_currency",        default: "VMK", null: false
-    t.integer "line_of_credit_cents",    default: 500,   null: false
-    t.string  "line_of_credit_currency", default: "VMK", null: false
+    t.integer  "owner_id"
+    t.integer  "balance_cents",           default: 1000,  null: false
+    t.string   "balance_currency",        default: "VMK", null: false
+    t.integer  "line_of_credit_cents",    default: 500,   null: false
+    t.string   "line_of_credit_currency", default: "VMK", null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   add_index "bank_accounts", ["owner_id"], name: "index_bank_accounts_on_owner_id", using: :btree
 
   create_table "bank_transactions", force: :cascade do |t|
-    t.integer "from_account_id"
-    t.integer "to_account_id"
-    t.integer "funds_cents",     default: 0,     null: false
-    t.string  "funds_currency",  default: "VMK", null: false
+    t.integer  "from_account_id"
+    t.integer  "to_account_id"
+    t.integer  "funds_cents",     default: 0,     null: false
+    t.string   "funds_currency",  default: "VMK", null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   create_table "character_backgrounds", force: :cascade do |t|

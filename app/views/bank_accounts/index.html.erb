@@ -1,0 +1,16 @@
+<% provide(:title, "Bank Accounts for #{@character.name}") %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="character info">
+      <h1><%= link_to @character.name, character_path(@character) %></h1>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <% if @bank_accounts.any? %>
+      <h3>Bank Accounts (<%= @bank_accounts.count %>)</h3>
+      <ul class="bank_accounts">
+        <%= render @bank_accounts %>
+      </ul>
+    <% end %>
+  </div>
+</div>

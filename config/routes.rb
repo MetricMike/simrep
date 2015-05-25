@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  ActiveAdmin.routes(self)
+  #ActiveAdmin.routes(self) unless ARGV.grep(/assets:(precompile|clean)/).any?
   devise_for :users, controllers: {confirmations: 'confirmations', registrations: 'registrations'}
 
   devise_scope :user do

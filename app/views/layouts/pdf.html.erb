@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= raw full_title(yield(:title)) %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= stylesheet_link_tag(asset_data_base64('application.css')) %>
+  <%= javascript_include_tag(asset_data_base64('application.js')) %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="container">
+    <%= yield %>
+  </div>
+</body>
+</html>

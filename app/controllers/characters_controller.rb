@@ -19,6 +19,23 @@ class CharactersController < ApplicationController
     @character = Character.find_by id: params[:id]
     authorize @character
     session[:current_char_id] = params[:id]
+    @last_event = @character.events.order(weekend: :desc).pluck(:weekend).first.strftime("%Y %b %d")
+    @filename = "#{@character.name} - #{@last_event}"
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render  pdf:            "#{@filename}",
+                template:       "characters/show.html.erb",
+                grayscale:      true,
+                page_size:      'Letter',
+                save_to_file:   Rails.root.join('pdfs', "#{@filename}.pdf"),
+                header:         { center: 'SimTerra Character Sheet' },
+                footer:         { left: "#{Date.today}",
+                                  right: "For #{@last_event} Event" },
+                show_as_html:   params[:debug].present?
+      end
+    end
   end
 
   def edit

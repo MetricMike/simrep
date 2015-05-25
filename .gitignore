@@ -10,12 +10,14 @@
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
+/*.dump
 
 # Ignore all logfiles, tempfiles, and environment
 /log/*.log
 /tmp
 /.c9
 /.env
+/*.dump
 
 # Ignore Spring files.
 /spring/*.pid.env

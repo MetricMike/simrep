@@ -127,3 +127,14 @@ make_fake_user("cyril.figgis@isis.gov")
 
 #Characters
 [User.first, User.second, User.last].each { |u| make_fake_characters(u) }
+
+#Banking
+[Character.first, Character.second].each { |c| c.bank_accounts.create }
+
+5.times { BankTransaction.create!(
+  from_account: [BankAccount.first, BankAccount.second, nil].sample,
+  to_account: [BankAccount.first, BankAccount.second, nil].sample,
+  funds: Money.new(rand(0..5), [:vmk, :sgd].sample),
+  memo: Faker::Lorem.sentence(2, true, 3)
+  )
+}

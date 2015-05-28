@@ -27,7 +27,7 @@ def self.make_fake_user(email, admin=false)
     admin: admin,
     password: email[/(\w+)/],
     password_confirmation: email[/(\w+)/])
-    
+
   user.skip_confirmation!
   user.save!
 end
@@ -131,10 +131,18 @@ make_fake_user("cyril.figgis@isis.gov")
 #Banking
 [Character.first, Character.second].each { |c| c.bank_accounts.create }
 
-5.times { BankTransaction.create!(
-  from_account: [BankAccount.first, BankAccount.second, nil].sample,
-  to_account: [BankAccount.first, BankAccount.second, nil].sample,
-  funds: Money.new(rand(0..5), [:vmk, :sgd].sample),
-  memo: Faker::Lorem.sentence(2, true, 3)
+5.times {
+  BankTransaction.create!(
+    from_account: [BankAccount.first, nil].sample,
+    to_account: [BankAccount.second, nil].sample,
+    funds: Money.new(rand(10..5000), [:vmk, :sgd].sample),
+    memo: Faker::Lorem.sentence(2, true, 3)
+  )
+
+  BankTransaction.create!(
+    from_account: [BankAccount.second, nil].sample,
+    to_account: [BankAccount.first, nil].sample,
+    funds: Money.new(rand(10..5000), [:vmk, :sgd].sample),
+    memo: Faker::Lorem.sentence(2, true, 3)
   )
 }

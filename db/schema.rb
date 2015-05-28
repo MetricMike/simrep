@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20150519224639) do
   create_table "bank_transactions", force: :cascade do |t|
     t.integer  "from_account_id"
     t.integer  "to_account_id"
+    t.string   "memo"
     t.integer  "funds_cents",     default: 0,     null: false
     t.string   "funds_currency",  default: "VMK", null: false
     t.datetime "created_at",                      null: false

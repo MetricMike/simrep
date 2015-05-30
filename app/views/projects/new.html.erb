@@ -1,2 +1,21 @@
-<h1>Projects#new</h1>
-<p>Find me in app/views/projects/new.html.erb</p>
+<% provide(:title, @project.name) %>
+<div class="row">
+  <div class="col-md-4" id="controls">
+    <%= link_to "Projects Overview", projects_path(@character), class: 'btn btn-lg btn-warning' %>
+    <h3><%= "Unspent Time Units: #{@character.unused_talents}"%></h3>
+  </div>
+  <div class="col-md-8" id="information">
+    <%= simple_form_for @project do |f| %>
+      <%= f.input :name %>
+      <%= f.association :leader, as: :hidden, value: @character %>
+      <%= f.input :description, required: false %>
+      <%= simple_fields_for @project_contribution do |pc| %>
+        <%= pc.association :character, as: :hidden, value: @character %>
+        <%= pc.input :timeunits, input_html: { min: 0, max: @character.unused_talents }%>
+        <%= pc.input :talent, collection: @character.talents, label_method: :friendly_name, value_method: :id, include_blank: true, required: false %>
+        <%= pc.input :note, required: false %>
+      <% end %>
+      <%= f.button :submit, "Create Project", class: "btn btn-sm btn-block btn-success" %>
+    <% end %>
+  </div>
+</div>

@@ -20,6 +20,7 @@
 /tmp
 /.c9
 /.env
+/*.dump
 
 # Ignore Spring files.
 /spring/*.pid.env

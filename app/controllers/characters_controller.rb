@@ -19,7 +19,8 @@ class CharactersController < ApplicationController
     @character = Character.find_by id: params[:id]
     authorize @character
     session[:current_char_id] = params[:id]
-    @last_event = @character.events.order(weekend: :desc).pluck(:weekend).first.strftime("%Y %b %d")
+    @last_event = @character.events.order(weekend: :desc).pluck(:weekend).try(:first).try(:strftime, "%Y %b %d")
+    @last_event = "" unless @last_event
     @filename = "#{@character.name} - #{@last_event}"
 
     respond_to do |format|

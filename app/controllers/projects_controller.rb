@@ -17,7 +17,8 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @project = @character.projects.new
+    @project = @character.projects.new(leader: @character)
+    @project_contribution = @project.project_contributions.build(character: @character, timeunits: 0)
     authorize @project
   end
 
@@ -27,9 +28,10 @@ class ProjectsController < ApplicationController
 
   def create
     @project = @character.projects.new(project_params)
+    @project_contribution = @project.project_contributions.new(project_contribution_params)
     authorize @project
 
-    if @project.save
+    if @project.save && @project_contribution.save
       redirect_to @project, notice: 'Project created successfully.'
     else
       render action: :new

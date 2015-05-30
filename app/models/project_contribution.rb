@@ -9,6 +9,6 @@ class ProjectContribution < ActiveRecord::Base
 
   def invest_talent
     self.character.invest_in_project(self.timeunits, self.talent)
-    self.talent = self.talent.friendly_name
+    self.talent = Talent.find(self.talent).friendly_name
   end
 end

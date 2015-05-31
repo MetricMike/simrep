@@ -1,4 +1,4 @@
-<tr>
+<tr class="<%= ".info" unless transaction.posted %>" id="transaction-<%= transaction.id %>">
   <td><%= transaction.from_account ? transaction.from_account.owner.name : "Cash" %></td>
   <td><%= transaction.to_account ? transaction.to_account.owner.name : "Cash" %></td>
   <td><%= humanized_money_with_symbol transaction.funds %></td>

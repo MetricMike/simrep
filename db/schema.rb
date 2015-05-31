@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20150519224639) do
     t.string   "memo"
     t.integer  "funds_cents",     default: 0,     null: false
     t.string   "funds_currency",  default: "VMK", null: false
+    t.boolean  "posted",          default: false, null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
   end

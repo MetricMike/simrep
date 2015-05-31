@@ -47,15 +47,16 @@ class BankAccountsController < ApplicationController
         if @bank_account_transaction.save
           redirect_to @bank_account, notice: 'Transaction posted successfully.'
         else
-          flash[:notice] = "Something went wrong! Check your transaction log!"
+          flash[:notice] = "Transaction failed with the following error: #{@bank_account_transaction.errors.messages}"
           render action: :show
         end
-    else # Try updating bank_account
-      if @bank_account.update_attributes(bank_account_params)
-        redirect_to @bank_account, notice: 'BankAccount updated successfully.'
-      else
-        render action: :show
-      end
+    # Currently no reason to update a bank_account from this controller. Eventually, access grants will probably go through here.
+    #else
+    #  if @bank_account.update_attributes(bank_account_params)
+    #    redirect_to @bank_account, notice: 'BankAccount updated successfully.'
+    #  else
+    #    render action: :show
+    #  end
     end
   end
 

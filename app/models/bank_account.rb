@@ -3,29 +3,43 @@ class BankAccount < ActiveRecord::Base
   has_many :outgoing_transactions, class_name: 'BankTransaction', foreign_key: :from_account_id
   has_many :incoming_transactions, class_name: 'BankTransaction', foreign_key: :to_account_id
   monetize :balance_cents, :line_of_credit_cents
-  
+
+  validate :does_not_exceed_credit, unless: :force?
+
+  attr_accessor :force
+  alias_method :force?, :force
+
+  def does_not_exceed_credit
+    if balance < (Money.new(0, 'VMK') - self.line_of_credit)
+      errors.add(:balance, "Insufficient funds in account for transaction")
+    end
+  end
+
   def transactions
     outgoing_transactions + incoming_transactions
   end
-  
+
   def last_transaction
-    transactions.order(created_at: :desc).limit(1).first.try(:created_at)
-  end
-
-
-  def withdraw(amt)
-    old_balance = self.balance
-    self.balance -= amt
-    if self.balance >= Money.new(0, 'VMK') - self.line_of_credit
-      self.save
+    if transactions
+      @sorted = transactions.sort_by { |t| t.created_at }
+      @sorted.last
     else
-      self.balance = old_balance
-      return false
+      false
     end
   end
-  
+
+  def withdraw(amt, force=false)
+    self.force = force
+
+    old_balance = self.balance
+    self.balance -= amt
+    self.save!
+
+    self.force = false
+  end
+
   def deposit(amt)
     self.balance += amt
-    self.save
+    self.save!
   end
 end

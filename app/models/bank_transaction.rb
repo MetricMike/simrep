@@ -1,23 +1,39 @@
 class BankTransaction < ActiveRecord::Base
+  REVERSAL_SUCCEED_NOTICE = "\n TRANSACTION REVERSED"
+  REVERSAL_FAILED_NOTICE = "\n TRANSACTION REVERSAL FAILED"
+  NSF_NOTICE = "\n INSUFFICENT FUNDS, NO EXCHANGE MADE"
+
   belongs_to :from_account, class_name: 'BankAccount'
   belongs_to :to_account, class_name: 'BankAccount'
-  
+
   monetize :funds_cents, with_model_currency: :funds_currency, numericality: { greater_than_or_equal_to: 0 }
 
-  after_create :move
-  after_destroy :unmove
+  after_create :post_transaction, unless: Proc.new { |bt| bt.posted == true }
+  before_destroy :reverse_transaction, unless: Proc.new { |bt| bt.posted == false }
 
-  def move
-    self.transaction do
-      from_account.withdraw(self.funds) if self.from_account
-      to_account.deposit(self.funds) if self.to_account
+  def post_transaction
+    begin
+      self.transaction do
+        from_account.withdraw(self.funds) if self.from_account
+        to_account.deposit(self.funds) if self.to_account
+        self.posted = true
+      end
+    rescue ActiveRecord::RecordInvalid => invalid
+      self.memo = "#{self.memo.to_s + NSF_NOTICE}"
+      self.save(validate: false)
     end
   end
 
-  def unmove
-    self.transaction do
-      to_account.withdraw(self.funds) if self.to_account
-      from_account.deposit(self.funds) if self.from_account
+  def reverse_transaction
+    begin
+      self.transaction do
+        from_account.withdraw(self.funds) if self.from_account
+        to_account.deposit(self.funds) if self.to_account
+        self.posted = false
+      end
+    rescue ActiveRecord::RecordInvalid => invalid
+      self.memo = "#{self.memo.to_s + (self.posted ? REVERSAL_FAILED_NOTICE + NSF_NOTICE : REVERSAL_SUCCEED_NOTICE)}"
+      self.save(validate: false)
     end
   end
 end

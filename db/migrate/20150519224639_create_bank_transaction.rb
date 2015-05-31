@@ -5,10 +5,11 @@ class CreateBankTransaction < ActiveRecord::Migration
       t.references :to_account, null: true
       t.string :memo, null: true
       t.monetize :funds
-      
+      t.boolean :posted, null: false, default: false
+
       t.timestamps null: false
     end
-    
+
      add_foreign_key :bank_transactions, :characters, column: :from_account_id
      add_foreign_key :bank_transactions, :characters, column: :to_account_id
   end

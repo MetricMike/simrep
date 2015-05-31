@@ -6,8 +6,9 @@
     </dl>
     <%= simple_form_for @bank_account do |f| %>
       <%= simple_fields_for @bank_account_transaction do |f_bat| %>
-        <%= f_bat.input :from_account, collection: BankAccount.all, label_method: lambda { |account| "#{account.owner.name}" }, disabled: true %>
-        <%= f_bat.input :to_account, collection: BankAccount.all, label_method: lambda { |account| "#{account.owner.name}" } %>
+        <%= f_bat.input :from_account, as: :hidden, input_html: { value: @bank_account } %>
+        <%= f_bat.input :to_account, include_blank: false, collection: BankAccount.where.not(id: @bank_account.id), label_method: lambda { |account| "#{account.owner.name}" } %>
+        <%= f_bat.input :memo, required: false %>
         <div class="input-group">
           <%= f_bat.input :funds %>
           <span class="input-group-addon">

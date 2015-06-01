@@ -1,13 +1,11 @@
 ActiveAdmin.register BankAccount do
 
   show do
-    panel "Details" do
-        attributes_table do
-          row :id
-          row :owner
-          row(:balance) { humanized_money_with_symbol bank_account.balance }
-          row(:line_of_credit) { humanized_money_with_symbol bank_account.line_of_credit }
-        end
+    attributes_table do
+      row :id
+      row :owner
+      row(:balance) { humanized_money_with_symbol bank_account.balance }
+      row(:line_of_credit) { humanized_money_with_symbol bank_account.line_of_credit }
     end
     panel "Transactions" do
       tabs do
@@ -36,7 +34,7 @@ ActiveAdmin.register BankAccount do
   end
 
   sidebar "Post a Transaction", priority: 0, only: :show do
-    "Post a transaction2"
+    "put something here"
   end
 
 # See permitted parameters documentation:

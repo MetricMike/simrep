@@ -29,10 +29,11 @@ class BankTransaction < ActiveRecord::Base
       self.transaction do
         from_account.withdraw(self.funds) if self.from_account
         to_account.deposit(self.funds) if self.to_account
+        self.memo = "#{self.memo.to_s + REVERSAL_SUCCEED_NOTICE}"
         self.posted = false
       end
     rescue ActiveRecord::RecordInvalid => invalid
-      self.memo = "#{self.memo.to_s + (self.posted ? REVERSAL_FAILED_NOTICE + NSF_NOTICE : REVERSAL_SUCCEED_NOTICE)}"
+      self.memo = "#{self.memo.to_s + REVERSAL_FAILED_NOTICE + NSF_NOTICE}"
       self.save(validate: false)
     end
   end

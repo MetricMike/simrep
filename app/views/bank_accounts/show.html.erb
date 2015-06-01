@@ -12,7 +12,7 @@
         <div class="input-group">
           <%= f_bat.input :funds %>
           <span class="input-group-addon">
-            <%= f_bat.input :funds_currency, as: :select, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd)], label_method: :name, value_method: :to_s %>
+            <%= f_bat.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd)], label_method: :name, value_method: :to_s %>
           </span>
         </div>
       <% end %>

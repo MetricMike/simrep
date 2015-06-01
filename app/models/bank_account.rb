@@ -16,16 +16,12 @@ class BankAccount < ActiveRecord::Base
   end
 
   def transactions
-    outgoing_transactions + incoming_transactions
+    @transactions = outgoing_transactions + incoming_transactions
+    @transactions.sort_by { |t| t.created_at }
   end
 
   def last_transaction
-    if transactions
-      @sorted = transactions.sort_by { |t| t.created_at }
-      @sorted.last
-    else
-      false
-    end
+    @transactions.last if @transactions
   end
 
   def withdraw(amt, force=false)

@@ -8,7 +8,7 @@ class BankTransaction < ActiveRecord::Base
 
   monetize :funds_cents, with_model_currency: :funds_currency, numericality: { greater_than_or_equal_to: 0 }
 
-  after_create :post_transaction, unless: Proc.new { |bt| bt.posted == true }
+  after_save :post_transaction, unless: Proc.new { |bt| bt.posted == true }
   before_destroy :reverse_transaction, unless: Proc.new { |bt| bt.posted == false }
 
   def post_transaction
@@ -16,7 +16,7 @@ class BankTransaction < ActiveRecord::Base
       self.transaction do
         from_account.withdraw(self.funds) if self.from_account
         to_account.deposit(self.funds) if self.to_account
-        self.posted = true
+        self.update!(posted: true)
       end
     rescue ActiveRecord::RecordInvalid => invalid
       self.memo = "#{self.memo.to_s + NSF_NOTICE}"
@@ -30,7 +30,7 @@ class BankTransaction < ActiveRecord::Base
         from_account.withdraw(self.funds) if self.from_account
         to_account.deposit(self.funds) if self.to_account
         self.memo = "#{self.memo.to_s + REVERSAL_SUCCEED_NOTICE}"
-        self.posted = false
+        self.update!(posted: false)
       end
     rescue ActiveRecord::RecordInvalid => invalid
       self.memo = "#{self.memo.to_s + REVERSAL_FAILED_NOTICE + NSF_NOTICE}"

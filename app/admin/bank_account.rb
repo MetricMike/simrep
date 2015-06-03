@@ -1,5 +1,9 @@
 ActiveAdmin.register BankAccount do
 
+  action_item :view, only: [:show, :edit] do
+    link_to 'View on Site', bank_account_path(bank_account)
+  end
+
   show do
     attributes_table do
       row :id
@@ -34,7 +38,16 @@ ActiveAdmin.register BankAccount do
   end
 
   sidebar "Post a Transaction", priority: 0, only: :show do
-    "put something here"
+    active_admin_form_for(:bank_transaction, url: admin_bank_transactions_path) do |f|
+      f.inputs do
+        f.input :from_account, collection: BankAccount.all, member_label: lambda { |a| a.owner.name }
+        f.input :to_account, collection: BankAccount.all, member_label: lambda { |a| a.owner.name }
+        f.input :funds, as: :number, default: 0.00
+        f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd)], label_method: :name, value_method: :to_s
+        f.input :memo, required: false
+      end
+      f.action :submit, label: "Post New Transaction"
+    end
   end
 
 # See permitted parameters documentation:

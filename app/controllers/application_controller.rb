@@ -20,12 +20,16 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :name
   end
 
-  def find_user!
-    @user = current_user
+  def pundit_user
+    UserWithCharacterContext.new(current_user, current_character)
   end
 
-  def find_character!
-    @character ||= session[:current_char_id] && Character.find_by(id: session[:current_char_id ])
+  def current_user
+    @user ||= super
+  end
+
+  def current_character
+    @character ||= session[:current_char_id] && Character.find_by(id: session[:current_char_id])
   end
 
   def authenticate_admin!

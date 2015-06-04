@@ -1,55 +1,46 @@
 class ApplicationPolicy
-  attr_reader :user, :record
+  attr_reader :user, :character, :record
 
-  def initialize(user, record)
-    raise Pundit::NotAuthorizedError, "must be signed in" unless user
-    @user = user
+  def initialize(context, record)
+    raise Pundit::NotAuthorizedError, "must be signed in" unless context.user
+    @user = context.user
+    @character = context.character
     @record = record
   end
 
-  def index?
-    false
+  def has_control?
+    @user.admin?
   end
 
-  def show?
-    scope.where(:id => record.id).exists?
+  def has_access?
+    has_control?
   end
 
-  def create?
-    false
-  end
-
-  def new?
-    create?
-  end
-
-  def update?
-    false
-  end
-
-  def edit?
-    update?
-  end
-
-  def destroy?
-    false
-  end
+  def index?  ; false;        end
+  def show?   ; has_access?;  end
+  def new?    ; create?;      end
+  def create? ; has_control?; end
+  def edit?   ; update?;      end
+  def update? ; has_control?; end
+  def destroy?; has_control?; end
 
   def scope
-    Pundit.policy_scope!(user, record.class)
+    Pundit.policy_scope!(context, record.class)
   end
 
   class Scope
-    attr_reader :user, :scope
+    attr_reader :user, :character, :scope
 
-    def initialize(user, scope)
-      @user = user
+    def initialize(context, scope)
+      @user = context.user
+      @character = context.character
       @scope = scope
     end
 
     def resolve
-      scope
+      @user.admin? ? scope.all : @character.scope
     end
   end
+
 end
 

@@ -1,49 +1,13 @@
 class ProjectPolicy < ApplicationPolicy
-  attr_reader :character, :project
 
-  def initialize(character, project)
-    @character = character
-    @project = project
+  def has_control?
+    @user.admin? or record.leader == @character
   end
 
-  def owned?
-    @character.user.admin? or @project.leader == @character
-  end
-
-  def contributor?
-    @character.project_contributions.exists? project_id: @project
-  end
-
-  def show?
-    owned? or contributor?
-  end
-
-  def create?
-    @character.present?
-  end
-
-  def update?
-    owned? or contributor?
-  end
-
-  def destroy?
-    @character.user.admin? or owned?
+  def has_access?
+    has_control? or @character.project_contributions.exists? project_id: @record
   end
 
   class Scope < Scope
-    attr_reader :character, :project
-
-    def initialize(character, project)
-      @character = character
-      @project = project
-    end
-
-    def resolve
-      if @character.user.admin?
-        @project.all
-      else
-        @character.projects
-      end
-    end
   end
 end

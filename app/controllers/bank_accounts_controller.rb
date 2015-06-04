@@ -1,6 +1,5 @@
 class BankAccountsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_user!, :find_character!
 
   after_action :verify_authorized, :except => :index
   after_action :verify_policy_scoped, :only => :index
@@ -18,7 +17,7 @@ class BankAccountsController < ApplicationController
   end
 
   def new
-    @bank_account = @character.bank_accounts.new
+    @bank_account = current_character.bank_accounts.new
     authorize @bank_account
   end
 
@@ -27,7 +26,7 @@ class BankAccountsController < ApplicationController
   # end
 
   def create
-    @bank_account = @character.bank_accounts.new(bank_account_params)
+    @bank_account = current_character.bank_accounts.new(bank_account_params)
     authorize @bank_account
 
     if @bank_account.save
@@ -77,7 +76,4 @@ class BankAccountsController < ApplicationController
     params.require(:bank_transaction).permit! #aaahhhhhhhh
   end
 
-  def pundit_user
-    @character
-  end
 end

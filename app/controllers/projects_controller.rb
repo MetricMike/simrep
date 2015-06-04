@@ -1,6 +1,5 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_user!, :find_character!
 
   after_action :verify_authorized, :except => :index
   after_action :verify_policy_scoped, :only => :index
@@ -12,13 +11,13 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find_by id: params[:id]
     @contributions = @project.contributions.select(&:persisted?)
-    @project_contribution = @project.project_contributions.build(character: @character, timeunits: 0)
+    @project_contribution = @project.project_contributions.build(character: current_character, timeunits: 0)
     authorize @project
   end
 
   def new
-    @project = @character.projects.new(leader: @character)
-    @project_contribution = @project.project_contributions.build(character: @character, timeunits: 0)
+    @project = current_character.projects.new(leader: current_character)
+    @project_contribution = @project.project_contributions.build(character: current_character, timeunits: 0)
     authorize @project
   end
 
@@ -27,7 +26,7 @@ class ProjectsController < ApplicationController
   # end
 
   def create
-    @project = @character.projects.new(project_params)
+    @project = current_character.projects.new(project_params)
     @project_contribution = @project.project_contributions.new(project_contribution_params)
     authorize @project
 
@@ -44,7 +43,7 @@ class ProjectsController < ApplicationController
 
     # Try updating contribution
     if params[:project_contribution]
-      params[:project_contribution][:character_id] = @character.id
+      params[:project_contribution][:character_id] = current_character.id
       @project_contribution = @project.project_contributions.new(project_contribution_params)
         if @project_contribution.save
           redirect_to @project, notice: 'Project updated successfully'
@@ -75,7 +74,4 @@ class ProjectsController < ApplicationController
     params.require(:project_contribution).permit! #aaahhhhhhhh
   end
 
-  def pundit_user
-    @character
-  end
 end

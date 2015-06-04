@@ -1,24 +1,22 @@
 class CharactersController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_user!
+
+  before_action :sign_in_character, except: [:index, :new, :create]
+  before_action :sign_out_character, only: :index
 
   after_action :verify_authorized, :except => :index
   after_action :verify_policy_scoped, :only => :index
 
   def index
     @characters = policy_scope(Character)
-    session[:current_char_id] = nil
   end
 
   def new
-    @character = @user.characters.new
+    @character = current_user.characters.new
     authorize @character
   end
 
   def show
-    @character = Character.find_by id: params[:id]
-    authorize @character
-    session[:current_char_id] = params[:id]
     @last_event = @character.events.order(weekend: :desc).pluck(:weekend).try(:first).try(:strftime, "%Y %b %d")
     @last_event = "" unless @last_event
     @filename = "#{@character.name} - #{@last_event}"
@@ -40,12 +38,10 @@ class CharactersController < ApplicationController
   end
 
   def edit
-    @character = Character.find_by id: params[:id]
-    authorize @character
   end
 
   def create
-    @character = @user.characters.new(character_params)
+    @character = current_user.characters.new(character_params)
     authorize @character
 
     if @character.save
@@ -56,9 +52,6 @@ class CharactersController < ApplicationController
   end
 
   def update
-    @character = Character.find_by id: params[:id]
-    authorize @character
-
     if @character.update_attributes(character_params)
       redirect_to @character, notice: 'Character updated successfully.'
     else
@@ -71,6 +64,17 @@ class CharactersController < ApplicationController
   end
 
   private
+
+  def sign_in_character
+    session[:current_char_id] = params[:id]
+    @character = Character.find_by id: params[:id]
+    authorize @character
+  end
+
+  def sign_out_character
+    session[:current_char_id] = nil
+    @character = nil
+  end
 
   def character_params
     params.require(:character).permit! #ahhhhhhhh

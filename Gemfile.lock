@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/activeadmin/activeadmin.git
-  revision: cef68b7be82699f9abdc46c98e4fa6a471cb1761
+  revision: 0ffc65a28847f46af1b707d43562eef1051b7960
   specs:
     activeadmin (1.0.0.pre1)
       arbre (~> 1.0, >= 1.0.2)
@@ -60,7 +60,7 @@ GEM
     arbre (1.0.3)
       activesupport (>= 3.0.0)
     arel (6.0.0)
-    autoprefixer-rails (5.1.11)
+    autoprefixer-rails (5.2.0)
       execjs
       json
     awesome_print (1.6.1)
@@ -78,9 +78,8 @@ GEM
       sass (~> 3.4)
       thor
     builder (3.2.2)
-    byebug (2.7.0)
-      columnize (~> 0.3)
-      debugger-linecache (~> 1.2)
+    byebug (4.0.5)
+      columnize (= 0.9.0)
     cocoon (1.2.6)
     codeclimate-test-reporter (0.4.7)
       simplecov (>= 0.7.1, < 1.0.0)
@@ -96,8 +95,7 @@ GEM
     coolline (0.5.0)
       unicode_utils (~> 1.4)
     debug_inspector (0.0.2)
-    debugger-linecache (1.2.0)
-    devise (3.5.0)
+    devise (3.5.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -138,17 +136,15 @@ GEM
       has_scope (~> 0.6.0.rc)
       railties (>= 3.2, < 5)
       responders
-    jazz_fingers (1.0.0)
-      awesome_print (~> 1.6.1)
+    jazz_fingers (2.0.0)
+      awesome_print (~> 1.6)
       hirb (~> 0.7)
       pry (~> 0.10)
-      pry-byebug (= 1.3.3)
+      pry-byebug (~> 3.1)
       pry-coolline (~> 0.2)
       pry-doc (~> 0.6)
       pry-git (~> 0.2)
-      pry-rails (~> 0.3)
       pry-remote (>= 0.1.7)
-      railties (>= 3.0, < 5.0)
     jbuilder (2.2.16)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -158,7 +154,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    json (1.8.2)
+    json (1.8.3)
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -172,7 +168,7 @@ GEM
       minitest (> 1.2.0)
       rails (>= 2.3.3)
     mini_portile (0.6.2)
-    minitest (5.6.1)
+    minitest (5.7.0)
     minitest-reporters (1.0.16)
       ansi
       builder
@@ -194,7 +190,7 @@ GEM
     paper_trail (3.0.8)
       activerecord (>= 3.0, < 5.0)
       activesupport (>= 3.0, < 5.0)
-    passenger (5.0.8)
+    passenger (5.0.9)
       rack
       rake (>= 0.8.1)
     pg (0.18.2)
@@ -205,8 +201,8 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pry-byebug (1.3.3)
-      byebug (~> 2.7)
+    pry-byebug (3.1.0)
+      byebug (~> 4.0)
       pry (~> 0.10)
     pry-coolline (0.2.5)
       coolline (~> 0.5)
@@ -222,7 +218,7 @@ GEM
     pry-remote (0.1.8)
       pry (~> 0.9)
       slop (~> 3.0)
-    pundit (1.0.0)
+    pundit (1.0.1)
       activesupport (>= 3.0.0)
     rack (1.6.1)
     rack-test (0.6.3)
@@ -263,7 +259,7 @@ GEM
       activesupport (>= 3.0)
       i18n
       polyamorous (~> 1.2)
-    rb-readline (0.5.2)
+    rb-readline (0.5.3)
     rdoc (4.2.0)
       json (~> 1.4)
     responders (2.1.0)
@@ -289,7 +285,7 @@ GEM
     simplecov-html (0.10.0)
     slop (3.6.0)
     spring (1.3.6)
-    sprockets (3.1.0)
+    sprockets (3.2.0)
       rack (~> 1.0)
     sprockets-rails (2.3.1)
       actionpack (>= 3.0)

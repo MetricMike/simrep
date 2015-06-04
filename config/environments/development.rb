@@ -7,6 +7,8 @@ Rails.application.configure do
     config.web_console.whitelisted_ips = ENV['TRUSTED_IP']
   end
 
+  config.web_console.template_paths = "app/assets/stylesheets/styles/"
+
   # Devise wants the d[efault].
   config.action_mailer.default_url_options = { host: 'localhost', port: ENV['PORT'] }
 

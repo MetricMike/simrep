@@ -3,6 +3,7 @@ Rails.application.configure do
 
   # I KNOW THIS IS WRONG
   config.web_console.whitelisted_ips = '0.0.0.0/0'
+  config.web_console.templates_path = 'app/assets/stylesheets/styles/'
 
   # Code is not reloaded between requests.
   config.cache_classes = true

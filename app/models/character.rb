@@ -33,7 +33,8 @@ class Character < ActiveRecord::Base
   has_many :deaths, inverse_of: :character
   has_many :bank_accounts, foreign_key: :owner_id
 
-  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :character_events, :project_contributions, :talents, :deaths, :bank_accounts, allow_destroy: true
+  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :character_events, :bank_accounts, allow_destroy: true
+  accepts_nested_attributes_for :project_contributions, :talents, :deaths, :origins, :backgrounds, :events, :skills, :perks, allow_destroy: true
 
   validates :name, presence: true
   validates :race, inclusion: { in: RACES }

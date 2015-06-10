@@ -24,10 +24,6 @@ class ApplicationController < ActionController::Base
     UserWithCharacterContext.new(current_user, current_character)
   end
 
-  def current_user
-    @user ||= super
-  end
-
   def current_character
     @character ||= session[:current_char_id] && Character.find_by(id: session[:current_char_id])
   end

@@ -127,7 +127,7 @@ class Character < ActiveRecord::Base
   def record_deaths
     deaths = self.deaths.order(date: :desc)
 
-    while current_death = deaths.pop
+    while current_death = deaths.try(:pop)
       self.increment_death
       unless deaths.nil?
         num_to_increment = self.events.where(weekend: (current_death.date)..(deaths.first.date)).count #what if there are no more deaths?
@@ -139,15 +139,15 @@ class Character < ActiveRecord::Base
   end
 
   def turn_off_nested_callbacks
-    CharacterEvent.skip_callback(:create, :after, :give_attendance_awards) if params[:character][:character_events]
-    Death.skip_callback(:create, :after, :record_death) if params[:character][:deaths]
-    ProjectContribution.skip_callback(:create, :before, :invest_talent) if params[:character][:project_contributions]
+    CharacterEvent.skip_callback(:create, :after, :give_attendance_awards)
+    Death.skip_callback(:create, :after, :record_death)
+    ProjectContribution.skip_callback(:create, :before, :invest_talent)
   end
 
-  def turn_on_nested_callbacks_and_record_deaths
-    CharacterEvent.set_callback(:create, :after, :give_attendance_awards) if params[:character][:character_events]
-    Death.set_callback(:create, :after, :record_death, if: :affects_perm_chance?) if params[:character][:deaths]
-    ProjectContribution.set_callback(:create, :before, :invest_talent, if: Proc.new { |project_contribution| project_contribution.talent.present? }) if params[:character][:project_contributions]
+  def turn_on_nested_callbacks
+    CharacterEvent.set_callback(:create, :after, :give_attendance_awards)
+    Death.set_callback(:create, :after, :record_death, if: :affects_perm_chance?)
+    ProjectContribution.set_callback(:create, :before, :invest_talent, if: Proc.new { |project_contribution| project_contribution.talent.present? })
   end
 
 end

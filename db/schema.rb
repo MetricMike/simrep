@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150519224639) do
+ActiveRecord::Schema.define(version: 20150611014215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,8 +122,8 @@ ActiveRecord::Schema.define(version: 20150519224639) do
     t.string   "culture"
     t.integer  "costume"
     t.date     "costume_checked"
-    t.boolean  "history_approval"
-    t.string   "history_link"
+    t.boolean  "history_approval", default: false
+    t.string   "history_link",     default: "https://drive.google.com/open?id=1MCJQU6CIV4UDPtRTmYJRpwfBaHW9AzcCCGL9duw7-RQ&authuser=0"
     t.integer  "unused_talents",   default: 0
     t.integer  "perm_chance",      default: 0
     t.integer  "perm_counter",     default: 0

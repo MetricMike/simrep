@@ -28,14 +28,14 @@ gem 'wkhtmltopdf-binary'
 gem 'dotenv-rails'
 gem 'web-console'
 gem "binding_of_caller"
-gem 'pry-byebug'
 gem 'money-rails'
+gem 'jazz_fingers'
+gem 'pry-rails'
+gem 'rb-readline', require: false
 
 group :development, :test do
-  gem 'jazz_fingers'
   gem "better_errors"
   gem 'spring'
-  gem 'rb-readline'
 end
 
 group :test do
@@ -47,6 +47,4 @@ end
 
 group :production do
   gem 'rails_12factor'
-  gem 'pry'
-  gem 'pry-rails'
 end

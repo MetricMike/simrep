@@ -31,9 +31,9 @@ gem "binding_of_caller"
 gem 'money-rails'
 gem 'jazz_fingers'
 gem 'rb-readline', require: false
+gem 'pry-rails'
 
 group :development, :test do
-  gem 'pry-rails'
   gem "better_errors"
   gem 'spring'
 end

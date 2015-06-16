@@ -341,6 +341,7 @@ DEPENDENCIES
   paper_trail
   passenger
   pg
+  pry
   pry-rails
   pundit
   rails

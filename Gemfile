@@ -29,11 +29,11 @@ gem 'dotenv-rails'
 gem 'web-console'
 gem "binding_of_caller"
 gem 'money-rails'
-gem 'jazz_fingers'
-gem 'rb-readline', require: false
+gem 'pry-rails'
 
 group :development, :test do
-  gem 'pry-rails'
+  gem 'jazz_fingers'
+  gem 'rb-readline', require: false
   gem "better_errors"
   gem 'spring'
 end
@@ -47,4 +47,5 @@ end
 
 group :production do
   gem 'rails_12factor'
+  gem 'pry'
 end

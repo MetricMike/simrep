@@ -38,7 +38,7 @@ class ApplicationPolicy
     end
 
     def resolve
-      @user.admin? ? scope.all : @character.scope
+      @user.admin? ? scope.all : scope.where(user: @user)
     end
   end
 

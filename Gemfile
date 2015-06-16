@@ -30,10 +30,10 @@ gem 'web-console'
 gem "binding_of_caller"
 gem 'money-rails'
 gem 'jazz_fingers'
-gem 'pry-rails'
 gem 'rb-readline', require: false
 
 group :development, :test do
+  gem 'pry-rails'
   gem "better_errors"
   gem 'spring'
 end

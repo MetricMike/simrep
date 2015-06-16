@@ -9,5 +9,10 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   class Scope < Scope
+
+    def resolve
+      @user.admin? ? scope.all : @character.projects
+    end
+
   end
 end

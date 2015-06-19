@@ -16,22 +16,22 @@ class Character < ActiveRecord::Base
 
   belongs_to :user, inverse_of: :characters
 
-  has_many :backgrounds, -> { distinct }, through: :character_backgrounds, inverse_of: :characters
-  has_many :origins, -> { distinct }, through: :character_origins, inverse_of: :characters
-  has_many :skills, -> { distinct }, through: :character_skills, inverse_of: :characters
-  has_many :perks, -> { distinct }, through: :character_perks, inverse_of: :characters
-  has_many :events, -> { distinct }, through: :character_events, inverse_of: :characters
-  has_many :projects, -> { distinct }, through: :project_contributions, inverse_of: :characters
+  has_many :backgrounds, -> { distinct }, through: :character_backgrounds, inverse_of: :characters, dependent: :destroy
+  has_many :origins, -> { distinct }, through: :character_origins, inverse_of: :characters, dependent: :destroy
+  has_many :skills, -> { distinct }, through: :character_skills, inverse_of: :characters, dependent: :destroy
+  has_many :perks, -> { distinct }, through: :character_perks, inverse_of: :characters, dependent: :destroy
+  has_many :events, -> { distinct }, through: :character_events, inverse_of: :characters, dependent: :destroy
+  has_many :projects, -> { distinct }, through: :project_contributions, inverse_of: :characters, dependent: :destroy
 
-  has_many :character_backgrounds, inverse_of: :character
-  has_many :character_origins, inverse_of: :character
-  has_many :character_skills, inverse_of: :character
-  has_many :character_perks, inverse_of: :character
-  has_many :character_events, inverse_of: :character
-  has_many :project_contributions, inverse_of: :character
-  has_many :talents, inverse_of: :character
-  has_many :deaths, inverse_of: :character
-  has_many :bank_accounts, foreign_key: :owner_id
+  has_many :character_backgrounds, inverse_of: :character, dependent: :destroy
+  has_many :character_origins, inverse_of: :character, dependent: :destroy
+  has_many :character_skills, inverse_of: :character, dependent: :destroy
+  has_many :character_perks, inverse_of: :character, dependent: :destroy
+  has_many :character_events, inverse_of: :character, dependent: :destroy
+  has_many :project_contributions, inverse_of: :character, dependent: :destroy
+  has_many :talents, inverse_of: :character, dependent: :destroy
+  has_many :deaths, inverse_of: :character, dependent: :destroy
+  has_many :bank_accounts, foreign_key: :owner_id, dependent: :destroy
 
   accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills, :character_perks, :character_events, :bank_accounts, allow_destroy: true
   accepts_nested_attributes_for :project_contributions, :talents, :deaths, :origins, :backgrounds, :events, :skills, :perks, allow_destroy: true

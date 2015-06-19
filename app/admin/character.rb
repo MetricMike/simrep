@@ -60,23 +60,13 @@ ActiveAdmin.register Character do
 
       end
 
-      tab 'Events & Deaths' do
+      tab 'Events & Custom XP' do
 
         f.inputs 'Events', header: "" do
           f.has_many :character_events, allow_destroy: true do |ce_f|
             ce_f.input :event, collection: Event.pluck(:weekend, :campaign, :id).map! { |a| [ "#{a[0]} / #{a[1]}", a[2] ] }
             ce_f.input :paid, label: "Paid?"
             ce_f.input :cleaned, label: "Cleaned?"
-          end
-        end
-
-
-        f.inputs 'Deaths', header: "" do
-          f.has_many :deaths, allow_destroy: true do |d_f|
-            d_f.input :date, as: :select, collection: f.object.events.pluck(:weekend, :campaign).map! { |a| [ "#{a[0]} / #{a[1]}", a[0] ] }
-            d_f.input :description
-            d_f.input :physical
-            d_f.input :roleplay
           end
         end
 
@@ -100,10 +90,6 @@ ActiveAdmin.register Character do
           end
         end
 
-      end
-
-      tab 'Talents & Projects' do
-
         f.inputs 'Talents', header: "" do
           f.has_many :talents, allow_destroy: true do |t_f|
             t_f.input :spec
@@ -113,6 +99,23 @@ ActiveAdmin.register Character do
             t_f.input :investment_limit
           end
         end
+
+      end
+
+      tab 'Deaths & Projects' do
+        para "This panel requires a character to be refreshed before you
+              can select an event to 'die' at or a talent to contribute with."
+
+        f.inputs 'Deaths', header: "" do
+          f.has_many :deaths, allow_destroy: true do |d_f|
+            d_f.input :date, as: :select, collection: f.object.character_events.to_a.map { |ce| [ "#{Event.find(ce.event_id).weekend} / #{Event.find(ce.event_id).campaign}", Event.find(ce.event_id).weekend ] }
+            #d_f.input :date, as: :select, collection: f.object.character_events.to_a, member_label: Proc.new { |ce| "#{Event.find(ce.event_id).weekend} / #{Event.find(ce.event_id).campaign}" }, member_value: Proc.new { |ce| Event.find(ce.event_id).weekend }
+            d_f.input :description
+            d_f.input :physical
+            d_f.input :roleplay
+          end
+        end
+
 
         f.inputs 'Project Contributions', header: "" do
           f.has_many :project_contributions, allow_destroy: true do |pc_f|
@@ -126,7 +129,26 @@ ActiveAdmin.register Character do
       end
 
     end
-    f.actions
+    f.actions do
+      action :submit, label: "Refresh"
+      action :submit
+      cancel_link
+    end
+  end
+
+  controller do
+    def new
+      resource = Character.new(params[:character]) if params[:character]
+      new!
+    end
+
+    def create
+      if params[:commit] == 'Refresh'
+        redirect_to new_admin_character_path(request.parameters)
+      else
+        create!
+      end
+    end
   end
 
   # See permitted parameters documentation:

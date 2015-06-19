@@ -2,7 +2,7 @@ class Project < ActiveRecord::Base
   has_paper_trail
   belongs_to :leader, :class_name => 'Character', inverse_of: :projects
 
-  has_many :project_contributions, inverse_of: :project
+  has_many :project_contributions, inverse_of: :project, dependent: :destroy
   has_many :characters, -> { distinct }, through: :project_contributions, inverse_of: :projects
 
   validates :name, presence: true

@@ -30,4 +30,8 @@ class Project < ActiveRecord::Base
       @contributions = self.project_contributions.where(character: @character)
     end
   end
+
+  def display_name
+    "#{self.name} (#{self.leader.try(:display_name)})"
+  end
 end

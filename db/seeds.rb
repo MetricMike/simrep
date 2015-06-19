@@ -133,15 +133,22 @@ make_fake_user("cyril.figgis@isis.gov")
 
 5.times {
   BankTransaction.create!(
-    from_account: [BankAccount.first, nil].sample,
+    from_account: [BankAccount.first].sample,
     to_account: [BankAccount.second, nil].sample,
     funds: Money.new(rand(10..5000), [:vmk, :sgd].sample),
     memo: Faker::Lorem.sentence(2, true, 3)
   )
 
   BankTransaction.create!(
-    from_account: [BankAccount.second, nil].sample,
+    from_account: [BankAccount.second].sample,
     to_account: [BankAccount.first, nil].sample,
+    funds: Money.new(rand(10..5000), [:vmk, :sgd].sample),
+    memo: Faker::Lorem.sentence(2, true, 3)
+  )
+
+  BankTransaction.create!(
+    from_account: nil,
+    to_account: [BankAccount.first, BankAccount.second].sample,
     funds: Money.new(rand(10..5000), [:vmk, :sgd].sample),
     memo: Faker::Lorem.sentence(2, true, 3)
   )

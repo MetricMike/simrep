@@ -4,4 +4,8 @@ class CharacterPerk < ActiveRecord::Base
   belongs_to :perk, inverse_of: :character_perks
 
   accepts_nested_attributes_for :perk, allow_destroy: true
+
+  def display_name
+    "#{self.character.display_name}'s #{self.perk.display_name}"
+  end
 end

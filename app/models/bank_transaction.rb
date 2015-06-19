@@ -37,4 +37,14 @@ class BankTransaction < ActiveRecord::Base
       self.save(validate: false)
     end
   end
+
+  def display_name
+    if self.to_account.nil?
+      "Cash Withdrawal of #{self.funds} from #{self.from_account.owner.display_name}"
+    elsif self.from_account.nil?
+      "Cash Deposit of #{self.funds} to #{self.to_account.owner.display_name}"
+    else
+      "Transfer of #{self.funds} from #{self.from_account.owner.display_name} to #{self.to_account.owner.display_name}"
+    end
+  end
 end

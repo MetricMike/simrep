@@ -38,4 +38,8 @@ class BankAccount < ActiveRecord::Base
     self.balance += amt
     self.save!
   end
+
+  def display_name
+    "#{self.owner.display_name}'s Account"
+  end
 end

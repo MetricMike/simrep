@@ -38,7 +38,7 @@ class Talent < ActiveRecord::Base
     self.save
   end
 
-  def friendly_name
+  def display_name
     "#{self.rank} | #{self.group}: #{self.name}"
   end
 end

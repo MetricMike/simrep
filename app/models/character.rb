@@ -150,4 +150,8 @@ class Character < ActiveRecord::Base
     ProjectContribution.set_callback(:create, :before, :invest_talent, if: Proc.new { |project_contribution| project_contribution.talent.present? })
   end
 
+  def display_name
+    "#{self.name}"
+  end
+
 end

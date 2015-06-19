@@ -16,4 +16,8 @@ class CharacterEvent < ActiveRecord::Base
     current_character.decrement_death if self.paid
     current_character.save
   end
+
+  def display_name
+    "#{self.character.display_name}'s #{self.event.display_name}"
+  end
 end

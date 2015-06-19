@@ -70,6 +70,11 @@ ActiveAdmin.register Character do
           end
         end
 
+        panel "Custom XP" do
+          para "Due to the way XP is associated with events, Legacy/Staff/Custom XP can only be assigned by making a fake event."
+          para "This is not ideal, and must be done via console so that Michael fixes the XP/Event system."
+        end
+
       end
 
       tab 'Mechanics' do

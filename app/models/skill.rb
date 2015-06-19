@@ -8,4 +8,8 @@ class Skill < ActiveRecord::Base
   validates :source, inclusion: {in: SOURCES}
   validates :name, presence: true
   validates :cost, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+  def display_name
+    "#{self.source}|#{self.name} (#{self.cost})"
+  end
 end

@@ -12,7 +12,7 @@
       <%= simple_fields_for @project_contribution do |pc| %>
         <%= pc.association :character, as: :hidden, value: @character %>
         <%= pc.input :timeunits, input_html: { min: 0, max: @character.unused_talents }%>
-        <%= pc.input :talent, collection: @character.talents, label_method: :friendly_name, value_method: :id, include_blank: true, required: false %>
+        <%= pc.input :talent, collection: @character.talents, label_method: :display_name, value_method: :id, include_blank: true, required: false %>
         <%= pc.input :note, required: false %>
       <% end %>
       <%= f.button :submit, "Create Project", class: "btn btn-sm btn-block btn-success" %>

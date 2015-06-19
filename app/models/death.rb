@@ -24,4 +24,8 @@ class Death < ActiveRecord::Base
     current_character.increment_death
     current_character.save
   end
+
+  def display_name
+    "#{self.character}'s Death on #{self.date} - #{self.description}"
+  end
 end

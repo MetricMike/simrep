@@ -9,6 +9,7 @@ ActiveAdmin.register Event do
   csv_importable :columns => [:campaign, :weekend, :play_exp, :clean_exp]
 
   sidebar "Attending Characters", only: :show do
+    para "#{event.character_events.count} Attended"
     table_for event.character_events.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
       column(:character, sortable: false) { |t| Character.find(t.character_id).name }
       column :paid

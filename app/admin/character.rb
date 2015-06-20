@@ -41,6 +41,7 @@ ActiveAdmin.register Character do
           f.input :history_link
           f.input :race, collection: Character::RACES
           f.input :culture, collection: Character::CULTURES
+          f.input :unused_talents
         end
 
         f.inputs 'Character Origins' do

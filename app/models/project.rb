@@ -31,6 +31,8 @@ class Project < ActiveRecord::Base
     else
       @contributions = self.project_contributions.where(character: @character)
     end
+
+    @contributions.order(updated_at: :desc)
   end
 
   def display_name

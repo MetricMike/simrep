@@ -10,7 +10,7 @@ class Project < ActiveRecord::Base
   validates :name, presence: true
 
   def total_timeunits(character=nil)
-    if self.leader == character or character.nil?
+    if self.leader == character
       @total_timeunits = self.project_contributions.reduce(0) { |sum, el| sum + el.timeunits }
     else
       @total_timeunits = self.project_contributions.reduce(0) { |sum, el| sum + (el.character == character ? el.timeunits : 0) }
@@ -18,7 +18,7 @@ class Project < ActiveRecord::Base
   end
 
   def last_contribution(character=nil)
-    if self.leader == character or character.nil?
+    if self.leader == character
       @last_contribution = self.project_contributions.order(created_at: :desc).limit(1).first.try(:created_at)
     else
       @last_contribution = self.project_contributions.where(character: character).order(created_at: :desc).limit(1).first.try(:created_at)
@@ -26,7 +26,7 @@ class Project < ActiveRecord::Base
   end
 
   def contributions(character=nil)
-    if self.leader == character or character.nil?
+    if self.leader == character
       @contributions = self.project_contributions
     else
       @contributions = self.project_contributions.where(character: @character)

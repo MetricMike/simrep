@@ -10,7 +10,7 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find_by id: params[:id]
-    @contributions = @project.contributions.select(&:persisted?)
+    @contributions = @project.contributions(current_character).select(&:persisted?)
     @project_contribution = @project.project_contributions.build(character: current_character, timeunits: 0)
     authorize @project
   end

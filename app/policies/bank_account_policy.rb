@@ -7,7 +7,7 @@ class BankAccountPolicy < ApplicationPolicy
   class Scope < Scope
 
     def resolve
-      @user.admin? ? scope.all : scope.where(owner: @character)
+      scope.where(owner: @character)
     end
 
   end

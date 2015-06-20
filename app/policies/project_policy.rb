@@ -11,7 +11,7 @@ class ProjectPolicy < ApplicationPolicy
   class Scope < Scope
 
     def resolve
-      @user.admin? ? scope.all : @character.projects
+      @character.projects
     end
 
   end

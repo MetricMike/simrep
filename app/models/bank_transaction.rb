@@ -3,6 +3,8 @@ class BankTransaction < ActiveRecord::Base
   REVERSAL_FAILED_NOTICE = "\n TRANSACTION REVERSAL FAILED"
   NSF_NOTICE = "\n INSUFFICENT FUNDS, NO EXCHANGE MADE"
 
+  default_scope { order(updated_at: :desc) }
+
   belongs_to :from_account, class_name: 'BankAccount'
   belongs_to :to_account, class_name: 'BankAccount'
 

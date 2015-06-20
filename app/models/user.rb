@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   has_many :characters, inverse_of: :user
 
+  default_scope { order(updated_at: :desc) }
+
   attr_accessor :options_confirm, :options_skip_confirm
 
   def password_required?

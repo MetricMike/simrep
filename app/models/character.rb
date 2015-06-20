@@ -14,6 +14,8 @@ class Character < ActiveRecord::Base
   DEATH_PERCENTAGES = [0, 10, 30, 60, 90]
   DEATH_COUNTER = [0, 3, 2, 1, 0]
 
+  default_scope { order(name: :asc) }
+
   belongs_to :user, inverse_of: :characters
 
   has_many :backgrounds, -> { distinct }, through: :character_backgrounds, inverse_of: :characters, dependent: :destroy

@@ -3,6 +3,8 @@ class Talent < ActiveRecord::Base
   RANKS = ["Untrained", "Apprentice", "Journeyman", "Master", "Grandmaster"]
   GROUPS = ["Connection", "Scholarship", "Profession", "Craft", "Trick", "General", "Audience", "Custom"]
 
+  default_scope { order(updated_at: :desc) }
+
   belongs_to :character, inverse_of: :talents
 
   validates :name, presence: true

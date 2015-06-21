@@ -29,7 +29,7 @@ class Project < ActiveRecord::Base
     if self.leader == character
       @contributions = self.project_contributions
     else
-      @contributions = self.project_contributions.where(character: @character)
+      @contributions = self.project_contributions.where(character: character)
     end
 
     @contributions.order(updated_at: :desc)

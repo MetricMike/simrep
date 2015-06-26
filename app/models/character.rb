@@ -127,13 +127,13 @@ class Character < ActiveRecord::Base
   end
 
   def record_deaths
-    deaths = self.deaths.order(date: :desc)
+    deaths = self.deaths.order(date: :desc).to_a
 
     while current_death = deaths.try(:pop)
       self.increment_death
-      unless deaths.nil?
-        num_to_increment = self.events.where(weekend: (current_death.date)..(deaths.first.date)).count #what if there are no more deaths?
-        num_to_increment.times { self.decrement_death }
+      unless deaths.empty?
+        num_to_decrement = self.events.where(weekend: (current_death.date)..(deaths.first.date)).count #what if there are no more deaths?
+        num_to_decrement.times { self.decrement_death }
       else
         current_death.events_since.times { self.decrement_death }
       end

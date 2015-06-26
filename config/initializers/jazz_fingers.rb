@@ -1,8 +1,8 @@
 if defined?(JazzFingers)
   JazzFingers.configure do |config|
-    config.colored_prompt = true
-    config.awesome_print = true
-    config.coolline = true
+    config.colored_prompt = false
+    config.awesome_print = false
+    config.coolline = false
   end
 
   require 'jazz_fingers/setup'

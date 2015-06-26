@@ -1,10 +1,10 @@
 ActiveAdmin.register Character do
 
   batch_action :attend_event, form: {
-      event:    Event.pluck(:weekend, :id).sort_by!(&:first).reverse,
-      paid:     :checkbox,
-      cleaned:  :checkbox,
-    } do |ids, inputs|
+    event:    Event.pluck(:weekend, :id).sort_by!(&:first).reverse,
+    paid:     :checkbox,
+    cleaned:  :checkbox,
+  } do |ids, inputs|
     batch_action_collection.find(ids).each do |character|
       character.attend_event(inputs[:event], inputs[:paid], inputs[:cleaned])
     end

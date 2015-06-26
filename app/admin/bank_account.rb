@@ -1,7 +1,24 @@
 ActiveAdmin.register BankAccount do
 
+  csv_importable :columns => [:owner_id, :balance_cents, :balance_currency]
+
   action_item :view, only: [:show, :edit] do
     link_to 'View on Site', bank_account_path(bank_account)
+  end
+
+  index do
+    selectable_column
+    column :id
+    column "Owner", :owner_id do |ba|
+      link_to Character.find(ba.owner_id).name, admin_character_path(ba.owner_id)
+    end
+    column :balance_cents
+    column :balance_currency
+    column :line_of_credit_cents
+    column :line_of_credit_currency
+    column :created_at
+    column :updated_at
+    actions
   end
 
   show do

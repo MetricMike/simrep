@@ -36,7 +36,7 @@ ActiveAdmin.register Character do
         f.inputs 'Demographics' do
           f.input :user
           f.input :name
-          f.input :costume, input_html: { value: 0 }
+          f.input :costume #input_html: { value: 0 } this is overriding default value
           f.input :history_approval
           f.input :history_link
           f.input :race, collection: Character::RACES
@@ -90,7 +90,7 @@ ActiveAdmin.register Character do
 
         f.inputs 'Perks', header: "" do
           f.has_many :perks, allow_destroy: true do |p_f|
-            p_f.input :source, collection: (Character::RACES|Character::CULTURES)
+            p_f.input :source, collection: Perk::SOURCES
             p_f.input :name
             p_f.input :cost
           end

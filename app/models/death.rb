@@ -24,6 +24,7 @@ class Death < ActiveRecord::Base
   def record_death
     current_character = Character.find(self.character_id)
     current_character.increment_death
+    self.events_since.times { current_character.decrement_death }
     current_character.save
   end
 

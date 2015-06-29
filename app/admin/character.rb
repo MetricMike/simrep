@@ -1,12 +1,24 @@
 ActiveAdmin.register Character do
 
   batch_action :attend_event, form: {
-    event:    Event.pluck(:weekend, :id).sort_by!(&:first).reverse,
+    event:    Event.order(weekend: :desc).pluck(:weekend, :id),
     paid:     :checkbox,
     cleaned:  :checkbox,
   } do |ids, inputs|
     batch_action_collection.find(ids).each do |character|
       character.attend_event(inputs[:event], inputs[:paid], inputs[:cleaned])
+    end
+    redirect_to collection_path, notice: [ids, inputs].to_s
+  end
+
+  batch_action :kill, form: {
+    description:  :text,
+    physical:     :text,
+    roleplay:     :text,
+    date:         Event.order(weekend: :desc).pluck(:weekend),
+  } do |ids, inputs|
+    batch_action_collection.find(ids).each do |character|
+      character.deaths.create(inputs)
     end
     redirect_to collection_path, notice: [ids, inputs].to_s
   end

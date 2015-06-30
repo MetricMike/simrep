@@ -6,6 +6,11 @@ ActiveAdmin.register Event do
     end
   end
 
+  filter :campaign
+  filter :play_exp
+  filter :clean_exp
+  filter :weekend
+
   csv_importable :columns => [:campaign, :weekend, :play_exp, :clean_exp]
 
   sidebar "Attending Characters", only: :show do

@@ -21,6 +21,10 @@ ActiveAdmin.register BankAccount do
     actions
   end
 
+  filter :balance_cents
+  filter :balance_currency
+  filter :owner
+
   show do
     attributes_table do
       row :id

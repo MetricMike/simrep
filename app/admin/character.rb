@@ -41,6 +41,19 @@ ActiveAdmin.register Character do
     actions
   end
 
+  filter :name
+  filter :race
+  filter :culture
+  filter :skills
+  filter :perks
+  filter :talents
+  filter :events
+  filter :backgrounds
+  filter :origins
+  filter :projects
+  filter :deaths
+  filter :perm_chance
+
   form do |f|
     tabs do
 

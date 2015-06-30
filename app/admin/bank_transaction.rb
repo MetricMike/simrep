@@ -3,6 +3,13 @@ ActiveAdmin.register BankTransaction do
 
   csv_importable :columns => [:from_account_id, :to_account_id, :funds_cents, :funds_currency, :memo]
 
+  filter :from_account
+  filter :to_account
+  filter :funds_cents
+  filter :funds_currency
+  filter :updated_at
+  filter :posted
+
   controller do
     def create
       @bank_transaction = BankTransaction.new(bank_transaction_params)

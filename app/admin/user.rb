@@ -12,6 +12,12 @@ ActiveAdmin.register User do
     column :admin
   end
 
+  filter :name
+  filter :admin
+  filter :confirmed_at
+  filter :last_sign_in_at
+  filter :created_at
+
   form do |f|
     f.inputs do
       f.input :name

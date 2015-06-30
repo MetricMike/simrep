@@ -184,6 +184,7 @@ GEM
       money (~> 6.5.0)
       railties (>= 3.0)
     multi_json (1.11.0)
+    newrelic_rpm (3.12.0.288)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     orm_adapter (0.5.0)
@@ -338,6 +339,7 @@ DEPENDENCIES
   mini_backtrace
   minitest-reporters
   money-rails
+  newrelic_rpm
   paper_trail
   passenger
   pg

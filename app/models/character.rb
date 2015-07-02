@@ -72,7 +72,8 @@ class Character < ActiveRecord::Base
   end
 
   def skill_points_total
-    @skill_points_total = SKILL_CHART[self.level]
+    multiplier = (self.origins.find { |o| o.name.start_with?("Template: Proto") }) ? 2 : 1
+    @skill_points_total = SKILL_CHART[self.level*multiplier]
   end
 
   def perk_points_used

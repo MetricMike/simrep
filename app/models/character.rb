@@ -90,6 +90,7 @@ class Character < ActiveRecord::Base
   def invest_in_project(amt, talent=nil)
     self.unused_talents -= amt
     self.talents.find(talent).invest(amt, false) if talent.present?
+    self.save
   end
 
   def talent_points_total
@@ -150,7 +151,7 @@ class Character < ActiveRecord::Base
   def turn_on_nested_callbacks
     CharacterEvent.set_callback(:create, :after, :give_attendance_awards)
     Death.set_callback(:create, :after, :record_death, if: :affects_perm_chance?)
-    ProjectContribution.set_callback(:create, :before, :invest_talent, if: Proc.new { |project_contribution| project_contribution.talent.present? })
+    ProjectContribution.set_callback(:create, :before, :invest_talent)
   end
 
   def display_name

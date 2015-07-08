@@ -26,7 +26,7 @@ class ProjectsController < ApplicationController
   # end
 
   def create
-    @project = current_character.projects.new(project_params)
+    @project = Project.new(project_params)
     @project_contribution = @project.project_contributions.new(project_contribution_params)
     authorize @project
 

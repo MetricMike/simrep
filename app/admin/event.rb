@@ -6,6 +6,16 @@ ActiveAdmin.register Event do
     end
   end
 
+  member_action :award_attendance do
+    characters = CharacterEvent.where(event: resource)
+    characters.map(&:give_attendance_awards)
+    redirect_to resource_path, notice: "All attending players awarded for attendance."
+  end
+
+  action_item :award_attendance, only: :show do
+    link_to "Award Attendance", award_attendance_admin_event_path(resource)
+  end
+
   filter :campaign
   filter :play_exp
   filter :clean_exp
@@ -16,7 +26,7 @@ ActiveAdmin.register Event do
   sidebar "Attending Characters", only: :show do
     para "#{event.character_events.count} Attended"
     table_for event.character_events.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
-      column(:character, sortable: false) { |t| Character.find(t.character_id).name }
+      column(:character, sortable: false) { |t| link_to Character.find(t.character_id).name, admin_character_path(t.character_id) }
       column :paid
       column :cleaned
     end

@@ -59,9 +59,11 @@ class Character < ActiveRecord::Base
 
   def experience
     @experience = self.events.reduce(31) do |sum, event|
-      character_event = self.character_events.find_by :event_id => event.id
-      if character_event.paid then sum += event.play_exp end
-      if character_event.cleaned then sum += event.clean_exp end
+      if event.weekend < (Time.now.utc - 3.days)
+        character_event = self.character_events.find_by :event_id => event.id
+        if character_event.paid then sum += event.play_exp end
+        if character_event.cleaned then sum += event.clean_exp end
+      end
       sum
     end
     @experience += (self.backgrounds.find { |b| b.name.start_with?("Experienced") }) ? 20 : 0

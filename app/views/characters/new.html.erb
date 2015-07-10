@@ -20,7 +20,7 @@
               </thead>
               <tbody id="character_origins">
                 <%= f.simple_fields_for :character_origins do |character_origin| %>
-                  <%= render 'character_origin', f: character_origin %>
+                  <%= render 'character_origin_fields', f: character_origin %>
                 <% end %>
               </tbody>
               <tfoot class="links">
@@ -49,7 +49,7 @@
               </thead>
               <tbody id="character_skills">
                 <%= f.simple_fields_for :character_skills do |character_skill| %>
-                  <%= render 'character_skill', f: character_skill %>
+                  <%= render 'character_skill_fields', f: character_skill %>
                 <% end %>
               </tbody>
               <tfoot class="links">
@@ -78,7 +78,7 @@
               </thead>
               <tbody id="character_perks">
                 <%= f.simple_fields_for :character_perks do |character_perk| %>
-                  <%= render 'character_perk', f: character_perk %>
+                  <%= render 'character_perk_fields', f: character_perk %>
                 <% end %>
               </tbody>
               <tfoot class="links">

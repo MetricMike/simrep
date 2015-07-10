@@ -2,7 +2,9 @@ ActiveAdmin.register User do
 
   index do
     selectable_column
-    column :id
+    column :id do |u|
+      link_to u.id, admin_user_path(u)
+    end
     column :name
     column :email
     column :confirmed_at
@@ -10,13 +12,26 @@ ActiveAdmin.register User do
     column :sign_in_count
     column :last_sign_in_at
     column :admin
+    actions
   end
 
   filter :name
+  filter :email
   filter :admin
+  filter :encrypted_password_present, as: :boolean, label: 'Password?'
+  filter :reset_password_sent_at
   filter :confirmed_at
   filter :last_sign_in_at
   filter :created_at
+
+  member_action :reset do
+    resource.update(password: "password", password_confirmation: "password", confirmed_at: Time.now.utc)
+    redirect_to resource_path, notice: "Reset with password == 'password'"
+  end
+
+  action_item :reset, only: :show do
+    link_to "Reset", reset_admin_user_path(resource)
+  end
 
   form do |f|
     f.inputs do

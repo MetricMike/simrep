@@ -46,19 +46,17 @@ ActiveAdmin.register User do
 
   controller do
     def create
-      @user = User.new(user_params)
+      @user = User.new(params[:user])
       @user.skip_confirmation_notification! if params[:user][:skip_confirmation]
       @user.confirm! if params[:user][:skip_confirmation]
 
       if @user.save
         flash[:notice] = "User created."
       else
-        flash[:notice] = "User creation failed with: #{@user.errors.message}"
+        flash[:notice] = "User creation failed with: #{@user.errors}"
       end
-    end
 
-    def user_parms
-      params.require(:email).permit(:name, :admin, :confirm, :skip_confirmation)
+      redirect_to admin_user_path(@user)
     end
   end
 

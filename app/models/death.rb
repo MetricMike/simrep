@@ -10,7 +10,7 @@ class Death < ActiveRecord::Base
 
   def events_since
     current_character = Character.find(self.character_id)
-    current_character.events.where(weekend: self.date..5.days.ago).count
+    current_character.events.where(weekend: (self.date+5.days)..5.days.ago).count
   end
 
   def affects_perm_chance=(bool)

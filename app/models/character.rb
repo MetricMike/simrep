@@ -131,6 +131,9 @@ class Character < ActiveRecord::Base
   end
 
   def record_deaths
+    self.perm_counter = 0
+    self.perm_chance = 0
+
     deaths = self.deaths.order(date: :desc).to_a
 
     while current_death = deaths.try(:pop)
@@ -142,16 +145,17 @@ class Character < ActiveRecord::Base
         current_death.events_since.times { self.decrement_death }
       end
     end
+
+    self.save
   end
+  alias_method :recount_deaths, :record_deaths
 
   def turn_off_nested_callbacks
-    CharacterEvent.skip_callback(:create, :after, :give_attendance_awards)
     Death.skip_callback(:create, :after, :record_death)
     ProjectContribution.skip_callback(:create, :before, :invest_talent)
   end
 
   def turn_on_nested_callbacks
-    CharacterEvent.set_callback(:create, :after, :give_attendance_awards)
     Death.set_callback(:create, :after, :record_death, if: :affects_perm_chance?)
     ProjectContribution.set_callback(:create, :before, :invest_talent)
   end

@@ -30,7 +30,7 @@ class CharactersController < ApplicationController
                 page_size:      'Letter',
                 save_to_file:   Rails.root.join('pdfs', "#{@filename}.pdf"),
                 header:         { center: 'SimTerra Character Sheet' },
-                footer:         { left: "#{Date.today}",
+                footer:         { left: "#{@character.user.name}",
                                   right: "For #{@last_event} Event" },
                 show_as_html:   params[:debug].present?
       end

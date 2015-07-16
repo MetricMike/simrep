@@ -44,7 +44,7 @@ ActiveAdmin.register Character do
   filter :name
   filter :race
   filter :culture
-  filter :skills
+  filter :character_skills_skill_name, as: :string
   filter :perks
   filter :talents
   filter :events

@@ -1,0 +1,6 @@
+<tr class="<%= "bg-info" if npc_shift.verified %>" id="npc-shift-<%= npc_shift.id %>">
+  <td><%= npc_shift.opening %></td>
+  <td><%= npc_shift.closing.present? ? "#{npc_shift.closing}" : "" %></td>
+  <td><%= npc_shift.verified? ? "Yes" : "No" %></td>
+  <td><%= link_to (npc_shift.closing.present? ? "Allocate Hours" : "End Shift"), npc_shift_path(npc_shift) %></td>
+</li>

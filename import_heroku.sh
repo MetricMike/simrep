@@ -8,7 +8,8 @@ curl -o latest.dump `heroku pg:backups public-url`
 RAILS_ENV=production rake db:migrate:reset
 
 #Push
-PGPASSWORD="postgres" pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d simrep_production latest.dump
+PGPASSWORD="postgres" pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d simrep_production latest5.dump
+#PGPASSWORD="postgres" pg_dump --verbose --clean --no-owner -h localhost -U postgres -d simrep_production latest.dump
 
 #Fix owners
 tables=`psql -qAt -c "select tablename from pg_tables where schemaname = 'public';" simrep_production`

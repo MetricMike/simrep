@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150626210313) do
+ActiveRecord::Schema.define(version: 20150711081116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,8 +76,13 @@ ActiveRecord::Schema.define(version: 20150626210313) do
     t.integer  "event_id"
     t.boolean  "paid"
     t.boolean  "cleaned"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+    t.integer  "npc_shift_id"
+    t.integer  "accumulated_npc_timeunits_totalhours"
+    t.integer  "accumulated_npc_money_cents",          default: 0,     null: false
+    t.string   "accumulated_npc_money_currency",       default: "VMK", null: false
+    t.boolean  "awarded"
   end
 
   add_index "character_events", ["character_id"], name: "index_character_events_on_character_id", using: :btree
@@ -150,6 +155,18 @@ ActiveRecord::Schema.define(version: 20150626210313) do
     t.integer  "clean_exp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "npc_shifts", force: :cascade do |t|
+    t.integer  "character_event_id"
+    t.datetime "opening"
+    t.datetime "closing"
+    t.integer  "hours_to_money"
+    t.integer  "hours_to_time"
+    t.boolean  "verified"
+    t.boolean  "dirty",              default: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
   create_table "origins", force: :cascade do |t|
@@ -256,12 +273,14 @@ ActiveRecord::Schema.define(version: 20150626210313) do
   add_foreign_key "character_backgrounds", "characters"
   add_foreign_key "character_events", "characters"
   add_foreign_key "character_events", "events"
+  add_foreign_key "character_events", "npc_shifts"
   add_foreign_key "character_origins", "characters"
   add_foreign_key "character_origins", "origins"
   add_foreign_key "character_perks", "characters"
   add_foreign_key "character_perks", "perks"
   add_foreign_key "character_skills", "characters"
   add_foreign_key "character_skills", "skills"
+  add_foreign_key "npc_shifts", "character_events"
   add_foreign_key "project_contributions", "characters"
   add_foreign_key "project_contributions", "projects"
   add_foreign_key "projects", "characters", column: "leader_id"

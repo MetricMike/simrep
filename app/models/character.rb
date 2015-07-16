@@ -57,6 +57,10 @@ class Character < ActiveRecord::Base
     @exp_to_next = EXP_CHART[self.level + 1] - self.experience
   end
 
+  def last_event
+    @last_event = self.events.order(weekend: :desc).try(:first)
+  end
+
   def experience
     @experience = self.events.reduce(31) do |sum, event|
       if event.weekend < (Time.now.utc - 3.days)

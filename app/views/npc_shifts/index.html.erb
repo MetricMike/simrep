@@ -1,0 +1,26 @@
+<% provide(:title, "NPC Shifts for #{@character.name} on #{@character.last_event}") %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="character info">
+      <h1><%= link_to @character.name, character_path(@character) %></h1>
+    </section>
+    <section class="shift info">
+      <%= link_to 'Open New Shift', new_npc_shift_path, class: "btn btn-sm btn-success" %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <% if @npc_shifts.any? %>
+      <h3>NPC Shifts (<%= @npc_shifts.count %>)</h3>
+      <table class="table table-condensed table-hover table-responsive">
+        <tr>
+          <th>Starting Time</th>
+          <th>Ending Time</th>
+          <th>Verified?</th>
+          <th/>
+          <th/>
+        </tr>
+        <%= render @npc_shifts %>
+      </table>
+    <% end %>
+  </div>
+</div>

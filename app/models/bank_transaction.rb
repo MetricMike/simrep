@@ -22,7 +22,7 @@ class BankTransaction < ActiveRecord::Base
       end
     rescue ActiveRecord::RecordInvalid => invalid
       self.memo = "#{self.memo.to_s + NSF_NOTICE}"
-      self.save(validate: false)
+      #self.save(validate: false)
     end
   end
 
@@ -36,7 +36,7 @@ class BankTransaction < ActiveRecord::Base
       end
     rescue ActiveRecord::RecordInvalid => invalid
       self.memo = "#{self.memo.to_s + REVERSAL_FAILED_NOTICE + NSF_NOTICE}"
-      self.save(validate: false)
+      #self.save(validate: false)
     end
   end
 

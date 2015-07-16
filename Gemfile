@@ -31,6 +31,7 @@ gem "binding_of_caller"
 gem 'money-rails'
 gem 'pry-rails'
 gem 'newrelic_rpm'
+gem 'active_admin_datetimepicker'
 
 group :development, :test do
   gem 'jazz_fingers'

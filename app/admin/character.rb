@@ -5,9 +5,10 @@ ActiveAdmin.register Character do
     event:    Event.order(weekend: :desc).pluck(:weekend, :id),
     paid:     :checkbox,
     cleaned:  :checkbox,
+    override: :checkbox
   } do |ids, inputs|
     batch_action_collection.find(ids).each do |character|
-      character.attend_event(inputs[:event], inputs[:paid], inputs[:cleaned])
+      character.attend_event(inputs[:event], inputs[:paid], inputs[:cleaned], inputs[:override])
     end
     redirect_to collection_path, notice: [ids, inputs].to_s
   end

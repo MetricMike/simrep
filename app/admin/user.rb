@@ -44,6 +44,10 @@ ActiveAdmin.register User do
     f.actions
   end
 
+  sidebar "Characters", only: [:show, :edit] do
+    resource.characters.each { |c| div link_to c.name, admin_character_path(c) }
+  end
+
   controller do
     def create
       @user = User.new(params[:user])

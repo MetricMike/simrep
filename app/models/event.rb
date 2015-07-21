@@ -3,7 +3,8 @@ class Event < ActiveRecord::Base
   has_many :characters, through: :character_events, inverse_of: :events
   has_many :character_events, inverse_of: :event
 
-  default_scope { order(weekend: :desc) }
+  scope :newest, -> { order(weekend: :desc) }
+  scope :oldest, -> { order(weekend: :asc) }
 
   validates :campaign, presence: true
   validates :weekend, presence: true
@@ -13,10 +14,10 @@ class Event < ActiveRecord::Base
   def new_characters
     @new_characters = []
     self.characters.map do |c|
-      unless c.try(:user)
-        @new_characters << c
+      if c.user
+        @new_characters << c if (c == c.user.characters.by_name_asc.try(:first) && self == c.first_event)
       else
-        @new_characters << c if (c == c.user.characters.order(created_at: :asc).try(:first) && self == c.first_event)
+        @new_characters << c
       end
     end
     return @new_characters

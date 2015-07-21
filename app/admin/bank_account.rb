@@ -1,4 +1,5 @@
 ActiveAdmin.register BankAccount do
+  config.paginate = false
 
   csv_importable :columns => [:owner_id, :balance_cents, :balance_currency]
 
@@ -8,7 +9,9 @@ ActiveAdmin.register BankAccount do
 
   index do
     selectable_column
-    column :id
+    column :id do |ba|
+      link_to ba.id, admin_bank_account_path(ba)
+    end
     column "Owner", :owner_id do |ba|
       link_to Character.find(ba.owner_id).name, admin_character_path(ba.owner_id)
     end

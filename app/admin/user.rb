@@ -1,4 +1,5 @@
 ActiveAdmin.register User do
+  config.paginate = false
 
   index do
     selectable_column

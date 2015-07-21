@@ -1,4 +1,5 @@
 ActiveAdmin.register Character do
+  config.paginate = false
 
   batch_action :attend_event, form: {
     event:    Event.order(weekend: :desc).pluck(:weekend, :id),
@@ -29,7 +30,9 @@ ActiveAdmin.register Character do
 
   index do
     selectable_column
-    column :id
+    column :id do |c|
+      link_to c.id, admin_character_path(c)
+    end
     column :name
     column :race
     column :culture

@@ -4,7 +4,7 @@ class Skill < ActiveRecord::Base
 
   default_scope { order(updated_at: :desc) }
 
-  has_many :characters, -> { distinct }, through: :character_skills, inverse_of: :skills
+  has_many :characters, through: :character_skills, inverse_of: :skills
   has_many :character_skills, inverse_of: :skill
 
   validates :source, inclusion: {in: SOURCES}

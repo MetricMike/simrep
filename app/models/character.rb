@@ -18,12 +18,12 @@ class Character < ActiveRecord::Base
 
   belongs_to :user, inverse_of: :characters
 
-  has_many :backgrounds, -> { distinct }, through: :character_backgrounds, inverse_of: :characters, dependent: :destroy
-  has_many :origins, -> { distinct }, through: :character_origins, inverse_of: :characters, dependent: :destroy
-  has_many :skills, -> { distinct }, through: :character_skills, inverse_of: :characters, dependent: :destroy
-  has_many :perks, -> { distinct }, through: :character_perks, inverse_of: :characters, dependent: :destroy
-  has_many :events, -> { distinct }, through: :character_events, inverse_of: :characters, dependent: :destroy
-  has_many :projects, -> { distinct }, through: :project_contributions, inverse_of: :characters, dependent: :destroy
+  has_many :backgrounds, through: :character_backgrounds, inverse_of: :characters, dependent: :destroy
+  has_many :origins, through: :character_origins, inverse_of: :characters, dependent: :destroy
+  has_many :skills, through: :character_skills, inverse_of: :characters, dependent: :destroy
+  has_many :perks, through: :character_perks, inverse_of: :characters, dependent: :destroy
+  has_many :events, through: :character_events, inverse_of: :characters, dependent: :destroy
+  has_many :projects, through: :project_contributions, inverse_of: :characters, dependent: :destroy
 
   has_many :character_backgrounds, inverse_of: :character, dependent: :destroy
   has_many :character_origins, inverse_of: :character, dependent: :destroy

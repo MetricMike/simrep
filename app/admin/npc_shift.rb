@@ -1,5 +1,23 @@
 ActiveAdmin.register NpcShift do
 
+  index do
+    selectable_column
+    column :id do |ns|
+      link_to ns.id, admin_npc_shifts_path(id)
+    end
+    column "Character", :character_event_id do |ns|
+      link_to ns.character_event.character.name, admin_character_path(ns.character_event.character)
+    end
+    column :opening
+    column :closing
+    column :hours_to_money
+    column :hours_to_time
+    column :verified
+    column :dirty
+    column :updated_at
+    actions
+  end
+
   begin
     filter :character_event
     filter :opening

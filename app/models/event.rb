@@ -11,12 +11,22 @@ class Event < ActiveRecord::Base
   validates :play_exp, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
   validates :clean_exp, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
+  def paying_characters
+    @paying_characters = self.characters.references(:character_events).where(character_events: { paid: true })
+    @paying_characters -= self.new_characters
+  end
+
   def new_characters
     @new_characters = []
     self.characters.map do |c|
+      flag = true
       if c.user
-        @new_characters << c if (c == c.user.characters.by_name_asc.try(:first) && self == c.first_event)
-      else
+        if c != c.user.characters.by_name_asc.try(:first)
+          flag = false
+        end
+      end
+
+      if (self == c.first_event && flag)
         @new_characters << c
       end
     end

@@ -25,7 +25,8 @@ ActiveAdmin.register Event do
 
   sidebar "Attending Characters", only: :show do
     para "#{resource.characters.count} Attended"
-    para "#{resource.new_characters.count} New PCs"
+    para "#{resource.paying_characters.count} Paid"
+    para "#{resource.new_characters.count} New"
     table_for event.character_events.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
       column(:character, sortable: false) { |t| link_to Character.find(t.character_id).name, admin_character_path(t.character_id) }
       column :paid

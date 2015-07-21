@@ -14,7 +14,8 @@ class Character < ActiveRecord::Base
   DEATH_PERCENTAGES = [0, 10, 30, 60, 90]
   DEATH_COUNTER = [0, 3, 2, 1, 0]
 
-  default_scope { order(name: :asc) }
+  scope :by_name_asc, -> { order(name: :asc) }
+  scope :oldest, -> { order(created_at: :asc) }
 
   belongs_to :user, inverse_of: :characters
 
@@ -58,11 +59,11 @@ class Character < ActiveRecord::Base
   end
 
   def last_event
-    @last_event = self.events.order(weekend: :desc).try(:first)
+    @last_event = self.events.newest.try(:first)
   end
 
   def first_event
-    @first_event = self.events.order(weekend: :asc).try(:first)
+    @first_event = self.events.oldest.try(:first)
   end
 
   def experience

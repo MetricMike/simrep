@@ -4,7 +4,7 @@ class Perk < ActiveRecord::Base
   has_many :character_perks, inverse_of: :perk
   SOURCES = Character::RACES|Character::CULTURES|["Ghost"]
 
-  default_scope { order(updated_at: :desc) }
+  scope :latest, -> { order(updated_at: :desc) }
 
   validates :source, inclusion: {in: SOURCES}
   validates :name, presence: true

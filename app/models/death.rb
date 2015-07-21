@@ -2,7 +2,7 @@ class Death < ActiveRecord::Base
   has_paper_trail
   belongs_to :character, inverse_of: :deaths
 
-  default_scope { order(date: :desc) }
+  scope :latest, -> { order(date: :desc) }
 
   validates :description, :physical, :roleplay, :date, presence: true
 

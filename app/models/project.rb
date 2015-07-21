@@ -5,7 +5,7 @@ class Project < ActiveRecord::Base
   has_many :project_contributions, inverse_of: :project, dependent: :destroy
   has_many :characters, through: :project_contributions, inverse_of: :projects
 
-  default_scope { order(updated_at: :desc) }
+  scope :latest, -> { order(updated_at: :desc) }
 
   validates :name, presence: true
 

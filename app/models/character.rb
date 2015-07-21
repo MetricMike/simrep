@@ -127,10 +127,10 @@ class Character < ActiveRecord::Base
     end
   end
 
-  def attend_event(event_id, paid=true, cleaned=true)
+  def attend_event(event_id, paid=false, cleaned=false, override=false)
     attendance = self.character_events.find_or_initialize_by(event_id: event_id)
-    attendance.paid = paid
-    attendance.cleaned = cleaned
+    attendance.paid = paid if paid || override
+    attendance.cleaned = cleaned if cleaned || override
     attendance.save
   end
 

@@ -21,13 +21,13 @@ class CharacterEvent < ActiveRecord::Base
   end
 
   def pay_for_npcing
-    if self.accumulated_npc_money
+    if self.accumulated_npc_money && self.paid?
       BankTransaction.create(to_account: self.character.id,
                              funds: [self.accumulated_npc_money, NpcShift::MAX_MONEY].min,
                              memo: "Bank Work for #{self.event.weekend}")
     end
 
-    if self.accumulated_npc_timeunits_totalhours
+    if self.accumulated_npc_timeunits_totalhours && self.paid?
       time_rate = NpcShift::TIMEUNITS_TIERS_HOURS.rindex { |i| self.accumulated_npc_timeunits_totalhours >= i }
       if time_rate
         self.character.unused_talents += [time_rate+1, NpcShift::MAX_TIMEUNITS].min

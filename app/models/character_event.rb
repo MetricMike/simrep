@@ -10,7 +10,7 @@ class CharacterEvent < ActiveRecord::Base
 
   def give_attendance_awards
     current_character = Character.find(self.character_id)
-    if self.paid && self.awarded == false
+    if self.paid && self.awarded == (nil or false)
       current_character.talents.each { |talent| talent.investment_limit = [talent.investment_limit+2, 4].max; talent.save }
       current_character.unused_talents += 2
       current_character.decrement_death

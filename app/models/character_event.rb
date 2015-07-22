@@ -10,11 +10,11 @@ class CharacterEvent < ActiveRecord::Base
 
   def give_attendance_awards
     current_character = Character.find(self.character_id)
-    if self.paid && self.awarded == (nil or false)
+    if self.paid && self.awarded == false
       current_character.talents.each { |talent| talent.investment_limit = [talent.investment_limit+2, 4].max; talent.save }
       current_character.unused_talents += 2
       current_character.decrement_death
-      current_character.pay_for_npcing
+      self.pay_for_npcing
       current_character.save
       self.update(awarded: true)
     end
@@ -22,7 +22,7 @@ class CharacterEvent < ActiveRecord::Base
 
   def pay_for_npcing
     if self.accumulated_npc_money && self.paid?
-      BankTransaction.create(to_account: self.character.id,
+      BankTransaction.create(to_account_id: self.character.id,
                              funds: [self.accumulated_npc_money, NpcShift::MAX_MONEY].min,
                              memo: "Bank Work for #{self.event.weekend}")
     end

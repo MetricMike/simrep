@@ -31,6 +31,7 @@ ActiveAdmin.register Event do
       column(:character, sortable: false) { |t| link_to Character.find(t.character_id).name, admin_character_path(t.character_id) }
       column :paid
       column :cleaned
+      column :awarded
     end
   end
 

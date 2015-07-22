@@ -30,7 +30,7 @@ ActiveAdmin.register NpcShift do
 
   form do |f|
     f.inputs do
-      input :character_event, as: :select
+      input :character_event, as: :select, collection: CharacterEvent.includes(:character, :event).all.order('events.weekend DESC, characters.name').references(:events, :characters)
       input :opening, as: :date_time_picker, datepicker_options: { step: 15 }
       input :closing, as: :date_time_picker, datepicker_options: { step: 15 }
       input :verified

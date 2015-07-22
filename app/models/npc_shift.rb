@@ -2,7 +2,7 @@ class NpcShift < ActiveRecord::Base
   has_paper_trail
   belongs_to :character_event, inverse_of: :npc_shifts
 
-  MAX_MONEY = Money.new(2000, :vmk)
+  MAX_MONEY = Money.new(2500, :vmk)
   MAX_TIMEUNITS = 3
 
   MONEY_CLEAN = 2

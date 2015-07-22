@@ -1,7 +1,21 @@
 <% provide(:title, @npc_shift.display_name) %>
 <div class="row">
-  <div class="col-md-4 col-md-offset-4" id="controls">
-    <%= link_to "NPC Shifts Overview", npc_shifts_path(@character), class: 'btn btn-lg btn-warning' %>
+  <%= link_to "NPC Shifts Overview", npc_shifts_path(@character), class: 'btn btn-lg btn-warning' %>
+  <aside class="col-md-4">
+    <section>
+      <h2>Hours to Marks Conversion</h2>
+      <p><%= "Clean Work: #{humanized_money_with_symbol Money.new(NpcShift::MONEY_CLEAN*100, :vmk)} per hour." %></p>
+      <p><%= "Dirty Work: Additional #{humanized_money_with_symbol Money.new(NpcShift::MONEY_DIRTY*100, :vmk)} per hour." %></p>
+      <p><%= "Maximum Payment: #{humanized_money_with_symbol NpcShift::MAX_MONEY} per market day." %></p>
+    </section>
+    <section>
+      <h2>Hours to Time Units Conversion</h2>
+      <% NpcShift::TIMEUNITS_TIERS_HOURS.map.with_index do |t, i| %>
+        <p><%= "#{t} Hour(s): #{i+1} Time Units" %></p>
+      <% end %>
+    </section>
+  </aside>
+  <div class="col-md-4 col-md-offset-2" id="controls">
     <h3><%= "Hours Earned: #{@npc_shift.max_hours}"%></h3>
     <%= simple_form_for @npc_shift do |f| %>
       <%= f.input :hours_to_money, input_html: { min: 0, max: @npc_shift.max_hours }%>

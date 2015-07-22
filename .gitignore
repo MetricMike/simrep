@@ -21,7 +21,6 @@
 /.c9
 /.env
 /*.dump
-/public/assets/
 /config/newrelic.yml
 
 # Ignore Spring files.

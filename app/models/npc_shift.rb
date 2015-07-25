@@ -53,7 +53,7 @@ class NpcShift < ActiveRecord::Base
                               shift times verified (currently: #{self.verified?}) and \
                               event paid for (currently: #{self.character_event.paid?})")
     else
-      if self.hours_to_money && !self.money_paid?
+      if (self.hours_to_money > 0) && !self.money_paid?
         # How much did they earn?
         pay_rate = (self.dirty? ? MONEY_CLEAN + MONEY_DIRTY : MONEY_CLEAN) * 100
         uncapped_payment = Money.new(self.hours_to_money * pay_rate, :vmk)
@@ -70,14 +70,14 @@ class NpcShift < ActiveRecord::Base
           #Return unused hours if needed.
           if uncapped_payment != capped_payment
             overpayment = uncapped_payment - capped_payment
-            unused_hours = overpayment / pay_rate
+            unused_hours = overpayment.cents / pay_rate
             self.update(hours_to_money: self.hours_to_money-unused_hours)
           end
         end
         self.update(money_paid: true)
       end
 
-      if self.hours_to_time && !self.time_paid?
+      if (self.hours_to_time > 0) && !self.time_paid?
         # How much did they earn?
         uncapped_time = TIMEUNITS_TIERS_HOURS.rindex { |i| self.hours_to_time >= i } + 1
         # Respect the per-event cap for payments

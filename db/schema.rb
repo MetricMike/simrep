@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150711081116) do
+ActiveRecord::Schema.define(version: 20150725144615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20150711081116) do
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
     t.integer  "npc_shift_id"
-    t.integer  "accumulated_npc_timeunits_totalhours"
+    t.integer  "accumulated_npc_timeunits_totalhours", default: 0
     t.integer  "accumulated_npc_money_cents",          default: 0,     null: false
     t.string   "accumulated_npc_money_currency",       default: "VMK", null: false
     t.boolean  "awarded"
@@ -161,9 +161,9 @@ ActiveRecord::Schema.define(version: 20150711081116) do
     t.integer  "character_event_id"
     t.datetime "opening"
     t.datetime "closing"
-    t.integer  "hours_to_money"
-    t.integer  "hours_to_time"
-    t.boolean  "verified"
+    t.integer  "hours_to_money",     default: 0
+    t.integer  "hours_to_time",      default: 0
+    t.boolean  "verified",           default: false
     t.boolean  "dirty",              default: false
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false

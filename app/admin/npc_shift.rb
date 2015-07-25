@@ -3,7 +3,7 @@ ActiveAdmin.register NpcShift do
   index do
     selectable_column
     column :id do |ns|
-      link_to ns.id, admin_npc_shifts_path(id)
+      link_to ns.id, admin_npc_shifts_path(ns.id)
     end
     column "Character", :character_event_id do |ns|
       link_to ns.character_event.character.name, admin_character_path(ns.character_event.character)

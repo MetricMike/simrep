@@ -28,11 +28,8 @@ class CharacterEvent < ActiveRecord::Base
     end
 
     if (self.accumulated_npc_timeunits_totalhours > 0) && self.paid?
-      time_rate = NpcShift::TIMEUNITS_TIERS_HOURS.rindex { |i| self.accumulated_npc_timeunits_totalhours >= i }
-      if time_rate
-        self.character.unused_talents += [time_rate+1, NpcShift::MAX_TIMEUNITS].min
-        self.character.save
-      end
+      self.character.unused_talents += [self.accumulated_npc_timeunits_totalhours, NpcShift::MAX_TIMEUNITS].min
+      self.character.save
     end
   end
 

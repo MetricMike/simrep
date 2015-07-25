@@ -36,18 +36,19 @@ class NpcShift < ActiveRecord::Base
   end
 
   def verify
-    self.update(verified: true)
-
     if self.hours_to_money
       pay_rate = self.hours_to_money * (self.dirty? ? MONEY_CLEAN + MONEY_DIRTY : MONEY_CLEAN)
       self.character_event.accumulated_npc_money += Money.new(pay_rate*100, :vmk) if pay_rate > 0
       self.character_event.save
     end
+
     if self.hours_to_time
       time_rate = TIMEUNITS_TIERS_HOURS.rindex { |i| self.hours_to_time >= i }
-      self.character_event.character.unused_talents += time_rate
-      self.character_event.character.save
+      self.character_event.accumulated_npc_timeunits_totalhours += TIMEUNITS_TIERS_HOURS[time_rate]
+      self.character_event.save
     end
+
+    self.update(verified: true)
   end
 
   def display_name

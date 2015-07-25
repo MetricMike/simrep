@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150725144615) do
+ActiveRecord::Schema.define(version: 20150725164615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,12 +76,12 @@ ActiveRecord::Schema.define(version: 20150725144615) do
     t.integer  "event_id"
     t.boolean  "paid"
     t.boolean  "cleaned"
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
     t.integer  "npc_shift_id"
-    t.integer  "accumulated_npc_timeunits_totalhours", default: 0
-    t.integer  "accumulated_npc_money_cents",          default: 0,     null: false
-    t.string   "accumulated_npc_money_currency",       default: "VMK", null: false
+    t.integer  "accumulated_npc_timeunits",      default: 0
+    t.integer  "accumulated_npc_money_cents",    default: 0,     null: false
+    t.string   "accumulated_npc_money_currency", default: "VMK", null: false
     t.boolean  "awarded"
   end
 
@@ -167,6 +167,8 @@ ActiveRecord::Schema.define(version: 20150725144615) do
     t.boolean  "dirty",              default: false
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+    t.boolean  "money_paid",         default: false
+    t.boolean  "time_paid",          default: false
   end
 
   create_table "origins", force: :cascade do |t|

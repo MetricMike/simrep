@@ -3,7 +3,7 @@ ActiveAdmin.register NpcShift do
   index do
     selectable_column
     column :id do |ns|
-      link_to ns.id, admin_npc_shifts_path(ns.id)
+      link_to ns.id, admin_npc_shift_path(ns)
     end
     column "Character", :character_event_id do |ns|
       link_to ns.character_event.character.name, admin_character_path(ns.character_event.character)
@@ -14,6 +14,8 @@ ActiveAdmin.register NpcShift do
     column :hours_to_time
     column :verified
     column :dirty
+    column :money_paid
+    column :time_paid
     column :updated_at
     actions
   end
@@ -42,7 +44,14 @@ ActiveAdmin.register NpcShift do
 
   batch_action :verify_shift do |ids|
     batch_action_collection.find(ids).each do |shift|
-      shift.verify
+      shift.update(verified: true)
+    end
+    redirect_to collection_path, notice: [ids].to_s
+  end
+
+  batch_action :issue_awards do |ids|
+    batch_action_collection.find(ids).each do |shift|
+      shift.issue_awards_for_shift
     end
     redirect_to collection_path, notice: [ids].to_s
   end

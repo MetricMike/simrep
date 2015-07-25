@@ -17,9 +17,12 @@
   </aside>
   <div class="col-md-4 col-md-offset-2" id="controls">
     <h3><%= "Hours Earned: #{@npc_shift.max_hours}"%></h3>
+    <h4><%= "Hours To Allocate: #{@npc_shift.unallocated_hours}"%></h4>
+    <h4><%= "Money Paid: #{@npc_shift.money_paid}" %></h4>
+    <h4><%= "Time Paid: #{@npc_shift.time_paid}" %></h4>
     <%= simple_form_for @npc_shift do |f| %>
-      <%= f.input :hours_to_money, input_html: { min: 0, max: @npc_shift.max_hours }%>
-      <%= f.input :hours_to_time, input_html: { min: 0, max: @npc_shift.max_hours }%>
+      <%= f.input :hours_to_money, input_html: { min: 0, max: @npc_shift.max_hours, readonly: @npc_shift.money_paid }%>
+      <%= f.input :hours_to_time, input_html: { min: 0, max: @npc_shift.max_hours, readonly: @npc_shift.time_paid }%>
       <%= f.input :dirty %>
       <%= f.button :submit, class: "btn btn-sm btn-block btn-success" %>
     <% end %>

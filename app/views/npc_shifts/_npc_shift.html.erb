@@ -2,5 +2,6 @@
   <td><%= npc_shift.opening %></td>
   <td><%= npc_shift.closing.present? ? "#{npc_shift.closing}" : "" %></td>
   <td><%= npc_shift.verified? ? "Yes" : "No" %></td>
+  <td><%= (npc_shift.money_paid? && npc_shift.time_paid?) ? "Yes" : "No" %></td>
   <td><%= link_to (npc_shift.closing.present? ? "Allocate Hours" : "End Shift"), npc_shift_path(npc_shift) %></td>
 </li>

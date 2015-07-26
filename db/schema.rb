@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150725164615) do
+ActiveRecord::Schema.define(version: 20150725200715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,7 +78,6 @@ ActiveRecord::Schema.define(version: 20150725164615) do
     t.boolean  "cleaned"
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
-    t.integer  "npc_shift_id"
     t.integer  "accumulated_npc_timeunits",      default: 0
     t.integer  "accumulated_npc_money_cents",    default: 0,     null: false
     t.string   "accumulated_npc_money_currency", default: "VMK", null: false
@@ -275,7 +274,6 @@ ActiveRecord::Schema.define(version: 20150725164615) do
   add_foreign_key "character_backgrounds", "characters"
   add_foreign_key "character_events", "characters"
   add_foreign_key "character_events", "events"
-  add_foreign_key "character_events", "npc_shifts"
   add_foreign_key "character_origins", "characters"
   add_foreign_key "character_origins", "origins"
   add_foreign_key "character_perks", "characters"

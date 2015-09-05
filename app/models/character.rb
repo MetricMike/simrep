@@ -42,7 +42,7 @@ class Character < ActiveRecord::Base
   validates :name, presence: true
   validates :race, inclusion: { in: RACES }
   validates :culture, inclusion: { in: CULTURES }
-  validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
+  validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :perm_chance, numericality: { only_integer: true }, inclusion: { in: DEATH_PERCENTAGES }
   validates :perm_counter, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }

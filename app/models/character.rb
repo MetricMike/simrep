@@ -48,7 +48,7 @@ class Character < ActiveRecord::Base
   validates :perm_counter, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
 
   before_create :turn_off_nested_callbacks
-  after_create :turn_on_nested_callbacks, :record_deaths
+  after_create :turn_on_nested_callbacks, :record_deaths, :open_bankaccount
 
   def level
     @level = EXP_CHART.rindex { |i| self.experience >= i }
@@ -167,6 +167,10 @@ class Character < ActiveRecord::Base
   def turn_on_nested_callbacks
     Death.set_callback(:create, :after, :record_death, if: :affects_perm_chance?)
     ProjectContribution.set_callback(:create, :before, :invest_talent)
+  end
+
+  def open_bankaccount
+    self.bank_accounts.create()
   end
 
   def display_name

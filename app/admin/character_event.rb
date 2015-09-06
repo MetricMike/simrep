@@ -6,10 +6,10 @@ ActiveAdmin.register CharacterEvent do
     column :id do |ce|
       link_to ce.id, admin_character_event_path(ce)
     end
-    column "Character", :character_id, sortable: :name do |ce|
+    column "Character", :character_id, sortable: 'characters.name' do |ce|
       link_to ce.character.name, admin_character_path(ce.character)
     end
-    column "Event", :event_id, sortable: :weekend do |ce|
+    column "Event", :event_id, sortable: 'events.weekend' do |ce|
       link_to ce.event.display_name, admin_event_path(ce.event)
     end
     column :paid

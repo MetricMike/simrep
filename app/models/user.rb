@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   has_many :characters, inverse_of: :user
+  has_many :referring_users, class_name: "User", inverse_of: :user
 
   scope :latest, -> { order(updated_at: :desc) }
 
@@ -19,6 +20,12 @@ class User < ActiveRecord::Base
     self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
     self.errors[:password_confirmation] << "does not match password" if password != password_confirmation
     password == password_confirmation && !password.blank?
+  end
+
+  def paid_events
+    self.characters.reduce(0) do |sum, c|
+      sum += c.character_events.where(paid: true).count }
+    end
   end
 
   def display_name

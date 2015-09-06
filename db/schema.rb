@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150725200715) do
+ActiveRecord::Schema.define(version: 20150905182615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,17 @@ ActiveRecord::Schema.define(version: 20150725200715) do
   end
 
   add_index "characters", ["user_id"], name: "index_characters_on_user_id", using: :btree
+
+  create_table "crafting_points", force: :cascade do |t|
+    t.integer "character_id"
+    t.string  "type"
+    t.integer "unranked"
+    t.integer "apprentice"
+    t.integer "journeyman"
+    t.integer "master"
+  end
+
+  add_index "crafting_points", ["character_id"], name: "index_crafting_points_on_character_id", using: :btree
 
   create_table "deaths", force: :cascade do |t|
     t.text     "description"
@@ -280,6 +291,7 @@ ActiveRecord::Schema.define(version: 20150725200715) do
   add_foreign_key "character_perks", "perks"
   add_foreign_key "character_skills", "characters"
   add_foreign_key "character_skills", "skills"
+  add_foreign_key "crafting_points", "characters"
   add_foreign_key "npc_shifts", "character_events"
   add_foreign_key "project_contributions", "characters"
   add_foreign_key "project_contributions", "projects"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150905182615) do
+ActiveRecord::Schema.define(version: 20150906003315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 20150905182615) do
     t.integer  "accumulated_npc_timeunits",      default: 0
     t.integer  "accumulated_npc_money_cents",    default: 0,     null: false
     t.string   "accumulated_npc_money_currency", default: "VMK", null: false
-    t.boolean  "awarded"
+    t.boolean  "awarded",                        default: false
   end
 
   add_index "character_events", ["character_id"], name: "index_character_events_on_character_id", using: :btree
@@ -166,6 +166,8 @@ ActiveRecord::Schema.define(version: 20150905182615) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "events", ["weekend"], name: "index_events_on_weekend", using: :btree
 
   create_table "npc_shifts", force: :cascade do |t|
     t.integer  "character_event_id"

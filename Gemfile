@@ -38,6 +38,7 @@ group :development, :test do
   gem 'rb-readline', require: false
   gem "better_errors"
   gem 'spring'
+  gem 'quiet_assets'
 end
 
 group :test do

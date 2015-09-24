@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150906003315) do
+ActiveRecord::Schema.define(version: 20150906022215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,10 +138,10 @@ ActiveRecord::Schema.define(version: 20150906003315) do
   create_table "crafting_points", force: :cascade do |t|
     t.integer "character_id"
     t.string  "type"
-    t.integer "unranked"
-    t.integer "apprentice"
-    t.integer "journeyman"
-    t.integer "master"
+    t.integer "unranked",     default: 0
+    t.integer "apprentice",   default: 0
+    t.integer "journeyman",   default: 0
+    t.integer "master",       default: 0
   end
 
   add_index "crafting_points", ["character_id"], name: "index_crafting_points_on_character_id", using: :btree
@@ -222,6 +222,16 @@ ActiveRecord::Schema.define(version: 20150906003315) do
 
   add_index "projects", ["leader_id"], name: "index_projects_on_leader_id", using: :btree
 
+  create_table "referrals", force: :cascade do |t|
+    t.integer "referred_user_id"
+    t.integer "sponsor_id"
+    t.integer "event_claimed_id"
+  end
+
+  add_index "referrals", ["event_claimed_id"], name: "index_referrals_on_event_claimed_id", using: :btree
+  add_index "referrals", ["referred_user_id"], name: "index_referrals_on_referred_user_id", unique: true, using: :btree
+  add_index "referrals", ["sponsor_id"], name: "index_referrals_on_sponsor_id", using: :btree
+
   create_table "skills", force: :cascade do |t|
     t.string   "source"
     t.string   "name"
@@ -298,4 +308,7 @@ ActiveRecord::Schema.define(version: 20150906003315) do
   add_foreign_key "project_contributions", "characters"
   add_foreign_key "project_contributions", "projects"
   add_foreign_key "projects", "characters", column: "leader_id"
+  add_foreign_key "referrals", "events", column: "event_claimed_id"
+  add_foreign_key "referrals", "users", column: "referred_user_id"
+  add_foreign_key "referrals", "users", column: "sponsor_id"
 end

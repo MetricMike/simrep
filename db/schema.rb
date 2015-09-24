@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150906022215) do
+ActiveRecord::Schema.define(version: 20150924124715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -272,10 +272,12 @@ ActiveRecord::Schema.define(version: 20150906022215) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.integer  "free_cleaning_event_id"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["free_cleaning_event_id"], name: "index_users_on_free_cleaning_event_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "versions", force: :cascade do |t|
@@ -311,4 +313,5 @@ ActiveRecord::Schema.define(version: 20150906022215) do
   add_foreign_key "referrals", "events", column: "event_claimed_id"
   add_foreign_key "referrals", "users", column: "referred_user_id"
   add_foreign_key "referrals", "users", column: "sponsor_id"
+  add_foreign_key "users", "events", column: "free_cleaning_event_id"
 end

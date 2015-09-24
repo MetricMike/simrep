@@ -139,7 +139,21 @@ class Character < ActiveRecord::Base
   def attend_event(event_id, paid=false, cleaned=false, override=false)
     attendance = self.character_events.find_or_initialize_by(event_id: event_id)
     attendance.paid = paid if paid || override
-    attendance.cleaned = cleaned if cleaned || override
+    if cleaned #==true
+      attendance.cleaned = true
+    else
+      if override #==true
+        attendance.cleaned = true
+      else
+        clean_coupon = Event.where(id: self.user.free_cleaning_event_id)
+        if (clean_coupon.empty? || clean_coupon.weekend <= 1.year.ago)
+          attendance.cleaned = true
+          self.user.update(free_cleaning_event_id: event_id)
+        else
+          attendance.cleaned = false
+        end
+      end
+    end
     attendance.save
   end
 

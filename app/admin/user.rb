@@ -8,10 +8,12 @@ ActiveAdmin.register User do
     end
     column :name
     column :email
-    column :confirmed_at
-    column :confirmation_sent_at
-    column :sign_in_count
-    column :last_sign_in_at
+    column "Password" do |u|
+      status_tag (u.encrypted_password.present? ? :yes : :no)
+    end
+    column "Referral Used" do |u|
+      status_tag (u.upstream_referral.try(:event_claimed) ? :yes : :no)
+    end
     column :admin
     actions
   end
@@ -20,10 +22,7 @@ ActiveAdmin.register User do
   filter :email
   filter :admin
   filter :encrypted_password_present, as: :boolean, label: 'Password?'
-  filter :reset_password_sent_at
-  filter :confirmed_at
-  filter :last_sign_in_at
-  filter :created_at
+  filter :updated_at
 
   member_action :reset do
     resource.update(password: "password", password_confirmation: "password", confirmed_at: Time.now.utc)

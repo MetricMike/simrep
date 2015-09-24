@@ -5,7 +5,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   has_many :characters, inverse_of: :user
-  has_many :referring_users, class_name: "User", inverse_of: :user
+
+  has_many  :downstream_referrals,  class_name: "Referral",         foreign_key: :referred_user_id
+  has_many  :referred_users,        through: :downstream_referrals, source: :sponsor
+
+  has_one   :upstream_referral,     class_name: "Referral",         foreign_key: :sponsor_id
+  has_one   :sponsor,               through: :upstream_referral,    source: :referred_user
 
   scope :latest, -> { order(updated_at: :desc) }
 
@@ -24,7 +29,7 @@ class User < ActiveRecord::Base
 
   def paid_events
     self.characters.reduce(0) do |sum, c|
-      sum += c.character_events.where(paid: true).count }
+      sum += c.character_events.where(paid: true).count
     end
   end
 

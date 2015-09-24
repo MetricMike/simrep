@@ -34,7 +34,7 @@ ActiveAdmin.register User do
   end
 
   form do |f|
-    f.inputs do
+    f.inputs 'User' do
       f.input :name
       f.input :email
       f.input :admin
@@ -47,6 +47,45 @@ ActiveAdmin.register User do
   sidebar "Characters", only: [:show, :edit] do
     resource.characters.each { |c| div link_to c.name, admin_character_path(c) }
   end
+
+  sidebar "Sponsored By", only: :show, if: proc{ resource.upstream_referral } do
+    div link_to resource.sponsor.name, admin_character_path(resource.sponsor)
+  end
+  sidebar "Sponsoring", only: :show, if: proc{ !resource.downstream_referrals.empty? } do
+    resource.referred_users.each do |ref|
+      div link_to ref.name, admin_character_path(ref)
+    end
+  end
+
+  # sidebar "Referrals", only: :index do
+  #   active_admin_form_for :
+  # end
+
+  # f.inputs 'Referrals' do
+    #   f.has_many :downstream_referrals, heading: "Referrals", allow_destroy: true do |dr|
+    #     dr.input :sponsor_id, as: :hidden, input_html: { value: f.object.id }
+    #     dr.input :referred_user_id, as: :select, collection: User.unsponsored.map { |u| [ u.name, u.id ] }
+    #     dr.input :event_claimed_id, as: :select, collection: f.object.played_events.map { |e| [ "#{e.weekend} / #{e.campaign}", e.id ] }
+    #   end
+    #   f.has_many :upstream_referral, heading: "Sponsor", allow_destroy: true do |ur|
+    #     ur.input :sponsor_id, as: :select, collection: User.all.map { |u| [ u.name, u.id ] }
+    #     ur.input :referred_user_id, as: :select, input_html: { readonly: true, value: ur.object }
+    #     ur.input :event_claimed_id, as: :select, collection: f.object.played_events.map { |e| [ "#{e.weekend} / #{e.campaign}", e.id ] }
+    #   end
+    # end
+
+  # sidebar "Post a Transaction", priority: 0, only: :show do
+  #   active_admin_form_for(:bank_transaction, url: admin_bank_transactions_path) do |f|
+  #     f.inputs do
+  #       f.input :from_account, collection: BankAccount.all, member_label: lambda { |a| a.owner.name }
+  #       f.input :to_account, collection: BankAccount.all, member_label: lambda { |a| a.owner.name }
+  #       f.input :funds, as: :number, default: 0.00
+  #       f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd)], label_method: :name, value_method: :to_s
+  #       f.input :memo, required: false
+  #     end
+  #     f.action :submit, label: "Post New Transaction"
+  #   end
+  # end
 
   controller do
     def create

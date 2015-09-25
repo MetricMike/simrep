@@ -2,6 +2,9 @@ class BankAccount < ActiveRecord::Base
   belongs_to :owner, class_name: 'Character'
   has_many :outgoing_transactions, class_name: 'BankTransaction', foreign_key: :from_account_id, dependent: :destroy
   has_many :incoming_transactions, class_name: 'BankTransaction', foreign_key: :to_account_id, dependent: :destroy
+  has_many :outgoing_items, class_name: 'BankItem', foreign_key: :from_account_id, dependent: :destroy
+  has_many :incoming_items, class_name: 'BankItem', foreign_key: :to_account_id, dependent: :destroy
+
   monetize :balance_cents, :line_of_credit_cents
 
   validate :does_not_exceed_credit, unless: :force?
@@ -17,11 +20,20 @@ class BankAccount < ActiveRecord::Base
 
   def transactions
     @transactions = outgoing_transactions + incoming_transactions
-    @transactions.sort_by { |t| t.created_at }
+    @transactions.sort_by { |t| t.updated_at }
   end
 
   def last_transaction
     @transactions.last if @transactions
+  end
+
+  def items
+    @items = outgoing_items + incoming_items
+    @items.sort_by { |i| i.updated_at }
+  end
+
+  def last_item
+    @items.last if @items
   end
 
   def withdraw(amt, force=false)

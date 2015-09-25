@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150924124715) do
+ActiveRecord::Schema.define(version: 20150924182215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,15 @@ ActiveRecord::Schema.define(version: 20150924124715) do
   end
 
   add_index "bank_accounts", ["owner_id"], name: "index_bank_accounts_on_owner_id", using: :btree
+
+  create_table "bank_items", force: :cascade do |t|
+    t.integer  "from_account_id"
+    t.integer  "to_account_id"
+    t.string   "item_description"
+    t.integer  "item_count",       default: 1, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
 
   create_table "bank_transactions", force: :cascade do |t|
     t.integer  "from_account_id"
@@ -293,6 +302,8 @@ ActiveRecord::Schema.define(version: 20150924124715) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   add_foreign_key "bank_accounts", "characters", column: "owner_id"
+  add_foreign_key "bank_items", "characters", column: "from_account_id"
+  add_foreign_key "bank_items", "characters", column: "to_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "to_account_id"
   add_foreign_key "character_backgrounds", "backgrounds"

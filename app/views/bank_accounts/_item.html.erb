@@ -1,0 +1,7 @@
+<tr id="item-<%= item.id %>">
+  <td><%= item.from_account ? item.from_account.owner.name : "Deposit" %></td>
+  <td><%= item.to_account ? item.to_account.owner.name : "Withdrawal" %></td>
+  <td><%= item.item_description %></td>
+  <td><%= item.item_count %></td>
+  <td><%= item.updated_at %></td>
+</tr>

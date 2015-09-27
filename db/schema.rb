@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150924182215) do
+ActiveRecord::Schema.define(version: 20150927163315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -302,8 +302,8 @@ ActiveRecord::Schema.define(version: 20150924182215) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   add_foreign_key "bank_accounts", "characters", column: "owner_id"
-  add_foreign_key "bank_items", "characters", column: "from_account_id"
-  add_foreign_key "bank_items", "characters", column: "to_account_id"
+  add_foreign_key "bank_items", "bank_accounts", column: "from_account_id"
+  add_foreign_key "bank_items", "bank_accounts", column: "to_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "to_account_id"
   add_foreign_key "character_backgrounds", "backgrounds"

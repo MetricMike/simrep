@@ -136,25 +136,25 @@ class Character < ActiveRecord::Base
     end
   end
 
-  def attend_event(event_id, paid=false, cleaned=false, override=false)
+  def attend_event(event_id, paid=false, cleaned=false, check_coupon=false, override=false)
     attendance = self.character_events.find_or_initialize_by(event_id: event_id)
-    attendance.paid = paid if paid || override
-    if cleaned #==true
-      attendance.cleaned = true
-    else
-      if override #==true
-        attendance.cleaned = true
-      else
-        clean_coupon = Event.where(id: self.user.free_cleaning_event_id)
-        if (clean_coupon.empty? || clean_coupon.weekend <= 1.year.ago)
-          attendance.cleaned = true
-          self.user.update(free_cleaning_event_id: event_id)
-        else
-          attendance.cleaned = false
-        end
+    award_paid(attendance, (paid || override))
+    award_cleaned(attendance, (cleaned || override), check_coupon)
+  end
+
+  def award_paid(char_event, bool=false)
+    char_event.update(paid: bool)
+  end
+
+  def award_cleaned(char_event, bool=false, check_coupon=false)
+    if (bool.nil? && check_coupon.present?)
+      clean_coupon = Event.where(id: self.user.free_cleaning_event_id)
+      if (clean_coupon.empty? || clean_coupon.weekend <= 1.year.ago)
+        self.user.update(free_cleaning_event_id: char_event.event_id)
+        bool = true
       end
     end
-    attendance.save
+    char_event.update(cleaned: bool)
   end
 
   def record_deaths

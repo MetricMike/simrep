@@ -53,7 +53,8 @@ class NpcShift < ActiveRecord::Base
                               shift times verified (currently: #{self.verified?}) and \
                               event paid for (currently: #{self.character_event.paid?})")
     else
-      if (self.hours_to_money > 0) && !self.money_paid?
+      self.assign_hours(money=self.max_hours)
+      unless self.money_paid?
         # How much did they earn?
         pay_rate = (self.dirty? ? MONEY_CLEAN + MONEY_DIRTY : MONEY_CLEAN) * 100
         uncapped_payment = Money.new(self.hours_to_money * pay_rate, :vmk)

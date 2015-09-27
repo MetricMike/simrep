@@ -2,13 +2,14 @@ ActiveAdmin.register Character do
   config.paginate = false
 
   batch_action :attend_event, form: {
-    event:    Event.order(weekend: :desc).pluck(:weekend, :id),
-    paid:     :checkbox,
-    cleaned:  :checkbox,
-    override: :checkbox
+    event:               Event.order(weekend: :desc).pluck(:weekend, :id),
+    paid:                :checkbox,
+    cleaned:             :checkbox,
+    check_clean_coupon:  :checkbox,
+    override:            :checkbox
   } do |ids, inputs|
     batch_action_collection.find(ids).each do |character|
-      character.attend_event(inputs[:event], inputs[:paid], inputs[:cleaned], inputs[:override])
+      character.attend_event(inputs[:event], inputs[:paid], inputs[:cleaned], inputs[:check_clean_coupon], inputs[:override])
     end
     redirect_to collection_path, notice: [ids, inputs].to_s
   end

@@ -32,7 +32,9 @@
       <%= render partial: "bank_accounts/transaction", collection: @transactions, as: :transaction %>
     </table>
   </div>
-  <div class="col-md-8" id="item_log">
+</div>
+<div class="row">
+  <div class="col-md-6" id="item_log">
     <h3>Bank Items</h3>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
@@ -43,6 +45,19 @@
         <th>Date</th>
       </tr>
       <%= render partial: "bank_accounts/item", collection: @items, as: :item %>
+    </table>
+  </div>
+  <div class="col-md-6" id="crafting_points_log">
+    <h3>Crafting Points</h3>
+    <table class="table table-condensed table-hover table-responsive">
+      <tr>
+        <th>Type</th>
+        <th>Unranked</th>
+        <th>Apprentice</th>
+        <th>Journeyman</th>
+        <th>Master</th>
+      </tr>
+      <%= render partial: "bank_accounts/crafting_points", collection: @crafting_points, as: :crafting_point %>
     </table>
   </div>
 </div>

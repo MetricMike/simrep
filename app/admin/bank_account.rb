@@ -26,7 +26,7 @@ ActiveAdmin.register BankAccount do
 
   filter :balance_cents
   filter :balance_currency
-  filter :owner
+  filter :owner_name, as: :string
 
   show do
     attributes_table do
@@ -59,6 +59,28 @@ ActiveAdmin.register BankAccount do
         end
       end
     end
+    panel "Items" do
+      tabs do
+        tab "Incoming" do
+          table_for bank_account.incoming_items.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
+            column :id
+            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.owner.name : "Deposit" }
+            column :item_description, sortable: false
+            column :item_count, sortable: false
+            column(:date, sortable: :updated_at) { |t| t.updated_at }
+          end
+        end
+        tab "Outgoing" do
+          table_for bank_account.outgoing_items.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
+            column :id
+            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.owner.name : "Withdrawal" }
+            column :item_description, sortable: false
+            column :item_count, sortable: false
+            column(:date, sortable: :updated_at) { |t| t.updated_at }
+          end
+        end
+      end
+    end
   end
 
   sidebar "Post a Transaction", priority: 0, only: :show do
@@ -71,6 +93,18 @@ ActiveAdmin.register BankAccount do
         f.input :memo, required: false
       end
       f.action :submit, label: "Post New Transaction"
+    end
+  end
+
+  sidebar "Add an Item", priority: 1, only: :show do
+    active_admin_form_for(:bank_item, url: admin_bank_items_path) do |f|
+      f.inputs do
+        f.input :from_account, collection: BankAccount.all, member_label: lambda { |a| a.owner.name }
+        f.input :to_account, collection: BankAccount.all, member_label: lambda { |a| a.owner.name }
+        f.input :item_description, required: false
+        f.input :item_count, as: :number, default: 1
+      end
+      f.action :submit, label: "Add Item"
     end
   end
 

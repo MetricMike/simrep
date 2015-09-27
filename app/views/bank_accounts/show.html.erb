@@ -1,4 +1,4 @@
-<% provide(:title, "#{@character.name}'s Bank Account") %>
+<% provide(:title, "#{@bank_account.display_name}") %>
 <div class="row">
   <div class="col-md-4" id="overview">
     <dl class="dl-horizontal">
@@ -20,6 +20,7 @@
     <% end %>
   </div>
   <div class="col-md-8" id="transaction_log">
+    <h3>Bank Transactions</h3>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
         <th>From</th>
@@ -29,6 +30,19 @@
         <th>Date</th>
       </tr>
       <%= render partial: "bank_accounts/transaction", collection: @transactions, as: :transaction %>
+    </table>
+  </div>
+  <div class="col-md-8" id="item_log">
+    <h3>Bank Items</h3>
+    <table class="table table-condensed table-hover table-responsive">
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Description</th>
+        <th>Count</th>
+        <th>Date</th>
+      </tr>
+      <%= render partial: "bank_accounts/item", collection: @items, as: :item %>
     </table>
   </div>
 </div>

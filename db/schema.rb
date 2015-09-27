@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150905182615) do
+ActiveRecord::Schema.define(version: 20150927163315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,15 @@ ActiveRecord::Schema.define(version: 20150905182615) do
 
   add_index "bank_accounts", ["owner_id"], name: "index_bank_accounts_on_owner_id", using: :btree
 
+  create_table "bank_items", force: :cascade do |t|
+    t.integer  "from_account_id"
+    t.integer  "to_account_id"
+    t.string   "item_description"
+    t.integer  "item_count",       default: 1, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
   create_table "bank_transactions", force: :cascade do |t|
     t.integer  "from_account_id"
     t.integer  "to_account_id"
@@ -81,7 +90,7 @@ ActiveRecord::Schema.define(version: 20150905182615) do
     t.integer  "accumulated_npc_timeunits",      default: 0
     t.integer  "accumulated_npc_money_cents",    default: 0,     null: false
     t.string   "accumulated_npc_money_currency", default: "VMK", null: false
-    t.boolean  "awarded"
+    t.boolean  "awarded",                        default: false
   end
 
   add_index "character_events", ["character_id"], name: "index_character_events_on_character_id", using: :btree
@@ -138,10 +147,10 @@ ActiveRecord::Schema.define(version: 20150905182615) do
   create_table "crafting_points", force: :cascade do |t|
     t.integer "character_id"
     t.string  "type"
-    t.integer "unranked"
-    t.integer "apprentice"
-    t.integer "journeyman"
-    t.integer "master"
+    t.integer "unranked",     default: 0
+    t.integer "apprentice",   default: 0
+    t.integer "journeyman",   default: 0
+    t.integer "master",       default: 0
   end
 
   add_index "crafting_points", ["character_id"], name: "index_crafting_points_on_character_id", using: :btree
@@ -166,6 +175,8 @@ ActiveRecord::Schema.define(version: 20150905182615) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "events", ["weekend"], name: "index_events_on_weekend", using: :btree
 
   create_table "npc_shifts", force: :cascade do |t|
     t.integer  "character_event_id"
@@ -220,6 +231,16 @@ ActiveRecord::Schema.define(version: 20150905182615) do
 
   add_index "projects", ["leader_id"], name: "index_projects_on_leader_id", using: :btree
 
+  create_table "referrals", force: :cascade do |t|
+    t.integer "referred_user_id"
+    t.integer "sponsor_id"
+    t.integer "event_claimed_id"
+  end
+
+  add_index "referrals", ["event_claimed_id"], name: "index_referrals_on_event_claimed_id", using: :btree
+  add_index "referrals", ["referred_user_id"], name: "index_referrals_on_referred_user_id", unique: true, using: :btree
+  add_index "referrals", ["sponsor_id"], name: "index_referrals_on_sponsor_id", using: :btree
+
   create_table "skills", force: :cascade do |t|
     t.string   "source"
     t.string   "name"
@@ -260,10 +281,12 @@ ActiveRecord::Schema.define(version: 20150905182615) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.integer  "free_cleaning_event_id"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["free_cleaning_event_id"], name: "index_users_on_free_cleaning_event_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "versions", force: :cascade do |t|
@@ -279,6 +302,8 @@ ActiveRecord::Schema.define(version: 20150905182615) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   add_foreign_key "bank_accounts", "characters", column: "owner_id"
+  add_foreign_key "bank_items", "bank_accounts", column: "from_account_id"
+  add_foreign_key "bank_items", "bank_accounts", column: "to_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "to_account_id"
   add_foreign_key "character_backgrounds", "backgrounds"
@@ -296,4 +321,8 @@ ActiveRecord::Schema.define(version: 20150905182615) do
   add_foreign_key "project_contributions", "characters"
   add_foreign_key "project_contributions", "projects"
   add_foreign_key "projects", "characters", column: "leader_id"
+  add_foreign_key "referrals", "events", column: "event_claimed_id"
+  add_foreign_key "referrals", "users", column: "referred_user_id"
+  add_foreign_key "referrals", "users", column: "sponsor_id"
+  add_foreign_key "users", "events", column: "free_cleaning_event_id"
 end

@@ -2,13 +2,13 @@ class NpcShift < ActiveRecord::Base
   has_paper_trail
   belongs_to :character_event, inverse_of: :npc_shifts
 
-  MAX_MONEY = Money.new(2500, :vmk)
-  MAX_TIMEUNITS = 3
+  MAX_MONEY = Money.new(2000, :vmk)
+  #MAX_TIMEUNITS = 3
 
   MONEY_CLEAN = 2
   MONEY_DIRTY = 1
 
-  TIMEUNITS_TIERS_HOURS = [1, 3, 6]
+  #TIMEUNITS_TIERS_HOURS = [1, 3, 6]
 
   def open_shift(opening=Time.now.utc)
     self.update(opening: opening)
@@ -22,12 +22,12 @@ class NpcShift < ActiveRecord::Base
     @money_paid = (self.hours_to_money > 0) ? self.money_paid : true
   end
 
-  def time_paid?
-    @time_paid = (self.hours_to_time > 0) ? self.time_paid : true
-  end
+  # def time_paid?
+  #   @time_paid = (self.hours_to_time > 0) ? self.time_paid : true
+  # end
 
   def unallocated_hours
-    @unallocated_hours = self.max_hours - self.hours_to_money - self.hours_to_time
+    @unallocated_hours = self.max_hours - self.hours_to_money# - self.hours_to_time
   end
 
   def max_hours
@@ -53,7 +53,8 @@ class NpcShift < ActiveRecord::Base
                               shift times verified (currently: #{self.verified?}) and \
                               event paid for (currently: #{self.character_event.paid?})")
     else
-      if (self.hours_to_money > 0) && !self.money_paid?
+      self.assign_hours(money=self.max_hours)
+      unless self.money_paid?
         # How much did they earn?
         pay_rate = (self.dirty? ? MONEY_CLEAN + MONEY_DIRTY : MONEY_CLEAN) * 100
         uncapped_payment = Money.new(self.hours_to_money * pay_rate, :vmk)
@@ -77,26 +78,26 @@ class NpcShift < ActiveRecord::Base
         self.update(money_paid: true)
       end
 
-      if (self.hours_to_time > 0) && !self.time_paid?
-        # How much did they earn?
-        uncapped_time = TIMEUNITS_TIERS_HOURS.rindex { |i| self.hours_to_time >= i } + 1
-        # Respect the per-event cap for payments
-        capped_time = [MAX_TIMEUNITS-self.character_event.accumulated_npc_timeunits, uncapped_time].min
+      # if (self.hours_to_time > 0) && !self.time_paid?
+      #   # How much did they earn?
+      #   uncapped_time = TIMEUNITS_TIERS_HOURS.rindex { |i| self.hours_to_time >= i } + 1
+      #   # Respect the per-event cap for payments
+      #   capped_time = [MAX_TIMEUNITS-self.character_event.accumulated_npc_timeunits, uncapped_time].min
 
-        if capped_time > 0
-          self.character_event.accumulated_npc_timeunits += capped_time
-          self.character_event.character.unused_talents += capped_time
-          self.character_event.save && self.character_event.character.save
-        end
+      #   if capped_time > 0
+      #     self.character_event.accumulated_npc_timeunits += capped_time
+      #     self.character_event.character.unused_talents += capped_time
+      #     self.character_event.save && self.character_event.character.save
+      #   end
 
-        #Return unused hours if needed.
-        if uncapped_time != capped_time
-          overtime = uncapped_time - capped_time
-          unused_hours = TIMEUNITS_TIERS_HOURS[overtime-1]
-          self.update(hours_to_time: self.hours_to_time-unused_hours)
-        end
-        self.update(time_paid: true)
-      end
+      #   #Return unused hours if needed.
+      #   if uncapped_time != capped_time
+      #     overtime = uncapped_time - capped_time
+      #     unused_hours = TIMEUNITS_TIERS_HOURS[overtime-1]
+      #     self.update(hours_to_time: self.hours_to_time-unused_hours)
+      #   end
+      #   self.update(time_paid: true)
+      # end
     end
   end
 

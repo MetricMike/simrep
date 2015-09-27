@@ -23,15 +23,26 @@ ActiveAdmin.register Event do
 
   csv_importable :columns => [:campaign, :weekend, :play_exp, :clean_exp]
 
-  sidebar "Attending Characters", only: :show do
-    para "#{resource.characters.count} Attended"
-    para "#{resource.paying_characters.count} Paid"
-    para "#{resource.new_characters.count} New"
-    table_for event.character_events.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
-      column(:character, sortable: false) { |t| link_to Character.find(t.character_id).name, admin_character_path(t.character_id) }
-      column :paid
-      column :cleaned
-      column :awarded
+  show do
+    attributes_table do
+      row :id
+      row :campaign
+      row :weekend
+      row :play_exp
+      row :clean_exp
+      row :created_at
+      row :updated_At
+    end
+    panel "Attending Characters", only: :show do
+      para "#{resource.characters.count} Attended"
+      para "#{resource.paying_characters.count} Paid"
+      para "#{resource.new_characters.count} New"
+      table_for event.character_events.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
+        column(:character, sortable: false) { |t| link_to Character.find(t.character_id).name, admin_character_path(t.character_id) }
+        column :paid
+        column :cleaned
+        column :awarded
+      end
     end
   end
 

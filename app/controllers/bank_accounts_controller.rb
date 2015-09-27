@@ -13,6 +13,7 @@ class BankAccountsController < ApplicationController
     @bank_account = BankAccount.find_by id: params[:id]
     @transactions = @bank_account.transactions.select(&:persisted?)
     @items = @bank_account.items.select(&:persisted?)
+    @crafting_points = @bank_account.owner.crafting_points.select(&:persisted?)
     @bank_account_transaction = @bank_account.outgoing_transactions.build()
     authorize @bank_account
   end

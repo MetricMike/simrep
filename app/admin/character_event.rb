@@ -54,6 +54,18 @@ ActiveAdmin.register CharacterEvent do
     redirect_to collection_path, notice: [ids, inputs].to_s
   end
 
+  batch_action :mass_kill, form: {
+    description:  :text,
+    physical:     :text,
+    roleplay:     :text,
+  } do |ids, inputs|
+    batch_action_collection.find(ids).each do |ce|
+      inputs[:date] = ce.event.weekend
+      ce.character.deaths.create(inputs)
+    end
+    redirect_to collection_path, notice: [ids, inputs].to_s
+  end
+
   controller do
     def scoped_collection
       super.includes :character, :event

@@ -24,6 +24,8 @@ class CharactersController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
+        @character.attend_event(Event.order(weekend: :desc).first.id)
+        @last_event = @character.events.order(weekend: :desc).pluck(:weekend).first.strftime("%Y %b %d")
         render  pdf:            "#{@filename}",
                 template:       "characters/show.html.erb",
                 grayscale:      true,

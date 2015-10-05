@@ -148,8 +148,8 @@ class Character < ActiveRecord::Base
 
   def award_cleaned(char_event, bool=false, check_coupon=false)
     if (bool.nil? && check_coupon.present?)
-      clean_coupon = Event.where(id: self.user.free_cleaning_event_id)
-      if (clean_coupon.empty? || clean_coupon.weekend <= 1.year.ago)
+      clean_coupon = Event.where(id: self.user.free_cleaning_event_id).first
+      if (clean_coupon.nil? || clean_coupon.weekend <= 1.year.ago)
         self.user.update(free_cleaning_event_id: char_event.event_id)
         bool = true
       end

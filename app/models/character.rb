@@ -48,11 +48,11 @@ class Character < ActiveRecord::Base
   validates :culture, inclusion: { in: CULTURES }
   validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :perm_chance, numericality: { only_integer: true }, inclusion: { in: DEATH_PERCENTAGES }
-  validates :perm_counter, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
 
   before_create :turn_off_nested_callbacks
-  after_create :turn_on_nested_callbacks, :record_deaths, :open_bankaccount
+  after_create :turn_on_nested_callbacks, :open_bankaccount
+
+  attr_writer :perm_chance, :perm_counter
 
   def level
     @level = EXP_CHART.rindex { |i| self.experience >= i }
@@ -120,22 +120,6 @@ class Character < ActiveRecord::Base
   #  @history_approval ? "official" : "unofficial"
   #end
 
-  def increment_death
-    index = [DEATH_PERCENTAGES.index(self.perm_chance) + 1, DEATH_PERCENTAGES.size - 1].min
-    self.perm_chance = DEATH_PERCENTAGES[index]
-    self.perm_counter = DEATH_COUNTER[index]
-  end
-
-  def decrement_death
-    if self.perm_counter == 0
-      index = [DEATH_PERCENTAGES.index(self.perm_chance) - 1, 0].max
-      self.perm_chance = DEATH_PERCENTAGES[index]
-      self.perm_counter = DEATH_COUNTER[index]
-    else
-      self.perm_counter -= 1
-    end
-  end
-
   def attend_event(event_id, paid=false, cleaned=false, check_coupon=false, override=false)
     attendance = self.character_events.find_or_initialize_by(event_id: event_id)
     award_paid(attendance, (paid || override))
@@ -157,33 +141,55 @@ class Character < ActiveRecord::Base
     char_event.update(cleaned: bool)
   end
 
+  def perm_counter
+    @perm_counter.present? ? @perm_counter : record_deaths; @perm_counter
+  end
+
+  def perm_chance
+    @perm_chance.present? ? @perm_chance : record_deaths; @perm_chance
+  end
+
   def record_deaths
-    self.perm_counter = 0
-    self.perm_chance = 0
+    @perm_chance = 0
+    @perm_counter = 0
 
-    deaths = self.deaths.order(date: :desc).to_a
+    deaths = self.deaths.countable.latest.to_a
+    next_death = deaths.try(:pop)
+    while prev_death = next_death
+      next_death = deaths.try(:pop)
+      self.increment_death if prev_death
 
-    while current_death = deaths.try(:pop)
-      self.increment_death
-      unless deaths.empty?
-        num_to_decrement = self.events.where(weekend: (current_death.date)..(deaths.first.date)).count #what if there are no more deaths?
-        num_to_decrement.times { self.decrement_death }
-      else
-        current_death.events_since.times { self.decrement_death }
+      if next_death
+        # I'm not crazy about how this reads. It feels backwards, but it's 0121 on a weeknight.
+        prev_death.events_since(next_death.weekend).times { self.decrement_death }
+      else #most recent death
+        prev_death.events_since.times {self.decrement_death }
       end
     end
-
-    self.save
   end
   alias_method :recount_deaths, :record_deaths
 
+  def increment_death
+    index = [DEATH_PERCENTAGES.index(@perm_chance) + 1, DEATH_PERCENTAGES.size - 1].min
+    @perm_chance = DEATH_PERCENTAGES[index]
+    @perm_counter = DEATH_COUNTER[index]
+  end
+
+  def decrement_death
+    if @perm_counter == 0
+      index = [DEATH_PERCENTAGES.index(@perm_chance) - 1, 0].max
+      @perm_chance = DEATH_PERCENTAGES[index]
+      @perm_counter = DEATH_COUNTER[index]
+    else
+      @perm_counter -= 1
+    end
+  end
+
   def turn_off_nested_callbacks
-    Death.skip_callback(:create, :after, :record_death)
     ProjectContribution.skip_callback(:create, :before, :invest_talent)
   end
 
   def turn_on_nested_callbacks
-    Death.set_callback(:create, :after, :record_death, if: :affects_perm_chance?)
     ProjectContribution.set_callback(:create, :before, :invest_talent)
   end
 

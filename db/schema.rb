@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150927163315) do
+ActiveRecord::Schema.define(version: 20151112064023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,8 +138,6 @@ ActiveRecord::Schema.define(version: 20150927163315) do
     t.boolean  "history_approval", default: false
     t.string   "history_link",     default: "https://drive.google.com/open?id=1MCJQU6CIV4UDPtRTmYJRpwfBaHW9AzcCCGL9duw7-RQ&authuser=0"
     t.integer  "unused_talents",   default: 0
-    t.integer  "perm_chance",      default: 0
-    t.integer  "perm_counter",     default: 0
   end
 
   add_index "characters", ["user_id"], name: "index_characters_on_user_id", using: :btree
@@ -159,10 +157,11 @@ ActiveRecord::Schema.define(version: 20150927163315) do
     t.text     "description"
     t.string   "physical"
     t.string   "roleplay"
-    t.date     "date"
+    t.date     "weekend"
     t.integer  "character_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "countable",    default: true
   end
 
   add_index "deaths", ["character_id"], name: "index_deaths_on_character_id", using: :btree

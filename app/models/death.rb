@@ -2,33 +2,20 @@ class Death < ActiveRecord::Base
   has_paper_trail
   belongs_to :character, inverse_of: :deaths
 
-  scope :latest, -> { order(date: :desc) }
+  scope :latest,    -> { order(weekend: :desc) }
+  scope :countable, -> { where(countable: true) }
 
-  validates :description, :physical, :roleplay, :date, presence: true
+  validates :description, :physical, :roleplay, :weekend, presence: true
 
-  after_create :record_death, if: :affects_perm_chance?
-
-  def events_since
+  def events_since(weekend = Date.today)
+    # The event of the death doesn't count, but the current event does
+    # MICHAEL DO NOT CHANGE THIS AGAIN, OTHERWISE YOU WILL HAVE PCs WHO THINK THEY
+    # HAVE A HIGHER DEATH THAN THEY REALLY DO
     current_character = Character.find(self.character_id)
-    current_character.events.where(weekend: (self.date+5.days)..5.days.ago).count
-  end
-
-  def affects_perm_chance=(bool)
-    @affects_perm_chance = bool
-  end
-
-  def affects_perm_chance?
-    @affects_perm_chance ||= true
-  end
-
-  def record_death
-    current_character = Character.find(self.character_id)
-    current_character.increment_death
-    self.events_since.times { current_character.decrement_death }
-    current_character.save
+    current_character.character_events.paid.after(self.weekend+5.days).before(weekend).count
   end
 
   def display_name
-    "#{self.character}'s Death on #{self.date} - #{self.description}"
+    "#{self.character}'s Death on #{self.weekend} - #{self.description}"
   end
 end

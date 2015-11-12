@@ -41,8 +41,6 @@ ActiveAdmin.register Character do
     column :costume
     column :history_approval
     column :unused_talents
-    column :perm_chance
-    column :perm_counter
     actions
   end
 

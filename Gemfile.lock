@@ -58,7 +58,6 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    ansi (1.5.0)
     arbre (1.0.3)
       activesupport (>= 3.0.0)
     arel (6.0.3)
@@ -112,6 +111,11 @@ GEM
       dotenv (= 2.0.1)
     erubis (2.7.0)
     execjs (2.6.0)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
     faker (1.4.3)
       i18n (~> 0.5)
     formtastic (3.1.3)
@@ -123,10 +127,6 @@ GEM
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
       posix-spawn (~> 0.3.6)
-    guard-compat (1.2.1)
-    guard-minitest (2.4.4)
-      guard-compat (~> 1.2)
-      minitest (>= 3.0)
     has_scope (0.6.0)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
@@ -147,9 +147,6 @@ GEM
       pry-doc (~> 0.6)
       pry-git (~> 0.2)
       pry-remote (>= 0.1.7)
-    jbuilder (2.2.16)
-      activesupport (>= 3.0.0, < 5)
-      multi_json (~> 1.2)
     jquery-rails (4.0.5)
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
@@ -166,16 +163,8 @@ GEM
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
     mime-types (1.25.1)
-    mini_backtrace (0.1.3)
-      minitest (> 1.2.0)
-      rails (>= 2.3.3)
     mini_portile (0.6.2)
     minitest (5.8.1)
-    minitest-reporters (1.0.16)
-      ansi
-      builder
-      minitest (>= 5.0)
-      ruby-progressbar
     monetize (1.1.0)
       money (~> 6.5.0)
     money (6.5.1)
@@ -185,7 +174,6 @@ GEM
       monetize (~> 1.1.0)
       money (~> 6.5.0)
       railties (>= 3.0)
-    multi_json (1.11.0)
     newrelic_rpm (3.12.0.288)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
@@ -265,11 +253,25 @@ GEM
       i18n
       polyamorous (~> 1.2)
     rb-readline (0.5.3)
-    rdoc (4.2.0)
-      json (~> 1.4)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    ruby-progressbar (1.7.5)
+    rspec-core (3.4.1)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-mocks (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-rails (3.4.0)
+      actionpack (>= 3.0, < 4.3)
+      activesupport (>= 3.0, < 4.3)
+      railties (>= 3.0, < 4.3)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+      rspec-support (~> 3.4.0)
+    rspec-support (3.4.1)
     sass (3.4.18)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -277,9 +279,6 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    sdoc (0.4.1)
-      json (~> 1.7, >= 1.7.7)
-      rdoc (~> 4.0)
     simple_form (3.1.0)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
@@ -289,7 +288,6 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
     slop (3.6.0)
-    spring (1.3.6)
     sprockets (3.3.4)
       rack (~> 1.0)
     sprockets-rails (2.3.3)
@@ -329,7 +327,6 @@ DEPENDENCIES
   active_admin_csv_import
   active_admin_datetimepicker
   activeadmin!
-  bcrypt
   better_errors
   binding_of_caller
   bootstrap-sass
@@ -338,30 +335,27 @@ DEPENDENCIES
   coffee-rails
   devise
   dotenv-rails
+  factory_girl_rails
   faker
-  guard-minitest
   high_voltage
   jazz_fingers
-  jbuilder
   jquery-rails
-  mini_backtrace
-  minitest-reporters
+  jquery-ui-rails
   money-rails
   newrelic_rpm
   paper_trail
   passenger
   pg
-  pry
+  pry-byebug
   pry-rails
   pundit
   quiet_assets
   rails
   rails_12factor
   rb-readline
+  rspec-rails
   sass-rails
-  sdoc
   simple_form
-  spring
   turbolinks
   uglifier
   web-console
@@ -369,4 +363,4 @@ DEPENDENCIES
   wkhtmltopdf-binary
 
 BUNDLED WITH
-   1.10.3
+   1.10.6

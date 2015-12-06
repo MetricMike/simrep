@@ -10,10 +10,9 @@ ActiveAdmin.register_page "Dashboard" do
 
     panel "Recently updated content" do
       table_for PaperTrail::Version.order(id: :desc).limit(20) do
-        column ("Model") { |v| v.item_type }
+        column ("Item") { |v| link_to_if v.item, "#{v.item_type} :##{v.item_id}", [:admin, v.item] }
         column ("Event") { |v| v.event }
         column ("Details") { |v| v.changeset }
-        column ("Object ID") { |v| link_to_if v.item, v.item_id, [:admin, v.item] }
         column ("Modified at") { |v| v.created_at.to_s :long }
         column ("Modified by") { |v| User.where(id: v.whodunnit).try(:first).try(:display_name) }
       end

@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :name
   end
 
+  def user_for_paper_trail
+    current_user ? current_user.try(:id) : User.find(1)
+  end
+
   def pundit_user
     UserWithCharacterContext.new(current_user, current_character)
   end

@@ -2,53 +2,71 @@ source 'https://rubygems.org'
 
 ruby '2.2.3'
 
+# Core Binaries
 gem 'rails'
-gem 'bcrypt'
-gem 'faker'
+gem 'pg'
+gem 'passenger'
+gem 'dotenv-rails'
+
+gem 'high_voltage'
+
+# Assets
 gem 'bootstrap-sass'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'coffee-rails'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'turbolinks'
-gem 'jbuilder'
-gem 'sdoc'
-gem 'high_voltage'
-gem 'devise'
 gem 'simple_form'
+
+# Auth[en|or]
+gem 'devise'
 gem 'pundit'
-gem 'cocoon'
-gem 'activeadmin', github: 'activeadmin'
+
+# Analytics
+gem 'newrelic_rpm'
 gem 'paper_trail'
-gem 'pg'
-gem 'passenger'
-gem 'active_admin_csv_import'
+
+# PDF Handling
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
-gem 'dotenv-rails'
-gem 'web-console'
-gem "binding_of_caller"
+
+# Currency handling
 gem 'money-rails'
-gem 'pry-rails'
-gem 'newrelic_rpm'
+
+# ActiveAdmin and Friends
+gem 'activeadmin', github: 'activeadmin'
+gem 'cocoon' #needed for associations
+gem 'active_admin_csv_import'
 gem 'active_admin_datetimepicker'
 
+# Console and Error handling
+# Yeah, this should go in dev/test, but I'm a bad person
+# and do live edits in production.
+gem 'web-console'
+gem "binding_of_caller"
+gem 'jazz_fingers'
+gem 'pry-rails'
+gem 'pry-byebug'
+
 group :development, :test do
-  gem 'jazz_fingers'
+  # Better Console
   gem 'rb-readline', require: false
-  gem "better_errors"
-  gem 'spring'
   gem 'quiet_assets'
+
+  # Better Testing
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+
+  gem "better_errors"
+  gem 'faker'
 end
 
 group :test do
-  gem 'minitest-reporters'
-  gem 'mini_backtrace'
-  gem 'guard-minitest'
   gem "codeclimate-test-reporter", group: :test, require: nil
 end
 
 group :production do
   gem 'rails_12factor'
-  gem 'pry'
 end

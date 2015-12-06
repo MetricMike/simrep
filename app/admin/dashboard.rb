@@ -3,8 +3,13 @@ ActiveAdmin.register_page "Dashboard" do
   menu :priority => 1, :label => proc{ I18n.t("active_admin.dashboard") }
 
   content :title => proc{ I18n.t("active_admin.dashboard") } do
-    panel "ActiveAdmin" do
-      para %(Currently deployed: #{`git describe --tags --abbrev=0`}, #{link_to(`git rev-parse --short HEAD`, "https://github.com/metricmike/simrep/commit/#{`git rev-parse HEAD`}")}).html_safe
+    panel "App Status" do
+      para %(Currently deployed: #{link_to(SimRep::Application::Version,
+                                 "https://github.com/MetricMike/simrep/releases/tag/v#{SimRep::Application::Version}")}).html_safe
+    end
+
+    panel "Recently updated content" do
+
     end
   end
 

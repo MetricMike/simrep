@@ -30,6 +30,16 @@ ActiveAdmin.register Character do
     link_to 'View on Site', character_path(character)
   end
 
+  member_action :history do
+    @character = Character.find(params[:id])
+    @versions = @character.versions
+    render "admin/shared/history"
+  end
+
+  action_item :history, only: :show do
+    link_to "Version History", history_admin_character_path(resource)
+  end
+
   index do
     selectable_column
     column :id do |c|
@@ -183,7 +193,16 @@ ActiveAdmin.register Character do
         create!
       end
     end
+
+    def show
+      @character = Character.includes(versions: :item).find(params[:id])
+      @versions = @character.versions
+      @character = @character.versions[params[:version].to_i].reify if params[:version]
+      show!
+    end
   end
+
+  sidebar :versionate, :partial => "admin/shared/version", :only => :show
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

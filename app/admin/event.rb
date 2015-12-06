@@ -16,6 +16,16 @@ ActiveAdmin.register Event do
     link_to "Award Attendance", award_attendance_admin_event_path(resource)
   end
 
+  member_action :history do
+    @event = Event.find(params[:id])
+    @versions = @event.versions
+    render "admin/shared/history"
+  end
+
+  action_item :history, only: :show do
+    link_to "Version History", history_admin_event_path(resource)
+  end
+
   filter :campaign
   filter :play_exp
   filter :clean_exp
@@ -45,6 +55,17 @@ ActiveAdmin.register Event do
       end
     end
   end
+
+  controller do
+    def show
+      @event = Event.includes(versions: :item).find(params[:id])
+      @versions = @event.versions
+      @event = @event.versions[params[:version].to_i].reify if params[:version]
+      show!
+    end
+  end
+
+  sidebar :versionate, :partial => "admin/shared/version", :only => :show
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

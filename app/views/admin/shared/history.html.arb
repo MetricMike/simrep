@@ -1,0 +1,9 @@
+panel "History" do
+  table_for assigns[:versions] do
+    column :created_at
+    column :event
+    column :id
+    column :changeset
+    column :whodunnit
+  end
+end

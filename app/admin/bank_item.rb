@@ -31,6 +31,27 @@ ActiveAdmin.register BankItem do
     end
   end
 
+  member_action :history do
+    @bank_item = BankItem.find(params[:id])
+    @versions = @bank_item.versions
+    render "admin/shared/history"
+  end
+
+  action_item :history, only: :show do
+    link_to "Version History", history_admin_bank_item_path(resource)
+  end
+
+  controller do
+    def show
+      @bank_item = BankItem.includes(versions: :item).find(params[:id])
+      @versions = @bank_item.versions
+      @bank_item = @bank_item.versions[params[:version].to_i].reify if params[:version]
+      show!
+    end
+  end
+
+  sidebar :versionate, :partial => "admin/shared/version", :only => :show
+
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #

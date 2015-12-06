@@ -101,20 +101,25 @@ ActiveAdmin.register User do
 
       redirect_to admin_user_path(@user)
     end
+
+    def show
+      @user = User.includes(versions: :item).find(params[:id])
+      @versions = @user.versions
+      @user = @user.versions[params[:version].to_i].reify if params[:version]
+      show!
+    end
   end
 
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if resource.something?
-#   permitted
-# end
+  member_action :history do
+    @user = User.find(params[:id])
+    @versions = @user.versions
+    render "admin/shared/history"
+  end
 
+  action_item :history, only: :show do
+    link_to "Version History", history_admin_user_path(resource)
+  end
+
+  sidebar :versionate, :partial => "admin/shared/version", :only => :show
 
 end

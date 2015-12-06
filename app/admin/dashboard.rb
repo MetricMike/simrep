@@ -15,7 +15,7 @@ ActiveAdmin.register_page "Dashboard" do
         column ("Details") { |v| v.changeset }
         column ("Object ID") { |v| link_to_if v.item, v.item_id, [:admin, v.item] }
         column ("Modified at") { |v| v.created_at.to_s :long }
-        column ("Modified by") { |v| v.whodunnit }
+        column ("Modified by") { |v| User.where(id: v.whodunnit).try(:first).try(:display_name) }
       end
     end
   end

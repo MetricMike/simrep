@@ -6,9 +6,9 @@ Rails.application.routes.draw do
     patch "/confirm" => "confirmations#confirm"
   end
 
-  resources :characters
+  resources :characters, except: [:edit, :update, :destroy]
   resources :projects
-  resources :bank_accounts
+  resources :bank_accounts, except: [:edit, :update, :destroy]
   resources :npc_shifts
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

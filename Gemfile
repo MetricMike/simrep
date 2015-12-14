@@ -58,6 +58,7 @@ group :development, :test do
   # Better Testing
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'fuubar'
 
   gem "better_errors"
   gem 'faker'

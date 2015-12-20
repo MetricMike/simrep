@@ -55,16 +55,21 @@ group :development, :test do
   gem 'rb-readline', require: false
   gem 'quiet_assets'
 
-  # Better Testing
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
-  gem 'fuubar'
 
   gem "better_errors"
   gem 'faker'
 end
 
 group :test do
+  # Better Testing
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
+  gem 'shoulda-matchers'
+  gem 'database'
+
+  gem 'fuubar'
+
   gem "codeclimate-test-reporter", group: :test, require: nil
 end
 

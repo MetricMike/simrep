@@ -1,19 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe NpcShift, type: :model do
+  # During an event, a player can "work for the bank" and play NPCs. Typically,
+  # they'll log their starting time and ending time and be paid for that work.
+  # If they NPC for a continuous 3 hours, they also have the option to overtime.
+
   describe "the structure of an NpcShift" do
-    let(:boring_npc_shift) { build_stubbed(:npc_shift, :with_associations) }
-    let(:stuffed_npc_shift) { build_stubbed(:npc_shift, :with_hours) }
 
     it "is associated with a character and event" do
       # An equal, but more flexible example would test character and event
       # associations separately
-      expect(boring_npc_shift).to belong_to(:character_event)
+      expect(NpcShift).to belong_to(:character_event)
+    end
+
+    it "only allows one shift to be open at a time" do
+      some_character_event = CharacterEvent.first
+      first_shift = NpcShift.create!(character_event: some_character_event)
+      first_shift.open_shift
+      expect(NpcShift.create!(character_event: some_character_event)).to raise ActiveRecord::RecordInvalid
     end
 
     context "for the number of hours it tracks" do
-      it "counts how many have already been awarded" do
-        expect(stuffed_npc_shift).to receive(:unallocated_hours)
+      it "awards after closing" do
       end
     end
   end

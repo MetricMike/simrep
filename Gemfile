@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.3'
+ruby '2.3.0'
 
 # Core Binaries
 gem 'rails'
@@ -35,6 +35,9 @@ gem 'wkhtmltopdf-binary'
 # Currency handling
 gem 'money-rails'
 
+# Convenience Methods
+gem 'rounding'
+
 # ActiveAdmin and Friends
 gem 'activeadmin', github: 'activeadmin'
 gem 'cocoon' #needed for associations
@@ -66,10 +69,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
-  gem 'database'
-
   gem 'fuubar'
-
   gem "codeclimate-test-reporter", group: :test, require: nil
 end
 

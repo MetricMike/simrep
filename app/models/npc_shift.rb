@@ -3,10 +3,9 @@ class NpcShift < ActiveRecord::Base
   belongs_to :character_event, inverse_of: :npc_shifts
 
   delegate :character, :event, :accumulated_npc_money, to: :character_event
-  alias_method :etd_pay, :accumulated_npc_money
+  alias_method :etd_pay, :accumulated_npc_money # event-to-date (like ytd)
 
   MAX_MONEY = Money.new(2000, :vmk)
-  PAY_MEMO_MSG = "Bank Work (Shift ##{self.id}) for #{self.event.weekend}."
   LIMIT_REACHED_MSG = "Bank Contract limits contractors to #{MAX_MONEY} per market day."
 
   MONEY_CLEAN = 2
@@ -14,6 +13,10 @@ class NpcShift < ActiveRecord::Base
 
   validates_presence_of :character_event
   validate :disable_simultaneous_shifts
+
+  def pay_memo_msg
+    @pay_memo_msg ||= "Bank Work (Shift ##{self.id}) for #{self.event.weekend}."
+  end
 
   def disable_simultaneous_shifts
     if another_already_opened?
@@ -38,43 +41,35 @@ class NpcShift < ActiveRecord::Base
     issue_awards_for_shift!
   end
 
-  def money_paid?
-    @money_paid = (self.hours_to_money > 0) ? self.money_paid : true
+  def actual_pay
   end
 
-  def unallocated_hours
-    @unallocated_hours = self.max_hours - self.hours_to_money# - self.hours_to_time
+  def net_pay
+    return Money.new(0, :vmk) if self.closing == nil
+    @net_pay ||= [gross_pay, MAX_MONEY-etd_pay].min
   end
 
-  def max_hours
-    if self.opening and self.closing
-      @max_hours = (self.closing - self.opening).round.to_i / (60*60)
-    else
-      @max_hours = 0
-    end
+  def current_event?
+    self.character.last_event == self.event
   end
-
-  def assign_hours(money=0, time=0)
-    if money+time <= self.max_hours
-      self.update(hours_to_money: money, hours_to_time: time)
-    else
-      self.errors.add(:base, "Tried to assign #{money+time} hours, but only earned #{self.max_hours}.")
-      return false
-    end
-  end
-
-  private
 
   def shift_length # in hours as a float so we can do partial payments
     (self.closing - self.opening).to_f / 60*60
   end
 
+  private
+
+  def gross_pay
+    @gross_pay ||= Money.new(shift_length * @pay_rate, :vmk)
+  end
+
+  def pay_rate # hourly
+    @pay_rate ||= (self.dirty? ? MONEY_CLEAN + MONEY_DIRTY : MONEY_CLEAN) * 100
+  end
+
+
   def issue_awards_for_shift!
-    pay_rate = (self.dirty? ? MONEY_CLEAN + MONEY_DIRTY : MONEY_CLEAN) * 100 # hourly
-    gross_pay = Money.new(shift_length * pay_rate, :vmk)
     # Respect the per-event cap for payments
-    etd_pay = self.character_event.accumulated_npc_money # event-to-date (like ytd)
-    net_pay = [gross_pay, MAX_MONEY-etd_pay].min
     memo_msg = (net_pay > Money.new(0, :vmk)) ? PAY_MEMO_MSG : "#{PAY_MEMO_MSG}\n#{LIMIT_REACHED_MSG}"
 
     ActiveRecord::Base.transaction do
@@ -82,6 +77,7 @@ class NpcShift < ActiveRecord::Base
       BankTransaction.create!(to_account: BankAccount.find_by(owner: self.character),
                               funds: net_pay,
                               memo: memo_msg)
+      self.update(real_pay: net_pay)
     end
   end
 

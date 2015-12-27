@@ -1,7 +1,11 @@
-<tr class="<%= "bg-info" if npc_shift.verified %>" id="npc-shift-<%= npc_shift.id %>">
+<tr class="<%= "bg-info" if npc_shift.recent_event? %>" id="npc-shift-<%= npc_shift.id %>">
   <td><%= npc_shift.opening %></td>
-  <td><%= npc_shift.closing.present? ? "#{npc_shift.closing}" : "" %></td>
-  <td><%= npc_shift.verified? ? "Yes" : "No" %></td>
-  <td><%= (npc_shift.money_paid? || npc_shift.time_paid?) ? "Yes" : "No" %></td>
-  <td><%= link_to("End Shift", npc_shift_path(npc_shift)) unless npc_shift.money_paid? %></td>
+  <% unless npc_shift.closing.present? %>
+    <td><%= npc_shift.shift_length %></td>
+    <td><%= npc_shift.net_pay %></td>
+    <td><%= link_to("End Shift", npc_shift_path(npc_shift)) %></td>
+  <% else %>
+    <td><%= npc_shift.closing %></td>
+    <td><%= npc_shift.net_pay %></td>
+  <% end %>
 </li>

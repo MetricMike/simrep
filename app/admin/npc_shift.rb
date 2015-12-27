@@ -42,20 +42,6 @@ ActiveAdmin.register NpcShift do
     f.actions
   end
 
-  batch_action :verify_shift do |ids|
-    batch_action_collection.find(ids).each do |shift|
-      shift.update(verified: true)
-    end
-    redirect_to collection_path, notice: [ids].to_s
-  end
-
-  batch_action :issue_awards do |ids|
-    batch_action_collection.find(ids).each do |shift|
-      shift.issue_awards_for_shift
-    end
-    redirect_to collection_path, notice: [ids].to_s
-  end
-
   member_action :history do
     @npc_shift = NpcShift.find(params[:id])
     @versions = @npc_shift.versions

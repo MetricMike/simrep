@@ -14,41 +14,38 @@ class NpcShiftsController < ApplicationController
     @npc_shift.close_shift unless @npc_shift.closing.present?
   end
 
-  def new
-    @npc_shift = current_character.character_events.find_by(event: current_character.last_event).npc_shifts.new
-    authorize @npc_shift
-
-    if @npc_shift.save and @npc_shift.open_shift
-      redirect_to npc_shifts_path, notice: 'Shift started successfully'
-    else
-      redirect_to npc_shifts_path, notice: "Could not start shift"
-    end
-  end
+  # def new
+  #   I can't imagine a situation where a npc_shifts#new is called. I expect
+  #   players to hit create or not at all. If I need more complicated behavior
+  #   (re: anything other than a simple start), go to the command line.
+  # end
 
   # def edit
-  #   Same-page rendering done in #show
+  #   See #new
   # end
 
   def create
-    @npc_shift = NpcShift.new(npc_shift_params)
+    @npc_shift = NpcShift.new(character_event: most_recent_cevent)
     authorize @npc_shift
 
-    if @npc_shift.save
-      redirect_to @npc_shift, notice: 'Npc_shift created successfully.'
+    if @npc_shift.save && @npc_shift.open_shift
+      redirect_to @npc_shift, notice: 'Opened NPC Shift successfully.'
     else
+      flash[:error] = "Something went wrong: #{@npc_shift.errors.messages}\nfind HF TinyMouse!"
       render action: :new
     end
   end
 
   def update
+    # CLose or bust. If you want anything more complicated, gtfo and command line.
     @npc_shift = NpcShift.find_by id: params[:id]
     authorize @npc_shift
 
-    # Try updating npc_shift
-    if @npc_shift.assign_hours(npc_shift_params[:hours_to_money].to_i, npc_shift_params[:hours_to_time].to_i)
-      redirect_to @npc_shift, notice: 'Npc_shift updated successfully.'
+    # Try closing npc_shift
+    if @npc_shift.close_shift
+      redirect_to @npc_shift, notice: 'Closed NPC Shift successfully.'
     else
-      flash[:notice] = "NPC Shift failed to update with the following error: #{@npc_shift.errors.messages}"
+      flash[:notice] = "Something went wrong: #{@npc_shift.errors.messages}\nfind HF TinyMouse!"
       render action: :show
     end
   end
@@ -59,8 +56,12 @@ class NpcShiftsController < ApplicationController
 
   private
 
-  def npc_shift_params
-    params.require(:npc_shift).permit! #aaahhhhhhhh
+  def what_cevent(character, event)
+    CharacterEvent.where(character: character, event: event).first
+  end
+
+  def most_recent_cevent
+    @most_recent_cevent ||= what_cevent(current_character, current_character.last_event)
   end
 
 end

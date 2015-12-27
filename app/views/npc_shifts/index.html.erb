@@ -10,17 +10,21 @@
   </aside>
   <div class="col-md-8">
     <% if @npc_shifts.any? %>
-      <h3>NPC Shifts (<%= @npc_shifts.count %>)</h3>
+      <h3>Total NPC Shifts (<%= @npc_shifts.count %>)</h3>
       <table class="table table-condensed table-hover table-responsive">
         <tr>
           <th>Starting Time</th>
-          <th>Ending Time</th>
-          <th>Verified?</th>
-          <th>Paid?</th>
-          <th/>
+          <th>Shift Length</th>
+          <th>Net Pay If Ended Now</th>
           <th/>
         </tr>
-        <%= render @npc_shifts %>
+        <%= render @npc_shifts.open %>
+        <tr>
+          <th>Starting Time</th>
+          <th>Ending Time</th>
+          <th>Amount Paid</th>
+        </tr>
+        <%= render @npc_shifts.recently_closed %>
       </table>
     <% end %>
   </div>

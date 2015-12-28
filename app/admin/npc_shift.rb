@@ -1,4 +1,5 @@
 ActiveAdmin.register NpcShift do
+  menu false
 
   index do
     selectable_column

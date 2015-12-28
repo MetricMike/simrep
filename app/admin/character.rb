@@ -1,4 +1,5 @@
 ActiveAdmin.register Character do
+  menu false
   config.paginate = false
 
   batch_action :attend_event, form: {

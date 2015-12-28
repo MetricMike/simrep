@@ -1,4 +1,5 @@
 ActiveAdmin.register CharacterOrigin do
+  menu false
   member_action :history do
     @character_origin = CharacterOrigin.find(params[:id])
     @versions = @character_origin.versions

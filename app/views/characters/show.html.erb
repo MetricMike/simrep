@@ -3,9 +3,9 @@
 <div class="row" id="actionrow">
   <%# link_to "Edit Character", edit_character_path(@character), class: 'btn btn-lg btn-primary', disabled: true %>
   <%# link_to "Retire Character", character_path(@character), confirm: "Are you sure you want to retire #{@character.name}?", method: :delete, class: 'btn btn-sm btn-danger', disabled: true %>
-  <%= link_to "Projects", projects_path(@character), class: 'btn btn-primary' %>
-  <%= link_to "Bank", bank_accounts_path(@character), class: 'btn btn-success' %>
-  <%= link_to "NPC", npc_shifts_path(@character), class: 'btn btn-primary' %>
+  <%= link_to "Projects", projects_path, class: 'btn btn-primary' %>
+  <%= link_to "Bank", bank_accounts_path, class: 'btn btn-success' %>
+  <%= link_to "NPC", npc_shifts_path, class: 'btn btn-primary' %>
   <%= link_to "Print", character_path(@character, format: :pdf), class: 'btn btn-info' %>
 </div>
 <div class="row" id="demographics">

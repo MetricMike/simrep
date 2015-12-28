@@ -1,5 +1,5 @@
 # Date
-Date::DATE_FORMATS[:default] = "%b %e, %y"
+Date::DATE_FORMATS[:default] = "%b %e, %Y"
 
 # Time
-Time::DATE_FORMATS[:default] = "%b,%e %y %l:%M%P"
+Time::DATE_FORMATS[:default] = "%b %e, %Y %l:%M%P"

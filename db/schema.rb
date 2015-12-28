@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112064023) do
+ActiveRecord::Schema.define(version: 20151227024015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,14 +181,11 @@ ActiveRecord::Schema.define(version: 20151112064023) do
     t.integer  "character_event_id"
     t.datetime "opening"
     t.datetime "closing"
-    t.integer  "hours_to_money",     default: 0
-    t.integer  "hours_to_time",      default: 0
-    t.boolean  "verified",           default: false
     t.boolean  "dirty",              default: false
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
-    t.boolean  "money_paid",         default: false
-    t.boolean  "time_paid",          default: false
+    t.integer  "real_pay_cents",     default: 0,     null: false
+    t.string   "real_pay_currency",  default: "VMK", null: false
   end
 
   create_table "origins", force: :cascade do |t|

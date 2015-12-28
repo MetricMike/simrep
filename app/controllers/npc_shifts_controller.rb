@@ -5,7 +5,7 @@ class NpcShiftsController < ApplicationController
   after_action :verify_policy_scoped, :only => :index
 
   def index
-    @npc_shifts = policy_scope(NpcShift)
+    @npc_shifts = policy_scope(NpcShift).order(opening: :desc)
   end
 
   def show
@@ -50,9 +50,9 @@ class NpcShiftsController < ApplicationController
     end
   end
 
-  def destroy
-    #will lock/archive npc_shift
-  end
+  # def destroy
+  #   #will lock/archive npc_shift
+  # end
 
   private
 

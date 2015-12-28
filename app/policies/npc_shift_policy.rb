@@ -1,7 +1,7 @@
 class NpcShiftPolicy < ApplicationPolicy
 
   def has_control?
-    @user.admin? or record.character_event.character == @character
+    @user.admin? or record.character == @character
   end
 
   class Scope < Scope

@@ -3,7 +3,7 @@
   <% unless npc_shift.closing.present? %>
     <td><%= npc_shift.shift_length %> hours</td>
     <td><%= humanized_money_with_symbol npc_shift.net_pay %></td>
-    <td><%= button_to("End Shift", npc_shift, method: :post, class: "btn btn-sm btn-success") %></td>
+    <td><%= button_to("End Shift", npc_shift, method: :patch, class: "btn btn-sm btn-success") %></td>
   <% else %>
     <td><%= npc_shift.closing %></td>
     <td><%= npc_shift.real_pay %></td>

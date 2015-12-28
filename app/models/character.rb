@@ -13,6 +13,7 @@ class Character < ActiveRecord::Base
   42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60]
   DEATH_PERCENTAGES = [0, 10, 30, 60, 90]
   DEATH_COUNTER = [0, 3, 2, 1, 0]
+  BASE_XP = 31
 
   scope :by_name_asc, -> { order(name: :asc) }
   scope :oldest, -> { order(created_at: :asc) }
@@ -75,7 +76,7 @@ class Character < ActiveRecord::Base
     pay_xp = self.character_events.paid_with_xp.pluck('events.play_exp').reduce(0, :+)
     clean_xp = self.character_events.cleaned_with_xp.pluck('events.clean_exp').reduce(0, :+)
     background_xp = (self.backgrounds.find { |b| b.name.start_with?("Experienced") }) ? 20 : 0
-    @experience = pay_xp + clean_xp + background_xp
+    @experience = BASE_XP + pay_xp + clean_xp + background_xp
   end
 
   def skill_points_used

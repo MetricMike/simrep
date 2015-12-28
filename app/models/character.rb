@@ -118,7 +118,7 @@ class Character < ActiveRecord::Base
   #end
 
   def attend_event(event_id, paid=false, cleaned=false, check_coupon=false, override=false)
-    attendance = self.character_events.find_or_initialize_by(event_id: event_id)
+    attendance = self.character_events.find_or_create_by(event_id: event_id)
     award_paid(attendance, (paid || override))
     award_cleaned(attendance, (cleaned || override), check_coupon)
   end

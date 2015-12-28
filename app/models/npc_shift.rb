@@ -8,11 +8,14 @@ class NpcShift < ActiveRecord::Base
   MAX_MONEY = Money.new(2000, :vmk)
   LIMIT_REACHED_MSG = "Bank Contract limits contractors to #{MAX_MONEY} per market day."
 
-  MONEY_CLEAN = 2
-  MONEY_DIRTY = 1
+  MONEY_CLEAN = Money.new(200, :vmk)
+  MONEY_DIRTY = Money.new(100, :vmk)
 
   validates_presence_of :character_event
   validate :disable_simultaneous_shifts
+
+  scope :open,            -> { where.not(opening: nil) }
+  scope :recently_closed, -> { where.not(closing: nil).order(closing: :desc).limit(5) }
 
   def pay_memo_msg
     @pay_memo_msg ||= "Bank Work (Shift ##{self.id}) for #{self.event.weekend}."
@@ -41,11 +44,7 @@ class NpcShift < ActiveRecord::Base
     issue_awards_for_shift!
   end
 
-  def actual_pay
-  end
-
   def net_pay
-    return Money.new(0, :vmk) if self.closing == nil
     @net_pay ||= [gross_pay, MAX_MONEY-etd_pay].min
   end
 
@@ -54,17 +53,18 @@ class NpcShift < ActiveRecord::Base
   end
 
   def shift_length # in hours as a float so we can do partial payments
-    (self.closing - self.opening).to_f / 60*60
+    shift_end = self.closing.present? ? self.closing : Time.now.ceil_to(15.minutes)
+    (shift_end - self.opening).to_f / (60*60)
   end
 
   private
 
   def gross_pay
-    @gross_pay ||= Money.new(shift_length * @pay_rate, :vmk)
+    @gross_pay ||= Money.new(shift_length * pay_rate, :vmk)
   end
 
   def pay_rate # hourly
-    @pay_rate ||= (self.dirty? ? MONEY_CLEAN + MONEY_DIRTY : MONEY_CLEAN) * 100
+    @pay_rate ||= (self.dirty? ? MONEY_CLEAN + MONEY_DIRTY : MONEY_CLEAN)
   end
 
 

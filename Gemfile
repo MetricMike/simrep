@@ -57,6 +57,7 @@ group :development, :test do
   # Better Console
   gem 'rb-readline', require: false
   gem 'quiet_assets'
+  gem 'bullet'
 
 
   gem "better_errors"

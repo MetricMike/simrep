@@ -14,7 +14,9 @@ class NpcShift < ActiveRecord::Base
   validates_presence_of :character_event
   validate :disable_simultaneous_shifts
 
-  scope :open,            -> { where.not(opening: nil) }
+  monetize :real_pay_cents
+
+  scope :open,            -> { where(closing: nil).where.not(opening: nil) }
   scope :recently_closed, -> { where.not(closing: nil).order(closing: :desc).limit(5) }
 
   def pay_memo_msg
@@ -70,7 +72,7 @@ class NpcShift < ActiveRecord::Base
 
   def issue_awards_for_shift!
     # Respect the per-event cap for payments
-    memo_msg = (net_pay > Money.new(0, :vmk)) ? PAY_MEMO_MSG : "#{PAY_MEMO_MSG}\n#{LIMIT_REACHED_MSG}"
+    memo_msg = (net_pay > Money.new(0, :vmk)) ? pay_memo_msg : "#{pay_memo_msg}\n#{LIMIT_REACHED_MSG}"
 
     ActiveRecord::Base.transaction do
       self.character_event.update(accumulated_npc_money: (etd_pay+net_pay))

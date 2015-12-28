@@ -16,6 +16,7 @@ class Character < ActiveRecord::Base
 
   scope :by_name_asc, -> { order(name: :asc) }
   scope :oldest, -> { order(created_at: :asc) }
+  scope :for_index, -> { includes(:events, :backgrounds) }
 
   belongs_to :user, inverse_of: :characters
 
@@ -71,15 +72,10 @@ class Character < ActiveRecord::Base
   end
 
   def experience
-    @experience = self.events.reduce(31) do |sum, event|
-      if event.weekend < (Time.now.utc - 3.days)
-        character_event = self.character_events.find_by :event_id => event.id
-        if character_event.paid then sum += event.play_exp end
-        if character_event.cleaned then sum += event.clean_exp end
-      end
-      sum
-    end
-    @experience += (self.backgrounds.find { |b| b.name.start_with?("Experienced") }) ? 20 : 0
+    pay_xp = self.character_events.paid_with_xp.pluck('events.play_exp').reduce(0, :+)
+    clean_xp = self.character_events.cleaned_with_xp.pluck('events.clean_exp').reduce(0, :+)
+    background_xp = (self.backgrounds.find { |b| b.name.start_with?("Experienced") }) ? 20 : 0
+    @experience = pay_xp + clean_xp + background_xp
   end
 
   def skill_points_used

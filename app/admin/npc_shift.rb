@@ -7,16 +7,11 @@ ActiveAdmin.register NpcShift do
       link_to ns.id, admin_npc_shift_path(ns)
     end
     column "Character", :character_event_id do |ns|
-      link_to ns.character_event.character.name, admin_character_path(ns.character_event.character)
+      link_to ns.character.name, admin_character_path(ns.character)
     end
     column :opening
     column :closing
-    column :hours_to_money
-    column :hours_to_time
-    column :verified
     column :dirty
-    column :money_paid
-    column :time_paid
     column :updated_at
     actions
   end
@@ -25,7 +20,6 @@ ActiveAdmin.register NpcShift do
     filter :character_event
     filter :opening
     filter :closing
-    filter :verified
     filter :dirty
   rescue
     p "msg"
@@ -33,10 +27,9 @@ ActiveAdmin.register NpcShift do
 
   form do |f|
     f.inputs do
-      input :character_event, as: :select, collection: CharacterEvent.includes(:character, :event).all.order('events.weekend DESC, characters.name').references(:events, :characters)
+      input :character_event, as: :select, collection: CharacterEvent.order_for_select
       input :opening, as: :date_time_picker, datepicker_options: { step: 15 }
       input :closing, as: :date_time_picker, datepicker_options: { step: 15 }
-      input :verified
       input :dirty
     end
 

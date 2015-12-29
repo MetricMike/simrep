@@ -14,6 +14,9 @@ class CharacterEvent < ActiveRecord::Base
   scope :cleaned_with_xp, ->          { includes(:event).where(cleaned: true) }
   scope :after,           ->(weekend) { includes(:event).where('events.weekend >= ?', weekend).references(:event) }
   scope :before,          ->(weekend) { includes(:event).where('events.weekend <= ?', weekend).references(:event) }
+  scope :order_for_select,->          { includes(:character, :event).all
+                                        .order('events.weekend DESC, characters.name')
+                                        .references(:events, :characters) }
 
   def give_attendance_awards
     current_character = Character.find(self.character_id)

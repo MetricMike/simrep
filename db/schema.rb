@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151227024015) do
+ActiveRecord::Schema.define(version: 20151228191915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,12 +181,13 @@ ActiveRecord::Schema.define(version: 20151227024015) do
     t.integer  "character_event_id"
     t.datetime "opening"
     t.datetime "closing"
-    t.boolean  "dirty",              default: false
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-    t.integer  "real_pay_cents",     default: 0,     null: false
-    t.string   "real_pay_currency",  default: "VMK", null: false
+    t.boolean  "dirty",               default: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "bank_transaction_id"
   end
+
+  add_index "npc_shifts", ["bank_transaction_id"], name: "index_npc_shifts_on_bank_transaction_id", using: :btree
 
   create_table "origins", force: :cascade do |t|
     t.string   "source"
@@ -313,6 +314,7 @@ ActiveRecord::Schema.define(version: 20151227024015) do
   add_foreign_key "character_skills", "characters"
   add_foreign_key "character_skills", "skills"
   add_foreign_key "crafting_points", "characters"
+  add_foreign_key "npc_shifts", "bank_transactions"
   add_foreign_key "npc_shifts", "character_events"
   add_foreign_key "project_contributions", "characters"
   add_foreign_key "project_contributions", "projects"

@@ -1,9 +1,15 @@
 class NpcShift < ActiveRecord::Base
   has_paper_trail
   belongs_to :character_event, inverse_of: :npc_shifts
+  belongs_to :bank_transaction, required: false
 
   delegate :character, :event, :accumulated_npc_money, to: :character_event
   alias_method :etd_pay, :accumulated_npc_money # event-to-date (like ytd)
+
+  delegate :funds, to: :bank_transaction
+  alias_method :real_pay, :funds
+
+  after_commit :reverse_payments, on: :destroy
 
   MAX_MONEY = Money.new(2000, :vmk)
   LIMIT_REACHED_MSG = "Bank Contract limits contractors to #{MAX_MONEY} per market day."
@@ -13,8 +19,6 @@ class NpcShift < ActiveRecord::Base
 
   validates_presence_of :character_event
   validate :disable_simultaneous_shifts
-
-  monetize :real_pay_cents
 
   scope :open,            -> { where(closing: nil).where.not(opening: nil) }
   scope :recently_closed, -> { where.not(closing: nil).order(closing: :desc).limit(5) }
@@ -75,15 +79,21 @@ class NpcShift < ActiveRecord::Base
     memo_msg = (net_pay > Money.new(0, :vmk)) ? pay_memo_msg : "#{pay_memo_msg}\n#{LIMIT_REACHED_MSG}"
 
     ActiveRecord::Base.transaction do
-      self.character_event.update(accumulated_npc_money: (etd_pay+net_pay))
-      BankTransaction.create!(to_account: BankAccount.find_by(owner: self.character),
-                              funds: net_pay,
-                              memo: memo_msg)
-      self.update(real_pay: net_pay)
+      self.character_event.update!(accumulated_npc_money: (etd_pay+net_pay))
+      self.create_bank_transaction!(to_account: BankAccount.find_by(owner: self.character),
+                                    funds: net_pay,
+                                    memo: memo_msg)
+    end
+  end
+
+  def reverse_payments
+    ActiveRecord::Base.transaction do
+      self.character_event.update!(accumulated_npc_money: etd_pay-real_pay)
+      self.bank_transaction.destroy!
     end
   end
 
   def display_name
-    "#{self.character_event.character.display_name}'s #{self.character_event.event.display_name} Shift from #{self.opening} to #{self.closing}"
+    "#{self.character.display_name}'s #{self.event.display_name} Shift from #{self.opening} to #{self.closing}"
   end
 end

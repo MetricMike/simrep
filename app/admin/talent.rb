@@ -1,4 +1,5 @@
 ActiveAdmin.register Talent do
+  menu false
   member_action :history do
     @talent = Talent.find(params[:id])
     @versions = @talent.versions

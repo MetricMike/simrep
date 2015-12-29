@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.3'
+ruby '2.3.0'
 
 # Core Binaries
 gem 'rails'
@@ -35,6 +35,9 @@ gem 'wkhtmltopdf-binary'
 # Currency handling
 gem 'money-rails'
 
+# Convenience Methods
+gem 'rounding'
+
 # ActiveAdmin and Friends
 gem 'activeadmin', github: 'activeadmin'
 gem 'cocoon' #needed for associations
@@ -54,16 +57,20 @@ group :development, :test do
   # Better Console
   gem 'rb-readline', require: false
   gem 'quiet_assets'
+  gem 'bullet'
 
-  # Better Testing
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
 
   gem "better_errors"
   gem 'faker'
 end
 
 group :test do
+  # Better Testing
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
+  gem 'shoulda-matchers'
+  gem 'fuubar'
   gem "codeclimate-test-reporter", group: :test, require: nil
 end
 

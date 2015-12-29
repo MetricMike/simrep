@@ -1,4 +1,5 @@
 ActiveAdmin.register BankAccount do
+  menu false
   config.paginate = false
 
   csv_importable :columns => [:owner_id, :balance_cents, :balance_currency]

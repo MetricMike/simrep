@@ -1,4 +1,5 @@
 ActiveAdmin.register Skill do
+  menu false
   member_action :history do
     @skill = Skill.find(params[:id])
     @versions = @skill.versions

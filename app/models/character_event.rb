@@ -8,9 +8,12 @@ class CharacterEvent < ActiveRecord::Base
 
   accepts_nested_attributes_for :character, :event, allow_destroy: true
 
-  scope :paid,    ->          { where(paid: true) }
-  scope :after,   ->(weekend) { includes(:event).where('events.weekend >= ?', weekend).references(:event) }
-  scope :before,  ->(weekend) { includes(:event).where('events.weekend <= ?', weekend).references(:event) }
+  scope :paid,            ->          { where(paid: true) }
+  scope :paid_with_xp,    ->          { includes(:event).where(paid: true) }
+  scope :cleaned,         ->          { where(cleaned: true) }
+  scope :cleaned_with_xp, ->          { includes(:event).where(cleaned: true) }
+  scope :after,           ->(weekend) { includes(:event).where('events.weekend >= ?', weekend).references(:event) }
+  scope :before,          ->(weekend) { includes(:event).where('events.weekend <= ?', weekend).references(:event) }
 
   def give_attendance_awards
     current_character = Character.find(self.character_id)

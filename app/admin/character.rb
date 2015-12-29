@@ -64,9 +64,6 @@ ActiveAdmin.register Character do
   filter :events
   filter :backgrounds
   filter :origins
-  filter :projects
-  filter :deaths
-  filter :perm_chance
 
   form do |f|
     tabs do
@@ -153,8 +150,7 @@ ActiveAdmin.register Character do
 
         f.inputs 'Deaths', header: "" do
           f.has_many :deaths, allow_destroy: true do |d_f|
-            d_f.input :date, as: :select, collection: f.object.character_events.to_a.map { |ce| [ "#{Event.find(ce.event_id).weekend} / #{Event.find(ce.event_id).campaign}", Event.find(ce.event_id).weekend ] }
-            #d_f.input :date, as: :select, collection: f.object.character_events.to_a, member_label: Proc.new { |ce| "#{Event.find(ce.event_id).weekend} / #{Event.find(ce.event_id).campaign}" }, member_value: Proc.new { |ce| Event.find(ce.event_id).weekend }
+            d_f.input :weekend, as: :select, collection: f.object.character_events.to_a.map { |ce| [ "#{Event.find(ce.event_id).weekend} / #{Event.find(ce.event_id).campaign}", Event.find(ce.event_id).weekend ] }
             d_f.input :description
             d_f.input :physical
             d_f.input :roleplay
@@ -182,6 +178,11 @@ ActiveAdmin.register Character do
   end
 
   controller do
+
+    def scoped_collection
+      Character.includes({character_events: :event}, :projects)
+    end
+
     def new
       resource = Character.new(params[:character]) if params[:character]
       new!
@@ -204,19 +205,5 @@ ActiveAdmin.register Character do
   end
 
   sidebar :versionate, :partial => "admin/shared/version", :only => :show
-
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # permit_params :list, :of, :attributes, :on, :model
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:permitted, :attributes]
-  #   permitted << :other if resource.something?
-  #   permitted
-  # end
-
 
 end

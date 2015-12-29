@@ -43,6 +43,7 @@ gem 'activeadmin', github: 'activeadmin'
 gem 'cocoon' #needed for associations
 gem 'active_admin_csv_import'
 gem 'active_admin_datetimepicker'
+gem 'responsive_active_admin'
 
 # Console and Error handling
 # Yeah, this should go in dev/test, but I'm a bad person

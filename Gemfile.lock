@@ -251,6 +251,8 @@ GEM
     request_store (1.2.1)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
+    responsive_active_admin (0.0.5)
+      activeadmin
     rounding (1.0.1)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
@@ -361,6 +363,7 @@ DEPENDENCIES
   rails
   rails_12factor
   rb-readline
+  responsive_active_admin
   rounding
   rspec-rails
   sass-rails

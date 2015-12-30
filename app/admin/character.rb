@@ -203,7 +203,7 @@ ActiveAdmin.register Character do
     end
 
     def show
-      @character = Character.includes(versions: :item).find(params[:id])
+      @character = Character.includes({versions: :item}, :bank_accounts).find(params[:id])
       @versions = @character.versions
       @character = @character.versions[params[:version].to_i].reify if params[:version]
       show!
@@ -211,5 +211,12 @@ ActiveAdmin.register Character do
   end
 
   sidebar :versionate, :partial => "admin/shared/version", :only => :show
+
+  sidebar :bank_account, only: :show do
+    if resource
+      h3 "Current Balance: #{humanized_money_with_symbol resource.bank_accounts.first.balance}"
+      link_to "Bank Account", admin_bank_account_path(resource.bank_accounts.first)
+    end
+  end
 
 end

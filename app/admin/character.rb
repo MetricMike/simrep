@@ -52,6 +52,9 @@ ActiveAdmin.register Character do
     column :costume
     column :history_approval
     column :unused_talents
+    column "Bank Account", :bank_account do |c|
+      link_to humanized_money_with_symbol(c.bank_accounts.first.balance), admin_bank_account_path(c.bank_accounts.first)
+    end
     actions
   end
 

@@ -116,7 +116,7 @@ ActiveAdmin.register BankAccount do
   end
 
   action_item :history, only: :show do
-    link_to "Version History", history_admin_back_account_path(resource)
+    link_to "Version History", history_admin_bank_account_path(resource)
   end
 
   controller do

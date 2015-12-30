@@ -20,7 +20,7 @@ ActiveAdmin.register NpcShift do
   end
 
   begin
-    filter :character_event
+    filter :character_event_event_weekend, as: :select, collection: proc { Event.all.order(weekend: :desc).pluck(:weekend) }
     filter :opening
     filter :closing
     filter :dirty

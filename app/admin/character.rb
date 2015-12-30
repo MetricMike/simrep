@@ -82,9 +82,9 @@ ActiveAdmin.register Character do
 
         f.inputs 'Character Origins' do
           f.has_many :origins, allow_destroy: true do |co_f|
-            co_f.input :source, collection: (Character::RACES|Character::CULTURES)
-            co_f.input :name
-            co_f.input :detail
+            co_f.input :source, collection: (Character::RACES|Character::CULTURES), label: false
+            co_f.input :name, label: false
+            co_f.input :detail, label: false
           end
         end
 
@@ -179,10 +179,6 @@ ActiveAdmin.register Character do
 
   controller do
 
-    def scoped_collection
-      Character.includes({character_events: :event}, :projects)
-    end
-
     def new
       resource = Character.new(params[:character]) if params[:character]
       new!
@@ -194,6 +190,13 @@ ActiveAdmin.register Character do
       else
         create!
       end
+    end
+
+    def edit
+      resource = Character.includes(:character_events,
+                                    :talents, :deaths, project_contributions: {project: :leader})
+                          .find(params[:id])
+      edit!
     end
 
     def show

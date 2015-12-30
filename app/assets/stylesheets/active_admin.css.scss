@@ -20,14 +20,25 @@
 
 .inputs .has_many_fields {
   ol li {
-    display: inline-flex;
+    margin: auto 0;
+    display: inline-block;
+
     input {
-      &[type=text] {
-        width: 250px;
+      label {
+        width: 90%;
       }
-      &[type=number] {
-        width: 35px;
+      &[type=text], &[type=number] {
+        width: 90%;
       }
     }
+    select {
+      width: 90%;
+    }
+  }
+  ol li .has_many_delete {
+      vertical-align: middle;
+      label {
+        width: 100%;
+      }
   }
 }

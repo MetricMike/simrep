@@ -28,6 +28,20 @@ ActiveAdmin.register NpcShift do
     p "msg"
   end
 
+  show do
+    attributes_table do
+      row :id
+      row :character
+      row :event
+      row :opening
+      row :closing
+      row :dirty
+      row :created_at
+      row :updated_at
+      row :bank_transaction
+    end
+  end
+
   form do |f|
     f.inputs do
       input :character_event, as: :select, collection: CharacterEvent.order_for_select

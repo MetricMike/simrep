@@ -182,8 +182,6 @@ class Character < ActiveRecord::Base
     "#{self.name}"
   end
 
-  private
-
   def increment_death
     index = [DEATH_PERCENTAGES.index(@perm_chance) + 1, DEATH_PERCENTAGES.size - 1].min
     @perm_chance = DEATH_PERCENTAGES[index]

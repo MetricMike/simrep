@@ -1,4 +1,5 @@
 ActiveAdmin.register Origin do
+  menu false
   member_action :history do
     @origin = Origin.find(params[:id])
     @versions = @origin.versions

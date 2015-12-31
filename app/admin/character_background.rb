@@ -1,4 +1,5 @@
 ActiveAdmin.register CharacterBackground do
+  menu false
   member_action :history do
     @character_background = CharacterBackground.find(params[:id])
     @versions = @character_background.versions

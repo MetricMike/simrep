@@ -1,4 +1,5 @@
 ActiveAdmin.register CraftingPoint do
+  menu false
   belongs_to :character, optional: true
   actions :all, except: [:show, :edit, :new]
   config.paginate = false

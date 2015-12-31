@@ -1,4 +1,5 @@
 ActiveAdmin.register Project do
+  menu false
   member_action :history do
     @project = Project.find(params[:id])
     @versions = @project.versions

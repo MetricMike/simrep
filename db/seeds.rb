@@ -104,13 +104,12 @@ end
 
 def self.make_fake_deaths(character)
   3.times {
-    death = character.deaths.build(
+    death = character.deaths.create!(
             description: Faker::Lorem.sentence(2, true, 3),
             physical: Faker::Lorem.sentence(2, true, 3),
             roleplay: Faker::Lorem.sentence(2, true, 3),
-            date: Faker::Date.backward(365),)
-    death.affects_perm_chance = [true, true, true, false].sample
-    death.save!
+            weekend: Faker::Date.backward(365),
+            countable: [true, true, true, false].sample)
   }
 end
 

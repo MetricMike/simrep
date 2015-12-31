@@ -1,4 +1,5 @@
 ActiveAdmin.register CharacterSkill do
+  menu false
   member_action :history do
     @character_skill = CharacterSkill.find(params[:id])
     @versions = @character_skill.versions

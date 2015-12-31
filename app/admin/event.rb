@@ -1,4 +1,5 @@
 ActiveAdmin.register Event do
+  menu false
 
   controller do
     def scoped_collection

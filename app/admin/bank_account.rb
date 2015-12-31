@@ -1,4 +1,5 @@
 ActiveAdmin.register BankAccount do
+  menu false
   config.paginate = false
 
   csv_importable :columns => [:owner_id, :balance_cents, :balance_currency]
@@ -115,7 +116,7 @@ ActiveAdmin.register BankAccount do
   end
 
   action_item :history, only: :show do
-    link_to "Version History", history_admin_back_account_path(resource)
+    link_to "Version History", history_admin_bank_account_path(resource)
   end
 
   controller do

@@ -1,4 +1,6 @@
 ActiveAdmin.register Death do
+  menu false
+
   member_action :history do
     @death = Death.find(params[:id])
     @versions = @death.versions

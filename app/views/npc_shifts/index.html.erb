@@ -2,26 +2,41 @@
 <div class="row">
   <aside class="col-md-4">
     <section class="character info">
-      <h1><%= link_to @character.name, character_path(@character) %></h1>
+      <h1><%= link_to @character.name, @character %></h1>
+    </section>
+    <section>
+      <h2>Pay Rates for Bank Work</h2>
+      <p><%= "Clean Work: #{humanized_money_with_symbol NpcShift::MONEY_CLEAN} per hour." %></p>
+      <p><%= "Dirty Work: Additional #{humanized_money_with_symbol NpcShift::MONEY_DIRTY} per hour." %></p>
+      <p><%= "Maximum Payment: #{humanized_money_with_symbol NpcShift::MAX_MONEY} per market day." %></p>
+      <p>Shift times are rounded to 15-minute marks - down for opening times, up for closing times.</p>
     </section>
     <section class="shift info">
-      <%= link_to 'Open New Shift', new_npc_shift_path, class: "btn btn-sm btn-success" %>
+      <% if can_i_open_a_shift? %>
+        <p>Current Event: <em><%= @most_recent_cevent.event.display_name %></em></p>
+        <%= link_to 'Open New Shift', npc_shifts_path, method: :post, class: "btn btn-success" %>
+      <% end %>
     </section>
   </aside>
   <div class="col-md-8">
-    <% if @npc_shifts.any? %>
-      <h3>NPC Shifts (<%= @npc_shifts.count %>)</h3>
-      <table class="table table-condensed table-hover table-responsive">
-        <tr>
-          <th>Starting Time</th>
-          <th>Ending Time</th>
-          <th>Verified?</th>
-          <th>Paid?</th>
-          <th/>
-          <th/>
-        </tr>
-        <%= render @npc_shifts %>
-      </table>
-    <% end %>
+    <h3>Open NPC Shifts</h3>
+    <table class="table table-condensed table-hover table-responsive">
+      <tr>
+        <th>Starting Time</th>
+        <th>Shift Length</th>
+        <th>Estimated Payout</th>
+        <th/>
+      </tr>
+      <%= render @open_npc_shifts if @open_npc_shifts %>
+    </table>
+    <h3>Recently Closed NPC Shifts</h3>
+    <table class="table table-condensed table-hover table-responsive">
+      <tr>
+        <th>Starting Time</th>
+        <th>Ending Time</th>
+        <th>Amount Paid</th>
+      </tr>
+      <%= render @recently_closed_npc_shifts if @recently_closed_npc_shifts %>
+    </table>
   </div>
 </div>

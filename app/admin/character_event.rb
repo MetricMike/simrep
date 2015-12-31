@@ -1,4 +1,5 @@
 ActiveAdmin.register CharacterEvent do
+  menu false
   config.paginate = false
 
   index do

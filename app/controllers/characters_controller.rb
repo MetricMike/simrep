@@ -8,7 +8,7 @@ class CharactersController < ApplicationController
   after_action :verify_policy_scoped, :only => :index
 
   def index
-    @characters = policy_scope(Character)
+    @characters = policy_scope(Character.for_index)
   end
 
   def new

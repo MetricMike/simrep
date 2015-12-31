@@ -1,4 +1,5 @@
 ActiveAdmin.register User do
+  menu false
   config.paginate = false
 
   index do

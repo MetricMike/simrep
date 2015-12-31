@@ -1,4 +1,5 @@
 ActiveAdmin.register CharacterPerk do
+  menu false
   member_action :history do
     @character_perk = CharacterPerk.find(params[:id])
     @versions = @character_perk.versions

@@ -7,6 +7,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+## [1.5.0](v1.5.0) - 2015-12-30
+### Added
+- Rollbar interation
+
+### Fixed
+- Cleaned up internals for Death and CharacterEvents
+- Added `revert_attendence_awards` to CharacterEvent
+
+## [1.4.2](v1.4.2) - 2015-12-30
+### Fixed
+- Proper links in Changelog
+- Deploys to Heroku trigger assets compiling
+
 ## [1.4.1](v1.4.1) - 2015-12-30
 ### Added
 - Changelog

@@ -19,13 +19,22 @@ class CharacterEvent < ActiveRecord::Base
                                         .references(:events, :characters) }
 
   def give_attendance_awards
-    current_character = Character.find(self.character_id)
-    if self.paid && !self.awarded?
-      current_character.talents.each { |talent| talent.investment_limit = [talent.investment_limit+2, 4].min; talent.save }
-      current_character.unused_talents += 2
-      current_character.decrement_death
-      current_character.save
-      self.update(awarded: true)
+    unless self.awarded?
+      ActiveRecord::Base.transaction do
+        self.character.talents.each { |t| t.update(investment_limit: [t.investment_limit+2, 4].min) }
+        self.character.update(unused_talents: self.character.unused_talents+2)
+        self.update(awarded: true)
+      end
+    end
+  end
+
+  def revert_attendance_awards
+    if !self.paid? && self.awarded?
+      ActiveRecord::Base.transaction do
+        self.character.talents.each { |t| t.update(investment_limit: t.investment_limit-2)}
+        self.character.update(unused_talents: self.character.unused_talents-2)
+        self.update(awarded: false)
+      end
     end
   end
 

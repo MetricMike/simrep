@@ -1,4 +1,5 @@
 ActiveAdmin.register CraftingPoint do
+  menu false
   belongs_to :character, optional: true
   actions :all, except: [:show, :edit, :new]
   config.paginate = false
@@ -58,21 +59,25 @@ ActiveAdmin.register CraftingPoint do
 
       redirect_to admin_crafting_points_path
     end
+
+    def show
+      @crafting_point = CraftingPoint.includes(versions: :item).find(params[:id])
+      @versions = @crafting_point.versions
+      @crafting_point = @crafting_point.versions[params[:version].to_i].reify if params[:version]
+      show!
+    end
   end
 
+  member_action :history do
+    @crafting_point = CraftingPoint.find(params[:id])
+    @versions = @crafting_point.versions
+    render "admin/shared/history"
+  end
 
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if resource.something?
-#   permitted
-# end
+  action_item :history, only: :show do
+    link_to "Version History", history_admin_crafting_point_path(resource)
+  end
 
+  sidebar :versionate, :partial => "admin/shared/version", :only => :show
 
 end

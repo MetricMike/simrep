@@ -23,8 +23,8 @@
 /*.dump
 /config/newrelic.yml
 
-# Ignore Spring files.
-/spring/*.pid.env
+# Ignore rspec states
+/spec/examples.txt
 
 # Ignore Passenger
 /passenger*

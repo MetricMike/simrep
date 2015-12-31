@@ -1,4 +1,5 @@
 ActiveAdmin.register Character do
+  menu false
   config.paginate = false
 
   batch_action :attend_event, form: {
@@ -30,6 +31,16 @@ ActiveAdmin.register Character do
     link_to 'View on Site', character_path(character)
   end
 
+  member_action :history do
+    @character = Character.find(params[:id])
+    @versions = @character.versions
+    render "admin/shared/history"
+  end
+
+  action_item :history, only: :show do
+    link_to "Version History", history_admin_character_path(resource)
+  end
+
   index do
     selectable_column
     column :id do |c|
@@ -41,6 +52,9 @@ ActiveAdmin.register Character do
     column :costume
     column :history_approval
     column :unused_talents
+    column "Bank Account", :bank_account do |c|
+      link_to humanized_money_with_symbol(c.bank_accounts.first.balance), admin_bank_account_path(c.bank_accounts.first)
+    end
     actions
   end
 
@@ -53,9 +67,6 @@ ActiveAdmin.register Character do
   filter :events
   filter :backgrounds
   filter :origins
-  filter :projects
-  filter :deaths
-  filter :perm_chance
 
   form do |f|
     tabs do
@@ -74,9 +85,9 @@ ActiveAdmin.register Character do
 
         f.inputs 'Character Origins' do
           f.has_many :origins, allow_destroy: true do |co_f|
-            co_f.input :source, collection: (Character::RACES|Character::CULTURES)
-            co_f.input :name
-            co_f.input :detail
+            co_f.input :source, collection: (Character::RACES|Character::CULTURES), label: false
+            co_f.input :name, label: false
+            co_f.input :detail, label: false
           end
         end
 
@@ -142,8 +153,7 @@ ActiveAdmin.register Character do
 
         f.inputs 'Deaths', header: "" do
           f.has_many :deaths, allow_destroy: true do |d_f|
-            d_f.input :date, as: :select, collection: f.object.character_events.to_a.map { |ce| [ "#{Event.find(ce.event_id).weekend} / #{Event.find(ce.event_id).campaign}", Event.find(ce.event_id).weekend ] }
-            #d_f.input :date, as: :select, collection: f.object.character_events.to_a, member_label: Proc.new { |ce| "#{Event.find(ce.event_id).weekend} / #{Event.find(ce.event_id).campaign}" }, member_value: Proc.new { |ce| Event.find(ce.event_id).weekend }
+            d_f.input :weekend, as: :select, collection: f.object.character_events.to_a.map { |ce| [ "#{Event.find(ce.event_id).weekend} / #{Event.find(ce.event_id).campaign}", Event.find(ce.event_id).weekend ] }
             d_f.input :description
             d_f.input :physical
             d_f.input :roleplay
@@ -171,6 +181,7 @@ ActiveAdmin.register Character do
   end
 
   controller do
+
     def new
       resource = Character.new(params[:character]) if params[:character]
       new!
@@ -183,20 +194,29 @@ ActiveAdmin.register Character do
         create!
       end
     end
+
+    def edit
+      resource = Character.includes(:character_events,
+                                    :talents, :deaths, project_contributions: {project: :leader})
+                          .find(params[:id])
+      edit!
+    end
+
+    def show
+      @character = Character.includes({versions: :item}, :bank_accounts).find(params[:id])
+      @versions = @character.versions
+      @character = @character.versions[params[:version].to_i].reify if params[:version]
+      show!
+    end
   end
 
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # permit_params :list, :of, :attributes, :on, :model
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:permitted, :attributes]
-  #   permitted << :other if resource.something?
-  #   permitted
-  # end
+  sidebar :versionate, :partial => "admin/shared/version", :only => :show
 
+  sidebar :bank_account, only: :show do
+    if resource
+      h3 "Current Balance: #{humanized_money_with_symbol resource.bank_accounts.first.balance}"
+      link_to "Bank Account", admin_bank_account_path(resource.bank_accounts.first)
+    end
+  end
 
 end

@@ -1,4 +1,12 @@
 ActiveAdmin.register NpcShift do
+  menu false
+
+  batch_action :close_out_shifts do |ids|
+    batch_action_collection.find(ids).each do |ns|
+      ns.close_shift(ns.closing || Time.now)
+    end
+    redirect_to collection_path, notice: "#{[ids]} were closed out."
+  end
 
   index do
     selectable_column
@@ -6,67 +14,71 @@ ActiveAdmin.register NpcShift do
       link_to ns.id, admin_npc_shift_path(ns)
     end
     column "Character", :character_event_id do |ns|
-      link_to ns.character_event.character.name, admin_character_path(ns.character_event.character)
+      link_to ns.character.name, admin_character_path(ns.character)
     end
     column :opening
     column :closing
-    column :hours_to_money
-    column :hours_to_time
-    column :verified
     column :dirty
-    column :money_paid
-    column :time_paid
     column :updated_at
+    column "Paid?", :bank_transaction_id do |ns|
+      ns.bank_transaction.present? ? link_to("Yes", admin_bank_account_path(ns.bank_transaction.to_account_id)) : "No"
+    end
     actions
   end
 
   begin
-    filter :character_event
+    filter :character_event_event_weekend, as: :select, collection: proc { Event.all.order(weekend: :desc).pluck(:weekend) }
     filter :opening
     filter :closing
-    filter :verified
     filter :dirty
   rescue
     p "msg"
   end
 
+  show do
+    attributes_table do
+      row :id
+      row :character
+      row :event
+      row :opening
+      row :closing
+      row :dirty
+      row :created_at
+      row :updated_at
+      row :bank_transaction
+    end
+  end
+
   form do |f|
     f.inputs do
-      input :character_event, as: :select, collection: CharacterEvent.includes(:character, :event).all.order('events.weekend DESC, characters.name').references(:events, :characters)
+      input :character_event, as: :select, collection: CharacterEvent.order_for_select
       input :opening, as: :date_time_picker, datepicker_options: { step: 15 }
       input :closing, as: :date_time_picker, datepicker_options: { step: 15 }
-      input :verified
       input :dirty
     end
 
     f.actions
   end
 
-  batch_action :verify_shift do |ids|
-    batch_action_collection.find(ids).each do |shift|
-      shift.update(verified: true)
-    end
-    redirect_to collection_path, notice: [ids].to_s
+  member_action :history do
+    @npc_shift = NpcShift.find(params[:id])
+    @versions = @npc_shift.versions
+    render "admin/shared/history"
   end
 
-  batch_action :issue_awards do |ids|
-    batch_action_collection.find(ids).each do |shift|
-      shift.issue_awards_for_shift
-    end
-    redirect_to collection_path, notice: [ids].to_s
+  action_item :history, only: :show do
+    link_to "Version History", history_admin_npc_shift_path(resource)
   end
 
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # permit_params :list, :of, :attributes, :on, :model
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:permitted, :attributes]
-  #   permitted << :other if resource.something?
-  #   permitted
-  # end
+  controller do
+    def show
+      @npc_shift = NpcShift.includes(versions: :item).find(params[:id])
+      @versions = @npc_shift.versions
+      @npc_shift = @npc_shift.versions[params[:version].to_i].reify if params[:version]
+      show!
+    end
+  end
+
+  sidebar :versionate, :partial => "admin/shared/version", :only => :show
 
 end

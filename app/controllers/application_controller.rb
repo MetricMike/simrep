@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   #rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def after_sign_in_path_for(resource)
-    characters_path(resource)
+    characters_path
   end
 
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :name
     devise_parameter_sanitizer.for(:account_update) << :name
+  end
+
+  def user_for_paper_trail
+    current_user ? current_user.try(:id) : User.find(1)
   end
 
   def pundit_user

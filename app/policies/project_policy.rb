@@ -11,7 +11,7 @@ class ProjectPolicy < ApplicationPolicy
   class Scope < Scope
 
     def resolve
-      @character.projects
+      @character.projects.distinct
     end
 
   end

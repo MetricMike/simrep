@@ -1,4 +1,5 @@
 ActiveAdmin.register Referral do
+  menu false
 
   index do
     selectable_column

@@ -139,11 +139,11 @@ class Character < ActiveRecord::Base
   end
 
   def perm_counter
-    @perm_counter.present? ? @perm_counter : record_deaths; @perm_counter
+    @perm_counter ||= (record_deaths; @perm_counter)
   end
 
   def perm_chance
-    @perm_chance.present? ? @perm_chance : record_deaths; @perm_chance
+    @perm_chance ||= (record_deaths; @perm_chance)
   end
 
   def record_deaths

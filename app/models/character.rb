@@ -166,6 +166,7 @@ class Character < ActiveRecord::Base
   end
   alias_method :recount_deaths, :record_deaths
 
+  # Useless methods but I don't feel like excising them yet.
   def increment_death
     index = [DEATH_PERCENTAGES.index(@perm_chance) + 1, DEATH_PERCENTAGES.size - 1].min
     @perm_chance = DEATH_PERCENTAGES[index]

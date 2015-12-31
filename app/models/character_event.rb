@@ -22,7 +22,7 @@ class CharacterEvent < ActiveRecord::Base
     unless self.awarded?
       ActiveRecord::Base.transaction do
         self.character.talents.each { |t| t.update(investment_limit: [t.investment_limit+2, 4].min) }
-        self.character.update(unused_talents: self.character.unused_talents+2
+        self.character.update(unused_talents: self.character.unused_talents+2)
         self.update(awarded: true)
       end
     end

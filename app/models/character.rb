@@ -166,23 +166,6 @@ class Character < ActiveRecord::Base
   end
   alias_method :recount_deaths, :record_deaths
 
-  # Useless methods but I don't feel like excising them yet.
-  def increment_death
-    index = [DEATH_PERCENTAGES.index(@perm_chance) + 1, DEATH_PERCENTAGES.size - 1].min
-    @perm_chance = DEATH_PERCENTAGES[index]
-    @perm_counter = DEATH_COUNTER[index]
-  end
-
-  def decrement_death
-    if @perm_counter == 0
-      index = [DEATH_PERCENTAGES.index(@perm_chance) - 1, 0].max
-      @perm_chance = DEATH_PERCENTAGES[index]
-      @perm_counter = DEATH_COUNTER[index]
-    else
-      @perm_counter -= 1
-    end
-  end
-
   def turn_off_nested_callbacks
     ProjectContribution.skip_callback(:create, :before, :invest_talent)
   end
@@ -197,6 +180,24 @@ class Character < ActiveRecord::Base
 
   def display_name
     "#{self.name}"
+  end
+
+  private
+
+  def increment_death
+    index = [DEATH_PERCENTAGES.index(@perm_chance) + 1, DEATH_PERCENTAGES.size - 1].min
+    @perm_chance = DEATH_PERCENTAGES[index]
+    @perm_counter = DEATH_COUNTER[index]
+  end
+
+  def decrement_death
+    if @perm_counter == 0
+      index = [DEATH_PERCENTAGES.index(@perm_chance) - 1, 0].max
+      @perm_chance = DEATH_PERCENTAGES[index]
+      @perm_counter = DEATH_COUNTER[index]
+    else
+      @perm_counter -= 1
+    end
   end
 
 end

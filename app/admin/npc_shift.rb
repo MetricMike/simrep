@@ -1,6 +1,13 @@
 ActiveAdmin.register NpcShift do
   menu false
 
+  batch_action :close_out_shifts do |ids|
+    batch_action_collection.find(ids).each do |ns|
+      ns.close_shift(ns.closing || Time.now)
+    end
+    redirect_to collection_path, notice: "#{[ids]} were closed out."
+  end
+
   index do
     selectable_column
     column :id do |ns|

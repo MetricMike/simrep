@@ -84,6 +84,7 @@ class NpcShift < ActiveRecord::Base
                                     funds: net_pay,
                                     memo: memo_msg)
     end
+    self.save # I shouldn't have to do this, but I don't have time to figure out why
   end
 
   def reverse_payments

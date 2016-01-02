@@ -7,6 +7,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+## [1.5.6](v1.5.6) - 2016-1-2
+### Fixed
+- NPC Shifts are more lenient in determining if they have a linked bank_transaction.
+
+## [1.5.4](v1.5.4) - 2016-1-2
+### Fixed
+- NPC Shifts before v1.4.0 would throw errors because they couldn't track the bank_transaction associated with them.
+
 ## [1.5.3](v1.5.3) - 2016-1-1
 ### Fixed
 - I mistyped in the routes file which broke everything.

@@ -7,7 +7,6 @@ class NpcShift < ActiveRecord::Base
   alias_method :etd_pay, :accumulated_npc_money # event-to-date (like ytd)
 
   delegate :funds, to: :bank_transaction, :allow_nil: true
-  alias_method :real_pay, :funds
 
   after_commit :reverse_payments, on: :destroy
 
@@ -22,6 +21,10 @@ class NpcShift < ActiveRecord::Base
 
   scope :open,            -> { where(closing: nil).where.not(opening: nil) }
   scope :recently_closed, -> { where.not(closing: nil).order(closing: :desc).limit(5) }
+
+  def real_pay
+    self.try:(bank_transaction).try(:funds)
+  end
 
   def pay_memo_msg
     @pay_memo_msg ||= "Bank Work (Shift ##{self.id}) for #{self.event.weekend}."

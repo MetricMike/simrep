@@ -7,6 +7,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+## [1.5.3](v1.5.3) - 2016-1-1
+### Fixed
+- I mistyped in the routes file which broke everything.
+- Added ALL the favicons, which should silence routing issues ("I can't find this icon") which were obscuring more important routing issues ("I can't post bank transactions")
+- Prettier error pages.
+
 ## [1.5.2](v1.5.2) - 2016-1-1
 ### Fixed
 - Fixed a permissions issue when trying to send transactions introduced by [0d995a6](0d995a6) in [1.4.0](v1.4.0).

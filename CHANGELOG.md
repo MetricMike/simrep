@@ -7,9 +7,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+## [1.5.2](v1.5.2) - 2016-1-1
+### Fixed
+- Fixed a permissions issue when trying to send transactions introduced by [0d995a6](0d995a6) in [1.4.0](v1.4.0).
+
+## [1.5.1](v1.5.1) - 2015-12-31
+### Fixed
+- Fixed a permissions issue when calculating character deaths.
+
 ## [1.5.0](v1.5.0) - 2015-12-30
 ### Added
-- Rollbar interation
+- Rollbar integration
 
 ### Fixed
 - Cleaned up internals for Death and CharacterEvents

@@ -23,7 +23,7 @@ class NpcShift < ActiveRecord::Base
   scope :recently_closed, -> { where.not(closing: nil).order(closing: :desc).limit(5) }
 
   def real_pay
-    self.try:(bank_transaction).try(:funds)
+    self.try(:bank_transaction).try(:funds)
   end
 
   def pay_memo_msg

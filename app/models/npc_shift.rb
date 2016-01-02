@@ -6,7 +6,7 @@ class NpcShift < ActiveRecord::Base
   delegate :character, :event, :accumulated_npc_money, to: :character_event
   alias_method :etd_pay, :accumulated_npc_money # event-to-date (like ytd)
 
-  delegate :funds, to: :bank_transaction
+  delegate :funds, to: :bank_transaction, :allow_nil
   alias_method :real_pay, :funds
 
   after_commit :reverse_payments, on: :destroy

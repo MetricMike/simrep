@@ -6,6 +6,6 @@
     <td><%= button_to("End Shift", npc_shift, method: :patch, class: "btn btn-sm btn-success") %></td>
   <% else %>
     <td><%= npc_shift.closing %></td>
-    <td><%= npc_shift.real_pay %></td>
+    <td><%= npc_shift.real_pay || "Yes" %></td>
   <% end %>
 </li>

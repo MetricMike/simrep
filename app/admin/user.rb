@@ -50,11 +50,11 @@ ActiveAdmin.register User do
   end
 
   sidebar "Sponsored By", only: :show, if: proc{ resource.upstream_referral } do
-    div link_to resource.sponsor.name, admin_character_path(resource.sponsor)
+    div link_to resource.sponsor.name, admin_user_path(resource.sponsor)
   end
   sidebar "Sponsoring", only: :show, if: proc{ !resource.downstream_referrals.empty? } do
     resource.referred_users.each do |ref|
-      div link_to ref.name, admin_character_path(ref)
+      div link_to ref.name, admin_user_path(ref)
     end
   end
 

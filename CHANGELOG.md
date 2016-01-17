@@ -7,6 +7,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+## [1.5.11](v1.5.11) - 2016-1-9
+### Added
+- Versions get their own page on admin for easier reviewing.
+
+### Fixed
+- Some spelling fixes.
+- Synced local DB to Heroku.
+
 ## [1.5.6](v1.5.6) - 2016-1-2
 ### Fixed
 - NPC Shifts are more lenient in determining if they have a linked bank_transaction.

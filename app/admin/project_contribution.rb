@@ -6,6 +6,10 @@ ActiveAdmin.register ProjectContribution do
     render "admin/shared/history"
   end
 
+  preserve_default_filters!
+  filter :character, collection: proc { Character.all.order(name: :asc) }
+  filter :project, collection: proc { Project.joins(:characters).order('characters.name asc', 'projects.name asc') }
+
   action_item :history, only: :show do
     link_to "Version History", history_admin_project_contribution_path(resource)
   end

@@ -17,6 +17,7 @@
       <dt>Culture</dt><dd><%= "#{@character.culture}" %></dd>
       <dt>Experience</dt><dd><%= raw "#{link_to "#{@character.experience} / #{@character.exp_to_next} until next level", "#", data: {toggle: "modal", target: "#eventsModal"}}" %></dd>
       <dt>Costume</dt><dd><%= "#{@character.costume} (last checked on #{@character.costume_checked})" %></dd>
+      <dt>Starting Willpower</dt><dd><%= "#{@character.calc_willpower}" %></dd>
     </dl>
   </div>
   <div class="col-md-6">

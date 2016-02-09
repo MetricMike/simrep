@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+## [1.6.0](v1.6.0) - 2016-2-8
+### Added
+- Temporary Effects (like increased perm chance for one event)
+- Events come with a base willpower. Character Sheets display base willpower.
+
 ## [1.5.11](v1.5.11) - 2016-1-9
 ### Added
 - Versions get their own page on admin for easier reviewing.

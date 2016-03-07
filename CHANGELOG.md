@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+## [1.5.12](v1.5.12) - 2016-3-17
+### Fixed
+- Awarding attendance (like when printing a character sheet) requires an explicit override to change pay/clean awards.
+
 ## [1.5.11](v1.5.11) - 2016-1-9
 ### Added
 - Versions get their own page on admin for easier reviewing.

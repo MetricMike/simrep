@@ -119,20 +119,22 @@ class Character < ActiveRecord::Base
 
   def attend_event(event_id, paid=false, cleaned=false, check_coupon=false, override=false)
     attendance = self.character_events.find_or_create_by(event_id: event_id)
-    award_paid(attendance, (paid || override))
-    award_cleaned(attendance, (cleaned || override), check_coupon)
+    award_paid(attendance, paid, override)
+    award_cleaned(attendance, cleaned, override)
   end
 
-  def award_paid(char_event, bool=false)
+  def award_paid(char_event, bool=false, override=false)
+    return if (char_event.paid? and (override == false))
     char_event.update(paid: bool)
   end
 
-  def award_cleaned(char_event, bool=false, check_coupon=false)
-    if (bool.nil? && check_coupon.present?)
-      clean_coupon = Event.where(id: self.user.free_cleaning_event_id).first
-      if (clean_coupon.nil? || clean_coupon.weekend <= 1.year.ago)
+  def award_cleaned(char_event, bool=false, override=false)
+    return if (char_event.cleaned? and (override == false))
+    if bool == false
+      clean_coupon = Event.where(id: self.user.free_cleaning_event_id).try(:first)
+      if (clean_coupon.nil? || clean_coupon.weekend >= 1.year.ago)
         self.user.update(free_cleaning_event_id: char_event.event_id)
-        bool = true
+        char_event.update(cleaned: true) and return
       end
     end
     char_event.update(cleaned: bool)

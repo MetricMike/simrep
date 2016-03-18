@@ -1,6 +1,8 @@
 ActiveAdmin.register Referral do
   menu false
 
+  includes :sponsor, :referred_user
+
   index do
     selectable_column
     column :id do |r|

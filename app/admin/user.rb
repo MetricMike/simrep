@@ -2,6 +2,8 @@ ActiveAdmin.register User do
   menu false
   config.paginate = false
 
+  includes :upstream_referral
+
   index do
     selectable_column
     column :id do |u|

@@ -1,5 +1,8 @@
 ActiveAdmin.register ProjectContribution do
   menu false
+
+  includes project: :leader
+
   member_action :history do
     @project_contribution = ProjectContribution.find(params[:id])
     @versions = @project_contribution.versions

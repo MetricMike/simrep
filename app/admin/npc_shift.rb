@@ -1,6 +1,8 @@
 ActiveAdmin.register NpcShift do
   menu false
 
+  includes character_event: :character
+
   batch_action :close_out_shifts do |ids|
     batch_action_collection.find(ids).each do |ns|
       ns.close_shift(ns.closing || Time.now)

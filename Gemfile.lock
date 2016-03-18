@@ -185,7 +185,7 @@ GEM
       activerecord (>= 3.0, < 6.0)
       activesupport (>= 3.0, < 6.0)
       request_store (~> 1.1)
-    passenger (5.0.9)
+    passenger (5.0.26)
       rack
       rake (>= 0.8.1)
     pg (0.18.2)

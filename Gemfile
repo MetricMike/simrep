@@ -28,6 +28,7 @@ gem 'pundit'
 gem 'newrelic_rpm'
 gem 'paper_trail'
 gem 'rollbar'
+gem 'oj'
 
 # PDF Handling
 gem 'wicked_pdf'

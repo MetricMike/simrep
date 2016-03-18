@@ -33,6 +33,10 @@ class Event < ActiveRecord::Base
     return @new_characters
   end
 
+  def event_willpower
+    self.base_willpower || 1
+  end
+
   def display_name
     "#{self.campaign} - #{self.weekend}"
   end

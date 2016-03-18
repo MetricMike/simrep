@@ -66,6 +66,10 @@ class NpcShift < ActiveRecord::Base
     (shift_end - self.opening).to_f / (60*60)
   end
 
+  def display_name
+    "#{self.character.display_name}'s #{self.event.display_name} Shift from #{self.opening} to #{self.closing}"
+  end
+
   private
 
   def gross_pay
@@ -87,7 +91,7 @@ class NpcShift < ActiveRecord::Base
                                     funds: net_pay,
                                     memo: memo_msg)
     end
-    self.save # I shouldn't have to do this, but I don't have time to figure out why
+    self.save
   end
 
   def reverse_payments
@@ -95,9 +99,5 @@ class NpcShift < ActiveRecord::Base
       self.character_event.update!(accumulated_npc_money: etd_pay-real_pay)
       self.bank_transaction.destroy!
     end
-  end
-
-  def display_name
-    "#{self.character.display_name}'s #{self.event.display_name} Shift from #{self.opening} to #{self.closing}"
   end
 end

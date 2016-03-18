@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151228191915) do
+ActiveRecord::Schema.define(version: 20160208203315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -171,8 +171,9 @@ ActiveRecord::Schema.define(version: 20151228191915) do
     t.date     "weekend"
     t.integer  "play_exp"
     t.integer  "clean_exp"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "base_willpower"
   end
 
   add_index "events", ["weekend"], name: "index_events_on_weekend", using: :btree
@@ -259,6 +260,17 @@ ActiveRecord::Schema.define(version: 20151228191915) do
 
   add_index "talents", ["character_id"], name: "index_talents_on_character_id", using: :btree
 
+  create_table "temporary_effects", force: :cascade do |t|
+    t.integer  "character_id"
+    t.string   "attr"
+    t.integer  "modifier"
+    t.datetime "expiration"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "temporary_effects", ["character_id"], name: "index_temporary_effects_on_character_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -322,5 +334,6 @@ ActiveRecord::Schema.define(version: 20151228191915) do
   add_foreign_key "referrals", "events", column: "event_claimed_id"
   add_foreign_key "referrals", "users", column: "referred_user_id"
   add_foreign_key "referrals", "users", column: "sponsor_id"
+  add_foreign_key "temporary_effects", "characters"
   add_foreign_key "users", "events", column: "free_cleaning_event_id"
 end

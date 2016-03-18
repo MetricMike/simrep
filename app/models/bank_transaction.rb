@@ -10,35 +10,24 @@ class BankTransaction < ActiveRecord::Base
 
   monetize :funds_cents, with_model_currency: :funds_currency, numericality: { greater_than_or_equal_to: 0 }
 
-  after_save :post_transaction, unless: Proc.new { |bt| bt.posted == true }
-  before_destroy :reverse_transaction, unless: Proc.new { |bt| bt.posted == false }
+  before_save :post_transaction
+  before_destroy :reverse_transaction
 
   def post_transaction
-    begin
-      self.transaction do
-        from_account.withdraw(self.funds) if self.from_account
-        to_account.deposit(self.funds) if self.to_account
-        self.update!(posted: true)
-      end
-    rescue ActiveRecord::RecordInvalid => invalid
-      self.memo = "#{self.memo.to_s + NSF_NOTICE}"
-      #self.save(validate: false)
-    end
-  end
+    outgoing = posted? ? to_account : from_account
+    incoming = posted? ? from_account : to_account
 
-  def reverse_transaction
-    begin
-      self.transaction do
-        from_account.deposit(self.funds) if self.from_account
-        to_account.withdraw(self.funds) if self.to_account
-        self.memo = "#{self.memo.to_s + REVERSAL_SUCCEED_NOTICE}"
-        self.update!(posted: false)
-      end
-    rescue ActiveRecord::RecordInvalid => invalid
-      self.memo = "#{self.memo.to_s + REVERSAL_FAILED_NOTICE + NSF_NOTICE}"
-      #self.save(validate: false)
+    if ((outgoing.try(:withdraw, funds) == false) || (incoming.try(:deposit, funds) == false))
+      self.memo = self.memo.to_s + (posted? ? REVERSAL_FAILED_NOTICE+NSF_NOTICE : NSF_NOTICE)
+      errors[:base] << memo.to_s
+      return false
+    else
+      self.memo = self.memo.to_s + (posted? ? REVERSAL_SUCCEED_NOTICE : "")
+      self.posted = !posted?
+      return true
     end
   end
+  alias_method :reverse_transaction, :post_transaction
 
   def display_name
     if self.to_account.nil?

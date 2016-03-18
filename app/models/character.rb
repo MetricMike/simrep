@@ -28,22 +28,25 @@ class Character < ActiveRecord::Base
   has_many :events, through: :character_events, inverse_of: :characters, dependent: :destroy
   has_many :projects, through: :project_contributions, inverse_of: :characters, dependent: :destroy
 
-  has_many :character_backgrounds, inverse_of: :character, dependent: :destroy
-  has_many :character_origins, inverse_of: :character, dependent: :destroy
-  has_many :character_skills, inverse_of: :character, dependent: :destroy
-  has_many :character_perks, inverse_of: :character, dependent: :destroy
-  has_many :character_events, inverse_of: :character, dependent: :destroy
+  has_many :character_backgrounds, ->{ includes(:background) }, inverse_of: :character, dependent: :destroy
+  has_many :character_origins, ->{ includes(:origin) }, inverse_of: :character, dependent: :destroy
+  has_many :character_skills, ->{ includes(:skill) }, inverse_of: :character, dependent: :destroy
+  has_many :character_perks, ->{ includes(:perk) }, inverse_of: :character, dependent: :destroy
+  has_many :character_events, ->{ includes(:event) }, inverse_of: :character, dependent: :destroy
+
   has_many :project_contributions, inverse_of: :character, dependent: :destroy
   has_many :talents, inverse_of: :character, dependent: :destroy
   has_many :deaths, inverse_of: :character, dependent: :destroy
   has_many :bank_accounts, foreign_key: :owner_id, dependent: :destroy
   has_many :crafting_points, dependent: :destroy
 
+  has_many :temporary_effects, inverse_of: :character, dependent: :destroy
+
   accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills,
                                 :character_perks, :character_events, :bank_accounts,
                                 :crafting_points, allow_destroy: true
   accepts_nested_attributes_for :project_contributions, :talents, :deaths, :origins, :backgrounds,
-                                :events, :skills, :perks, allow_destroy: true
+                                :events, :skills, :perks, :temporary_effects, allow_destroy: true
 
   validates :name, presence: true
   validates :race, inclusion: { in: RACES }
@@ -165,6 +168,9 @@ class Character < ActiveRecord::Base
         prev_death.events_since.times {self.decrement_death }
       end
     end
+    if perm_modifiers = self.temporary_effects.where(attr: 'perm_chance').where('expiration > ?', Time.current)
+      @perm_chance += perm_modifiers.reduce(0) { |sum, eff| sum + eff.modifier }
+    end
   end
   alias_method :recount_deaths, :record_deaths
 
@@ -198,6 +204,14 @@ class Character < ActiveRecord::Base
     else
       @perm_counter -= 1
     end
+  end
+
+  def calc_willpower
+    @willpower = self.last_event.try(:event_willpower) || 1
+    if willpower_modifiers = self.temporary_effects.where(attr: 'willpower').where('expiration > ?', Time.current)
+      @willpower += willpower_modifiers.reduce(0) { |sum, eff| sum + eff.modifier }
+    end
+    @willpower
   end
 
 end

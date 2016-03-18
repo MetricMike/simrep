@@ -9,12 +9,17 @@ ActiveAdmin.register_page "Dashboard" do
     end
 
     panel "Recently updated content" do
-      table_for PaperTrail::Version.includes(:item).order(id: :desc).limit(20) do
-        column ("Item") { |v| link_to_if v.item, "#{v.item_type} :##{v.item_id}", [:admin, v.item] }
-        column ("Event") { |v| v.event }
-        column ("Details") { |v| v.changeset }
-        column ("Modified at") { |v| v.created_at.to_s :long }
-        column ("Modified by") { |v| User.where(id: v.whodunnit).try(:first).try(:display_name) }
+      versions = PaperTrail::Version.includes(:item).order(created_at: :desc).page(params[:page]).per(15)
+      versions_users = User.where(id: versions.collect(&:whodunnit).reject(&:blank?).map(&:to_i).uniq)
+      paginated_collection(versions) do
+        table_for collection do
+          column ("Item Type") { |v| v.item_type }
+          column ("Name") { |v| link_to_if v.item, "#{v.item.try(:display_name) || v.item_id}", [:admin, v.item] }
+          column ("Event") { |v| v.event }
+          column ("Details") { |v| v.changeset }
+          column ("Modified at") { |v| v.created_at.to_s :long }
+          column ("Modified by") { |v| versions_users.select{|u| u.id == v.whodunnit.to_i}.try(:first).try(:display_name) }
+        end
       end
     end
   end

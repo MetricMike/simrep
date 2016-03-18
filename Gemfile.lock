@@ -179,7 +179,6 @@ GEM
     newrelic_rpm (3.12.0.288)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
-    oj (2.12.14)
     orm_adapter (0.5.0)
     paper_trail (4.0.0)
       activerecord (>= 3.0, < 6.0)
@@ -257,7 +256,7 @@ GEM
       railties (>= 4.2.0, < 5.1)
     responsive_active_admin (0.0.5)
       activeadmin
-    rollbar (2.4.0)
+    rollbar (2.8.3)
       multi_json
     rounding (1.0.1)
     rspec (3.4.0)
@@ -360,7 +359,6 @@ DEPENDENCIES
   jquery-ui-rails
   money-rails
   newrelic_rpm
-  oj (~> 2.12.14)
   paper_trail
   passenger
   pg
@@ -372,7 +370,7 @@ DEPENDENCIES
   rails_12factor
   rb-readline
   responsive_active_admin
-  rollbar (~> 2.4.0)
+  rollbar
   rounding
   rspec-rails
   sass-rails

@@ -2,6 +2,8 @@ ActiveAdmin.register Character do
   menu false
   config.paginate = false
 
+  includes :bank_accounts
+
   batch_action :attend_event, form: {
     event:               Event.order(weekend: :desc).pluck(:weekend, :id),
     paid:                :checkbox,
@@ -104,7 +106,7 @@ ActiveAdmin.register Character do
 
         f.inputs 'Events', header: "" do
           f.has_many :character_events, allow_destroy: true do |ce_f|
-            ce_f.input :event, collection: Event.pluck(:weekend, :campaign, :id).map! { |a| [ "#{a[0]} / #{a[1]}", a[2] ] }
+            ce_f.input :event
             ce_f.input :paid, label: "Paid?"
             ce_f.input :cleaned, label: "Cleaned?"
           end
@@ -153,7 +155,7 @@ ActiveAdmin.register Character do
 
         f.inputs 'Deaths', header: "" do
           f.has_many :deaths, allow_destroy: true do |d_f|
-            d_f.input :weekend, as: :select, collection: f.object.character_events.to_a.map { |ce| [ "#{Event.find(ce.event_id).weekend} / #{Event.find(ce.event_id).campaign}", Event.find(ce.event_id).weekend ] }
+            d_f.input :weekend, as: :select, collection: f.object.character_events
             d_f.input :description
             d_f.input :physical
             d_f.input :roleplay
@@ -163,9 +165,9 @@ ActiveAdmin.register Character do
 
         f.inputs 'Project Contributions', header: "" do
           f.has_many :project_contributions, allow_destroy: true do |pc_f|
-            pc_f.input :project
+            pc_f.input :project, collection: Project.all.includes(:leader)
             pc_f.input :timeunits
-            pc_f.input :talent, collection: f.object.talents.map { |t| [ "#{t.rank} - #{t.name}", t.id ] }
+            pc_f.input :talent, collection: f.object.talents
             pc_f.input :note
           end
         end
@@ -196,14 +198,13 @@ ActiveAdmin.register Character do
     end
 
     def edit
-      resource = Character.includes(:character_events,
-                                    :talents, :deaths, project_contributions: {project: :leader})
+      resource = Character.includes({character_events: :event}, :talents, :deaths, {project_contributions: :project})
                           .find(params[:id])
       edit!
     end
 
     def show
-      @character = Character.includes({versions: :item}, :bank_accounts).find(params[:id])
+      @character = Character.includes(:bank_accounts).find(params[:id])
       @versions = @character.versions
       @character = @character.versions[params[:version].to_i].reify if params[:version]
       show!

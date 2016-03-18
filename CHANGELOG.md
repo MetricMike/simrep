@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Cleaned up the override options in BankAccount
 - Consolidated and cleaned up `BankTransaction#[post|reverse]_transaction`
+- Eager loading in many of the Admin pages should speed up app performance
 
 ### Fixed
 - Failed transactions no longer raise an exception to crash the app.

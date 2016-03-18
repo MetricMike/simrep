@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+## [1.6.0](v1.6.0) - 2016-3-17
+### Added
+- Temporary Effects (like increased perm chance for one event)
+- Events come with a base willpower. Character Sheets display base willpower.
+
 ## [1.5.12](v1.5.12) - 2016-3-17
 ### Fixed
 - Awarding attendance (like when printing a character sheet) requires an explicit override to change pay/clean awards.

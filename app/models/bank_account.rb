@@ -8,10 +8,7 @@ class BankAccount < ActiveRecord::Base
 
   monetize :balance_cents, :line_of_credit_cents
 
-  validate :does_not_exceed_credit, unless: :force?
-
-  attr_accessor :force
-  alias_method :force?, :force
+  validate :does_not_exceed_credit
 
   def does_not_exceed_credit
     if balance < (Money.new(0, 'VMK') - self.line_of_credit)
@@ -38,18 +35,14 @@ class BankAccount < ActiveRecord::Base
   end
 
   def withdraw(amt, force=false)
-    self.force = force
-
     old_balance = self.balance
     self.balance -= amt
-    self.save!
-
-    self.force = false
+    self.save(validate: !force)
   end
 
   def deposit(amt)
     self.balance += amt
-    self.save!
+    self.save
   end
 
   def display_name

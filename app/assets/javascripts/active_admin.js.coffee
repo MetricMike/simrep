@@ -1,2 +1,2 @@
 #= require active_admin/base
-#= require active_admin_datetimepicker
+#= require activeadmin_addons/all

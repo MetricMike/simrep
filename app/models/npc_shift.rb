@@ -8,7 +8,7 @@ class NpcShift < ActiveRecord::Base
 
   delegate :funds, to: :bank_transaction, allow_nil: true
 
-  after_commit :reverse_payments, on: :destroy
+  before_destroy :reverse_payments
 
   MAX_MONEY = Money.new(2000, :vmk)
   LIMIT_REACHED_MSG = "Bank Contract limits contractors to #{MAX_MONEY} per market day."
@@ -98,6 +98,7 @@ class NpcShift < ActiveRecord::Base
     ActiveRecord::Base.transaction do
       self.character_event.update!(accumulated_npc_money: etd_pay-real_pay)
       self.bank_transaction.destroy!
+      self.bank_transaction_id = nil
     end
   end
 end

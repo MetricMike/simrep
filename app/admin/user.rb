@@ -14,6 +14,13 @@ ActiveAdmin.register User do
     column "Password" do |u|
       status_tag (u.encrypted_password.present? ? :yes : :no)
     end
+    column "Annual Cleaning Coupon" do |u|
+      if u.free_cleaning_event_id
+        link_to Event.find(u.free_cleaning_event_id).display_name, admin_character_event_path(u.free_cleaning_event_id)
+      else
+        status_tag 'Unused', :no
+      end
+    end
     column "Referral Used" do |u|
       status_tag (u.upstream_referral.try(:event_claimed) ? :yes : :no)
     end
@@ -80,8 +87,8 @@ ActiveAdmin.register User do
   # sidebar "Post a Transaction", priority: 0, only: :show do
   #   active_admin_form_for(:bank_transaction, url: admin_bank_transactions_path) do |f|
   #     f.inputs do
-  #       f.input :from_account, collection: BankAccount.all, member_label: lambda { |a| a.owner.name }
-  #       f.input :to_account, collection: BankAccount.all, member_label: lambda { |a| a.owner.name }
+  #       f.input :from_account, collection: BankAccount.all.by_name, member_label: lambda { |a| a.owner.name }
+  #       f.input :to_account, collection: BankAccount.all.by_name, member_label: lambda { |a| a.owner.name }
   #       f.input :funds, as: :number, default: 0.00
   #       f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd)], label_method: :name, value_method: :to_s
   #       f.input :memo, required: false

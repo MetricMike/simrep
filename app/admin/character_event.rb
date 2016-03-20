@@ -31,7 +31,6 @@ ActiveAdmin.register CharacterEvent do
     filter :cleaned, as: :check_boxes
     filter :awarded, as: :check_boxes
     filter :accumulated_npc_money_cents
-    filter :accumulated_npc_timeunits
   rescue
     p "msg"
   end
@@ -61,7 +60,7 @@ ActiveAdmin.register CharacterEvent do
     roleplay:     :text,
   } do |ids, inputs|
     batch_action_collection.find(ids).each do |ce|
-      inputs[:date] = ce.event.weekend
+      inputs[:weekend] = ce.event.weekend
       ce.character.deaths.create(inputs)
     end
     redirect_to collection_path, notice: [ids, inputs].to_s

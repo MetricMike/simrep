@@ -76,10 +76,26 @@ class Character < ActiveRecord::Base
   end
 
   def experience
-    pay_xp = self.character_events.paid_with_xp.pluck('events.play_exp').reduce(0, :+)
-    clean_xp = self.character_events.cleaned_with_xp.pluck('events.clean_exp').reduce(0, :+)
+    pay_xp = living_events.paid_with_xp.pluck('events.play_exp').reduce(0, :+)
+    clean_xp = living_events.cleaned_with_xp.pluck('events.clean_exp').reduce(0, :+)
     background_xp = (self.backgrounds.find { |b| b.name.start_with?("Experienced") }) ? 20 : 0
     @experience = BASE_XP + pay_xp + clean_xp + background_xp
+  end
+
+  def living_events
+    self.dead? ? self.character_events.before(last_living_breath) : self.character_events
+  end
+
+  def dead_events
+    self.character_events - living_events
+  end
+
+  def dead?
+    self.origins.where('name ilike ?', '%Ghost%').try(:first).present?
+  end
+
+  def last_living_breath
+    self.deaths.where('description ilike ?', '%PERMED%').try(:last).try(:weekend)
   end
 
   def skill_points_used
@@ -123,7 +139,7 @@ class Character < ActiveRecord::Base
   def attend_event(event_id, paid=false, cleaned=false, check_coupon=false, override=false)
     attendance = self.character_events.find_or_create_by(event_id: event_id)
     award_paid(attendance, paid, override)
-    award_cleaned(attendance, cleaned, override)
+    award_cleaned(attendance, cleaned, check_coupon, override)
   end
 
   def award_paid(char_event, bool=false, override=false)
@@ -131,9 +147,9 @@ class Character < ActiveRecord::Base
     char_event.update(paid: bool)
   end
 
-  def award_cleaned(char_event, bool=false, override=false)
+  def award_cleaned(char_event, bool=false, check_coupon=false, override=false)
     return if (char_event.cleaned? and (override == false))
-    if bool == false
+    if (bool == false && check_coupon == true)
       clean_coupon = Event.where(id: self.user.free_cleaning_event_id).try(:first)
       if (clean_coupon.nil? || clean_coupon.weekend >= 1.year.ago)
         self.user.update(free_cleaning_event_id: char_event.event_id)

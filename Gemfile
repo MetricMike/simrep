@@ -44,7 +44,7 @@ gem 'rounding'
 gem 'activeadmin', github: 'activeadmin'
 gem 'cocoon' #needed for associations
 gem 'active_admin_csv_import'
-gem 'active_admin_datetimepicker'
+gem 'activeadmin_addons'
 gem 'responsive_active_admin'
 
 # Console and Error handling

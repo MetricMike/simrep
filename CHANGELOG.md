@@ -7,6 +7,20 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+## [1.7.0](v1.7.0) - 2016-3-20
+### Added
+- Ghost detection: ghosts no longer earn experience after they die, and instead earn 5 TU instead of the normal 2.
+
+### Changed
+- Added a bunch of UI improvements to Admin, namely select boxes are now select2 boxes and amazing.
+  + Bank Accounts are (generally) sorted by owner name instead of by id
+
+### Fixed
+- Updated wicked_pdf binary to fix compatibility for something that broke since 1.5.11
+- Mass Killing from Admin no longer crashes the app (corrected date->weekend)
+- Paid NPC Shifts can have their payments reversed so that their times are editable
+- Printing a PDF of your character sheet will no longer use up a cleaning coupon
+
 ## [1.6.0](v1.6.0) - 2016-3-17
 ### Added
 - Temporary Effects (like increased perm chance for one event)

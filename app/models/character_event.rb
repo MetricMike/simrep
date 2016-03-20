@@ -22,7 +22,7 @@ class CharacterEvent < ActiveRecord::Base
     unless self.awarded?
       ActiveRecord::Base.transaction do
         self.character.talents.each { |t| t.update(investment_limit: [t.investment_limit+2, 4].min) }
-        self.character.update(unused_talents: self.character.unused_talents+2)
+        self.character.update(unused_talents: self.character.unused_talents+num_timeunits_earned)
         self.update(awarded: true)
       end
     end
@@ -32,10 +32,14 @@ class CharacterEvent < ActiveRecord::Base
     if !self.paid? && self.awarded?
       ActiveRecord::Base.transaction do
         self.character.talents.each { |t| t.update(investment_limit: t.investment_limit-2)}
-        self.character.update(unused_talents: self.character.unused_talents-2)
+        self.character.update(unused_talents: self.character.unused_talents-num_timeunits_earned)
         self.update(awarded: false)
       end
     end
+  end
+
+  def num_timeunits_earned
+    self.character.dead? ? 5 : 2
   end
 
   def total_npc_money

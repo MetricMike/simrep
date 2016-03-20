@@ -19,7 +19,7 @@ class CharactersController < ApplicationController
   def show
     @last_event = @character.events.order(weekend: :desc).pluck(:weekend).try(:first).try(:strftime, "%Y %b %d")
     @last_event = "" unless @last_event
-    @filename = "#{@character.name} - #{@last_event}"
+    @filename = "#{@character.name.parameterize} - #{@last_event}"
 
     respond_to do |format|
       format.html

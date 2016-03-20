@@ -8,6 +8,8 @@ class BankAccount < ActiveRecord::Base
 
   monetize :balance_cents, :line_of_credit_cents
 
+  scope :by_name, -> { includes(:owner).order('characters.name asc')}
+
   validate :does_not_exceed_credit
 
   def does_not_exceed_credit

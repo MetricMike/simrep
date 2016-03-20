@@ -21,7 +21,7 @@ ActiveAdmin.register Character do
     description:  :text,
     physical:     :text,
     roleplay:     :text,
-    date:         Event.order(weekend: :desc).pluck(:weekend),
+    weekend:      Event.order(weekend: :desc).pluck(:weekend),
   } do |ids, inputs|
     batch_action_collection.find(ids).each do |character|
       character.deaths.create(inputs)
@@ -155,7 +155,7 @@ ActiveAdmin.register Character do
 
         f.inputs 'Deaths', header: "" do
           f.has_many :deaths, allow_destroy: true do |d_f|
-            d_f.input :weekend, as: :select, collection: f.object.character_events
+            d_f.input :weekend, as: :select, collection: f.object.character_events.pluck(:weekend)
             d_f.input :description
             d_f.input :physical
             d_f.input :roleplay

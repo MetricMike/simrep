@@ -7,6 +7,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+## [1.7.2](v1.7.2) - 2016-3-20
+### Fixed
+- NPC Shifts can be reversed for editing without crashing the app.
+
+## [1.7.1](v1.7.1) - 2016-3-20
+### Fixed
+- Removed January's non-maintenance maintenance message.
+
+
 ## [1.7.0](v1.7.0) - 2016-3-20
 ### Added
 - Ghost detection: ghosts no longer earn experience after they die, and instead earn 5 TU instead of the normal 2.
@@ -18,7 +27,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Updated wicked_pdf binary to fix compatibility for something that broke since 1.5.11
 - Mass Killing from Admin no longer crashes the app (corrected date->weekend)
-- Paid NPC Shifts can have their payments reversed so that their times are editable
+- Paid NPC Shifts can have their payments reversed so that their times are editable (this is a lie!)
 - Printing a PDF of your character sheet will no longer use up a cleaning coupon
 
 ## [1.6.0](v1.6.0) - 2016-3-17

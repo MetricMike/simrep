@@ -97,8 +97,9 @@ class NpcShift < ActiveRecord::Base
   def reverse_payments
     ActiveRecord::Base.transaction do
       self.character_event.update!(accumulated_npc_money: etd_pay-real_pay)
-      self.bank_transaction.destroy!
-      self.bank_transaction_id = nil
+      payment = self.bank_transaction
+      self.update_columns(bank_transaction_id: nil)
+      payment.destroy!
     end
   end
 end

@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Fixed
 
+## [1.7.3](v1.7.3) - 2016-3-26
+### Added
+- Link to this repo.
+
 ## [1.7.2](v1.7.2) - 2016-3-20
 ### Fixed
 - NPC Shifts can be reversed for editing without crashing the app.

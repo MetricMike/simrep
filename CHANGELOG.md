@@ -5,8 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 ### Changed
-### Fixed
 - Added Perks now appropriately gives your costume level in perk points not costume level + 1.
+- Bank Accounts now start with 5 Venthian marks instead of 10.
+
+### Fixed
 
 ### Broken
 - Version numbers. They'll catch up after the event, but for now don't trust them.

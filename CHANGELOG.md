@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Changed
 ### Fixed
+- Added Perks now appropriately gives your costume level in perk points not costume level + 1.
+
+### Broken
+- Version numbers. They'll catch up after the event, but for now don't trust them.
 
 ## [1.7.3](v1.7.3) - 2016-3-26
 ### Added

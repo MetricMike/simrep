@@ -20,7 +20,7 @@
 /tmp
 /.c9
 /.env
-/*.dump
+/**/*.dump
 /config/newrelic.yml
 
 # Ignore rspec states

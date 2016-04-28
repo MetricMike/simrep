@@ -41,6 +41,7 @@ class Character < ActiveRecord::Base
   has_many :crafting_points, dependent: :destroy
 
   has_many :temporary_effects, inverse_of: :character, dependent: :destroy
+  has_many :bonus_experiences, inverse_of: :character, dependent: :destroy
 
   accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills,
                                 :character_perks, :character_events, :bank_accounts,
@@ -79,7 +80,8 @@ class Character < ActiveRecord::Base
     pay_xp = living_events.paid_with_xp.pluck('events.play_exp').reduce(0, :+)
     clean_xp = living_events.cleaned_with_xp.pluck('events.clean_exp').reduce(0, :+)
     background_xp = (self.backgrounds.find { |b| b.name.start_with?("Experienced") }) ? 20 : 0
-    @experience = BASE_XP + pay_xp + clean_xp + background_xp
+    bonus_xp = (self.bonus_experiences.pluck(:amount).reduce(0, :+))
+    @experience = BASE_XP + pay_xp + clean_xp + background_xp + bonus_xp
   end
 
   def living_events

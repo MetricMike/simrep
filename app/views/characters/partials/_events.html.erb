@@ -3,11 +3,12 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Events Record</h4>
+          <h3 class="modal-title">Experience Record</h4>
         </div>
         <div class="modal-body">
           <div class="container-fluid">
             <div class="row">
+              <h4>Event Record</h5>
               <table class="table table-condensed table-hover table-responsive">
                 <thead>
                   <tr>
@@ -17,10 +18,26 @@
                     <th>XP for Cleaning</th>
                   </tr>
                 </thead>
-                  <%= render @character.events %>
                 <tbody>
+                  <%= render @character.events.newest %>
                 </tbody>
               </table>
+              <% if @character.bonus_experiences.present? %>
+              <hr/>
+                <h4>Bonus Experience</h5>
+                <table class="table table-condensed table-hover table-responsive">
+                  <thead>
+                    <tr>
+                      <th>Reason</th>
+                      <th>Amount</th>
+                      <th>Date Awarded</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= render @character.bonus_experiences.newest %>
+                  </tbody>
+                </table>
+              <% end %>
             </div>
           </div>
         </div>

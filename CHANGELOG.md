@@ -4,11 +4,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Bonus Experience! Now Staff XP, Retirement XP, and other miscellany will no longer be weird events from before anyone was ever born.
+
 ### Changed
 - Added Perks now appropriately gives your costume level in perk points not costume level + 1.
 - Bank Accounts now start with 5 Venthian marks instead of 10.
 
 ### Fixed
+- The events modal now displays events in chronological order, newest first.
 
 ### Broken
 - Version numbers. They'll catch up after the event, but for now don't trust them.

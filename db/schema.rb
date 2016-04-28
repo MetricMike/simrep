@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427034604) do
+ActiveRecord::Schema.define(version: 20160428005917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,17 @@ ActiveRecord::Schema.define(version: 20160427034604) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
   end
+
+  create_table "bonus_experiences", force: :cascade do |t|
+    t.integer  "character_id"
+    t.string   "reason"
+    t.integer  "amount"
+    t.datetime "date_awarded"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "bonus_experiences", ["character_id"], name: "index_bonus_experiences_on_character_id", using: :btree
 
   create_table "character_backgrounds", force: :cascade do |t|
     t.integer  "character_id"
@@ -315,6 +326,7 @@ ActiveRecord::Schema.define(version: 20160427034604) do
   add_foreign_key "bank_items", "bank_accounts", column: "to_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "to_account_id"
+  add_foreign_key "bonus_experiences", "characters"
   add_foreign_key "character_backgrounds", "backgrounds"
   add_foreign_key "character_backgrounds", "characters"
   add_foreign_key "character_events", "characters"

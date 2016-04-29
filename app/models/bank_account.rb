@@ -1,5 +1,6 @@
 class BankAccount < ActiveRecord::Base
   has_paper_trail
+  belongs_to :chapter, inverse_of: :bank_accounts
   belongs_to :owner, class_name: 'Character'
   has_many :outgoing_transactions, class_name: 'BankTransaction', foreign_key: :from_account_id, dependent: :destroy
   has_many :incoming_transactions, class_name: 'BankTransaction', foreign_key: :to_account_id, dependent: :destroy

@@ -6,10 +6,10 @@ class AddChaptersToEverything < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do
-        Character.where('created_at < ?', 1.week.ago).map { |c| c.update(chapter_id: Chapter::BASTION.id) }
-        BankAccount.where('created_at < ?', 1.week.ago).map { |ba| ba.update(chapter_id: Chapter::BASTION.id) }
-        Event.where('created_at < ?', 1.week.ago).where.not(campaign: "Aquia").map { |e| e.update(chapter_id: Chapter::BASTION.id) }
-        Event.where('created_at < ?', 1.week.ago).where(campaign: "Aquia").map { |e| e.update(chapter_id: Chapter::AQUIA.id) }
+        Character.where('created_at < ?', 1.week.ago).map { |c| c.update(chapter_id: Chapter.find_by(name: "Bastion").id) }
+        BankAccount.where('created_at < ?', 1.week.ago).map { |ba| ba.update(chapter_id: Chapter.find_by(name: "Bastion").id) }
+        Event.where('created_at < ?', 1.week.ago).where.not(campaign: "Aquia").map { |e| e.update(chapter_id: Chapter.find_by(name: "Aquia").id) }
+        Event.where('created_at < ?', 1.week.ago).where(campaign: "Aquia").map { |e| e.update(chapter_id: Chapter.find_by(name: "Aquia").id) }
       end
     end
 

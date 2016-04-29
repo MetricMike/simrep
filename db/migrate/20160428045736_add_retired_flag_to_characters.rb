@@ -1,5 +1,5 @@
 class AddRetiredFlagToCharacters < ActiveRecord::Migration
   def change
-    add_column :characters, :retired, :boolean
+    add_column :characters, :retired, :boolean, default: false
   end
 end

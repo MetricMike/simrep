@@ -18,6 +18,7 @@ class Character < ActiveRecord::Base
   scope :by_name_asc, -> { order(name: :asc) }
   scope :oldest, -> { order(created_at: :asc) }
   scope :for_index, -> { includes(:events, :backgrounds) }
+  scope :for_current_chapter, ->(chapter) { where(chapter_id: chapter['id']) }
 
   belongs_to :user, inverse_of: :characters
   belongs_to :chapter, inverse_of: :characters
@@ -57,6 +58,7 @@ class Character < ActiveRecord::Base
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   before_create :turn_off_nested_callbacks
+  before_create :extra_xp_for_holurheim
   after_create :turn_on_nested_callbacks, :open_bankaccount
 
   attr_writer :perm_chance, :perm_counter
@@ -210,8 +212,15 @@ class Character < ActiveRecord::Base
     ProjectContribution.set_callback(:create, :before, :invest_talent)
   end
 
+  def extra_xp_for_holurheim
+    return if self.chapter != Chapter::HOLURHEIM
+    self.bonus_experiences.create(reason: "Holurheim Starting XP",
+                                  date_awarded: Date.today,
+                                  amount: 35)
+  end
+
   def open_bankaccount
-    self.bank_accounts.create()
+    self.bank_accounts.create(chapter: self.chapter)
   end
 
   def display_name

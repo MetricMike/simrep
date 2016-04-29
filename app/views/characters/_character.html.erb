@@ -1,5 +1,5 @@
 <li id="character-<%= character.id %>">
-  <% if retired %>
+  <% if character.retired? %>
     <span class="name">Name: <%= character.name %></span>
     <span class="experience">Total Events: <%= character.character_events.count %></span>
   <% else %>

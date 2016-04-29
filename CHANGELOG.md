@@ -10,6 +10,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Broken
 
 ## [1.8.0](v1.8.0) - 2016-4-29
+### Fixed
+- Auto-assigned anyone created in the last week to Holurheim
+
+## [1.8.0](v1.8.0) - 2016-4-29
 ### Added
 - Bonus Experience! Now Staff XP, Retirement XP, and other miscellany will no longer be weird events from before anyone was ever born.
 - Retirements! Can only be done by the console for the moment, but retired XP is added automatically after events.

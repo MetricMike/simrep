@@ -1,17 +1,27 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
+(Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Broken
+
+## [1.8.0](v1.8.0) - 2016-4-29
+### Added
+- Bonus Experience! Now Staff XP, Retirement XP, and other miscellany will no longer be weird events from before anyone was ever born.
+- Retirements! Can only be done by the console for the moment, but retired XP is added automatically after events.
+- Chapters! Bastion and Holurheim are partitioned off by the Atlantic Ocean and some SELECT clauses.
+- Characters created in Holurheim start with 35 more XP for a total off 4 skill points
+
 ### Changed
 - Added Perks now appropriately gives your costume level in perk points not costume level + 1.
 - Bank Accounts now start with 5 Venthian marks instead of 10.
 
 ### Fixed
-
-### Broken
-- Version numbers. They'll catch up after the event, but for now don't trust them.
+- The events modal now displays events in chronological order, newest first.
 
 ## [1.7.3](v1.7.3) - 2016-3-26
 ### Added

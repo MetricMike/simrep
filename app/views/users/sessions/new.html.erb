@@ -7,7 +7,10 @@
       <%= f.input :email, autofocus: true %>
       <%= f.input :password, hint: raw("#{link_to 'Forgot your password?', new_password_path(resource_name)}") %>
       <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-      <%= f.button :submit, "Log in" %>
+      <%= f.button :submit, "Bastion", class: "btn btn-primary" %>
+      <%= f.button :submit, "Holurheim", class: "btn btn-warning" %>
+      <%= f.button :submit, "Aquia", disabled: true, class: "btn btn-default" %>
+      <%= f.button :submit, "Last Rest", disabled: true, class: "btn btn-default" %>
     <% end %>
   </div>
 </div>

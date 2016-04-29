@@ -39,6 +39,7 @@ gem 'money-rails'
 
 # Convenience Methods
 gem 'rounding'
+gem 'constant_cache', github: 'tpitale/constant_cache', branch: 'ar'
 
 # ActiveAdmin and Friends
 gem 'activeadmin', github: 'activeadmin'

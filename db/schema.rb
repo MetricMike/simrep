@@ -1,183 +1,3 @@
-# encoding: UTF-8
-# This file is auto-generated from the current state of the database. Instead
-# of editing this file, please use the migrations feature of Active Record to
-# incrementally modify your database, and then regenerate this schema definition.
-#
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
-#
-# It's strongly recommended that you check this file into your version control system.
-
-ActiveRecord::Schema.define(version: 20160427034604) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "active_admin_comments", force: :cascade do |t|
-    t.string   "namespace"
-    t.text     "body"
-    t.string   "resource_id",   null: false
-    t.string   "resource_type", null: false
-    t.integer  "author_id"
-    t.string   "author_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
-  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
-
-  create_table "backgrounds", force: :cascade do |t|
-    t.string   "name"
-    t.string   "detail"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "bank_accounts", force: :cascade do |t|
-    t.integer  "owner_id"
-    t.integer  "balance_cents",           default: 500,   null: false
-    t.string   "balance_currency",        default: "VMK", null: false
-    t.integer  "line_of_credit_cents",    default: 500,   null: false
-    t.string   "line_of_credit_currency", default: "VMK", null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-  end
-
-  add_index "bank_accounts", ["owner_id"], name: "index_bank_accounts_on_owner_id", using: :btree
-
-  create_table "bank_items", force: :cascade do |t|
-    t.integer  "from_account_id"
-    t.integer  "to_account_id"
-    t.string   "item_description"
-    t.integer  "item_count",       default: 1, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-  end
-
-  create_table "bank_transactions", force: :cascade do |t|
-    t.integer  "from_account_id"
-    t.integer  "to_account_id"
-    t.string   "memo"
-    t.integer  "funds_cents",     default: 0,     null: false
-    t.string   "funds_currency",  default: "VMK", null: false
-    t.boolean  "posted",          default: false, null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-  end
-
-  create_table "character_backgrounds", force: :cascade do |t|
-    t.integer  "character_id"
-    t.integer  "background_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
-  add_index "character_backgrounds", ["background_id"], name: "index_character_backgrounds_on_background_id", using: :btree
-  add_index "character_backgrounds", ["character_id"], name: "index_character_backgrounds_on_character_id", using: :btree
-
-  create_table "character_events", force: :cascade do |t|
-    t.integer  "character_id"
-    t.integer  "event_id"
-    t.boolean  "paid"
-    t.boolean  "cleaned"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
-    t.integer  "accumulated_npc_timeunits",      default: 0
-    t.integer  "accumulated_npc_money_cents",    default: 0,     null: false
-    t.string   "accumulated_npc_money_currency", default: "VMK", null: false
-    t.boolean  "awarded",                        default: false
-  end
-
-  add_index "character_events", ["character_id"], name: "index_character_events_on_character_id", using: :btree
-  add_index "character_events", ["event_id"], name: "index_character_events_on_event_id", using: :btree
-
-  create_table "character_origins", force: :cascade do |t|
-    t.integer  "character_id"
-    t.integer  "origin_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "character_origins", ["character_id"], name: "index_character_origins_on_character_id", using: :btree
-  add_index "character_origins", ["origin_id"], name: "index_character_origins_on_origin_id", using: :btree
-
-  create_table "character_perks", force: :cascade do |t|
-    t.integer  "character_id"
-    t.integer  "perk_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "character_perks", ["character_id"], name: "index_character_perks_on_character_id", using: :btree
-  add_index "character_perks", ["perk_id"], name: "index_character_perks_on_perk_id", using: :btree
-
-  create_table "character_skills", force: :cascade do |t|
-    t.integer  "character_id"
-    t.integer  "skill_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "character_skills", ["character_id"], name: "index_character_skills_on_character_id", using: :btree
-  add_index "character_skills", ["skill_id"], name: "index_character_skills_on_skill_id", using: :btree
-
-  create_table "characters", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "race"
-    t.string   "culture"
-    t.integer  "costume"
-    t.date     "costume_checked"
-    t.boolean  "history_approval", default: false
-    t.string   "history_link",     default: "https://drive.google.com/open?id=1MCJQU6CIV4UDPtRTmYJRpwfBaHW9AzcCCGL9duw7-RQ&authuser=0"
-    t.integer  "unused_talents",   default: 0
-  end
-
-  add_index "characters", ["user_id"], name: "index_characters_on_user_id", using: :btree
-
-  create_table "crafting_points", force: :cascade do |t|
-    t.integer "character_id"
-    t.string  "type"
-    t.integer "unranked",     default: 0
-    t.integer "apprentice",   default: 0
-    t.integer "journeyman",   default: 0
-    t.integer "master",       default: 0
-  end
-
-  add_index "crafting_points", ["character_id"], name: "index_crafting_points_on_character_id", using: :btree
-
-  create_table "deaths", force: :cascade do |t|
-    t.text     "description"
-    t.string   "physical"
-    t.string   "roleplay"
-    t.date     "weekend"
-    t.integer  "character_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.boolean  "countable",    default: true
-  end
-
-  add_index "deaths", ["character_id"], name: "index_deaths_on_character_id", using: :btree
-
-  create_table "events", force: :cascade do |t|
-    t.string   "campaign"
-    t.date     "weekend"
-    t.integer  "play_exp"
-    t.integer  "clean_exp"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "base_willpower"
-  end
-
-  add_index "events", ["weekend"], name: "index_events_on_weekend", using: :btree
-
   create_table "npc_shifts", force: :cascade do |t|
     t.integer  "character_event_id"
     t.datetime "opening"
@@ -291,6 +111,8 @@ ActiveRecord::Schema.define(version: 20160427034604) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.integer  "free_cleaning_event_id"
+    t.integer  "std_retirement_xp_pool"
+    t.integer  "leg_retirement_xp_pool"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -315,6 +137,7 @@ ActiveRecord::Schema.define(version: 20160427034604) do
   add_foreign_key "bank_items", "bank_accounts", column: "to_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "to_account_id"
+  add_foreign_key "bonus_experiences", "characters"
   add_foreign_key "character_backgrounds", "backgrounds"
   add_foreign_key "character_backgrounds", "characters"
   add_foreign_key "character_events", "characters"
@@ -337,3 +160,57 @@ ActiveRecord::Schema.define(version: 20160427034604) do
   add_foreign_key "temporary_effects", "characters"
   add_foreign_key "users", "events", column: "free_cleaning_event_id"
 end
+.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "race"
+    t.string   "culture"
+    t.integer  "costume"
+    t.date     "costume_checked"
+    t.boolean  "history_approval", default: false
+    t.string   "history_link",     default: "https://drive.google.com/open?id=1MCJQU6CIV4UDPtRTmYJRpwfBaHW9AzcCCGL9duw7-RQ&authuser=0"
+    t.integer  "unused_talents",   default: 0
+    t.boolean  "retired"
+    t.integer  "chapter_id"
+  end
+
+  add_index "characters", ["chapter_id"], name: "index_characters_on_chapter_id", using: :btree
+  add_index "characters", ["user_id"], name: "index_characters_on_user_id", using: :btree
+
+  create_table "crafting_points", force: :cascade do |t|
+    t.integer "character_id"
+    t.string  "type"
+    t.integer "unranked",     default: 0
+    t.integer "apprentice",   default: 0
+    t.integer "journeyman",   default: 0
+    t.integer "master",       default: 0
+  end
+
+  add_index "crafting_points", ["character_id"], name: "index_crafting_points_on_character_id", using: :btree
+
+  create_table "deaths", force: :cascade do |t|
+    t.text     "description"
+    t.string   "physical"
+    t.string   "roleplay"
+    t.date     "weekend"
+    t.integer  "character_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "countable",    default: true
+  end
+
+  add_index "deaths", ["character_id"], name: "index_deaths_on_character_id", using: :btree
+
+  create_table "events", force: :cascade do |t|
+    t.string   "campaign"
+    t.date     "weekend"
+    t.integer  "play_exp"
+    t.integer  "clean_exp"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "base_willpower"
+    t.integer  "chapter_id"
+  end
+
+  add_index "events", ["chapter_id"], name: "index_events_on_chapter_id", using: :btree
+  add_index "events", ["weekend"], name: "index_events_on_weekend", using: :btree
+

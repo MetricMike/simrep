@@ -25,12 +25,18 @@ class ApplicationController < ActionController::Base
   end
 
   def pundit_user
-    UserWithCharacterContext.new(current_user, current_character)
+    UserWithContext.new(current_user, current_character, current_chapter)
   end
 
-  def current_character
-    @character ||= session[:current_char_id] && Character.find_by(id: session[:current_char_id])
+  def current_chapter
+    @chapter ||= session[:current_chapter_id] && Chapter.find(session[:current_chapter_id])
   end
+  helper_method :current_chapter
+
+  def current_character
+    @character ||= session[:current_char_id] && Character.find(session[:current_char_id])
+  end
+  helper_method :current_character
 
   def authenticate_admin!
     redirect_to root_path unless current_user && current_user.admin?

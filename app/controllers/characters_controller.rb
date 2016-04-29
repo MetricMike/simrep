@@ -9,10 +9,12 @@ class CharactersController < ApplicationController
 
   def index
     @characters = policy_scope(Character.for_index)
+    @active_characters = @characters.where(retired: false)
+    @retired_characters = @characters.where(retired: true)
   end
 
   def new
-    @character = current_user.characters.new
+    @character = current_user.characters.new(chapter: current_chapter)
     authorize @character
   end
 
@@ -40,6 +42,7 @@ class CharactersController < ApplicationController
   end
 
   def edit
+    # No way to reach here, the route is gone!
   end
 
   def create
@@ -54,22 +57,41 @@ class CharactersController < ApplicationController
   end
 
   def update
-    if @character.update_attributes(character_params)
-      redirect_to @character, notice: 'Character updated successfully.'
+    # Only thing you can do here is move between chapters
+    if @character.update_attributes(chapter_id: params[:chapter])
+      session[:current_chapter_id] = params[:chapter]; @chapter = current_chapter
+      redirect_to @character, notice: 'Character moved successfully.'
     else
       render action: :edit
     end
   end
 
   def destroy
-    # Will actually be "retiring"
+    # @character.update(retired: true)
+    # But I'm not ready to let PCs self-retire JUST yet
   end
+
+  def alt_chapter
+    case current_chapter.name
+    when "Bastion"
+      Chapter.find_by(name: "Holurheim")
+    else # Holurheim
+      Chapter.find_by(name: "Bastion")
+    end
+  end
+  helper_method :alt_chapter
 
   private
 
   def sign_in_character
     session[:current_char_id] = params[:id]
-    @character = Character.find_by id: params[:id]
+    @character = Character.find(params[:id])
+
+    # This should be redundant and can be removed
+    unless @character.bank_accounts.where(chapter: current_chapter).any?
+      @character.open_bankaccount
+    end
+
     authorize @character
   end
 

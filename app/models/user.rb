@@ -46,4 +46,29 @@ class User < ActiveRecord::Base
   def display_name
     "#{self.name} (#{self.email})"
   end
+
+  def retirement_xp?
+    self.std_retirement_xp_pool > 0 || self.leg_retirement_xp_pool > 0
+  end
+
+  def award_retirement_xp
+    leg_amount = 0 # No more than 20
+    std_amount = 0 # No more than 10
+
+    # Remove no more than 20 XP from Leg
+    if self.leg_retirement_xp_pool > 0
+      leg_amount = [20, self.leg_retirement_xp_pool].min
+      self.update(leg_retirement_xp_pool: (self.leg_retirement_xp_pool - leg_amount))
+    end
+
+    # Remove no more than 10 XP from Std
+    if leg_amount < 10
+      if self.std_retirement_xp_pool > 0
+        std_amount = [10, self.std_retirement_xp_pool].min
+        self.update(std_retirement_xp_pool: (self.std_retirement_xp_pool - std_amount))
+      end
+    end
+
+    (leg_amount + std_amount)
+  end
 end

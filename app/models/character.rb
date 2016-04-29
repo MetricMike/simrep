@@ -18,8 +18,10 @@ class Character < ActiveRecord::Base
   scope :by_name_asc, -> { order(name: :asc) }
   scope :oldest, -> { order(created_at: :asc) }
   scope :for_index, -> { includes(:events, :backgrounds) }
+  scope :for_current_chapter, ->(chapter) { where(chapter_id: chapter['id']) }
 
   belongs_to :user, inverse_of: :characters
+  belongs_to :chapter, inverse_of: :characters
 
   has_many :backgrounds, through: :character_backgrounds, inverse_of: :characters, dependent: :destroy
   has_many :origins, through: :character_origins, inverse_of: :characters, dependent: :destroy
@@ -41,6 +43,7 @@ class Character < ActiveRecord::Base
   has_many :crafting_points, dependent: :destroy
 
   has_many :temporary_effects, inverse_of: :character, dependent: :destroy
+  has_many :bonus_experiences, inverse_of: :character, dependent: :destroy
 
   accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills,
                                 :character_perks, :character_events, :bank_accounts,
@@ -55,6 +58,7 @@ class Character < ActiveRecord::Base
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   before_create :turn_off_nested_callbacks
+  before_create :extra_xp_for_holurheim
   after_create :turn_on_nested_callbacks, :open_bankaccount
 
   attr_writer :perm_chance, :perm_counter
@@ -79,7 +83,8 @@ class Character < ActiveRecord::Base
     pay_xp = living_events.paid_with_xp.pluck('events.play_exp').reduce(0, :+)
     clean_xp = living_events.cleaned_with_xp.pluck('events.clean_exp').reduce(0, :+)
     background_xp = (self.backgrounds.find { |b| b.name.start_with?("Experienced") }) ? 20 : 0
-    @experience = BASE_XP + pay_xp + clean_xp + background_xp
+    bonus_xp = (self.bonus_experiences.pluck(:amount).reduce(0, :+))
+    @experience = BASE_XP + pay_xp + clean_xp + background_xp + bonus_xp
   end
 
   def living_events
@@ -140,6 +145,15 @@ class Character < ActiveRecord::Base
     attendance = self.character_events.find_or_create_by(event_id: event_id)
     award_paid(attendance, paid, override)
     award_cleaned(attendance, cleaned, check_coupon, override)
+    award_retired(event_id)
+  end
+
+  def award_retired(event_id)
+    if self.user.retirement_xp?
+      self.bonus_experiences.create(reason: "Retirement XP",
+                                    date_awarded: Event.find(event_id).weekend.in_time_zone,
+                                    amount: self.user.award_retirement_xp)
+    end
   end
 
   def award_paid(char_event, bool=false, override=false)
@@ -198,8 +212,15 @@ class Character < ActiveRecord::Base
     ProjectContribution.set_callback(:create, :before, :invest_talent)
   end
 
+  def extra_xp_for_holurheim
+    return if self.chapter != Chapter::HOLURHEIM
+    self.bonus_experiences.create(reason: "Holurheim Starting XP",
+                                  date_awarded: Date.today,
+                                  amount: 35)
+  end
+
   def open_bankaccount
-    self.bank_accounts.create()
+    self.bank_accounts.create(chapter: self.chapter)
   end
 
   def display_name
@@ -228,6 +249,27 @@ class Character < ActiveRecord::Base
       @willpower += willpower_modifiers.reduce(0) { |sum, eff| sum + eff.modifier }
     end
     @willpower
+  end
+
+  def retire(type=:standard)
+    case type
+    when :standard
+      self.update(retired: true)
+      self.user.update(std_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
+    when :legacy
+      self.update(retired: true)
+      self.user.update(leg_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
+    when :high_arcane
+      # What happens to previous experience? Does it no longer count or do you level REALLY slowly?
+      self.user.update(leg_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
+    when :ghost
+      self.user.update(leg_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
+    else
+      Rails.logger.info "I don't know how to retire #{type}.\n" \
+                        "It shouldn't have been possible to reach this state.\n" \
+                        "You've summoned a Kiltrick.\n" \
+                        "Good job."
+    end
   end
 
 end

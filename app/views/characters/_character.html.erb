@@ -1,4 +1,9 @@
 <li id="character-<%= character.id %>">
-  <span class="name">Name: <%= link_to character.name, character_path(character) %></span>
-  <span class="experience">XP: <%= character.experience %></span>
+  <% if retired %>
+    <span class="name">Name: <%= character.name %></span>
+    <span class="experience">Total Events: <%= character.character_events.count %></span>
+  <% else %>
+    <span class="name">Name: <%= link_to character.name, character_path(character) %></span>
+    <span class="experience">XP: <%= character.experience %></span>
+  <% end %>
 </li>

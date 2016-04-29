@@ -9,6 +9,8 @@ class CharactersController < ApplicationController
 
   def index
     @characters = policy_scope(Character.for_index)
+    @active_characters = @characters.where(retired: false)
+    @retired_characters = @characters.where(retired: true)
   end
 
   def new
@@ -62,7 +64,8 @@ class CharactersController < ApplicationController
   end
 
   def destroy
-    # Will actually be "retiring"
+    # @character.update(retired: true)
+    # But I'm not ready to let PCs self-retire JUST yet
   end
 
   private

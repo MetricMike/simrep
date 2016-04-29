@@ -7,10 +7,17 @@
     </section>
   </aside>
   <div class="col-md-8">
-    <% if @characters.any? %>
-      <h3>Characters (<%= @characters.count %>)</h3>
+    <% if @active_characters.any? %>
+      <h3>Active Characters (<%= @active_characters.count %>)</h3>
       <ul class="characters">
-        <%= render @characters %>
+        <%= render @active_characters, locals: { retired: true } %>
+      </ul>
+    <% end %>
+    <if @retired_characters.any? %>
+      <hr/>
+      <h3>Retired Characters (<%= @retired_characters.count %></h3>)
+      <ul class="characters">
+        <%= render @retired_characters, locals: { retired: true } %>
       </ul>
     <% end %>
   </div>

@@ -20,6 +20,7 @@ class Character < ActiveRecord::Base
   scope :for_index, -> { includes(:events, :backgrounds) }
 
   belongs_to :user, inverse_of: :characters
+  belongs_to :chapter, inverse_of: :characters
 
   has_many :backgrounds, through: :character_backgrounds, inverse_of: :characters, dependent: :destroy
   has_many :origins, through: :character_origins, inverse_of: :characters, dependent: :destroy
@@ -142,6 +143,15 @@ class Character < ActiveRecord::Base
     attendance = self.character_events.find_or_create_by(event_id: event_id)
     award_paid(attendance, paid, override)
     award_cleaned(attendance, cleaned, check_coupon, override)
+    award_retired(event_id)
+  end
+
+  def award_retired(event_id)
+    if self.user.retirement_xp?
+      self.bonus_experiences.create(reason: "Retirement XP",
+                                    date_awarded: Event.find(event_id).weekend.in_time_zone,
+                                    amount: self.user.award_retirement_xp)
+    end
   end
 
   def award_paid(char_event, bool=false, override=false)
@@ -230,6 +240,27 @@ class Character < ActiveRecord::Base
       @willpower += willpower_modifiers.reduce(0) { |sum, eff| sum + eff.modifier }
     end
     @willpower
+  end
+
+  def retire(type=:standard)
+    case type
+    when :standard
+      self.update(retired: true)
+      self.user.update(std_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
+    when :legacy
+      self.update(retired: true)
+      self.user.update(leg_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
+    when :high_arcane
+      # What happens to previous experience? Does it no longer count or do you level REALLY slowly?
+      self.user.update(leg_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
+    when :ghost
+      self.user.update(leg_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
+    else
+      Rails.logger.info "I don't know how to retire #{type}.\n" \
+                        "It shouldn't have been possible to reach this state.\n" \
+                        "You've summoned a Kiltrick.\n" \
+                        "Good job."
+    end
   end
 
 end

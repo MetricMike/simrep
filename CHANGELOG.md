@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Bonus Experience! Now Staff XP, Retirement XP, and other miscellany will no longer be weird events from before anyone was ever born.
+- Retirements! Can only be done by the console for the moment, but retired XP is added automatically after events.
 
 ### Changed
 - Added Perks now appropriately gives your costume level in perk points not costume level + 1.

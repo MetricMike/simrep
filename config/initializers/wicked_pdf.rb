@@ -1,5 +1,4 @@
-WickedPdf.config = {
-  #:wkhtmltopdf => '/usr/local/bin/wkhtmltopdf',
+WickedPdf.config ||= {}
+WickedPdf.config.merge!({
   :layout => "pdf.html",
-  :exe_path => "#{Rails.root}/bin/wkhtmltopdf"
-}
+})

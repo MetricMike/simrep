@@ -32,7 +32,7 @@ gem 'oj'
 
 # PDF Handling
 gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
+gem 'wkhtmltopdf-heroku'
 
 # Currency handling
 gem 'money-rails'

@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Changed
 ### Fixed
+- Updated wkhtmlpdf - PDF printing works in windows (and heroku, but that wasn't broken?)
+
 ### Broken
 
 ## [1.8.0](v1.8.0) - 2016-4-29

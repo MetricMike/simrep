@@ -23,6 +23,13 @@
 /**/*.dump
 /config/newrelic.yml
 
+# Ignore sublime-text files
+/*.sublime-project
+/*.sublime-workspace
+
+# Don't commit precompiled assets
+/public/assets
+
 # Ignore rspec states
 /spec/examples.txt
 

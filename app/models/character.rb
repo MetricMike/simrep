@@ -63,8 +63,10 @@ class Character < ActiveRecord::Base
 
   attr_writer :perm_chance, :perm_counter
 
-  def level
-    @level = EXP_CHART.rindex { |i| self.experience >= i }
+  def level(with_multiplier=false)
+    @level = EXP_CHART.rindex do |i|
+      (with_multiplier ? self.experience*self.experience_multiplier : self.experience) >= i
+    end
   end
 
   def exp_to_next
@@ -108,8 +110,13 @@ class Character < ActiveRecord::Base
   end
 
   def skill_points_total
-    multiplier = (self.origins.find { |o| o.name.start_with?("Template: Proto") }) ? 2 : 1
-    @skill_points_total = SKILL_CHART[self.level*multiplier]
+    @skill_points_total = SKILL_CHART[self.level(true)]
+  end
+
+  def experience_multiplier
+    return 3 if self.origins.find { |o| o.name =~ /proto revelation/i }
+    return 2 if self.origins.find { |o| o.name =~ /proto/i }
+    return 1
   end
 
   def perk_points_used

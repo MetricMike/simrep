@@ -5,9 +5,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Support for Proto Revelation (triple skillpoints)
+
 ### Changed
+- Holurheim Bonus XP is now 40 (still provides only 4, but cleaner for gifting skillpoints to other characters)
+
 ### Fixed
 - Updated wkhtmlpdf - PDF printing works in windows (and heroku, but that wasn't broken?)
+- Protos now properly double skillpoints without messing with their experience.
 
 ### Broken
 
@@ -20,7 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bonus Experience! Now Staff XP, Retirement XP, and other miscellany will no longer be weird events from before anyone was ever born.
 - Retirements! Can only be done by the console for the moment, but retired XP is added automatically after events.
 - Chapters! Bastion and Holurheim are partitioned off by the Atlantic Ocean and some SELECT clauses.
-- Characters created in Holurheim start with 35 more XP for a total off 4 skill points
+- Characters created in Holurheim start with 35 more XP for a total of 4 skill points
 
 ### Changed
 - Added Perks now appropriately gives your costume level in perk points not costume level + 1.

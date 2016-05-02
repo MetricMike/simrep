@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Updated wkhtmlpdf - PDF printing works in windows (and heroku, but that wasn't broken?)
 - Protos now properly double skillpoints without messing with their experience.
+- Using the MUCH shorter character history as the default link
 
 ### Broken
 

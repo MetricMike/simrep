@@ -61,7 +61,6 @@ gem 'pry-byebug'
 group :development, :test do
   gem "better_errors"
   gem 'bullet'
-  gem 'spring'
   gem 'quiet_assets'
 
   gem 'faker'

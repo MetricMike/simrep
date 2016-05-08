@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 ruby '2.3.0'
 
 # Core Binaries
-gem 'rails'
-gem 'pg'
+gem 'rails', '~> 5.0.0.rc1'
+gem 'pg', '0.18.2'
 gem 'passenger'
 gem 'dotenv-rails'
 
@@ -28,7 +28,7 @@ gem 'pundit'
 gem 'newrelic_rpm'
 gem 'paper_trail'
 gem 'rollbar'
-gem 'oj'
+gem 'oj', '~> 2.12.14'
 
 # PDF Handling
 gem 'wicked_pdf'
@@ -58,13 +58,10 @@ gem 'pry-rails'
 gem 'pry-byebug'
 
 group :development, :test do
-  # Better Console
-  gem 'rb-readline', require: false
-  gem 'quiet_assets'
-  gem 'bullet'
-
-
   gem "better_errors"
+  gem 'bullet'
+  gem 'spring'
+
   gem 'faker'
 end
 

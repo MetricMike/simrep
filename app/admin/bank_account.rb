@@ -13,6 +13,7 @@ ActiveAdmin.register BankAccount do
     column :id do |ba|
       link_to ba.id, admin_bank_account_path(ba)
     end
+    column :chapter
     column "Owner", :owner_id do |ba|
       link_to Character.find(ba.owner_id).name, admin_character_path(ba.owner_id)
     end
@@ -87,8 +88,8 @@ ActiveAdmin.register BankAccount do
   sidebar "Post a Transaction", priority: 0, only: :show do
     active_admin_form_for(:bank_transaction, url: admin_bank_transactions_path) do |f|
       f.inputs do
-        f.input :from_account, collection: BankAccount.all.by_name, member_label: lambda { |a| a.owner.name }
-        f.input :to_account, collection: BankAccount.all.by_name, member_label: lambda { |a| a.owner.name }
+        f.input :from_account, collection: BankAccount.all.by_name, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
+        f.input :to_account, collection: BankAccount.all.by_name, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
         f.input :funds, as: :number, default: 0.00
         f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd)], label_method: :name, value_method: :to_s
         f.input :memo, required: false
@@ -100,8 +101,8 @@ ActiveAdmin.register BankAccount do
   sidebar "Add an Item", priority: 1, only: :show do
     active_admin_form_for(:bank_item, url: admin_bank_items_path) do |f|
       f.inputs do
-        f.input :from_account, collection: BankAccount.all.by_name, member_label: lambda { |a| a.owner.name }
-        f.input :to_account, collection: BankAccount.all.by_name, member_label: lambda { |a| a.owner.name }
+        f.input :from_account, collection: BankAccount.all.by_name, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
+        f.input :to_account, collection: BankAccount.all.by_name, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
         f.input :item_description, required: false
         f.input :item_count, as: :number, default: 1
       end

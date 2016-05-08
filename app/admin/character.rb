@@ -48,7 +48,16 @@ ActiveAdmin.register Character do
     column :id do |c|
       link_to c.id, admin_character_path(c)
     end
-    column :name
+    column :player_name do |c|
+      if c.user.present?
+        link_to c.user.name, admin_user_path(c.user)
+      else
+        "N/A"
+      end
+    end
+    column :character_name do |c|
+      c.name
+    end
     column :race
     column :culture
     column :costume
@@ -214,9 +223,11 @@ ActiveAdmin.register Character do
   sidebar :versionate, :partial => "admin/shared/version", :only => :show
 
   sidebar :bank_account, only: :show do
-    if resource
-      h3 "Current Balance: #{humanized_money_with_symbol resource.bank_accounts.first.balance}"
-      link_to "Bank Account", admin_bank_account_path(resource.bank_accounts.first)
+    h3 "Chapter | Current Balance"
+    ul do
+      resource.bank_accounts.each do |b|
+        li a "#{b.chapter.name} | #{humanized_money_with_symbol b.balance}", href: admin_bank_account_path(b)
+      end
     end
   end
 

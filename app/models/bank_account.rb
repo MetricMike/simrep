@@ -49,6 +49,6 @@ class BankAccount < ActiveRecord::Base
   end
 
   def display_name
-    "#{self.owner.display_name}'s Account"
+    "#{self.owner.display_name}'s Account in #{self.chapter.name}"
   end
 end

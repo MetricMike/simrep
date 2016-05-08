@@ -4,12 +4,39 @@ ActiveAdmin.register BankTransaction do
 
   csv_importable :columns => [:from_account_id, :to_account_id, :funds_cents, :funds_currency, :memo]
 
+  index do
+    selectable_column
+    column :id
+    column :from_account do |bt|
+      if bt.from_account.present?
+        link_to bt.from_account.owner.name, admin_bank_account_path(bt.from_account.id)
+      else
+        "Deposit"
+      end
+    end
+    column :to_account do |bt|
+      if bt.to_account.present?
+        link_to bt.to_account.owner.name, admin_bank_account_path(bt.to_account.id)
+      else
+        "Withdrawal"
+      end
+    end
+    column :memo
+    column :funds_cents
+    column :funds_currency
+    column :posted
+    column :created_at
+    column :updated_at
+    actions
+  end
+
   filter :from_account
   filter :to_account
   filter :funds_cents
   filter :funds_currency
   filter :updated_at
   filter :posted
+  filter :memo
 
   controller do
     def create

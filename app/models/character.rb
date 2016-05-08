@@ -63,8 +63,10 @@ class Character < ActiveRecord::Base
 
   attr_writer :perm_chance, :perm_counter
 
-  def level
-    @level = EXP_CHART.rindex { |i| self.experience >= i }
+  def level(with_multiplier=false)
+    @level = EXP_CHART.rindex do |i|
+      (with_multiplier ? self.experience*self.experience_multiplier : self.experience) >= i
+    end
   end
 
   def exp_to_next
@@ -108,8 +110,13 @@ class Character < ActiveRecord::Base
   end
 
   def skill_points_total
-    multiplier = (self.origins.find { |o| o.name.start_with?("Template: Proto") }) ? 2 : 1
-    @skill_points_total = SKILL_CHART[self.level*multiplier]
+    @skill_points_total = SKILL_CHART[self.level(true)]
+  end
+
+  def experience_multiplier
+    return 3 if self.origins.find { |o| o.name =~ /proto revelation/i }
+    return 2 if self.origins.find { |o| o.name =~ /proto/i }
+    return 1
   end
 
   def perk_points_used
@@ -145,10 +152,12 @@ class Character < ActiveRecord::Base
     attendance = self.character_events.find_or_create_by(event_id: event_id)
     award_paid(attendance, paid, override)
     award_cleaned(attendance, cleaned, check_coupon, override)
-    award_retired(event_id)
+    award_retired(event_id, paid)
   end
 
-  def award_retired(event_id)
+  def award_retired(event_id, paid)
+    return unless paid
+    return if self.bonus_experiences.where(reason: "Retirement XP", date_awarded: Event.find(event_id).weekend.in_time_zone).present?
     if self.user.retirement_xp?
       self.bonus_experiences.create(reason: "Retirement XP",
                                     date_awarded: Event.find(event_id).weekend.in_time_zone,
@@ -157,20 +166,20 @@ class Character < ActiveRecord::Base
   end
 
   def award_paid(char_event, bool=false, override=false)
-    return if (char_event.paid? and (override == false))
-    char_event.update(paid: bool)
+    return if (char_event.paid? or !override.nil?)
+    char_event.update(paid: bool || false)
   end
 
   def award_cleaned(char_event, bool=false, check_coupon=false, override=false)
-    return if (char_event.cleaned? and (override == false))
-    if (bool == false && check_coupon == true)
+    return if (char_event.cleaned? or !override.nil?)
+    if (!bool.nil? and check_coupon)
       clean_coupon = Event.where(id: self.user.free_cleaning_event_id).try(:first)
       if (clean_coupon.nil? || clean_coupon.weekend >= 1.year.ago)
         self.user.update(free_cleaning_event_id: char_event.event_id)
         char_event.update(cleaned: true) and return
       end
     end
-    char_event.update(cleaned: bool)
+    char_event.update(cleaned: bool || false)
   end
 
   def perm_counter
@@ -220,6 +229,7 @@ class Character < ActiveRecord::Base
   end
 
   def open_bankaccount
+    return if self.bank_accounts.where(chapter: self.chapter).present?
     self.bank_accounts.create(chapter: self.chapter)
   end
 

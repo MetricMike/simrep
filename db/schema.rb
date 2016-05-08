@@ -167,7 +167,7 @@ end
     t.integer  "costume"
     t.date     "costume_checked"
     t.boolean  "history_approval", default: false
-    t.string   "history_link",     default: "https://drive.google.com/open?id=1MCJQU6CIV4UDPtRTmYJRpwfBaHW9AzcCCGL9duw7-RQ&authuser=0"
+    t.string   "history_link",     default: "https://goo.gl/DbKTlk"
     t.integer  "unused_talents",   default: 0
     t.boolean  "retired",          default: false
     t.integer  "chapter_id"

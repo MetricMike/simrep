@@ -338,7 +338,7 @@ GEM
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
     wicked_pdf (1.0.4)
-    wkhtmltopdf-binary (0.9.9.3)
+    wkhtmltopdf-heroku (2.12.3.0)
     xdan-datetimepicker-rails (2.5.1)
       jquery-rails
       rails (>= 3.2.16)
@@ -393,7 +393,10 @@ DEPENDENCIES
   uglifier
   web-console
   wicked_pdf
-  wkhtmltopdf-binary
+  wkhtmltopdf-heroku
+
+RUBY VERSION
+   ruby 2.3.0p0
 
 BUNDLED WITH
-   1.11.2
+   1.12.0

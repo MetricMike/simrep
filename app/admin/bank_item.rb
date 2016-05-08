@@ -4,6 +4,30 @@ ActiveAdmin.register BankItem do
 
   csv_importable :columns => [:from_account_id, :to_account_id, :item_description, :item_count]
 
+  index do
+    selectable_column
+    column :id
+    column :from_account do |bi|
+      if bi.from_account.present?
+        link_to bi.from_account.owner.name, admin_bank_account_path(bi.from_account.id)
+      else
+        "Deposit"
+      end
+    end
+    column :to_account do |bi|
+      if bi.to_account.present?
+        link_to bi.to_account.owner.name, admin_bank_account_path(bi.to_account.id)
+      else
+        "Withdrawal"
+      end
+    end
+    column :item_description
+    column :item_count
+    column :created_at
+    column :updated_at
+    actions
+  end
+
   filter :from_account
   filter :to_account
   filter :item_description

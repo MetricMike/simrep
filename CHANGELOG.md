@@ -6,14 +6,29 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Support for Proto Revelation (triple skillpoints)
-
-### Changed
-- Holurheim Bonus XP is now 40 (still provides only 4, but cleaner for gifting skillpoints to other characters)
+- (Admin) Deaths now link to Character
+- (Admin) Characters now link to User
+- (Admin) Banks now display their Chapter
+- (Admin) Bank Transactions & Items now link to Bank Accounts
+- (Admin) Bank Transactions can be filtered on memo
+- (Admin) Characters now display ALL of their bank accounts
+- Bank Accounts now display what chapter they're in
+- Better DevTools/console improvements
 
 ### Fixed
+- Holurheim Bonus XP is now 40 (still provides only 4, but cleaner for gifting skillpoints to other characters)
+- Don't pay NPCs unless they pay for the event
+- Only give TU, etc. awards to paying players
 - Updated wkhtmlpdf - PDF printing works in windows (and heroku, but that wasn't broken?)
 - Protos now properly double skillpoints without messing with their experience.
 - Using the MUCH shorter character history as the default link
+- Death#display_name uses a character name not Character:0x0404wtf00
+- A default bank account is only created once per chapter, not every time a character is saved.
+- NPC Shifts can be deleted before a payment is issued without crashing the app
+- Only award retirement XP once per event and only if the event is paid for
+- A character can attend an event multiple times and I no longer override (important for marking payments and cleaning separately)
+- CharacterEvent#paid and #cleaned default to false
+- User retirement xp pools default to 0
 
 ### Broken
 

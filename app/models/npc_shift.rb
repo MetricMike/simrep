@@ -8,7 +8,7 @@ class NpcShift < ActiveRecord::Base
 
   delegate :funds, to: :bank_transaction, allow_nil: true
 
-  before_destroy :reverse_payments
+  before_destroy :reverse_payments, if: Proc.new { |ns| ns.bank_transaction.present? }
 
   MAX_MONEY = Money.new(2000, :vmk)
   LIMIT_REACHED_MSG = "Bank Contract limits contractors to #{MAX_MONEY} per market day."
@@ -50,7 +50,7 @@ class NpcShift < ActiveRecord::Base
   def close_shift(closing=Time.now.utc)
     return false if self.opening == nil
     self.update(closing: closing.ceil_to(15.minutes))
-    issue_awards_for_shift!
+    issue_awards_for_shift! if self.character_event.paid?
   end
 
   def net_pay

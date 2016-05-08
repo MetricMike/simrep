@@ -42,6 +42,6 @@ class Death < ActiveRecord::Base
   end
 
   def display_name
-    "#{self.character}'s Death on #{self.weekend} - #{self.description}"
+    "#{self.character.name}'s Death on #{self.weekend} - #{self.description}"
   end
 end

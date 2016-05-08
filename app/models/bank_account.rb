@@ -1,5 +1,4 @@
-class BankAccount < ActiveRecord::Base
-  has_paper_trail
+class BankAccount < ApplicationRecord
   belongs_to :chapter, inverse_of: :bank_accounts
   belongs_to :owner, class_name: 'Character'
   has_many :outgoing_transactions, class_name: 'BankTransaction', foreign_key: :from_account_id, dependent: :destroy

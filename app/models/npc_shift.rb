@@ -1,5 +1,4 @@
-class NpcShift < ActiveRecord::Base
-  has_paper_trail
+class NpcShift < ApplicationRecord
   belongs_to :character_event, inverse_of: :npc_shifts
   belongs_to :bank_transaction, required: false
 

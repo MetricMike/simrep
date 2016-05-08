@@ -1,5 +1,4 @@
-class Death < ActiveRecord::Base
-  has_paper_trail
+class Death < ApplicationRecord
   DEATH_PERCENTAGES = [0, 10, 30, 60, 90]
   DEATH_COUNTER = [0, 3, 2, 1, 0]
   belongs_to :character, inverse_of: :deaths

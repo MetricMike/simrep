@@ -1,4 +1,4 @@
-class BankItem < ActiveRecord::Base
+class BankItem < ApplicationRecord
   scope :latest, -> { order(updated_at: :desc) }
 
   belongs_to :from_account, class_name: 'BankAccount'

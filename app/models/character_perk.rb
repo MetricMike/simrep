@@ -1,5 +1,4 @@
-class CharacterPerk < ActiveRecord::Base
-  has_paper_trail
+class CharacterPerk < ApplicationRecord
   belongs_to :character, inverse_of: :character_perks
   belongs_to :perk, inverse_of: :character_perks
 

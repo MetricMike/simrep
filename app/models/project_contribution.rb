@@ -1,5 +1,4 @@
-class ProjectContribution < ActiveRecord::Base
-  has_paper_trail
+class ProjectContribution < ApplicationRecord
   belongs_to :character, inverse_of: :project_contributions
   belongs_to :project, ->{ includes(:leader) }, inverse_of: :project_contributions
 

@@ -1,4 +1,4 @@
-class BankTransaction < ActiveRecord::Base
+class BankTransaction < ApplicationRecord
   REVERSAL_SUCCEED_NOTICE = "\n TRANSACTION REVERSED"
   REVERSAL_FAILED_NOTICE = "\n TRANSACTION REVERSAL FAILED"
   NSF_NOTICE = "\n INSUFFICENT FUNDS, NO EXCHANGE MADE"

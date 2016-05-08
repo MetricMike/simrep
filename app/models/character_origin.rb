@@ -1,5 +1,4 @@
-class CharacterOrigin < ActiveRecord::Base
-  has_paper_trail
+class CharacterOrigin < ApplicationRecord
   belongs_to :character, inverse_of: :character_origins
   belongs_to :origin, inverse_of: :character_origins
 

@@ -1,5 +1,4 @@
-class CharacterBackground < ActiveRecord::Base
-  has_paper_trail
+class CharacterBackground < ApplicationRecord
   belongs_to :character, inverse_of: :character_backgrounds
   belongs_to :background, inverse_of: :character_backgrounds
 

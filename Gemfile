@@ -27,9 +27,12 @@ gem 'pundit'
 
 # Analytics
 gem 'newrelic_rpm'
-gem 'paper_trail'
 gem 'rollbar'
 gem 'oj', '~> 2.12.14'
+
+# History
+gem 'paper_trail'
+gem 'paper_trail-globalid'
 
 # PDF Handling
 gem 'wicked_pdf'

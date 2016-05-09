@@ -203,6 +203,9 @@ GEM
       activerecord (>= 3.0, < 6.0)
       activesupport (>= 3.0, < 6.0)
       request_store (~> 1.1)
+    paper_trail-globalid (0.2.0)
+      globalid
+      paper_trail (>= 3.0.0)
     passenger (5.0.28)
       rack
       rake (>= 0.8.1)
@@ -386,6 +389,7 @@ DEPENDENCIES
   newrelic_rpm
   oj (~> 2.12.14)
   paper_trail
+  paper_trail-globalid
   passenger
   pg (= 0.18.2)
   pry-byebug

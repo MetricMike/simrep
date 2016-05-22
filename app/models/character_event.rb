@@ -1,5 +1,4 @@
-class CharacterEvent < ActiveRecord::Base
-  has_paper_trail
+class CharacterEvent < ApplicationRecord
   belongs_to :character, inverse_of: :character_events
   belongs_to :event, inverse_of: :character_events
   has_many :npc_shifts, inverse_of: :character_event

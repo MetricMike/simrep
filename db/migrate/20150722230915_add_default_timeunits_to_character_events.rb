@@ -1,5 +1,5 @@
 class AddDefaultTimeunitsToCharacterEvents < ActiveRecord::Migration
-  class CharacterEvent < ActiveRecord::Base; end
+  class CharacterEvent < ApplicationRecord; end
 
   def up
     change_column_default :character_events, :accumulated_npc_timeunits_totalhours, 0

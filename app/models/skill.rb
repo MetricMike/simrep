@@ -1,5 +1,4 @@
-class Skill < ActiveRecord::Base
-  has_paper_trail
+class Skill < ApplicationRecord
   SOURCES = ["General", "Fighter", "Marksman", "Magic", "Ghost"]
 
   scope :latest, -> { order(updated_at: :desc) }

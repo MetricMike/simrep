@@ -1,5 +1,4 @@
-class Background < ActiveRecord::Base
-  has_paper_trail
+class Background < ApplicationRecord
   has_many :characters, through: :character_backgrounds, inverse_of: :backgrounds
   has_many :character_backgrounds, inverse_of: :background
 

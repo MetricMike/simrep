@@ -1,5 +1,4 @@
-class Talent < ActiveRecord::Base
-  has_paper_trail
+class Talent < ApplicationRecord
   RANKS = ["Untrained", "Apprentice", "Journeyman", "Master", "Grandmaster"]
   GROUPS = ["Connection", "Scholarship", "Profession", "Craft", "Trick", "General", "Audience", "Custom"]
 

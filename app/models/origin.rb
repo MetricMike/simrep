@@ -1,5 +1,4 @@
-class Origin < ActiveRecord::Base
-  has_paper_trail
+class Origin < ApplicationRecord
   has_many :characters, through: :character_origins, inverse_of: :origins
   has_many :character_origins, inverse_of: :origin
 

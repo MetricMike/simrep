@@ -1,5 +1,4 @@
-class Character < ActiveRecord::Base
-  has_paper_trail
+class Character < ApplicationRecord
   RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   CULTURES = ["Cryogen", "Venthos", "Sengra", "Illumen/Lumiend", "Shaiden/Om'Oihanna", "Illugar/Unan Gens", "Shaigar/Alkon'Gol", "Minor", "Custom"]
   # (1..50).each { |i| EXP_CHART << EXP_CHART[i-1] + 15 + i-1 }
@@ -34,7 +33,7 @@ class Character < ActiveRecord::Base
   has_many :character_origins, ->{ includes(:origin) }, inverse_of: :character, dependent: :destroy
   has_many :character_skills, ->{ includes(:skill) }, inverse_of: :character, dependent: :destroy
   has_many :character_perks, ->{ includes(:perk) }, inverse_of: :character, dependent: :destroy
-  has_many :character_events, ->{ includes(:event) }, inverse_of: :character, dependent: :destroy
+  has_many :character_events, inverse_of: :character, dependent: :destroy
 
   has_many :project_contributions, inverse_of: :character, dependent: :destroy
   has_many :talents, inverse_of: :character, dependent: :destroy

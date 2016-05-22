@@ -1,4 +1,4 @@
-class Chapter < ActiveRecord::Base
+class Chapter < ApplicationRecord
   include ConstantCache
   cache_constants
 

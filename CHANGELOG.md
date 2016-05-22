@@ -5,9 +5,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
-### Changed
-### Fixed
+- Using paper_trail-globalid
+
+### Changed / Fixed
+- Upgrade EVERYTHING (rails 5 plus bundle update)
+- No more spring, it's broken on BashOnWindows
+
 ### Broken
+- schema.rb. BashOnWindows is mangling file descriptors, so do NOT db:schema:load
 
 ## [1.10.0](v1.10.0) - 2016-5-7
 ### Added

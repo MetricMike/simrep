@@ -1,5 +1,4 @@
-class Perk < ActiveRecord::Base
-  has_paper_trail
+class Perk < ApplicationRecord
   has_many :characters, through: :character_perks, inverse_of: :perks
   has_many :character_perks, inverse_of: :perk
   SOURCES = Character::RACES|Character::CULTURES|["Ghost"]

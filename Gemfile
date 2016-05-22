@@ -6,7 +6,6 @@ ruby '2.3.0'
 gem 'rails', '~> 5.0.0.rc1'
 gem 'pg', '0.18.2'
 gem 'passenger'
-gem 'puma'
 gem 'dotenv-rails'
 
 gem 'high_voltage'

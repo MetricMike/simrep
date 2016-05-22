@@ -229,7 +229,6 @@ GEM
     pry-remote (0.1.8)
       pry (~> 0.9)
       slop (~> 3.0)
-    puma (3.4.0)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     quiet_assets (1.1.0)
@@ -394,7 +393,6 @@ DEPENDENCIES
   pg (= 0.18.2)
   pry-byebug
   pry-rails
-  puma
   pundit
   quiet_assets
   rails (~> 5.0.0.rc1)

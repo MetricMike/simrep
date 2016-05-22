@@ -8,7 +8,7 @@ class CharactersController < ApplicationController
   after_action :verify_policy_scoped, :only => :index
 
   def index
-    @characters = policy_scope(Character.for_index)
+    @characters = policy_scope(Character)
     @active_characters = @characters.where(retired: false)
     @retired_characters = @characters.where(retired: true)
   end

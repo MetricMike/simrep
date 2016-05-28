@@ -7,12 +7,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Using paper_trail-globalid
 - Using metadata for better chrome devtools debugging
+- Selectize for user/ select inputs
 
 ### Changed / Fixed
 - Upgrade EVERYTHING (rails 5 plus bundle update)
 - No more spring, it's broken on BashOnWindows
 - Updated styling for web_console
 - Removed some unnecessary coffeescript for the XP/Events modal on character#show 
+- Remove require_tree, better isolation between user/ and admin/ js
 
 ### Broken
 

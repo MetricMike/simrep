@@ -16,4 +16,8 @@
 //= require bootstrap-sprockets
 //= require cocoon
 //= require turbolinks
-//= require_tree .
+//= require selectize
+
+$(function() {
+    $(':input.select').selectize();
+});

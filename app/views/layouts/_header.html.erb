@@ -15,8 +15,17 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
+      <li class="navbar-text">Current Chapter: <%= current_chapter.name %>
+        <% unless current_character.present? && current_character.persisted? %>
+          (<strong><%= link_to "Switch", switch_chapter_path %></strong>)
+        <% end %>
+      </li>
       <% if user_signed_in? %>
-        <li class="navbar-text">Logged in as <strong><%= link_to "#{current_user.name}", characters_path %></strong><% if current_char.present? && current_char.persisted? %> / <strong><%= link_to "#{current_char.name}", character_path(current_char) %></strong><% end %></li>
+        <li class="navbar-text">Logged in as <strong><%= link_to "#{current_user.name}", characters_path %></strong>
+          <% if current_char.present? && current_char.persisted? %>
+             / <strong><%= link_to "#{current_char.name}", character_path(current_char) %></strong>
+          <% end %>
+        </li>
         <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %></li>
         <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
       <% else %>

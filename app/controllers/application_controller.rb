@@ -14,6 +14,11 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  def switch_chapter
+    session[:current_chapter_id] = current_chapter == Chapter::BASTION ? Chapter::HOLURHEIM.id : Chapter::BASTION.id
+    redirect_to :back
+  end
+
   protected
 
   def configure_permitted_parameters

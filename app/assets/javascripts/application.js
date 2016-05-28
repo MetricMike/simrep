@@ -19,5 +19,10 @@
 //= require selectize
 
 $(function() {
-    $(':input.select').selectize();
+  $(':input.select').selectize();
+
+  $('tbody').on('cocoon:after-insert', function(e, insertedItem) {
+    insertedItem.find('select').selectize();
+  });
+
 });

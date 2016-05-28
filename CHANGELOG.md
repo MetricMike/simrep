@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Upgrade EVERYTHING (rails 5 plus bundle update)
 - No more spring, it's broken on BashOnWindows
 - Updated styling for web_console
+- Removed some unnecessary coffeescript for the XP/Events modal on character#show 
 
 ### Broken
 

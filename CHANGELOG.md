@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed / Fixed
 - Upgrade EVERYTHING (rails 5 plus bundle update)
 - No more spring, it's broken on BashOnWindows
+- Updated styling for web_console
 
 ### Broken
 - schema.rb. BashOnWindows is mangling file descriptors, so do NOT db:schema:load

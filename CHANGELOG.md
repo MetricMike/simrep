@@ -13,7 +13,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Updated styling for web_console
 
 ### Broken
-- schema.rb. BashOnWindows is mangling file descriptors, so do NOT db:schema:load
 
 ## [1.10.0](v1.10.0) - 2016-5-7
 ### Added

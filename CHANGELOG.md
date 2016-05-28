@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 ### Added
 - Using paper_trail-globalid
+- Using metadata for better chrome devtools debugging
 
 ### Changed / Fixed
 - Upgrade EVERYTHING (rails 5 plus bundle update)

@@ -17,6 +17,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'turbolinks'
 gem 'simple_form'
+gem 'selectize-rails'
 
 # Auth[en|or]
 gem 'devise'
@@ -62,7 +63,7 @@ group :development, :test do
   gem "better_errors"
   gem 'bullet'
   gem 'quiet_assets'
-
+  gem 'meta_request'
   gem 'faker'
 end
 

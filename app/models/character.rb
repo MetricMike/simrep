@@ -224,7 +224,7 @@ class Character < ApplicationRecord
     return if self.chapter != Chapter::HOLURHEIM
     self.bonus_experiences.create(reason: "Holurheim Starting XP",
                                   date_awarded: Date.today,
-                                  amount: 35)
+                                  amount: 40)
   end
 
   def open_bankaccount

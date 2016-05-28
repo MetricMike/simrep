@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Updated styling for web_console
 - Removed some unnecessary coffeescript for the XP/Events modal on character#show 
 - Remove require_tree, better isolation between user/ and admin/ js
+- ACTUALLY make Holurheim's Bonus XP 40. 1.10.0's fix was a total lie I don't know how that got in there.
 
 ### Broken
 

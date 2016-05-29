@@ -225,6 +225,7 @@ ActiveAdmin.setup do |config|
       end
 
       menu.add label: 'Base Models', url: '#', priority: 8 do |base|
+        base.add label: 'Chapters', url: :admin_chapters_path
         base.add label: 'Backgrounds', url: :admin_backgrounds_path
         base.add label: 'Events',      url: :admin_events_path
         base.add label: 'Origins',     url: :admin_origins_path

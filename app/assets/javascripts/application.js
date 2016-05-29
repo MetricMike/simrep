@@ -18,11 +18,15 @@
 //= require turbolinks
 //= require selectize
 
-$(function() {
+$(document).on("turbolinks:load", function() {
   $(':input.select').selectize();
 
   $('tbody').on('cocoon:after-insert', function(e, insertedItem) {
-    insertedItem.find('select').selectize();
+    insertedItem.find('select').selectize({
+      create: true,
+    });
   });
+
+  $('[data-toggle="tooltip"]').tooltip();
 
 });

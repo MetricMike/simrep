@@ -51,6 +51,23 @@ aside {
   }
 }
 
+tr.nested-fields.no-border {
+  td {
+    border: none;
+  }
+}
+
+.radio_buttons.inline {
+  label {
+    display: block;
+  }
+
+  span {
+    padding: 0 5%;
+    display: inline-block;
+  }
+}
+
 aside {
   textarea {
     height: 100px;

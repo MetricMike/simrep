@@ -2,6 +2,13 @@ class Perk < ApplicationRecord
   has_many :characters, through: :character_perks, inverse_of: :perks
   has_many :character_perks, inverse_of: :perk
   SOURCES = Character::RACES|Character::CULTURES|["Ghost"]
+  SAMPLE = [
+    "Ancient Device",
+    "(Acrobat) Scamper",
+    "Subschool Resistance (Matter, Gravity)"
+  ]
+
+
 
   scope :latest, -> { order(updated_at: :desc) }
 

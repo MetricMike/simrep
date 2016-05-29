@@ -8,6 +8,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Using paper_trail-globalid
 - Using metadata for better chrome devtools debugging
 - Selectize for user/ select inputs
+- Current/Switch chapter button in the navbar!
+- Explicitly ask for Player/OOC or Character/INC Name
+- Sample Origins/Skills/Perks to help normalize the database!
+- Added "Spellsword" and "Prestige" sources for Skills
+- Redid characters#new
+  - tooltips, sample skill/perk names, no more unlimited perks/skills
+  - Holurheim Bonus XP is added to new characters now.
 
 ### Changed / Fixed
 - Upgrade EVERYTHING (rails 5 plus bundle update)
@@ -16,6 +23,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Removed some unnecessary coffeescript for the XP/Events modal on character#show 
 - Remove require_tree, better isolation between user/ and admin/ js
 - ACTUALLY make Holurheim's Bonus XP 40. 1.10.0's fix was a total lie I don't know how that got in there.
+- Characters with Proto Revelation now have a max investment limit of 6
+- Renamed "Fighter" to "Melee"
+- Renamed "Marksman" to "Ranged"
+- Upgraded to Turbolinks5 (woo speedy)
+- 
 
 ### Broken
 

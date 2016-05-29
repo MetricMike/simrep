@@ -20,7 +20,7 @@ class CharacterEvent < ApplicationRecord
   def give_attendance_awards
     if self.paid? && !self.awarded?
       ActiveRecord::Base.transaction do
-        self.character.talents.each { |t| t.update(investment_limit: [t.investment_limit+2, 4].min) }
+        self.character.talents.each { |t| t.update(investment_limit: [t.investment_limit+2, self.character.investment_max].min) }
         self.character.update(unused_talents: self.character.unused_talents+num_timeunits_earned)
         self.update(awarded: true)
       end

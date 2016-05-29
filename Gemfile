@@ -15,7 +15,7 @@ gem 'uglifier'
 gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'turbolinks'
+gem 'turbolinks', '~> 5.0.0.beta'
 gem 'simple_form'
 gem 'selectize-rails'
 

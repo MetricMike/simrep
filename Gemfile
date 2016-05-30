@@ -1,10 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.3.0'
-
 # Core Binaries
-gem 'rails'
-gem 'pg'
+gem 'rails', '~> 5.0.0.rc1'
+gem 'pg', '0.18.2'
 gem 'passenger'
 gem 'dotenv-rails'
 
@@ -17,18 +15,24 @@ gem 'uglifier'
 gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'turbolinks'
+gem 'turbolinks', '~> 5.0.0.beta'
 gem 'simple_form'
+gem 'selectize-rails'
+gem "font-awesome-rails"
 
 # Auth[en|or]
 gem 'devise'
+gem 'omniauth-facebook'
 gem 'pundit'
 
 # Analytics
 gem 'newrelic_rpm'
-gem 'paper_trail'
 gem 'rollbar'
-gem 'oj'
+gem 'oj', '~> 2.12.14'
+
+# History
+gem 'paper_trail'
+gem 'paper_trail-globalid'
 
 # PDF Handling
 gem 'wicked_pdf'
@@ -58,13 +62,9 @@ gem 'pry-rails'
 gem 'pry-byebug'
 
 group :development, :test do
-  # Better Console
-  gem 'rb-readline', require: false
-  gem 'quiet_assets'
-  gem 'bullet'
-
-
   gem "better_errors"
+  gem 'bullet'
+  gem 'quiet_assets'
   gem 'faker'
 end
 

@@ -1,6 +1,23 @@
-class Skill < ActiveRecord::Base
-  has_paper_trail
-  SOURCES = ["General", "Fighter", "Marksman", "Magic", "Ghost"]
+class Skill < ApplicationRecord
+  SOURCES = ["General", "Melee", "Ranged", "Magic", "Spellsword", "Prestige", "Ghost"]
+  SAMPLE = [
+    "Greater Vitality 1",
+    "Added Perks",
+    "First Trained Style (Counter)",
+    "Adept Style (Braced)",
+    "Additional Advanced Style (Stand)",
+    "Trained Wizardry (Forces)",
+    "Basic Sorcery (Ethereal)",
+    "Trained Sorcery (Life, Healing)",
+    "Still Spell (Matter, Gravity)",
+    "Expanded Metamagic (Still Spell, Matter)",
+    "Trained Strike (Break)",
+    "Advanced Strike (Shove)",
+    "Longer Effect Strike (Break)",
+    "Trained Spellsword",
+    "First Trained Sword-Spell (Life, Harming)",
+    "Additional Advanced Sword-Spell (Forces, Ice)"
+  ]
 
   scope :latest, -> { order(updated_at: :desc) }
 

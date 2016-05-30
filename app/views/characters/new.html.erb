@@ -1,21 +1,33 @@
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-10 col-md-offset-1">
     <%= simple_form_for @character do |f| %>
       <%= f.error_notification %>
-      <%= f.input :name %>
-      <%= f.input :race, collection: Character::RACES %>
-      <%= f.input :culture, collection: Character::CULTURES %>
-      <%= f.input :experience, disabled: true, input_html: { value: 31 } %>
-      <%= f.input :costume, collection: 0..3, input_html: { value: 0 } %>
+      <%= f.input :name, label: "Character Name" %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :race, collection: Character::RACES %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :culture, collection: Character::CULTURES %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :experience, disabled: true, input_html: { value: current_chapter.default_xp } %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :costume, collection: 0..3, as: :radio_buttons, checked: 0, wrapper_html: { class: 'inline' } %>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-12">
-            Birthrights & Origins
+            <h3><a href="https://drive.google.com/open?id=0B2hJFH5LqdqZVTRGVjFXYW8ycVU">Birthrights & Origins</a></h3>
             <table class="table table-condensed table-hover table-responsive">
               <thead>
                 <tr>
-                  <th>Source</th>
-                  <th>Name</th>
-                  <th>Detail</th>
+                  <th class="col-md-3">Source</th>
+                  <th class="col-md-3" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= t 'origins.name-tooltip' %>">Name</th>
+                  <th class="col-md-4">Detail</th>
                 </tr>
               </thead>
               <tbody id="character_origins">
@@ -38,13 +50,13 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-            Skills
+            <h3><a href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHhybkpGYm4yN2s">Skills</a></h3>
             <table class="table table-condensed table-hover table-responsive">
               <thead>
                 <tr>
-                  <th>Source</th>
-                  <th>Name</th>
-                  <th>Cost</th>
+                  <th class="col-md-3">Source</th>
+                  <th class="col-md-3" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= t 'skills.name-tooltip' %>">Name</th>
+                  <th class="col-md-4">Cost</th>
                 </tr>
               </thead>
               <tbody id="character_skills">
@@ -67,13 +79,13 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-            Perks
+            <h3><a href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHNybU1MQmNnMUE">Perks</a>></h3>
             <table class="table table-condensed table-hover table-responsive">
               <thead>
                 <tr>
-                  <th>Source</th>
-                  <th>Name</th>
-                  <th>Cost</th>
+                  <th class="col-md-3">Source</th>
+                  <th class="col-md-3" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= t 'perks.name-tooltip' %>">Name</th>
+                  <th class="col-md-4">Cost</th>
                 </tr>
               </thead>
               <tbody id="character_perks">

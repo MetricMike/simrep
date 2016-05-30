@@ -1,6 +1,5 @@
-class Character < ActiveRecord::Base
-  has_paper_trail
-  RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
+class Character < ApplicationRecord
+RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   CULTURES = ["Cryogen", "Venthos", "Sengra", "Illumen/Lumiend", "Shaiden/Om'Oihanna", "Illugar/Unan Gens", "Shaigar/Alkon'Gol", "Minor", "Custom"]
   # (1..50).each { |i| EXP_CHART << EXP_CHART[i-1] + 15 + i-1 }
   EXP_CHART = [0, 15, 31, 48, 66, 85, 105, 126, 148, 171, 195, 220,
@@ -34,7 +33,7 @@ class Character < ActiveRecord::Base
   has_many :character_origins, ->{ includes(:origin) }, inverse_of: :character, dependent: :destroy
   has_many :character_skills, ->{ includes(:skill) }, inverse_of: :character, dependent: :destroy
   has_many :character_perks, ->{ includes(:perk) }, inverse_of: :character, dependent: :destroy
-  has_many :character_events, ->{ includes(:event) }, inverse_of: :character, dependent: :destroy
+  has_many :character_events, inverse_of: :character, dependent: :destroy
 
   has_many :project_contributions, inverse_of: :character, dependent: :destroy
   has_many :talents, inverse_of: :character, dependent: :destroy
@@ -124,9 +123,8 @@ class Character < ActiveRecord::Base
   end
 
   def perk_points_total
-    added_perks = self.skills.find { |s| s.name.downcase == "added perks" }
-    @perk_points_total = self.costume +
-                          (added_perks ? (added_perks.cost * (self.costume)) : 0) +
+    added_perks = self.skills.select{ |s| s.name.downcase == "added perks" }.pluck(:cost).reduce(0, :+) * self.costume
+    @perk_points_total = self.costume + added_perks +
                           (self.backgrounds.find { |b| b.name.start_with?("Paragon") } ? 4 : 0)
   end
 
@@ -134,6 +132,11 @@ class Character < ActiveRecord::Base
     self.unused_talents -= amt
     self.talents.find(talent).invest(amt, false) if talent.present?
     self.save
+  end
+
+  def investment_max
+    return 6 if self.origins.find { |o| o.name =~ /proto revelation/i }
+    return 4
   end
 
   def talent_points_total
@@ -225,7 +228,7 @@ class Character < ActiveRecord::Base
     return if self.chapter != Chapter::HOLURHEIM
     self.bonus_experiences.create(reason: "Holurheim Starting XP",
                                   date_awarded: Date.today,
-                                  amount: 35)
+                                  amount: 40)
   end
 
   def open_bankaccount

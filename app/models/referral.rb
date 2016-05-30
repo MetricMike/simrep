@@ -1,5 +1,4 @@
-class Referral < ActiveRecord::Base
-  has_paper_trail
+class Referral < ApplicationRecord
   belongs_to :sponsor,        class_name: "User",   inverse_of: :downstream_referrals
   belongs_to :referred_user,  class_name: "User",   inverse_of: :upstream_referral
   belongs_to :event_claimed,  class_name: "Event",  required: false

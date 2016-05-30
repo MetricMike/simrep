@@ -1,9 +1,7 @@
-class User < ActiveRecord::Base
-  has_paper_trail
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+class User < ApplicationRecord
+  devise :database_authenticatable, :registerable, :recoverable,
+         :rememberable, :trackable, :omniauthable,
+         omniauth_providers: [:facebook]
   has_many :characters, inverse_of: :user
 
   has_many  :downstream_referrals,  class_name: "Referral",         foreign_key: :sponsor_id
@@ -20,16 +18,33 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :upstream_referral, allow_destroy: true
   accepts_nested_attributes_for :downstream_referrals, allow_destroy: true
 
-  def password_required?
-    super if confirmed?
+  def self.from_omniauth(auth)
+    user = where(provider: auth.provider, uid: auth.uid).or(where(email: auth.info.email)).first_or_initialize do |user|
+      user.email = user.email || auth.info.email
+      user.password = user.password || Devise.friendly_token[0,20]
+      user.name = user.name || auth.info.name
+    end
+    user.update(provider: auth.provider, uid: auth.uid) if user.persisted?
+    user
   end
 
-  def password_match?
-    self.errors[:password] << "can't be blank" if password.blank?
-    self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
-    self.errors[:password_confirmation] << "does not match password" if password != password_confirmation
-    password == password_confirmation && !password.blank?
+  def self.new_with_session(params, session)
+    super.tap do |user|
+      if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
+        user.provider = 'facebook'
+        user.uid = data['id']
+        user.email = data["email"] if user.email.blank?
+        user.name = data["name"] if user.name.blank?
+      end
+    end
   end
+
+  # def password_match?
+  #   self.errors[:password] << "can't be blank" if password.blank?
+  #   self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
+  #   self.errors[:password_confirmation] << "does not match password" if password != password_confirmation
+  #   password == password_confirmation && !password.blank?
+  # end
 
   def played_events
     self.characters.reduce(Event.none) do |events, c|

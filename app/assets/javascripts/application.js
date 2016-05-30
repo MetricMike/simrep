@@ -16,4 +16,17 @@
 //= require bootstrap-sprockets
 //= require cocoon
 //= require turbolinks
-//= require_tree .
+//= require selectize
+
+$(document).on("turbolinks:load", function() {
+  $(':input.select').selectize();
+
+  $('tbody').on('cocoon:after-insert', function(e, insertedItem) {
+    insertedItem.find('select').selectize({
+      create: true,
+    });
+  });
+
+  $('[data-toggle="tooltip"]').tooltip();
+
+});

@@ -1,5 +1,5 @@
 class AddDefaultTimeunitsToNpcShifts < ActiveRecord::Migration
-  class NpcShift < ActiveRecord::Base; end
+  class NpcShift < ApplicationRecord; end
 
   def up
     change_column_default :npc_shifts, :hours_to_money, 0

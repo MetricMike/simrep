@@ -15,7 +15,7 @@
     <% end %>
     <% if @retired_characters.any? %>
       <hr/>
-      <h3>Retired Characters (<%= @retired_characters.count %></h3>)
+      <h3>Retired Characters (<%= @retired_characters.count %>)</h3>)
       <ul class="characters">
         <%= render @retired_characters, locals: { retired: true } %>
       </ul>

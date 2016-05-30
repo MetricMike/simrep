@@ -8,7 +8,11 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    session.merge! current_chapter_id: Chapter.find_by(name: params[:commit]).try(:id)
+    if data = session['devise.facebook_data']
+      user = User.find_by(email: params['user']['email'])
+      user.update(provider: data['provider'], uid: data['uid'])
+    end
+    session.merge! current_chapter_id: Chapter.find_by(name: params[:commit]).try(:id) || 1
     super
   end
 

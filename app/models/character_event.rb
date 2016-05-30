@@ -1,5 +1,4 @@
-class CharacterEvent < ActiveRecord::Base
-  has_paper_trail
+class CharacterEvent < ApplicationRecord
   belongs_to :character, inverse_of: :character_events
   belongs_to :event, inverse_of: :character_events
   has_many :npc_shifts, inverse_of: :character_event
@@ -21,7 +20,7 @@ class CharacterEvent < ActiveRecord::Base
   def give_attendance_awards
     if self.paid? && !self.awarded?
       ActiveRecord::Base.transaction do
-        self.character.talents.each { |t| t.update(investment_limit: [t.investment_limit+2, 4].min) }
+        self.character.talents.each { |t| t.update(investment_limit: [t.investment_limit+2, self.character.investment_max].min) }
         self.character.update(unused_talents: self.character.unused_talents+num_timeunits_earned)
         self.update(awarded: true)
       end

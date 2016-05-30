@@ -1,7 +1,7 @@
-<tr class="nested-fields">
+<tr class="nested-fields no-border">
   <%= f.simple_fields_for :origin do |f_origin| %>
-    <td><%= f_origin.input :source, collection: (Character::RACES|Character::CULTURES), label: false %></td>
-    <td><%= f_origin.input :name, label: false %></td>
+    <td><%= f_origin.input :source, collection: Origin::SOURCES, label: false %></td>
+    <td><%= f_origin.input :name, collection: Origin::SAMPLE, label: false %></td>
     <td><%= f_origin.input :detail, label: false %></td>
     <% if f_origin.object.new_record? %>
     <td><%= link_to_remove_association "remove origin", f, class: "btn btn-danger"%></td>

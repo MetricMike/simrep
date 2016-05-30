@@ -6,7 +6,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 ### Added
 - Using paper_trail-globalid
-- Using metadata for better chrome devtools debugging
 - Selectize for user/ select inputs
 - Current/Switch chapter button in the navbar!
 - Explicitly ask for Player/OOC or Character/INC Name
@@ -15,6 +14,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Redid characters#new
   - tooltips, sample skill/perk names, no more unlimited perks/skills
   - Holurheim Bonus XP is added to new characters now.
+- No more passwords, login through Facebook.
+- No more confirmable (or validatable)!
 
 ### Changed / Fixed
 - Upgrade EVERYTHING (rails 5 plus bundle update)

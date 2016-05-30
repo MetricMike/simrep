@@ -18,9 +18,11 @@ gem 'jquery-ui-rails'
 gem 'turbolinks', '~> 5.0.0.beta'
 gem 'simple_form'
 gem 'selectize-rails'
+gem "font-awesome-rails"
 
 # Auth[en|or]
 gem 'devise'
+gem 'omniauth-facebook'
 gem 'pundit'
 
 # Analytics
@@ -63,7 +65,6 @@ group :development, :test do
   gem "better_errors"
   gem 'bullet'
   gem 'quiet_assets'
-  gem 'meta_request'
   gem 'faker'
 end
 

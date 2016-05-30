@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160528205939) do
+ActiveRecord::Schema.define(version: 20160530005040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -293,14 +293,11 @@ ActiveRecord::Schema.define(version: 20160528205939) do
     t.datetime "updated_at"
     t.boolean  "admin",                  default: false
     t.string   "name"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
     t.integer  "free_cleaning_event_id"
     t.integer  "std_retirement_xp_pool", default: 0
     t.integer  "leg_retirement_xp_pool", default: 0
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+    t.string   "provider"
+    t.string   "uid"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["free_cleaning_event_id"], name: "index_users_on_free_cleaning_event_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

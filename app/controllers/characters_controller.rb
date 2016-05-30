@@ -74,9 +74,9 @@ class CharactersController < ApplicationController
   def alt_chapter
     case current_chapter.name
     when "Bastion"
-      Chapter.find_by(name: "Holurheim")
+      Chapter::HOLURHEIM
     else # Holurheim
-      Chapter.find_by(name: "Bastion")
+      Chapter::BASTION
     end
   end
   helper_method :alt_chapter

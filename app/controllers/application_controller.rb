@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_chapter
-    @chapter ||= session[:current_chapter_id] && Chapter.find(session[:current_chapter_id])
+    @chapter ||= Chapter.where(id: session[:current_chapter_id]).try(:first) || Chapter::BASTION
   end
   helper_method :current_chapter
 

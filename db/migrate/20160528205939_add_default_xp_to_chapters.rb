@@ -1,7 +1,6 @@
 class AddDefaultXpToChapters < ActiveRecord::Migration[5.0]
   def change
     add_column :chapters, :default_xp, :integer, default: 0
-    better_defaults
   end
 
   # def better_defaults

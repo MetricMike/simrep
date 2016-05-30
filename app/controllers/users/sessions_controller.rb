@@ -12,7 +12,6 @@ class Users::SessionsController < Devise::SessionsController
       user = User.find_by(email: params['user']['email'])
       user.update(provider: data['provider'], uid: data['uid'])
     end
-    session.merge! current_chapter_id: Chapter.find_by(name: params[:commit]).try(:id) || 1
     super
   end
 

@@ -7,6 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Changed / Fixed
 
+## [1.11.1](v1.11.1) - 2016-5-30
+### Changed / Fixed
+- Better db migrations?
 
 ## [1.11.0](v1.11.0) - 2016-5-30
 ### Added

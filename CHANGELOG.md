@@ -5,6 +5,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
+### Changed / Fixed
+
+
+## [1.11.0](v1.11.0) - 2016-5-30
+### Added
 - Using paper_trail-globalid
 - Selectize for user/ select inputs
 - Current/Switch chapter button in the navbar!
@@ -28,9 +33,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Renamed "Fighter" to "Melee"
 - Renamed "Marksman" to "Ranged"
 - Upgraded to Turbolinks5 (woo speedy)
-- 
-
-### Broken
 
 ## [1.10.0](v1.10.0) - 2016-5-7
 ### Added

@@ -17,6 +17,8 @@ class CharacterEvent < ApplicationRecord
                                         .order('events.weekend DESC, characters.name')
                                         .references(:events, :characters) }
 
+  delegate :weekend, to: :event
+
   def give_attendance_awards
     if self.paid? && !self.awarded?
       ActiveRecord::Base.transaction do

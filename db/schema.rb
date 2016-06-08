@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(version: 20160530005040) do
     t.integer  "costume"
     t.date     "costume_checked"
     t.boolean  "history_approval", default: false
-    t.string   "history_link",     default: "https://docs.google.com/document/d/1WGDbCe0q4NvDH6FjQ5ANw97l6RIHf5Cg7_oycvHping/edit"
+    t.string   "history_link",     default: "https://goo.gl/DbKTlk"
     t.integer  "unused_talents",   default: 0
     t.boolean  "retired",          default: false
     t.integer  "chapter_id"

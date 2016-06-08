@@ -58,6 +58,7 @@ ActiveAdmin.register Character do
     column :character_name do |c|
       c.name
     end
+    column :chapter
     column :race
     column :culture
     column :costume
@@ -71,6 +72,7 @@ ActiveAdmin.register Character do
 
   filter :name
   filter :race
+  filter :chapter
   filter :culture
   filter :character_skills_skill_name, as: :string
   filter :perks
@@ -86,6 +88,7 @@ ActiveAdmin.register Character do
         f.inputs 'Demographics' do
           f.input :user
           f.input :name
+          f.input :chapter
           f.input :costume #input_html: { value: 0 } this is overriding default value
           f.input :history_approval
           f.input :history_link
@@ -121,9 +124,12 @@ ActiveAdmin.register Character do
           end
         end
 
-        panel "Custom XP" do
-          para "Due to the way XP is associated with events, Legacy/Staff/Custom XP can only be assigned by making a fake event."
-          para "This is not ideal, and must be done via console so that Michael fixes the XP/Event system."
+        panel "Bonus/Custom XP" do
+          f.has_many :bonus_experiences, allow_destroy: true do |be_f|
+            ce_f.input :reason
+            ce_f.input :amount
+            ce_f.input :date_awarded
+          end
         end
 
       end
@@ -164,7 +170,7 @@ ActiveAdmin.register Character do
 
         f.inputs 'Deaths', header: "" do
           f.has_many :deaths, allow_destroy: true do |d_f|
-            d_f.input :weekend, as: :select, collection: f.object.character_events.pluck(:weekend)
+            d_f.input :weekend, as: :select, collection: f.object.events.pluck(:weekend)
             d_f.input :description
             d_f.input :physical
             d_f.input :roleplay

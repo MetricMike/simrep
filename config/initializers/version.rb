@@ -1,3 +1,7 @@
 class SimRep::Application
-  Version = '1.11.4'
+<<<<<<< Updated upstream
+  Version = '1.11.5'
+=======
+  Version = '1.12.0'
+>>>>>>> Stashed changes
 end

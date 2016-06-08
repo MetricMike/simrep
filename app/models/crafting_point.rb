@@ -1,4 +1,6 @@
-class CraftingPoint < ApplicationRecord
+class CraftingPoint < ActiveRecord::Base
+  self.inheritance_column = nil
+  has_paper_trail
   TYPES = ["Blacksmithing", "Focal Artificing", "Shattersmithing", "Engineering", "Architect", "Alchemy"]
   belongs_to :character
 

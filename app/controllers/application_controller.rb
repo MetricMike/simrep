@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   def switch_chapter
     session[:current_chapter_id] = current_chapter == Chapter::BASTION ? Chapter::HOLURHEIM.id : Chapter::BASTION.id
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
 
   protected

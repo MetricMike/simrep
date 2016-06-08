@@ -7,6 +7,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Changed / Fixed
 
+## [1.11.5](v1.11.5) - 2016-06-08
+### Changed / Fixed
+- Safer project display (I think)
+- Turned off inheritance AGAIN on crafting points (should be able to view bank accounts again)
+- Switching chapters as the first action should no longer crash simrep
+- Added chapters and bonus xp to Admin Character views
+- Delegate "weekend" through character_event to event (Fixes some views)
+- Better db migrations? (take 4)
+
 ## [1.11.4](v1.11.4) - 2016-5-30
 ### Changed / Fixed
 - Everyone signs into Bastion as a default. Sorry Holurheim.

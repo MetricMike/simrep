@@ -7,11 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Changed / Fixed
 
-<<<<<<< Updated upstream
-## [1.11.5](v1.11.5) - 2016-06-08
-=======
+## [1.12.1](v1.12.1) - 2016-06-08
+### Changed / Fixed
+- Fuck versions.
+
 ## [1.12.0](v1.12.0) - 2016-06-08
->>>>>>> Stashed changes
 ### Changed / Fixed
 - Safer project display (I think)
 - Turned off inheritance AGAIN on crafting points (should be able to view bank accounts again)

@@ -11,7 +11,7 @@ ActiveAdmin.register_page "Dashboard" do
     panel "Recently updated content" do
       versions = PaperTrail::Version.includes(:item).order(created_at: :desc).page(params[:page]).per(15)
       versions_users = User.where(id: versions.collect(&:whodunnit).reject(&:blank?).map(&:to_i).uniq)
-      paginated_collection(versions) do
+      paginated_collection(versions, download_links: false) do
         table_for collection do
           column ("Item Type") { |v| v.item_type }
           column ("Name") { |v| link_to_if v.item, "#{v.item.try(:display_name) || v.item_id}", [:admin, v.item] }
@@ -24,24 +24,4 @@ ActiveAdmin.register_page "Dashboard" do
     end
   end
 
-    # Here is an example of a simple dashboard with columns and panels.
-    #
-    # columns do
-    #   column do
-    #     panel "Recent Posts" do
-    #       ul do
-    #         Post.recent(5).map do |post|
-    #           li link_to(post.title, admin_post_path(post))
-    #         end
-    #       end
-    #     end
-    #   end
-
-    #   column do
-    #     panel "Info" do
-    #       para "Welcome to ActiveAdmin."
-    #     end
-    #   end
-    # end
-    # content
 end

@@ -16,8 +16,12 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
 
   scope :by_name_asc, -> { order(name: :asc) }
   scope :oldest, -> { order(created_at: :asc) }
+  scope :newest, -> { order(updated_at: :desc) }
   scope :for_index, -> { includes(:events, :backgrounds) }
   scope :for_current_chapter, ->(chapter) { where(chapter_id: chapter['id']) }
+  scope :recently_played, ->(from=6.months.ago) { includes(:events)
+                                                  .where('events.weekend': from..Time.current)
+                                                  .references(:events) }
 
   belongs_to :user, inverse_of: :characters
   belongs_to :chapter, inverse_of: :characters
@@ -113,6 +117,10 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
     @skill_points_total = SKILL_CHART[self.level(true)]
   end
 
+  def skill_points_unspent
+    skill_points_total - skill_points_used
+  end
+
   def experience_multiplier
     return 3 if self.origins.find { |o| o.name =~ /proto revelation/i }
     return 2 if self.origins.find { |o| o.name =~ /proto/i }
@@ -127,6 +135,10 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
     added_perks = self.skills.select{ |s| s.name.downcase == "added perks" }.pluck(:cost).reduce(0, :+) * self.costume
     @perk_points_total = self.costume + added_perks +
                           (self.backgrounds.find { |b| b.name.start_with?("Paragon") } ? 4 : 0)
+  end
+
+  def perk_points_unspent
+    perk_points_total - perk_points_used
   end
 
   def invest_in_project(amt, talent=nil)
@@ -233,8 +245,12 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   end
 
   def open_bankaccount
-    return if self.bank_accounts.where(chapter: self.chapter).present?
+    return if primary_bank_account.present?
     self.bank_accounts.create(chapter: self.chapter)
+  end
+
+  def primary_bank_account
+    bank_accounts.where(chapter: chapter).try(:first)
   end
 
   def display_name

@@ -7,6 +7,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Changed / Fixed
 
+## [1.12.3](v1.12.3) - 2016-06-09
+### Added
+- Recent/active players scope and simpler csv export
+- Prettier backend because it needs to be fabulous (super green).
+
+### Changed / Fixed
+- Broke something on crafting points, I'm not sure when. It's fixed now, so hooray?
+- Removed responsive styles, mobile devices aren't ever used anyways.
+
 ## [1.12.2](v1.12.2) - 2016-06-08
 ### Changed / Fixed
 - Fixed an incorrect variable name in the admin character view

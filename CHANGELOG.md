@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Changed / Fixed
 
+## [1.12.2](v1.12.2) - 2016-06-08
+### Changed / Fixed
+- Fixed an incorrect variable name in the admin character view
+
 ## [1.12.1](v1.12.1) - 2016-06-08
 ### Changed / Fixed
 - Fuck versions.

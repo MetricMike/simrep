@@ -126,9 +126,9 @@ ActiveAdmin.register Character do
 
         panel "Bonus/Custom XP" do
           f.has_many :bonus_experiences, allow_destroy: true do |be_f|
-            ce_f.input :reason
-            ce_f.input :amount
-            ce_f.input :date_awarded
+            be_f.input :reason
+            be_f.input :amount
+            be_f.input :date_awarded
           end
         end
 

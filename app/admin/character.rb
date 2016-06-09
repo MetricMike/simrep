@@ -1,8 +1,20 @@
 ActiveAdmin.register Character do
   menu false
-  config.paginate = false
+  config.per_page = 50
 
   includes :bank_accounts
+
+  scope("Recent Players") { |scope| scope.recently_played.newest }
+
+  csv force_quotes: true do
+    column("Player Name", humanize_name: false) { |c| c.user.display_name }
+    column("Character Name", humanize_name: false) { |c| c.display_name }
+    column("Current Chapter", humanize_name: false) { |c| c.chapter.name }
+    column("Bank Account Balance", humanize_name: false) { |c| (c.primary_bank_account.try(:balance)) || "ERR" }
+    column("Unspent Skills", humanize_name: false) { |c| c.skill_points_unspent }
+    column("Unspent Perks", humanize_name: false) { |c| c.perk_points_unspent }
+    column("Unspent TUs", humanize_name: false) { |c| c.unused_talents }
+  end
 
   batch_action :attend_event, form: {
     event:               Event.order(weekend: :desc).pluck(:weekend, :id),
@@ -10,11 +22,11 @@ ActiveAdmin.register Character do
     cleaned:             :checkbox,
     check_clean_coupon:  :checkbox,
     override:            :checkbox
-  } do |ids, inputs|
-    batch_action_collection.find(ids).each do |character|
-      character.attend_event(inputs[:event], inputs[:paid], inputs[:cleaned], inputs[:check_clean_coupon], inputs[:override])
-    end
-    redirect_to collection_path, notice: [ids, inputs].to_s
+    } do |ids, inputs|
+      batch_action_collection.find(ids).each do |character|
+        character.attend_event(inputs[:event], inputs[:paid], inputs[:cleaned], inputs[:check_clean_coupon], inputs[:override])
+      end
+      redirect_to collection_path, notice: [ids, inputs].to_s
   end
 
   batch_action :kill, form: {
@@ -22,11 +34,11 @@ ActiveAdmin.register Character do
     physical:     :text,
     roleplay:     :text,
     weekend:      Event.order(weekend: :desc).pluck(:weekend),
-  } do |ids, inputs|
-    batch_action_collection.find(ids).each do |character|
-      character.deaths.create(inputs)
-    end
-    redirect_to collection_path, notice: [ids, inputs].to_s
+    } do |ids, inputs|
+      batch_action_collection.find(ids).each do |character|
+        character.deaths.create(inputs)
+      end
+      redirect_to collection_path, notice: [ids, inputs].to_s
   end
 
   action_item :view, only: [:show, :edit] do

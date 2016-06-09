@@ -8,15 +8,22 @@
 // $sidebar-width: 242px;
 
 // Active Admin's got SASS!
+@import "face_of_active_admin_variables";
 @import "activeadmin_addons/all";
-@import "active_admin/mixins";
-@import "active_admin/base";
-@import "responsive_active_admin";
+@import "face_of_active_admin/mixins";
+@import "face_of_active_admin/base";
 
 // Overriding any non-variable SASS must be done after the fact.
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+#header h1.site_title {
+  background-color: inherit;
+  padding-left: 5px;
+  text-indent: inherit;
+  background-size: contain;
+}
 
 .inputs .has_many_fields {
   ol li {

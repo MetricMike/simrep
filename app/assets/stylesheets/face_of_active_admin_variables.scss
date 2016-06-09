@@ -1,0 +1,69 @@
+// Variables used throughout Active Admin.
+// They can be overridden by your own
+
+// Height priority settings
+$skinTextColor: #1e2a33 !default;
+$skinTextActiveColor: #fff !default;
+$skinTextTable: #7f8c8d !default;
+$skinActiveColor: #00E01B !default;
+$skinHeaderBck: #232B2B !default;
+$skinHeaderTextColor: #FFFFFF !default;
+$skinFontFamily: "Source Sans Pro", Helvetica, Arial, sans-serif !default;
+$panelHeaderBck: darken($skinHeaderBck, 10%) !default;
+$panelHeaderTextColor: #FFFFFF !default;
+$skinLogo: image-url("simterraclear.png") !default;
+$skinLogoWidth: auto !default;
+
+// Low priority settings
+// Colors
+$body-background-color: #ecf0f1 !default;
+$main-background-color: #FFF !default;
+$title-bar-background: #efefef !default;
+$primary-color: #5E6469 !default;
+$secondary-color: #f0f0f0 !default;
+$current-menu-item-background: lighten($primary-color, 12%) !default;
+$hover-menu-item-background: lighten($primary-color, 12%) !default;
+$table-stripe-color: $secondary-color !default;
+$table-selected-color: lighten($skinActiveColor, 35%) !default;
+$error-color: #932419 !default;
+$blank-slate-primary-color: #7f8c8d !default;
+$breadcrumbs-color: #8a949e !default;
+$breadcrumbs-separator-color: #aab2ba !default;
+$required-field-marker-color: #aaa !default;
+$page-header-background-color: #ecf0f1 !default;
+$table-header-color: lighten($skinHeaderBck, 70%) !default;
+
+// Text
+$default-font: "Helvetica Neue" !default;
+$text-color: #323537 !default;
+$link-color: #38678b !default;
+$header-dropdown-menu-text-color: #323537 !default;
+$section-header-text-color: $primary-color !default;
+$page-header-text-color: #cdcdcd !default;
+$form-label-color: $section-header-text-color !default;
+
+// Buttons
+$action-button-default-background: #fbfbfb !default;
+$action-button-hover-background: #FFF !default;
+$action-button-active-background: #fafafa !default;
+$action-button-default-text: $primary-color !default;
+$action-button-hover-text: $primary-color !default;
+$action-button-active-text: $primary-color !default;
+$link_transition_dutarion: 0.3s !default;
+
+// Sizes
+$title-bar-font-weight: bold !default;
+$border-width: 1px !default;
+$horizontal-page-padding: 30px !default;
+$horizontal-page-header-padding: 15px !default;
+$logo-width: 100px !default;
+$sidebar-width: 270px !default;
+$cell-padding: 5px 10px 3px 10px !default;
+$cell-horizontal-padding: 12px !default;
+$section-padding: 15px !default;
+$text-input-horizontal-padding: 10px !default;
+$text-input-total-padding: $text-input-horizontal-padding * 2 + $border-width * 2;
+
+$blank-slate-border: 1px dashed #DADADA !default;
+
+@import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&subset=latin,latin-ext);

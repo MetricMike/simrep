@@ -48,7 +48,8 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
                                 :character_perks, :character_events, :bank_accounts,
                                 :crafting_points, allow_destroy: true
   accepts_nested_attributes_for :project_contributions, :talents, :deaths, :origins, :backgrounds,
-                                :events, :skills, :perks, :temporary_effects, allow_destroy: true
+                                :events, :skills, :perks, :temporary_effects, :bonus_experiences,
+                                allow_destroy: true
 
   validates :name, presence: true
   validates :race, inclusion: { in: RACES }

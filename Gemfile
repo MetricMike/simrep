@@ -72,7 +72,6 @@ group :development, :test do
   gem 'capistrano-bundler'
   gem 'capistrano-rbenv'
   gem 'capistrano-passenger'
-  gem 'capistrano-locally'
 end
 
 group :test do

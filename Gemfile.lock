@@ -108,8 +108,6 @@ GEM
       capistrano (~> 3.1)
       sshkit (~> 1.2)
     capistrano-harrow (0.5.1)
-    capistrano-locally (0.2.1)
-      capistrano (~> 3.0)
     capistrano-passenger (0.2.0)
       capistrano (~> 3.0)
     capistrano-rails (1.1.6)
@@ -429,7 +427,6 @@ DEPENDENCIES
   bullet
   capistrano
   capistrano-bundler
-  capistrano-locally
   capistrano-passenger
   capistrano-rails
   capistrano-rbenv

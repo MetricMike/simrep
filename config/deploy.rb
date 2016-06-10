@@ -7,7 +7,7 @@ set :repo_url, 'file:///mnt/v/Users/Michael/Software/SimTerra/simrep/.git'
 set :rollbar_token, ENV['ROLLBAR_ACCESS_TOKEN']
 set :rollbar_env, Proc.new { fetch :stage }
 set :rollbar_role, Proc.new { :app }
-set :bundle_env_variables, { nokogiri_use_system_libraries: 1 }
+set :bundle_flags, "--deployment --local"
 
 set :passenger_in_gemfile, true
 

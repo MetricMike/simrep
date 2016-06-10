@@ -7,12 +7,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Changed / Fixed
 
+## [1.13.1](v1.13.1) - 2016-06-10
+### Changed / Fixed
+- Updating nokogiri (is causing cap deploy to fail)
+
 ## [1.13.0](v1.13.0) - 2016-06-10
 ### Added
 - Capistrano!
 - Email-only login if running from MTOWER
-
-### Changed / Fixed
 
 ## [1.12.3](v1.12.3) - 2016-06-09
 ### Added

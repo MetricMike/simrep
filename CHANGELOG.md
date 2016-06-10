@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Changed / Fixed
 
-## [1.13.2](v1.13.2) - 2016-06-10
+## [1.13.3](v1.13.3) - 2016-06-10
 ### Changed / Fixed
 - Updating nokogiri (is causing cap deploy to fail)
 - User the local user, doofus

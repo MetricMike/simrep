@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :trackable, :omniauthable,
-         omniauth_providers: [:facebook]
+         omniauth_providers: [:facebook, :developer]
   has_many :characters, inverse_of: :user
 
   has_many  :downstream_referrals,  class_name: "Referral",         foreign_key: :sponsor_id

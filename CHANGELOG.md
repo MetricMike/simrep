@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.12.4](v1.12.4) - 2016-06-10
 ### Added
+- Capistrano!
 - Email-only login if running from MTOWER
 
 ### Changed / Fixed

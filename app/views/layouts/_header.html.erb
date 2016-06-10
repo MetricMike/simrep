@@ -21,6 +21,7 @@
             (<strong><%= link_to "Switch", switch_chapter_path %></strong>)
           <% end %>
         </li>
+        <li class="navbar-text" style="margin-left: 0px; margin-right: 0px;">|</li>
       <% end %>
       <% if user_signed_in? %>
         <li class="navbar-text">Logged in as <strong><%= link_to "#{current_user.name}", characters_path %></strong>
@@ -31,10 +32,18 @@
         <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %></li>
         <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
       <% else %>
+        <% if ENV['MTOWER'] %>
+          <li>
+            <%= link_to user_developer_omniauth_authorize_path, class: 'navbar-link' do %>
+              <i class="fa fa-envelope-o" aria-hidden="true"></i> Sign in with Email
+            <% end %>
+          </li>
+          <li class="navbar-text" style="margin-left: 0px; margin-right: 0px;">/</li>
+        <% end %>
         <li>
-          <%= link_to user_facebook_omniauth_authorize_path, class: 'navbar-link' do %>
-            <i class="fa fa-facebook" aria-hidden="true"></i> Sign in with Facebook
-          <% end %>
+        <%= link_to user_facebook_omniauth_authorize_path, class: 'navbar-link' do %>
+          <i class="fa fa-facebook" aria-hidden="true"></i> Sign in with Facebook
+        <% end %>
         </li>
       <% end %>
       </ul>

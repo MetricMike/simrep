@@ -1,1 +1,1 @@
-web: bin/passenger start --nginx-config-template nginx.conf.erb
+web: puma -C config/puma.rb

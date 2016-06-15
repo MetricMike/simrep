@@ -7,9 +7,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Changed / Fixed
 
+## [1.15.0](v1.15.0) - 2016-06-13
+### Changed/Fixed
+- NpcShift payments are paid to the chapter you NPCed at
+
 ## [1.14.0](v1.14.0) - 2016-06-10
 ### Added
-- Email-only login if running from MTOWER
+- Email-only login if running from MTOWER (at the event)
 
 ### Changed / Fixed
 

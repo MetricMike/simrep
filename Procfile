@@ -1,1 +1,1 @@
-web: passenger start -p $PORT
+web: puma -C config/puma.rb

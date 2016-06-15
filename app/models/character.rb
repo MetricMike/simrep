@@ -246,7 +246,7 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
 
   def open_bankaccount
     return if primary_bank_account.present?
-    self.bank_accounts.create(chapter: self.chapter)
+    self.bank_accounts.create(chapter: self.chapter || Chapter::BASTION)
   end
 
   def primary_bank_account

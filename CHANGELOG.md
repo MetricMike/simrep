@@ -7,9 +7,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Changed / Fixed
 
-## [1.15.0](v1.15.0) - 2016-06-13
+## [1.15.0](v1.15.0) - 2016-06-15
+### Added
+- Professions are somewhat paid automatically (manual script that needs to be
+  run, doesn't support multiple professions or completed specialties yet)
+- Support for profession pay rates
+
 ### Changed/Fixed
 - NpcShift payments are paid to the chapter you NPCed at
+- Switched from passenger to puma (includes more db connections)
+- Code quality gardening
+- Fixes for Rails5 deprecations
+- Safer/more accurate Character and association lookups
 
 ## [1.14.0](v1.14.0) - 2016-06-10
 ### Added

@@ -86,7 +86,7 @@ class NpcShift < ApplicationRecord
 
     ActiveRecord::Base.transaction do
       self.character_event.update!(accumulated_npc_money: (etd_pay+net_pay))
-      self.create_bank_transaction!(to_account: BankAccount.find_by(owner: self.character),
+      self.create_bank_transaction!(to_account: self.character.primary_bank_account,
                                     funds: net_pay,
                                     memo: memo_msg)
     end

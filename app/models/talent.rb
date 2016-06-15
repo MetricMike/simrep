@@ -1,6 +1,12 @@
 class Talent < ApplicationRecord
   RANKS = ["Untrained", "Apprentice", "Journeyman", "Master", "Grandmaster"]
   GROUPS = ["Connection", "Scholarship", "Profession", "Craft", "Trick", "General", "Audience", "Custom"]
+  PROFESSION_RATES = {
+    "Untrained"   => 0,
+    "Apprentice"  => 1,
+    "Journeyman"  => 2,
+    "Master"      => 5
+  }
 
   scope :latest, -> { order(updated_at: :desc) }
 

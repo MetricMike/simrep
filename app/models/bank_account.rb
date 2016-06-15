@@ -11,6 +11,7 @@ class BankAccount < ApplicationRecord
   scope :by_name, -> { includes(:owner).order('characters.name asc')}
 
   validate :does_not_exceed_credit
+  validates_presence_of :owner, :chapter
 
   def does_not_exceed_credit
     if balance < (Money.new(0, 'VMK') - self.line_of_credit)
@@ -48,6 +49,6 @@ class BankAccount < ApplicationRecord
   end
 
   def display_name
-    "#{self.owner.display_name}'s Account in #{self.chapter.name}"
+    "#{self.owner.display_name} | #{self.chapter.name}"
   end
 end

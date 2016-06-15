@@ -88,8 +88,8 @@ ActiveAdmin.register BankAccount do
   sidebar "Post a Transaction", priority: 0, only: :show do
     active_admin_form_for(:bank_transaction, url: admin_bank_transactions_path) do |f|
       f.inputs do
-        f.input :from_account, collection: BankAccount.all.by_name, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
-        f.input :to_account, collection: BankAccount.all.by_name, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
+        f.input :from_account, collection: BankAccount.all.by_name
+        f.input :to_account, collection: BankAccount.all.by_name
         f.input :funds, as: :number, default: 0.00
         f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd)], label_method: :name, value_method: :to_s
         f.input :memo, required: false

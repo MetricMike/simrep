@@ -65,6 +65,13 @@ group :development, :test do
   gem 'bullet'
   gem 'quiet_assets'
   gem 'faker'
+
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
+  gem 'capistrano-puma'
+  gem 'capistrano-locally'
 end
 
 group :test do

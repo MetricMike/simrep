@@ -13,8 +13,16 @@ set :rollbar_role, Proc.new { :app }
 set :bundle_env_variables, { nokogiri_use_system_libraries: 1 }
 
 set :linked_files, fetch(:linked_files, []).push('.env')
-set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'pdfs', 'tmp/cache', 'tmp/sockets', 'public/system', 'public/assets')
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'pdfs', 'tmp/cache', 'tmp/sockets', 'public/system')
 
 set :rbenv_ruby, File.read('.ruby-version').strip
 
-set :puma_conf, "#{current_path}/puma.rb"
+set :puma_role, %w(app web db)
+set :puma_conf, "#{current_path}/config/puma.rb"
+
+# set :puma_env, :production
+# set :puma_threads, 1
+# set :puma_workers, 2
+# set :puma_bind, "tcp://0.0.0.0:3000"
+# set :puma_init_active_record, true
+# set :puma_preload_app, true

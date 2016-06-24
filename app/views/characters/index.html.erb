@@ -4,21 +4,20 @@
     <section class="user_info">
       <h1><%= current_user.email %></h1>
       <%= link_to 'Create New Character', new_character_path, class: "btn btn-sm btn-success" %>
-      <%= link_to 'Pre-Reg for the Event', '', class: "btn btn-sm btn-info", disabled: true %>
     </section>
   </aside>
   <div class="col-md-8">
     <% if @active_characters.any? %>
       <h3>Active Characters (<%= @active_characters.count %>)</h3>
       <ul class="characters">
-        <%= render @active_characters, locals: { retired: true } %>
+        <%= render @active_characters %>
       </ul>
     <% end %>
     <% if @retired_characters.any? %>
       <hr/>
-      <h3>Retired Characters (<%= @retired_characters.count %>)</h3>)
+      <h3>Retired Characters (<%= @retired_characters.count %>)</h3>
       <ul class="characters">
-        <%= render @retired_characters, locals: { retired: true } %>
+        <%= render @retired_characters %>
       </ul>
     <% end %>
   </div>

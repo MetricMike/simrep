@@ -66,6 +66,8 @@ group :development, :test do
   gem 'bullet'
   gem 'quiet_assets'
   gem 'faker'
+  gem 'derailed'
+  gem 'stackprof'
 end
 
 group :test do

@@ -1,6 +1,3 @@
-require 'dotenv'
-Dotenv.load("../.env")
-
 workers Integer(ENV['WEB_CONCURRENCY'] || 1)
 threads_count = Integer(ENV['RAILS_MAX_THREADS'] || 3)
 threads 0, threads_count
@@ -8,8 +5,8 @@ threads 0, threads_count
 preload_app!
 
 rackup      DefaultRackup
-port        ENV['PORT']
-environment ENV['RAILS_ENV']
+port        ENV['PORT'] || 3000
+environment ENV['RAILS_ENV'] || production
 
 on_worker_boot do
   # Worker specific setup for Rails 4.1+

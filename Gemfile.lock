@@ -288,6 +288,7 @@ GEM
       json
     rack-test (0.6.3)
       rack (>= 1.0)
+    rack-timeout (0.4.2)
     rails (5.0.0.rc2)
       actioncable (= 5.0.0.rc2)
       actionmailer (= 5.0.0.rc2)
@@ -455,6 +456,7 @@ DEPENDENCIES
   puma
   pundit
   quiet_assets
+  rack-timeout
   rails (~> 5.0.0.rc2)
   rails_12factor
   rollbar

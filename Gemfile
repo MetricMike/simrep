@@ -5,6 +5,7 @@ gem 'rails', '~> 5.0.0.rc2'
 gem 'pg'
 gem 'puma'
 gem 'dotenv-rails'
+gem 'rack-timeout'
 
 gem 'high_voltage'
 

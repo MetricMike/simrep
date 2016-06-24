@@ -67,7 +67,6 @@ group :development, :test do
   gem 'faker'
 
   gem 'capistrano'
-  gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'capistrano-rbenv'
   gem 'capistrano-puma'

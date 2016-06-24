@@ -1,1 +1,1 @@
-server 'localhost', roles: %w{app db web}
+server 'localhost', user: 'metricmike', roles: %w{app db web}

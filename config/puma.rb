@@ -1,3 +1,6 @@
+require 'dotenv'
+Dotenv.load("../.env")
+
 workers Integer(ENV['WEB_CONCURRENCY'] || 1)
 threads_count = Integer(ENV['RAILS_MAX_THREADS'] || 3)
 threads 0, threads_count

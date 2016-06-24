@@ -28,15 +28,5 @@
 *.sublime-project
 *.sublime-workspace
 
-# Don't commit precompiled assets
-/public/assets
-
 # Ignore rspec states
 /spec/examples.txt
-
-# Ignore Passenger
-/passenger*
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml

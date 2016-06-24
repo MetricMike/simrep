@@ -4,6 +4,11 @@ threads 0, threads_count
 
 preload_app!
 
+daemonize true
+
+pidfile 'tmp/pids/puma.pid'
+state_path 'tmp/pids/puma.state'
+
 rackup      DefaultRackup
 port        ENV['PORT'] || 3000
 environment ENV['RAILS_ENV'] || 'production'

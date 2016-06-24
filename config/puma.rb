@@ -1,6 +1,6 @@
 workers Integer(ENV['WEB_CONCURRENCY'] || 1)
 threads_count = Integer(ENV['RAILS_MAX_THREADS'] || 3)
-threads 1, threads_count
+threads 0, threads_count
 
 preload_app!
 

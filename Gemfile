@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 # Core Binaries
-gem 'rails', '~> 5.0.0.rc1'
-gem 'pg', '0.18.2'
+gem 'rails', '~> 5.0.0.rc2'
+gem 'pg'
 gem 'puma'
 gem 'dotenv-rails'
 

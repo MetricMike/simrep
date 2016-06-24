@@ -54,7 +54,7 @@ namespace :puma do
         end
         within current_path do
           with rack_env: fetch(:puma_env) do
-            execute :puma, "-C #{fetch(:puma_conf)}"
+            execute :puma, "-C #{fetch(:puma_conf)} --daemon"
           end
         end
       end

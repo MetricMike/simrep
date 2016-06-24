@@ -11,7 +11,7 @@ class CharacterPolicy < ApplicationPolicy
       @user = context.user
       @character = context.character
       @chapter = context.chapter
-      @scope = scope
+      @scope = scope.for_index
     end
 
     def resolve

@@ -17,7 +17,7 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   scope :by_name_asc, -> { order(name: :asc) }
   scope :oldest, -> { order(created_at: :asc) }
   scope :newest, -> { order(updated_at: :desc) }
-  scope :for_index, -> { includes(:events, :backgrounds) }
+  scope :for_index, -> { includes(:events, :backgrounds, :origins) }
   scope :for_current_chapter, ->(chapter) { where(chapter_id: chapter['id']) }
   scope :recently_played, ->(from=6.months.ago) { includes(:events)
                                                   .where('events.weekend': from..Time.current)

@@ -215,6 +215,7 @@ ActiveAdmin.setup do |config|
         character.add label: 'Project Contributions',  url: :admin_project_contributions_path
         character.add label: 'Npc Shifts',             url: :admin_npc_shifts_path
         character.add label: 'Temporary Effects',      url: :admin_temporary_effects_path
+        character.add label: 'Bonus Experiences',      url: :admin_bonus_experiences_path
       end
 
       menu.add label: 'Bank', url: '#', priority: 7 do |bank|

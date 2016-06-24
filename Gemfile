@@ -15,7 +15,6 @@ gem 'uglifier'
 gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'turbolinks', '~> 5.0.0.beta'
 gem 'simple_form'
 gem 'selectize-rails'
 gem "font-awesome-rails"
@@ -66,8 +65,6 @@ group :development, :test do
   gem 'bullet'
   gem 'quiet_assets'
   gem 'faker'
-  gem 'derailed'
-  gem 'stackprof'
 end
 
 group :test do

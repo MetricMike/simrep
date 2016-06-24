@@ -7,7 +7,6 @@ require "capistrano/deploy"
 require 'capistrano/rbenv'
 require 'capistrano/bundler'
 require 'capistrano/puma'
-require 'rollbar/capistrano3'
 require 'capistrano/locally'
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined

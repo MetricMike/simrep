@@ -61,7 +61,7 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  before_create :turn_off_nested_callbacks
+  # before_create :turn_off_nested_callbacks
   before_create :extra_xp_for_holurheim
   after_create :turn_on_nested_callbacks, :open_bankaccount
 

@@ -19,7 +19,7 @@
 /log/*.log
 /tmp
 /.c9
-/.env
+/.env*
 /**/*.dump
 /config/newrelic.yml
 /.pryrc

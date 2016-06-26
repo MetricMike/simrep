@@ -5,7 +5,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
+- Fancy deploys with capistrano (makes it easier to develop fixes and features without downtime)
+
 ### Changed / Fixed
+- Fixed an issue where new characters would generate multiple bank accounts
+- Moving a character between chapters costs 1 TU and warns the player before doing so.
 
 ## [1.15.0](v1.15.0) - 2016-06-15
 ### Added

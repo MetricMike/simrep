@@ -61,7 +61,6 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  # before_create :turn_off_nested_callbacks
   before_create :extra_xp_for_holurheim
   after_create :turn_on_nested_callbacks, :open_bankaccount
 
@@ -245,8 +244,8 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   end
 
   def open_bankaccount
-    return if primary_bank_account.present?
-    self.bank_accounts.create(chapter: self.chapter || Chapter::BASTION)
+    return if primary_bank_account.present? || chapter.nil?
+    self.bank_accounts.create(chapter: chapter)
   end
 
   def primary_bank_account

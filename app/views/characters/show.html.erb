@@ -7,7 +7,7 @@
   <%= link_to "Bank", bank_accounts_path, class: 'btn btn-success' %>
   <%= link_to "NPC", npc_shifts_path, class: 'btn btn-primary' %>
   <%= link_to "Print", character_path(@character, format: :pdf), class: 'btn btn-info' %>
-  <%= link_to "Move to #{alt_chapter.name}", character_path(@character, chapter: alt_chapter), method: :patch, class: 'btn btn-danger' %>
+  <%= link_to "Move to #{alt_chapter.name}", character_path(@character, chapter: alt_chapter), method: :patch, class: 'btn btn-danger', confirm: "Moving chapters will cost 1 TU. Are you sure you want to continue?" %>
 </div>
 <div class="row" id="demographics">
   <div class="col-md-6">

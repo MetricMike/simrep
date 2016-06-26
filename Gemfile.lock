@@ -115,8 +115,6 @@ GEM
       capistrano (~> 3.1)
       sshkit (~> 1.2)
     capistrano-harrow (0.5.2)
-    capistrano-locally (0.2.1)
-      capistrano (~> 3.0)
     capistrano-rails (1.1.7)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
@@ -416,9 +414,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass
   bullet
-  capistrano
   capistrano-bundler
-  capistrano-locally
   capistrano-rails
   capistrano-rbenv
   capistrano3-puma!

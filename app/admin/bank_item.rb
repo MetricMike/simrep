@@ -1,6 +1,6 @@
 ActiveAdmin.register BankItem do
   menu false
-  belongs_to :bank_account, optional: true
+  belongs_to :personal_bank_account, optional: true
 
   csv_importable :columns => [:from_account_id, :to_account_id, :item_description, :item_count]
 
@@ -9,14 +9,14 @@ ActiveAdmin.register BankItem do
     column :id
     column :from_account do |bi|
       if bi.from_account.present?
-        link_to bi.from_account.owner.name, admin_bank_account_path(bi.from_account.id)
+        link_to bi.from_account.owner.name, admin_personal_bank_account_path(bi.from_account.id)
       else
         "Deposit"
       end
     end
     column :to_account do |bi|
       if bi.to_account.present?
-        link_to bi.to_account.owner.name, admin_bank_account_path(bi.to_account.id)
+        link_to bi.to_account.owner.name, admin_personal_bank_account_path(bi.to_account.id)
       else
         "Withdrawal"
       end

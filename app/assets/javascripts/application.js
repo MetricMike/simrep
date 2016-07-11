@@ -15,10 +15,9 @@
 //= require jquery-ui
 //= require bootstrap-sprockets
 //= require cocoon
-//= require turbolinks
 //= require selectize
 
-$(document).on("turbolinks:load", function() {
+$(document).ready(function() {
   $(':input.select').selectize();
 
   $('tbody').on('cocoon:after-insert', function(e, insertedItem) {

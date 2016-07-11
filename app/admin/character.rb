@@ -1,8 +1,8 @@
 ActiveAdmin.register Character do
   menu false
-  config.per_page = 50
+  config.per_page = [25, 50, 100, 1000]
 
-  includes :bank_accounts
+  includes :user, :bank_accounts
 
   scope("Recent Players") { |scope| scope.recently_played.newest }
 
@@ -17,7 +17,7 @@ ActiveAdmin.register Character do
   end
 
   batch_action :attend_event, form: {
-    event:               Event.order(weekend: :desc).pluck(:weekend, :id),
+    event:               Event.newest,
     paid:                :checkbox,
     cleaned:             :checkbox,
     check_clean_coupon:  :checkbox,
@@ -33,7 +33,7 @@ ActiveAdmin.register Character do
     description:  :text,
     physical:     :text,
     roleplay:     :text,
-    weekend:      Event.order(weekend: :desc).pluck(:weekend),
+    weekend:      Event.newest,
     } do |ids, inputs|
       batch_action_collection.find(ids).each do |character|
         character.deaths.create(inputs)
@@ -77,7 +77,8 @@ ActiveAdmin.register Character do
     column :history_approval
     column :unused_talents
     column "Bank Account", :bank_account do |c|
-      link_to humanized_money_with_symbol(c.bank_accounts.first.balance), admin_bank_account_path(c.bank_accounts.first)
+      link_to humanized_money_with_symbol(c.bank_accounts_personal.first.balance),
+        admin_personal_bank_account_path(c.bank_accounts_personal.first)
     end
     actions
   end
@@ -140,7 +141,7 @@ ActiveAdmin.register Character do
           f.has_many :bonus_experiences, allow_destroy: true do |be_f|
             be_f.input :reason
             be_f.input :amount
-            be_f.input :date_awarded
+            be_f.input :date_awarded, as: :date_picker
           end
         end
 
@@ -240,11 +241,11 @@ ActiveAdmin.register Character do
 
   sidebar :versionate, :partial => "admin/shared/version", :only => :show
 
-  sidebar :bank_account, only: :show do
+  sidebar :personal_bank_account, only: :show do
     h3 "Chapter | Current Balance"
     ul do
-      resource.bank_accounts.each do |b|
-        li a "#{b.chapter.name} | #{humanized_money_with_symbol b.balance}", href: admin_bank_account_path(b)
+      resource.bank_accounts_personal.each do |b|
+        li a "#{b.chapter.name} | #{humanized_money_with_symbol b.balance}", href: admin_personal_bank_account_path(b)
       end
     end
   end

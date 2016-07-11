@@ -2,13 +2,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :trackable, :omniauthable,
          omniauth_providers: [:facebook, :developer]
-  has_many :characters, inverse_of: :user
 
-  has_many  :downstream_referrals,  class_name: "Referral",         foreign_key: :sponsor_id
-  has_many  :referred_users,        through: :downstream_referrals, source: :referred_user
+  has_many :characters,             inverse_of: :user
 
-  has_one   :upstream_referral,     class_name: "Referral",         foreign_key: :referred_user_id
-  has_one   :sponsor,               through: :upstream_referral,    source: :sponsor
+  has_many  :downstream_referrals,  class_name: 'Referral',             foreign_key:  :sponsor_id
+  has_many  :referred_users,        through:    :downstream_referrals,  source:       :referred_user
+
+  has_one   :upstream_referral,     class_name: 'Referral',             foreign_key:  :referred_user_id
+  has_one   :sponsor,               through:    :upstream_referral,     source:       :sponsor
+
+  belongs_to :free_cleaning_event,  class_name: 'Event'
 
   scope :latest,      -> { order(updated_at: :desc) }
   scope :unsponsored, -> { User.where.not(id: Referral.all.map { |r| r.referred_user.id } ).order(name: :asc) }

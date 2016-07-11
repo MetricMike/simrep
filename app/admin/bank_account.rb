@@ -1,6 +1,5 @@
 ActiveAdmin.register BankAccount do
   menu false
-  config.paginate = false
 
   csv_importable :columns => [:owner_id, :balance_cents, :balance_currency]
 
@@ -11,16 +10,11 @@ ActiveAdmin.register BankAccount do
   index do
     selectable_column
     column :id do |ba|
-      link_to ba.id, admin_bank_account_path(ba)
+      link_to ba.id, admin_personal_bank_account_path(ba)
     end
     column :chapter
-    column "Owner", :owner_id do |ba|
-      link_to Character.find(ba.owner_id).name, admin_character_path(ba.owner_id)
-    end
     column :balance_cents
     column :balance_currency
-    column :line_of_credit_cents
-    column :line_of_credit_currency
     column :created_at
     column :updated_at
     actions
@@ -28,12 +22,12 @@ ActiveAdmin.register BankAccount do
 
   filter :balance_cents
   filter :balance_currency
+  filter :chapter_name
   filter :owner_name, as: :string
 
   show do
     attributes_table do
       row :id
-      row :owner
       row(:balance) { humanized_money_with_symbol bank_account.balance }
       row(:line_of_credit) { humanized_money_with_symbol bank_account.line_of_credit }
     end
@@ -88,10 +82,10 @@ ActiveAdmin.register BankAccount do
   sidebar "Post a Transaction", priority: 0, only: :show do
     active_admin_form_for(:bank_transaction, url: admin_bank_transactions_path) do |f|
       f.inputs do
-        f.input :from_account, collection: BankAccount.all.by_name
-        f.input :to_account, collection: BankAccount.all.by_name
+        f.input :from_account, collection: PersonalBankAccount.all.by_name
+        f.input :to_account, collection: PersonalBankAccount.all.by_name
         f.input :funds, as: :number, default: 0.00
-        f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd)], label_method: :name, value_method: :to_s
+        f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd), Money::Currency.find(:hkr)], label_method: :name, value_method: :to_s
         f.input :memo, required: false
       end
       f.action :submit, label: "Post New Transaction"
@@ -101,8 +95,8 @@ ActiveAdmin.register BankAccount do
   sidebar "Add an Item", priority: 1, only: :show do
     active_admin_form_for(:bank_item, url: admin_bank_items_path) do |f|
       f.inputs do
-        f.input :from_account, collection: BankAccount.all.by_name, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
-        f.input :to_account, collection: BankAccount.all.by_name, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
+        f.input :from_account, collection: PersonalBankAccount.all.by_name, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
+        f.input :to_account, collection: PersonalBankAccount.all.by_name, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
         f.input :item_description, required: false
         f.input :item_count, as: :number, default: 1
       end

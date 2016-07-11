@@ -5,21 +5,21 @@ class BankAccountsController < ApplicationController
   after_action :verify_policy_scoped, :only => :index
 
   def index
-    @bank_accounts = policy_scope(BankAccount)
+    @bank_accounts = policy_scope(PersonalBankAccount)
     redirect_to bank_account_path(@bank_accounts.first) if @bank_accounts.count == 1
   end
 
   def show
-    @bank_account = BankAccount.find_by id: params[:id]
-    @transactions = @bank_account.transactions.select(&:persisted?)
-    @items = @bank_account.items.select(&:persisted?)
-    @crafting_points = @bank_account.owner.crafting_points.select(&:persisted?)
+    @bank_account = PersonalBankAccount.find(params[:id])
+    @transactions = @bank_account.transactions
+    @items = @bank_account.items.latest
+    @crafting_points = @bank_account.owner.crafting_points
     @bank_account_transaction = @bank_account.outgoing_transactions.build()
     authorize @bank_account
   end
 
   def new
-    @bank_account = current_character.bank_accounts.new
+    @bank_account = current_character.bank_accounts_personal.new
     authorize @bank_account
   end
 
@@ -28,7 +28,7 @@ class BankAccountsController < ApplicationController
   # end
 
   def create
-    @bank_account = current_character.bank_accounts.new(bank_account_params)
+    @bank_account = current_character.bank_accounts_personal.new(bank_account_params)
     authorize @bank_account
 
     if @bank_account.save
@@ -39,7 +39,7 @@ class BankAccountsController < ApplicationController
   end
 
   def update
-    @bank_account = BankAccount.find_by id: params[:id]
+    @bank_account = PersonalBankAccount.find_by id: params[:id]
     authorize @bank_account
 
     # Try updating transaction
@@ -73,8 +73,8 @@ class BankAccountsController < ApplicationController
 
   def bank_transaction_params
     params[:bank_transaction][:funds] = Money.new(params[:bank_transaction][:funds].to_f*100, params[:bank_transaction][:funds_currency])
-    params[:bank_transaction][:from_account] = BankAccount.find_by id: params[:bank_transaction][:from_account] if params[:bank_transaction][:from_account]
-    params[:bank_transaction][:to_account] = BankAccount.find_by id: params[:bank_transaction][:to_account] if params[:bank_transaction][:to_account]
+    params[:bank_transaction][:from_account] = PersonalBankAccount.find_by id: params[:bank_transaction][:from_account] if params[:bank_transaction][:from_account]
+    params[:bank_transaction][:to_account] = PersonalBankAccount.find_by id: params[:bank_transaction][:to_account] if params[:bank_transaction][:to_account]
     params.require(:bank_transaction).permit! #aaahhhhhhhh
   end
 

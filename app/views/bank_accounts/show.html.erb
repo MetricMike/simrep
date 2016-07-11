@@ -1,23 +1,39 @@
 <% provide(:title, "#{@bank_account.display_name}") %>
 <div class="row">
   <div class="col-md-4" id="overview">
-    <dl class="dl-horizontal">
-      <dt>Balance</dt><dd><%= humanized_money_with_symbol @bank_account.balance %></dd>
-    </dl>
-    <%= simple_form_for @bank_account do |f| %>
-      <%= simple_fields_for @bank_account_transaction do |f_bat| %>
-        <%= f_bat.input :from_account, as: :hidden, input_html: { value: @bank_account } %>
-        <%= f_bat.input :to_account, include_blank: false, collection: BankAccount.where(chapter: current_chapter).where.not(id: @bank_account.id), label_method: lambda { |account| "#{account.owner.name}" } %>
-        <%= f_bat.input :memo, required: false %>
-        <div class="input-group">
-          <%= f_bat.input :funds %>
-          <span class="input-group-addon">
-            <%= f_bat.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd)], label_method: :name, value_method: :to_s %>
-          </span>
+    <div class="row">
+      <dl class="dl-horizontal">
+        <dt>Balance</dt><dd><%= humanized_money_with_symbol @bank_account.balance %></dd>
+      </dl>
+    </div>
+    <div class="row">
+      <%= simple_form_for @bank_account, url: url_for(controller: :bank_accounts, action: :update) do |f| %>
+        <%= simple_fields_for @bank_account_transaction do |f_bat| %>
+          <div class="col-md-12">
+            <%= f_bat.input :from_account, as: :hidden, input_html: { value: @bank_account } %>
+          </div>
+          <div class="col-md-12">
+            <%= f_bat.input :to_account, include_blank: false, collection: BankAccount.where(chapter: current_chapter).where.not(id: @bank_account.id), label_method: lambda { |account| "#{account.owner.name}" } %>
+          </div>
+          <div class="col-md-12">
+            <%= f_bat.input :memo, required: false %>
+          </div>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4">
+                <%= f_bat.input :funds %>
+              </div>
+              <div class="col-md-8">
+                <%= f_bat.input :funds_currency, label: "Currency", as: :select, include_blank: false, collection: @bank_account.currencies, label_method: :name, value_method: :to_s %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <div class="col-md-12">
+          <%= f.button :submit, "Post Transaction", class: "btn btn-sm btn-block btn-success" %>
         </div>
       <% end %>
-      <%= f.button :submit, "Post Transaction", class: "btn btn-sm btn-block btn-success" %>
-    <% end %>
+    </div>
   </div>
   <div class="col-md-8" id="transaction_log">
     <h3>Bank Transactions</h3>

@@ -1,8 +1,8 @@
 ActiveAdmin.register User do
   menu false
-  config.paginate = false
+  config.per_page = 100
 
-  includes :upstream_referral
+  includes upstream_referral: :event_claimed
 
   index do
     selectable_column
@@ -15,8 +15,8 @@ ActiveAdmin.register User do
       status_tag (u.encrypted_password.present? ? :yes : :no)
     end
     column "Annual Cleaning Coupon" do |u|
-      if u.free_cleaning_event_id
-        link_to Event.find(u.free_cleaning_event_id).display_name, admin_character_event_path(u.free_cleaning_event_id)
+      if u.free_cleaning_event
+        link_to u.free_cleaning_event.display_name, admin_character_event_path(u.free_cleaning_event)
       else
         status_tag 'Unused', :no
       end

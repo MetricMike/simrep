@@ -1,27 +1,45 @@
 class BankAccount < ApplicationRecord
   belongs_to :chapter, inverse_of: :bank_accounts
-  belongs_to :owner, class_name: 'Character'
+
   has_many :outgoing_transactions, class_name: 'BankTransaction', foreign_key: :from_account_id, dependent: :destroy
   has_many :incoming_transactions, class_name: 'BankTransaction', foreign_key: :to_account_id, dependent: :destroy
   has_many :outgoing_items, class_name: 'BankItem', foreign_key: :from_account_id, dependent: :destroy
   has_many :incoming_items, class_name: 'BankItem', foreign_key: :to_account_id, dependent: :destroy
 
-  monetize :balance_cents, :line_of_credit_cents
+  monetize :balance_cents, with_model_currency: :balance_currency
+  monetize :line_of_credit_cents, with_model_currency: :line_of_credit_currency
 
   scope :by_name, -> { includes(:owner).order('characters.name asc')}
+  scope :personal, -> { where(type: 'PersonalBankAccount') }
 
   validate :does_not_exceed_credit
-  validates_presence_of :owner, :chapter
+  validates_presence_of :chapter
+
+  before_create :set_default_currency
+
+  AVAIL_CURRENCIES = {
+    Chapter::BASTION    => [Money::Currency.find(:vmk), Money::Currency.find(:sgd)],
+    Chapter::HOLURHEIM  => [Money::Currency.find(:hkr)]
+  }
+
+  def currencies
+    @currencies ||= AVAIL_CURRENCIES[chapter]
+  end
+
+  def set_default_currency
+    currency = chapter == Chapter::HOLURHEIM ? :hkr : :vmk
+  end
 
   def does_not_exceed_credit
-    if balance < (Money.new(0, 'VMK') - self.line_of_credit)
+    if balance < (Money.new(0, balance_currency) - self.line_of_credit)
       errors.add(:balance, "Insufficient funds in account for transaction")
     end
   end
 
   def transactions
-    @transactions = outgoing_transactions + incoming_transactions
-    @transactions.sort_by { |t| t.updated_at }
+    @transactions ||= outgoing_transactions.union(incoming_transactions)
+                    .includes(from_account: :owner, to_account: :owner)
+                    .latest
   end
 
   def last_transaction
@@ -29,8 +47,9 @@ class BankAccount < ApplicationRecord
   end
 
   def items
-    @items = outgoing_items + incoming_items
-    @items.sort_by { |i| i.updated_at }
+    @items ||= outgoing_items.union(incoming_items)
+                .includes(from_account: :owner, to_account: :owner)
+                .latest
   end
 
   def last_item
@@ -46,9 +65,5 @@ class BankAccount < ApplicationRecord
   def deposit(amt)
     self.balance += amt
     self.save
-  end
-
-  def display_name
-    "#{self.owner.display_name} | #{self.chapter.name}"
   end
 end

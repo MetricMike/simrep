@@ -12,6 +12,6 @@ Rails.application.routes.draw do
 
   resources :characters, except: [:edit, :destroy]
   resources :projects
-  resources :bank_accounts, except: [:edit, :destroy]
+  resources :bank_accounts, except: [:edit, :destroy], alias: :personal_bank_accounts
   resources :npc_shifts
 end

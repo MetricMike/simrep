@@ -5,7 +5,23 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
+
+## [1.16.0](v1.16.0) - 2016-07-10
+### Added
+- Fancy deploys with capistrano (makes it easier to develop fixes and features without downtime)
+- New characters display how many skillpoints they start with
+- New characters are associated with a chapter (also fixes missing bank accounts)
+- Hellan Kroner is now the default (and only) currency in Holurheim.
+
 ### Changed / Fixed
+- Fixed an issue where new characters would generate multiple bank accounts
+- Moving a character between chapters costs 1 TU and warns the player before doing so.
+- Removed CoffeeScript which should help resolve a bug where the admin/back office wouldn't load properly unless refreshed
+- Renamed NpcShift#open to NpcShift#active to remove a conflict with Kernel#open
+- Removed some unnecessary eager loading
+- Removed the fancy css, it got in the way too much :broken_heart:
+- BonusExperience uses the datepicker now
+- Partial reverts for select2/ize in back office due to rails5 incompatibilities. Turning on slowly.
 
 ## [1.15.0](v1.15.0) - 2016-06-15
 ### Added

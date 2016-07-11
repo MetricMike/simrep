@@ -1,5 +1,5 @@
 class Character < ApplicationRecord
-RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
+  RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   CULTURES = ["Cryogen", "Venthos", "Sengra", "Illumen/Lumiend", "Shaiden/Om'Oihanna", "Illugar/Unan Gens", "Shaigar/Alkon'Gol", "Minor", "Custom"]
   # (1..50).each { |i| EXP_CHART << EXP_CHART[i-1] + 15 + i-1 }
   EXP_CHART = [0, 15, 31, 48, 66, 85, 105, 126, 148, 171, 195, 220,
@@ -17,7 +17,7 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   scope :by_name_asc, -> { order(name: :asc) }
   scope :oldest, -> { order(created_at: :asc) }
   scope :newest, -> { order(updated_at: :desc) }
-  scope :for_index, -> { includes(:events, :backgrounds) }
+  scope :for_index, -> { includes(:events, :backgrounds, :origins) }
   scope :for_current_chapter, ->(chapter) { where(chapter_id: chapter['id']) }
   scope :recently_played, ->(from=6.months.ago) { includes(:events)
                                                   .where('events.weekend': from..Time.current)
@@ -42,7 +42,8 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   has_many :project_contributions, inverse_of: :character, dependent: :destroy
   has_many :talents, inverse_of: :character, dependent: :destroy
   has_many :deaths, inverse_of: :character, dependent: :destroy
-  has_many :bank_accounts, foreign_key: :owner_id, dependent: :destroy
+  has_many :bank_accounts, foreign_key: :owner_id
+  delegate :personal, to: :bank_accounts, prefix: true
   has_many :crafting_points, dependent: :destroy
 
   has_many :temporary_effects, inverse_of: :character, dependent: :destroy
@@ -61,9 +62,8 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  before_create :turn_off_nested_callbacks
   before_create :extra_xp_for_holurheim
-  after_create :turn_on_nested_callbacks, :open_bankaccount
+  after_create :open_bankaccount
 
   attr_writer :perm_chance, :perm_counter
 
@@ -109,12 +109,16 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
     self.deaths.where('description ilike ?', '%PERMED%').try(:last).try(:weekend)
   end
 
+  def skill_points_for_experience(exp=BASE_XP)
+    SKILL_CHART[ EXP_CHART.rindex{ |i| exp >= i } ]
+  end
+
   def skill_points_used
     @skill_points_used = self.skills.reduce(0) { |sum, el| sum + el.cost }
   end
 
-  def skill_points_total
-    @skill_points_total = SKILL_CHART[self.level(true)]
+  def skill_points_total(level=level(true))
+    @skill_points_total = SKILL_CHART[level]
   end
 
   def skill_points_unspent
@@ -245,12 +249,12 @@ RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
   end
 
   def open_bankaccount
-    return if primary_bank_account.present?
-    self.bank_accounts.create(chapter: self.chapter || Chapter::BASTION)
+    return if primary_bank_account.present? || chapter.nil?
+    bank_accounts_personal.create(chapter: chapter)
   end
 
   def primary_bank_account
-    bank_accounts.where(chapter: chapter).try(:first)
+    bank_accounts_personal.where(chapter: chapter).try(:first)
   end
 
   def display_name

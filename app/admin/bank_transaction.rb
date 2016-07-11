@@ -9,14 +9,14 @@ ActiveAdmin.register BankTransaction do
     column :id
     column :from_account do |bt|
       if bt.from_account.present?
-        link_to bt.from_account.owner.name, admin_bank_account_path(bt.from_account.id)
+        link_to bt.from_account.owner.name, admin_personal_bank_account_path(bt.from_account.id)
       else
         "Deposit"
       end
     end
     column :to_account do |bt|
       if bt.to_account.present?
-        link_to bt.to_account.owner.name, admin_bank_account_path(bt.to_account.id)
+        link_to bt.to_account.owner.name, admin_personal_bank_account_path(bt.to_account.id)
       else
         "Withdrawal"
       end

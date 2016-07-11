@@ -7,13 +7,13 @@
     </section>
   </aside>
   <div class="col-md-8">
-    <% if @active_characters.any? %>
+    <% if @active_characters.present? %>
       <h3>Active Characters (<%= @active_characters.count %>)</h3>
       <ul class="characters">
         <%= render @active_characters %>
       </ul>
     <% end %>
-    <% if @retired_characters.any? %>
+    <% if @retired_characters.present? %>
       <hr/>
       <h3>Retired Characters (<%= @retired_characters.count %>)</h3>
       <ul class="characters">

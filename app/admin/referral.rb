@@ -1,7 +1,7 @@
 ActiveAdmin.register Referral do
   menu false
 
-  includes :sponsor, :referred_user
+  includes :sponsor, :referred_user, :event_claimed
 
   index do
     selectable_column

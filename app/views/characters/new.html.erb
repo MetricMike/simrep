@@ -2,13 +2,20 @@
   <div class="col-md-10 col-md-offset-1">
     <%= simple_form_for @character do |f| %>
       <%= f.error_notification %>
-      <%= f.input :name, label: "Character Name" %>
+      <div class="row">
+        <div class="col-md-8">
+          <%= f.input :name, label: "Character Name" %>
+        </div>
+        <div class="col-md-4">
+          <%= f.input :chapter, disabled: true, input_html: { value: current_chapter.name } %>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-6">
-          <%= f.input :race, collection: Character::RACES %>
+          <%= f.input :race, collection: Character::RACES, required: true %>
         </div>
         <div class="col-md-6">
-          <%= f.input :culture, collection: Character::CULTURES %>
+          <%= f.input :culture, collection: Character::CULTURES, required: true %>
         </div>
       </div>
       <div class="row">
@@ -50,7 +57,9 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-            <h3><a href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHhybkpGYm4yN2s">Skills</a></h3>
+            <h3><a href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHhybkpGYm4yN2s">
+              <%= "Skills (#{@character.skill_points_for_experience(current_chapter.default_xp)} Total)" %>
+            </a></h3>
             <table class="table table-condensed table-hover table-responsive">
               <thead>
                 <tr>

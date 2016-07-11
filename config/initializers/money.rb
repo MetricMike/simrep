@@ -18,6 +18,18 @@ MoneyRails.configure do |config|
   }
 
   config.register_currency = {
+    :priority            => 1,
+    :iso_code            => "HKR",
+    :name                => "Hellan Kroner",
+    :symbol              => "kr",
+    :symbol_first        => false,
+    :subunit             => "cent",
+    :subunit_to_unit     => 100,
+    :thousands_separator => ",",
+    :decimal_mark        => "."
+  }
+
+  config.register_currency = {
     :priority            => 2,
     :iso_code            => "SGD",
     :name                => "Sengran Guilder",
@@ -45,6 +57,10 @@ MoneyRails.configure do |config|
   config.add_rate "VMK", "SGD", 10
   config.add_rate "SGD", "VMK", 0.1
 
+  # These shouldn't exist, but I need them on the back end in case I miss something
+  config.add_rate "VMK", "HKR", 1
+  config.add_rate "HKR", "VMK", 1
+
   # To handle the inclusion of validations for monetized fields
   # The default value is true
   #
@@ -60,7 +76,7 @@ MoneyRails.configure do |config|
                            null: false,          # other options will be treated as column options
                            default: 0
                          }
- 
+
   config.currency_column = { prefix: '',
                              postfix: '_currency',
                              column_name: nil,

@@ -18,7 +18,7 @@ class NpcShift < ApplicationRecord
   validates_presence_of :character_event
   validate :disable_simultaneous_shifts
 
-  scope :open,            -> { where(closing: nil).where.not(opening: nil) }
+  scope :active,            -> { where(closing: nil).where.not(opening: nil) }
   scope :recently_closed, -> { where.not(closing: nil).order(closing: :desc).limit(5) }
 
   def real_pay
@@ -36,20 +36,18 @@ class NpcShift < ApplicationRecord
   end
 
   def another_already_opened?
-    NpcShift.where(character_event: self.event, closing: nil)
-              .where.not(opening: nil)
-              .count != 0
+    where(character_event: event).active.count != 0
   end
 
   def open_shift(opening=Time.now.utc)
     return false if another_already_opened?
-    self.update(opening: opening.floor_to(15.minutes))
+    update(opening: opening.floor_to(15.minutes))
   end
 
   def close_shift(closing=Time.now.utc)
-    return false if self.opening == nil
-    self.update(closing: closing.ceil_to(15.minutes))
-    issue_awards_for_shift! if self.character_event.paid?
+    return false if opening == nil
+    update(closing: closing.ceil_to(15.minutes))
+    issue_awards_for_shift! if character_event.paid?
   end
 
   def net_pay
@@ -57,16 +55,16 @@ class NpcShift < ApplicationRecord
   end
 
   def current_event?
-    self.character.last_event == self.event
+    character.last_event == event
   end
 
   def shift_length # in hours as a float so we can do partial payments
-    shift_end = self.closing.present? ? self.closing : Time.now.ceil_to(15.minutes)
-    (shift_end - self.opening).to_f / (60*60)
+    shift_end = closing.present? ? closing : Time.now.ceil_to(15.minutes)
+    (shift_end - opening).to_f / (60*60)
   end
 
   def display_name
-    "#{self.character.display_name}'s #{self.event.display_name} Shift from #{self.opening} to #{self.closing}"
+    "#{character.display_name}'s #{event.display_name} Shift from #{opening} to #{closing}"
   end
 
   private
@@ -76,7 +74,7 @@ class NpcShift < ApplicationRecord
   end
 
   def pay_rate # hourly
-    @pay_rate ||= (self.dirty? ? MONEY_CLEAN + MONEY_DIRTY : MONEY_CLEAN)
+    @pay_rate ||= (dirty? ? MONEY_CLEAN + MONEY_DIRTY : MONEY_CLEAN)
   end
 
 
@@ -85,19 +83,19 @@ class NpcShift < ApplicationRecord
     memo_msg = (net_pay > Money.new(0, :vmk)) ? pay_memo_msg : "#{pay_memo_msg}\n#{LIMIT_REACHED_MSG}"
 
     ActiveRecord::Base.transaction do
-      self.character_event.update!(accumulated_npc_money: (etd_pay+net_pay))
-      self.create_bank_transaction!(to_account: self.character.primary_bank_account,
+      character_event.update!(accumulated_npc_money: (etd_pay+net_pay))
+      create_bank_transaction!(to_account: character.primary_bank_account,
                                     funds: net_pay,
                                     memo: memo_msg)
     end
-    self.save
+    save
   end
 
   def reverse_payments
     ActiveRecord::Base.transaction do
-      self.character_event.update!(accumulated_npc_money: etd_pay-real_pay)
-      payment = self.bank_transaction
-      self.update_columns(bank_transaction_id: nil)
+      character_event.update!(accumulated_npc_money: etd_pay-real_pay)
+      payment = bank_transaction
+      update_columns(bank_transaction_id: nil)
       payment.destroy!
     end
   end

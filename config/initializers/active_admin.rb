@@ -4,7 +4,7 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = ""
+  config.site_title = "Back Office"
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
@@ -138,7 +138,7 @@ ActiveAdmin.setup do |config|
   # You can add before, after and around filters to all of your
   # Active Admin resources and pages from here.
   #
-  config.before_filter do
+  config.before_action do
     params.permit! #ohgod, but it's just for the admin interface.
   end
 
@@ -219,7 +219,8 @@ ActiveAdmin.setup do |config|
       end
 
       menu.add label: 'Bank', url: '#', priority: 7 do |bank|
-        bank.add label: 'Bank Accounts',     url: :admin_bank_accounts_path
+        bank.add label: 'All Bank Accounts',     url: :admin_bank_accounts_path
+        bank.add label: 'Personal Bank Accounts',     url: :admin_personal_bank_accounts_path
         bank.add label: 'Bank Transactions', url: :admin_bank_transactions_path
         bank.add label: 'Bank Items',        url: :admin_bank_items_path
         bank.add label: 'Crafting Points',   url: :admin_crafting_points_path
@@ -263,7 +264,7 @@ ActiveAdmin.setup do |config|
   # Pagination is enabled by default for all resources.
   # You can control the default per page count for all resources here.
   #
-  # config.default_per_page = 30
+  config.default_per_page = 15
 
   # == Filters
   #

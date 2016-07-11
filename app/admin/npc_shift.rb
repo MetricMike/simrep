@@ -23,7 +23,7 @@ ActiveAdmin.register NpcShift do
     column :dirty
     column :updated_at
     column "Paid?", :bank_transaction_id do |ns|
-      ns.bank_transaction.present? ? link_to("Yes", admin_bank_account_path(ns.bank_transaction.to_account_id)) : "No"
+      ns.bank_transaction.present? ? link_to("Yes", admin_personal_bank_account_path(ns.bank_transaction.to_account_id)) : "No"
     end
     actions
   end

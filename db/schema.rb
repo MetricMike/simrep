@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530005040) do
+ActiveRecord::Schema.define(version: 20160709192335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,13 +38,14 @@ ActiveRecord::Schema.define(version: 20160530005040) do
 
   create_table "bank_accounts", force: :cascade do |t|
     t.integer  "owner_id"
-    t.integer  "balance_cents",           default: 500,   null: false
-    t.string   "balance_currency",        default: "VMK", null: false
-    t.integer  "line_of_credit_cents",    default: 500,   null: false
-    t.string   "line_of_credit_currency", default: "VMK", null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.integer  "balance_cents",           default: 500, null: false
+    t.string   "balance_currency",                      null: false
+    t.integer  "line_of_credit_cents",    default: 500, null: false
+    t.string   "line_of_credit_currency",               null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "chapter_id"
+    t.string   "type"
     t.index ["chapter_id"], name: "index_bank_accounts_on_chapter_id", using: :btree
     t.index ["owner_id"], name: "index_bank_accounts_on_owner_id", using: :btree
   end
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20160530005040) do
     t.integer  "to_account_id"
     t.string   "memo"
     t.integer  "funds_cents",     default: 0,     null: false
-    t.string   "funds_currency",  default: "VMK", null: false
+    t.string   "funds_currency",                  null: false
     t.boolean  "posted",          default: false, null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(version: 20160530005040) do
     t.integer  "costume"
     t.date     "costume_checked"
     t.boolean  "history_approval", default: false
-    t.string   "history_link",     default: "https://goo.gl/DbKTlk"
+    t.string   "history_link",     default: "https://docs.google.com/document/d/1WGDbCe0q4NvDH6FjQ5ANw97l6RIHf5Cg7_oycvHping/edit"
     t.integer  "unused_talents",   default: 0
     t.boolean  "retired",          default: false
     t.integer  "chapter_id"

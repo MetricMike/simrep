@@ -8,7 +8,7 @@ class NpcShiftsController < ApplicationController
   def index
     @npc_shifts = policy_scope(NpcShift)
     @recently_closed_npc_shifts = @npc_shifts.recently_closed
-    @open_npc_shifts = @npc_shifts.open
+    @open_npc_shifts = @npc_shifts.active
     @most_recent_cevent = get_recent_cevent
   end
 
@@ -26,7 +26,7 @@ class NpcShiftsController < ApplicationController
 
   def update
     # CLose or bust. If you want anything more complicated, gtfo and command line.
-    @npc_shift = NpcShift.find_by id: params[:id]
+    @npc_shift = NpcShift.find(params[:id])
     authorize @npc_shift
 
     # Try closing npc_shift

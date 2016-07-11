@@ -1,4 +1,4 @@
-class BankAccountPolicy < ApplicationPolicy
+class PersonalBankAccountPolicy < ApplicationPolicy
 
   def has_control?
     @user.admin? or record.owner == @character

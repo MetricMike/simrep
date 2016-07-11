@@ -1,4 +1,4 @@
-ActiveAdmin.register BankAccount do
+ActiveAdmin.register PersonalBankAccount do
   menu false
 
   csv_importable :columns => [:owner_id, :balance_cents, :balance_currency]
@@ -13,6 +13,9 @@ ActiveAdmin.register BankAccount do
       link_to ba.id, admin_personal_bank_account_path(ba)
     end
     column :chapter
+    column "Owner", :owner_id do |ba|
+      link_to ba.owner.name, admin_character_path(ba.owner_id)
+    end
     column :balance_cents
     column :balance_currency
     column :created_at
@@ -28,6 +31,7 @@ ActiveAdmin.register BankAccount do
   show do
     attributes_table do
       row :id
+      row :owner
       row(:balance) { humanized_money_with_symbol bank_account.balance }
       row(:line_of_credit) { humanized_money_with_symbol bank_account.line_of_credit }
     end
@@ -85,7 +89,7 @@ ActiveAdmin.register BankAccount do
         f.input :from_account, collection: PersonalBankAccount.all.by_name
         f.input :to_account, collection: PersonalBankAccount.all.by_name
         f.input :funds, as: :number, default: 0.00
-        f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd), Money::Currency.find(:hkr)], label_method: :name, value_method: :to_s
+        f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd), ], label_method: :name, value_method: :to_s
         f.input :memo, required: false
       end
       f.action :submit, label: "Post New Transaction"
@@ -111,7 +115,7 @@ ActiveAdmin.register BankAccount do
   end
 
   action_item :history, only: :show do
-    link_to "Version History", history_admin_bank_account_path(resource)
+    link_to "Version History", history_admin_personal_bank_account_path(resource)
   end
 
   controller do

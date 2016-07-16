@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
+- Groups! Mostly only for bank accounts at the moment.
+- Bank Accounts start with a balance of 0 and receive an initial transaction of 5 marks/kroner.
+
+### Changed
 
 ## [1.16.0](v1.16.0) - 2016-07-10
 ### Added

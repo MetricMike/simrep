@@ -16,14 +16,24 @@ class BankAccount < ApplicationRecord
   validates_presence_of :chapter
 
   before_create :set_default_currency
+  after_create  :initial_deposit, unless: :not_my_first_account
 
   AVAIL_CURRENCIES = {
     Chapter::BASTION    => [Money::Currency.find(:vmk), Money::Currency.find(:sgd)],
     Chapter::HOLURHEIM  => [Money::Currency.find(:hkr)]
   }
 
+  def not_my_first_account
+    return false if type == "GroupBankAccount"
+    return false if owner.bank_accounts.where(chapter: chapter).count > 0
+  end
+
   def currencies
     @currencies ||= AVAIL_CURRENCIES[chapter]
+  end
+
+  def initial_deposit
+    BankTransaction.create(to_account: self, funds_cents: 500, memo: "Initial deposit.")
   end
 
   def set_default_currency

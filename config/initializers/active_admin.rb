@@ -219,21 +219,23 @@ ActiveAdmin.setup do |config|
       end
 
       menu.add label: 'Bank', url: '#', priority: 7 do |bank|
-        bank.add label: 'All Bank Accounts',     url: :admin_bank_accounts_path
-        bank.add label: 'Personal Bank Accounts',     url: :admin_personal_bank_accounts_path
-        bank.add label: 'Bank Transactions', url: :admin_bank_transactions_path
-        bank.add label: 'Bank Items',        url: :admin_bank_items_path
-        bank.add label: 'Crafting Points',   url: :admin_crafting_points_path
+        bank.add label: 'All Bank Accounts',       url: :admin_bank_accounts_path
+        bank.add label: 'Personal Bank Accounts',  url: :admin_personal_bank_accounts_path
+        bank.add label: 'Group Bank Accounts',     url: :admin_group_bank_accounts_path
+        bank.add label: 'Bank Transactions',       url: :admin_bank_transactions_path
+        bank.add label: 'Bank Items',              url: :admin_bank_items_path
+        bank.add label: 'Crafting Points',         url: :admin_crafting_points_path
       end
 
       menu.add label: 'Base Models', url: '#', priority: 8 do |base|
-        base.add label: 'Chapters', url: :admin_chapters_path
+        base.add label: 'Chapters',    url: :admin_chapters_path
         base.add label: 'Backgrounds', url: :admin_backgrounds_path
         base.add label: 'Events',      url: :admin_events_path
         base.add label: 'Origins',     url: :admin_origins_path
         base.add label: 'Perks',       url: :admin_perks_path
         base.add label: 'Skills',      url: :admin_skills_path
         base.add label: 'Projects',    url: :admin_projects_path
+        base.add label: 'Groups',      url: :admin_groups_path
       end
     end
   end

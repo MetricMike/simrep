@@ -32,12 +32,14 @@ class Character < ApplicationRecord
   has_many :perks, through: :character_perks, inverse_of: :characters, dependent: :destroy
   has_many :events, through: :character_events, inverse_of: :characters, dependent: :destroy
   has_many :projects, through: :project_contributions, inverse_of: :characters, dependent: :destroy
+  has_many :groups, through: :group_memberships
 
   has_many :character_backgrounds, ->{ includes(:background) }, inverse_of: :character, dependent: :destroy
   has_many :character_origins, ->{ includes(:origin) }, inverse_of: :character, dependent: :destroy
   has_many :character_skills, ->{ includes(:skill) }, inverse_of: :character, dependent: :destroy
   has_many :character_perks, ->{ includes(:perk) }, inverse_of: :character, dependent: :destroy
   has_many :character_events, inverse_of: :character, dependent: :destroy
+  has_many :group_memberships, inverse_of: :character, dependent: :destroy
 
   has_many :project_contributions, inverse_of: :character, dependent: :destroy
   has_many :talents, inverse_of: :character, dependent: :destroy
@@ -51,7 +53,7 @@ class Character < ApplicationRecord
 
   accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills,
                                 :character_perks, :character_events, :bank_accounts,
-                                :crafting_points, allow_destroy: true
+                                :crafting_points, :group_memberships, allow_destroy: true
   accepts_nested_attributes_for :project_contributions, :talents, :deaths, :origins, :backgrounds,
                                 :events, :skills, :perks, :temporary_effects, :bonus_experiences,
                                 allow_destroy: true

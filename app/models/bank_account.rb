@@ -9,21 +9,31 @@ class BankAccount < ApplicationRecord
   monetize :balance_cents, with_model_currency: :balance_currency
   monetize :line_of_credit_cents, with_model_currency: :line_of_credit_currency
 
-  scope :by_name, -> { includes(:owner).order('characters.name asc')}
-  scope :personal, -> { where(type: 'PersonalBankAccount') }
+  scope :personal_accounts, -> { where(type: 'PersonalBankAccount') }
+  scope :group_accounts, -> { where(type: 'GroupBankAccount') }
 
   validate :does_not_exceed_credit
   validates_presence_of :chapter
 
   before_create :set_default_currency
+  after_create  :initial_deposit, unless: :not_my_first_account
 
   AVAIL_CURRENCIES = {
     Chapter::BASTION    => [Money::Currency.find(:vmk), Money::Currency.find(:sgd)],
     Chapter::HOLURHEIM  => [Money::Currency.find(:hkr)]
   }
 
+  def not_my_first_account
+    return false if type == "GroupBankAccount"
+    return false if owner.bank_accounts.where(chapter: chapter).count > 0
+  end
+
   def currencies
     @currencies ||= AVAIL_CURRENCIES[chapter]
+  end
+
+  def initial_deposit
+    BankTransaction.create(to_account: self, funds_cents: 500, memo: "Initial deposit.")
   end
 
   def set_default_currency

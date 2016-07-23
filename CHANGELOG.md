@@ -5,6 +5,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
+### Fixed
+
+## [1.17.0](v1.17.0) - 2016-07-23
+### Added
+- Groups! Backend only at the moment. Stores bylaws for access to bank accounts.
+- Bank Accounts start with a balance of 0 and receive an initial transaction of 5 marks/kroner.
+
+### Changed
 
 ## [1.16.0](v1.16.0) - 2016-07-10
 ### Added

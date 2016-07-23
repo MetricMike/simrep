@@ -100,7 +100,6 @@ GEM
       rails (>= 4.0)
     active_admin_datetimepicker (0.3.0)
       xdan-datetimepicker-rails (~> 2.5.1)
-    active_record_query_trace (1.5.3)
     active_record_union (1.2.0)
       activerecord (>= 4.0)
     activeadmin-ajax_filter (0.3.1)
@@ -426,7 +425,6 @@ PLATFORMS
 DEPENDENCIES
   active_admin_csv_import
   active_admin_datetimepicker
-  active_record_query_trace
   active_record_union
   activeadmin!
   activeadmin-ajax_filter

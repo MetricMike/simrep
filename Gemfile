@@ -68,7 +68,6 @@ gem 'pry-byebug'
 
 group :development, :test do
   gem 'better_errors'
-  gem 'active_record_query_trace'
   gem 'bullet'
   gem 'faker'
   gem 'bumbler'

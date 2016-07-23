@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 ### Added
 ### Fixed
+- Better conditionals on some logging gems.
 
 ## [1.17.0](v1.17.0) - 2016-07-23
 ### Added

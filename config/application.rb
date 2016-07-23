@@ -8,7 +8,6 @@ Bundler.require(*Rails.groups)
 
 module SimRep
   class Application < Rails::Application
-    config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
     config.web_console.template_paths = "app/assets/stylesheets/styles/"
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

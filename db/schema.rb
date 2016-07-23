@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160709192335) do
+ActiveRecord::Schema.define(version: 20160723224117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,9 @@ ActiveRecord::Schema.define(version: 20160709192335) do
     t.datetime "updated_at",                            null: false
     t.integer  "chapter_id"
     t.string   "type"
+    t.integer  "group_id"
     t.index ["chapter_id"], name: "index_bank_accounts_on_chapter_id", using: :btree
+    t.index ["group_id"], name: "index_bank_accounts_on_group_id", using: :btree
     t.index ["owner_id"], name: "index_bank_accounts_on_owner_id", using: :btree
   end
 
@@ -191,6 +193,24 @@ ActiveRecord::Schema.define(version: 20160709192335) do
     t.index ["weekend"], name: "index_events_on_weekend", using: :btree
   end
 
+  create_table "group_memberships", force: :cascade do |t|
+    t.integer  "member_id"
+    t.integer  "group_id"
+    t.string   "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_group_memberships_on_group_id", using: :btree
+    t.index ["member_id"], name: "index_group_memberships_on_member_id", using: :btree
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "name"
+    t.string   "bylaws"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_groups_on_name", using: :btree
+  end
+
   create_table "npc_shifts", force: :cascade do |t|
     t.integer  "character_event_id"
     t.datetime "opening"
@@ -315,6 +335,7 @@ ActiveRecord::Schema.define(version: 20160709192335) do
   end
 
   add_foreign_key "bank_accounts", "characters", column: "owner_id"
+  add_foreign_key "bank_accounts", "groups"
   add_foreign_key "bank_items", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_items", "bank_accounts", column: "to_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "from_account_id"
@@ -331,6 +352,8 @@ ActiveRecord::Schema.define(version: 20160709192335) do
   add_foreign_key "character_skills", "characters"
   add_foreign_key "character_skills", "skills"
   add_foreign_key "crafting_points", "characters"
+  add_foreign_key "group_memberships", "characters", column: "member_id"
+  add_foreign_key "group_memberships", "groups"
   add_foreign_key "npc_shifts", "bank_transactions"
   add_foreign_key "npc_shifts", "character_events"
   add_foreign_key "project_contributions", "characters"

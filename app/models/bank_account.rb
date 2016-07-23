@@ -9,8 +9,8 @@ class BankAccount < ApplicationRecord
   monetize :balance_cents, with_model_currency: :balance_currency
   monetize :line_of_credit_cents, with_model_currency: :line_of_credit_currency
 
-  scope :by_name, -> { includes(:owner).order('characters.name asc')}
-  scope :personal, -> { where(type: 'PersonalBankAccount') }
+  scope :personal_accounts, -> { where(type: 'PersonalBankAccount') }
+  scope :group_accounts, -> { where(type: 'GroupBankAccount') }
 
   validate :does_not_exceed_credit
   validates_presence_of :chapter

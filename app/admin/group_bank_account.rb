@@ -1,20 +1,21 @@
-ActiveAdmin.register BankAccount do
+ActiveAdmin.register GroupBankAccount do
   menu false
 
+  csv_importable :columns => [:group_id, :balance_cents, :balance_currency]
+
   action_item :view, only: [:show, :edit] do
-    link_to 'View on Site', sti_bank_path(bank_account.type, bank_account)
+    link_to 'View on Site', bank_account_path(bank_account)
   end
 
   index do
     selectable_column
     column :id do |ba|
-      link_to ba.id, sti_bank_path(ba.type, ba, admin: true)
-    end
-    column :type
-    column :name do |ba|
-      ba.owner_name
+      link_to ba.id, admin_group_bank_account_path(ba)
     end
     column :chapter
+    column "Group", :group_id do |ba|
+      link_to ba.group.name, admin_character_path(ba.group_id)
+    end
     column :balance_cents
     column :balance_currency
     column :created_at
@@ -22,14 +23,15 @@ ActiveAdmin.register BankAccount do
     actions
   end
 
-  filter :type
   filter :balance_cents
   filter :balance_currency
   filter :chapter_name
+  filter :group_name, as: :string
 
   show do
     attributes_table do
       row :id
+      row :group
       row(:balance) { humanized_money_with_symbol bank_account.balance }
       row(:line_of_credit) { humanized_money_with_symbol bank_account.line_of_credit }
     end
@@ -38,7 +40,7 @@ ActiveAdmin.register BankAccount do
         tab "Incoming" do
           table_for bank_account.incoming_transactions.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.owner.name : "Cash Deposit" }
+            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.group.name : "Cash Deposit" }
             column :memo, sortable: false
             column(:funds, sortable: :funds_cents) { |t| humanized_money_with_symbol t.funds }
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -48,7 +50,7 @@ ActiveAdmin.register BankAccount do
         tab "Outgoing" do
           table_for bank_account.outgoing_transactions.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.owner.name : "Cash Withdrawal" }
+            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.group.name : "Cash Withdrawal" }
             column :memo, sortable: false
             column(:funds, sortable: :funds_cents) { |t| humanized_money_with_symbol t.funds }
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -62,7 +64,7 @@ ActiveAdmin.register BankAccount do
         tab "Incoming" do
           table_for bank_account.incoming_items.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.owner.name : "Deposit" }
+            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.group.name : "Deposit" }
             column :item_description, sortable: false
             column :item_count, sortable: false
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -71,7 +73,7 @@ ActiveAdmin.register BankAccount do
         tab "Outgoing" do
           table_for bank_account.outgoing_items.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.owner.name : "Withdrawal" }
+            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.group.name : "Withdrawal" }
             column :item_description, sortable: false
             column :item_count, sortable: false
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -87,7 +89,7 @@ ActiveAdmin.register BankAccount do
         f.input :from_account, collection: BankAccount.all
         f.input :to_account, collection: BankAccount.all
         f.input :funds, as: :number, default: 0.00
-        f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd), Money::Currency.find(:hkr)], label_method: :name, value_method: :to_s
+        f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd), ], label_method: :name, value_method: :to_s
         f.input :memo, required: false
       end
       f.action :submit, label: "Post New Transaction"
@@ -97,8 +99,8 @@ ActiveAdmin.register BankAccount do
   sidebar "Add an Item", priority: 1, only: :show do
     active_admin_form_for(:bank_item, url: admin_bank_items_path) do |f|
       f.inputs do
-        f.input :from_account, collection: BankAccount.all, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
-        f.input :to_account, collection: BankAccount.all, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
+        f.input :from_account, collection: BankAccount.all, member_label: lambda { |a| "#{a.group.name} | #{a.chapter.name}" }
+        f.input :to_account, collection: BankAccount.all, member_label: lambda { |a| "#{a.group.name} | #{a.chapter.name}" }
         f.input :item_description, required: false
         f.input :item_count, as: :number, default: 1
       end
@@ -113,7 +115,7 @@ ActiveAdmin.register BankAccount do
   end
 
   action_item :history, only: :show do
-    link_to "Version History", history_admin_bank_account_path(resource)
+    link_to "Version History", history_admin_group_bank_account_path(resource)
   end
 
   controller do

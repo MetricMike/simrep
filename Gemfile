@@ -75,7 +75,6 @@ group :development, :test do
   gem 'capistrano-rbenv'
   gem 'capistrano3-puma', github: "seuros/capistrano-puma"
   gem 'capistrano-rails'
-  gem 'capistrano-locally'
 end
 
 group :test do

@@ -66,8 +66,6 @@ gem 'jazz_fingers'
 gem 'pry-rails'
 gem 'pry-byebug'
 
-gem 'capistrano-locally', path: "/mnt/v/Users/Michael/Software/metricmike/capistrano-locally"
-
 group :development, :test do
   gem 'better_errors'
   gem 'bullet'

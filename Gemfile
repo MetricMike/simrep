@@ -70,7 +70,6 @@ group :development, :test do
   gem 'better_errors'
   gem 'bullet'
   gem 'faker'
-  gem 'bumbler'
 
   gem 'capistrano-bundler'
   gem 'capistrano-rbenv'

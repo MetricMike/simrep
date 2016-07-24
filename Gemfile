@@ -73,6 +73,7 @@ group :development, :test do
 
   gem 'capistrano-bundler'
   gem 'capistrano-rbenv'
+  gem 'capistrano-rbenv-install'
   gem 'capistrano3-puma', github: "seuros/capistrano-puma"
   gem 'capistrano-rails'
 end

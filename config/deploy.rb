@@ -5,6 +5,7 @@ set :application, 'SimRep'
 set :repo_url, 'file:///mnt/v/Users/Michael/Software/SimTerra/simrep/.git'
 set :branch, 'develop'
 set :deploy_to, '/mnt/v/Users/Michael/Software/deploy/simrep'
+set :log_level, :debug
 
 set :rollbar_token, ENV['ROLLBAR_ACCESS_TOKEN']
 set :rollbar_env, Proc.new { fetch :stage }

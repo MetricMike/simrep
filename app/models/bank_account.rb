@@ -24,7 +24,7 @@ class BankAccount < ApplicationRecord
   }
 
   def not_my_first_account
-    return false if type == "GroupBankAccount"
+    return false if self.type == "GroupBankAccount"
     return false if owner.bank_accounts.where(chapter: chapter).count > 0
   end
 
@@ -33,6 +33,7 @@ class BankAccount < ApplicationRecord
   end
 
   def initial_deposit
+    return unless not_my_first_account
     BankTransaction.create(to_account: self, funds_cents: 500, memo: "Initial deposit.")
   end
 

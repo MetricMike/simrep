@@ -89,7 +89,7 @@ ActiveAdmin.register PersonalBankAccount do
         f.input :from_account, collection: BankAccount.all
         f.input :to_account, collection: BankAccount.all
         f.input :funds, as: :number, default: 0.00
-        f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd), ], label_method: :name, value_method: :to_s
+        f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd), Money::Currency.find(:hkr)], label_method: :name, value_method: :to_s
         f.input :memo, required: false
       end
       f.action :submit, label: "Post New Transaction"

@@ -4,10 +4,11 @@ threads 0, threads_count
 
 preload_app!
 
-daemonize ENV['MTOWER'] && ENV['RAILS_ENV'] == 'production'
-
-pidfile 'tmp/pids/puma.pid'
-state_path 'tmp/pids/puma.state'
+if ENV['MTOWER'] && ENV['RAILS_ENV'] == 'production'
+  daemonize
+  pidfile 'tmp/pids/puma.pid'
+  state_path 'tmp/pids/puma.state'
+end
 
 rackup      DefaultRackup
 port        ENV['PORT'] || 3000

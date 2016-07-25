@@ -40,7 +40,7 @@ ActiveAdmin.register PersonalBankAccount do
         tab "Incoming" do
           table_for bank_account.incoming_transactions.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.owner_name : "Cash Deposit" }
+            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.name : "Cash Deposit" }
             column :memo, sortable: false
             column(:funds, sortable: :funds_cents) { |t| humanized_money_with_symbol t.funds }
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -50,7 +50,7 @@ ActiveAdmin.register PersonalBankAccount do
         tab "Outgoing" do
           table_for bank_account.outgoing_transactions.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.owner_name : "Cash Withdrawal" }
+            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.name : "Cash Withdrawal" }
             column :memo, sortable: false
             column(:funds, sortable: :funds_cents) { |t| humanized_money_with_symbol t.funds }
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -64,7 +64,7 @@ ActiveAdmin.register PersonalBankAccount do
         tab "Incoming" do
           table_for bank_account.incoming_items.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.owner_name : "Deposit" }
+            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.name : "Deposit" }
             column :item_description, sortable: false
             column :item_count, sortable: false
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -73,7 +73,7 @@ ActiveAdmin.register PersonalBankAccount do
         tab "Outgoing" do
           table_for bank_account.outgoing_items.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.owner_name : "Withdrawal" }
+            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.name : "Withdrawal" }
             column :item_description, sortable: false
             column :item_count, sortable: false
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -99,8 +99,8 @@ ActiveAdmin.register PersonalBankAccount do
   sidebar "Add an Item", priority: 1, only: :show do
     active_admin_form_for(:bank_item, url: admin_bank_items_path) do |f|
       f.inputs do
-        f.input :from_account, collection: BankAccount.all, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
-        f.input :to_account, collection: BankAccount.all, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
+        f.input :from_account, collection: BankAccount.all, member_label: lambda { |a| "#{a.name} | #{a.chapter.name}" }
+        f.input :to_account, collection: BankAccount.all, member_label: lambda { |a| "#{a.name} | #{a.chapter.name}" }
         f.input :item_description, required: false
         f.input :item_count, as: :number, default: 1
       end

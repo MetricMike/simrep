@@ -1,11 +1,9 @@
 class GroupBankAccount < BankAccount
   belongs_to :group, required: true
 
-  def owner_name
-    "#{self.group_display_name}"
-  end
+  delegate :name, to: :group
 
   def display_name
-    "#{self.group.display_name} | #{self.chapter.name}"
+    "#{self.group.name} | #{self.chapter.name}"
   end
 end

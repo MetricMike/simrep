@@ -14,7 +14,7 @@ ActiveAdmin.register GroupBankAccount do
     end
     column :chapter
     column "Group", :group_id do |ba|
-      link_to ba.group.name, admin_character_path(ba.group_id)
+      link_to ba.group.try(:name), admin_character_path(ba.group_id)
     end
     column :balance_cents
     column :balance_currency

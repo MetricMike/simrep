@@ -71,6 +71,7 @@ group :development, :test do
   gem 'bullet'
   gem 'faker'
 
+  gem 'capistrano-rbenv'
   gem 'capistrano-bundler'
   gem 'capistrano3-puma', github: "seuros/capistrano-puma"
   gem 'capistrano-rails'
@@ -87,5 +88,5 @@ group :test do
 end
 
 group :production do
-  # gem 'rails_12factor'
+  gem 'rails_12factor'
 end

@@ -28,7 +28,7 @@ class BankAccountsController < ApplicationController
   # end
 
   def create
-    @bank_account = current_character.bank_accounts_personal.new(bank_account_params)
+    @bank_account = current_character.bank_accounts_personal_accounts.new(bank_account_params)
     authorize @bank_account
 
     if @bank_account.save

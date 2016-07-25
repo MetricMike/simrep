@@ -77,8 +77,8 @@ ActiveAdmin.register Character do
     column :history_approval
     column :unused_talents
     column "Bank Account", :bank_account do |c|
-      link_to humanized_money_with_symbol(c.bank_accounts_personal.first.balance),
-        admin_personal_bank_account_path(c.bank_accounts_personal.first)
+      link_to humanized_money_with_symbol(c.bank_accounts_personal_accounts.first.balance),
+        admin_personal_bank_account_path(c.bank_accounts_personal_accounts.first)
     end
     actions
   end
@@ -244,7 +244,7 @@ ActiveAdmin.register Character do
   sidebar :personal_bank_account, only: :show do
     h3 "Chapter | Current Balance"
     ul do
-      resource.bank_accounts_personal.each do |b|
+      resource.bank_accounts_personal_accounts.each do |b|
         li a "#{b.chapter.name} | #{humanized_money_with_symbol b.balance}", href: admin_personal_bank_account_path(b)
       end
     end

@@ -45,7 +45,7 @@ class Character < ApplicationRecord
   has_many :talents, inverse_of: :character, dependent: :destroy
   has_many :deaths, inverse_of: :character, dependent: :destroy
   has_many :bank_accounts, foreign_key: :owner_id
-  delegate :personal, to: :bank_accounts, prefix: true
+  delegate :personal_accounts, to: :bank_accounts, prefix: true
   has_many :crafting_points, dependent: :destroy
 
   has_many :temporary_effects, inverse_of: :character, dependent: :destroy
@@ -252,11 +252,11 @@ class Character < ApplicationRecord
 
   def open_bankaccount
     return if primary_bank_account.present? || chapter.nil?
-    bank_accounts_personal.create(chapter: chapter)
+    bank_accounts_personal_accounts.create(chapter: chapter)
   end
 
   def primary_bank_account
-    bank_accounts_personal.where(chapter: chapter).try(:first)
+    bank_accounts_personal_accounts.where(chapter: chapter).try(:first)
   end
 
   def display_name

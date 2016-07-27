@@ -58,10 +58,11 @@ class CharactersController < ApplicationController
 
   def update
     # Only thing you can do here is move between chapters
-    if @character.update_attributes(chapter_id: params[:chapter])
+    if @character.update_attributes(chapter_id: params[:chapter], unused_talents: @character.unused_talents-1)
       session[:current_chapter_id] = params[:chapter]; @chapter = current_chapter
       redirect_to @character, notice: 'Character moved successfully.'
     else
+      flash[:error] = "Couldn't move character. Do you have Time Units available?"
       render action: :edit
     end
   end

@@ -7,8 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Fixed
 
-## [1.18.0](v1.18.0) - 2016-07-26
+## [1.18.1](v1.18.1) - 2016-07-27
 ### Removed
+- Goodbye, Capistrano. BoW does not like you.
 - Rack servers and BoW are not playing nice, so goodbye rack servers.
 
 ### Fixed

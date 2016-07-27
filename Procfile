@@ -1,1 +1,1 @@
-web: puma -C config/puma.rb
+web: rails server

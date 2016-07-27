@@ -36,7 +36,7 @@ class NpcShift < ApplicationRecord
   end
 
   def another_already_opened?
-    where(character_event: event).active.count != 0
+    NpcShift.where(character_event: event).active.count != 0
   end
 
   def open_shift(opening=Time.now.utc)
@@ -46,7 +46,7 @@ class NpcShift < ApplicationRecord
 
   def close_shift(closing=Time.now.utc)
     return false if opening == nil
-    update(closing: closing.ceil_to(15.minutes))
+    self.update(closing: closing.ceil_to(15.minutes))
     issue_awards_for_shift! if character_event.paid?
   end
 

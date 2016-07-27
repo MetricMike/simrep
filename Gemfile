@@ -5,8 +5,7 @@ gem 'rails', '~> 5.0'
 gem 'pg'
 gem 'active_record_union'
 gem 'high_voltage'
-gem 'dotenv-rails'
-gem 'puma'
+gem 'figaro'
 
 # Rails5 Preliminary for ActiveAdmin
 gem 'inherited_resources', github: 'activeadmin/inherited_resources'
@@ -71,9 +70,8 @@ group :development, :test do
   gem 'bullet'
   gem 'faker'
 
-  gem 'capistrano-rbenv'
+  gem 'capistrano-rbenv', path: '/mnt/v/Users/Michael/Software/metricmike/rbenv'
   gem 'capistrano-bundler'
-  gem 'capistrano3-puma', github: "seuros/capistrano-puma"
   gem 'capistrano-rails'
 end
 

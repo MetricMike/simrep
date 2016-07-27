@@ -17,7 +17,7 @@ ActiveAdmin.register Character do
   end
 
   batch_action :attend_event, form: {
-    event:               Event.newest,
+    event:               Event.newest.pluck(:display_name, :id),
     paid:                :checkbox,
     cleaned:             :checkbox,
     check_clean_coupon:  :checkbox,

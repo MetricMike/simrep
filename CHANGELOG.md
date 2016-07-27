@@ -6,6 +6,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 ### Added
 ### Fixed
+
+## [1.18.0](v1.18.0) - 2016-07-26
+### Removed
+- Rack servers and BoW are not playing nice, so goodbye rack servers.
+
+### Fixed
+- Attend event works in admin again.
+- Moving chapters actually costs TUs now.
+- Capistrano is broke not woke.
 - Better conditionals on some logging gems.
 
 ## [1.17.0](v1.17.0) - 2016-07-23

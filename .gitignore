@@ -23,6 +23,7 @@
 /**/*.dump
 /config/newrelic.yml
 /.pryrc
+/config/application.yml
 
 # Ignore sublime-text files
 *.sublime-project

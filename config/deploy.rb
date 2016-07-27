@@ -3,15 +3,15 @@ lock '3.5.0'
 
 set :application, 'SimRep'
 set :repo_url, 'file:///mnt/v/Users/Michael/Software/SimTerra/simrep/.git'
-set :branch, 'develop'
+set :branch, 'master'
 set :deploy_to, '/mnt/v/Users/Michael/Software/deploy/simrep'
 
+# set :rbenv_type, :user # or :system, depends on your rbenv setup
 set :rbenv_ruby, File.read('.ruby-version').strip
-set :rbenv_custom_path, "$HOME/.rbenv"
-set :default_env, { path: "~/.rbenv/shims:~/.rbenv/bin:$PATH" }
-set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
-set :rbenv_map_bins, %w{rake gem bundle ruby rails}
-set :pty, true
+
+# set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+# append :rbenv_map_bins, "rake", "gem", "bundle", "ruby", "rails"
+set :rbenv_roles, :all # default value
 
 set :rollbar_token, ENV['ROLLBAR_ACCESS_TOKEN']
 set :rollbar_env, Proc.new { fetch :stage }

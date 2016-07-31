@@ -62,7 +62,7 @@
 </div>
 <div class="row system">
   <div class="col-md-4" id="skills">
-    <%= "Skill Points: #{@character.skill_points_used} spent / #{@character.skill_points_total} total" %>
+    Skill Points: <b><%= "#{@character.skill_points_unspent} unused" %></b><%=" / #{@character.skill_points_total} total" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
         <th>Source</th>
@@ -73,7 +73,7 @@
     </table>
   </div>
   <div class="col-md-4" id="perks">
-    <%= "Perk Points: #{@character.perk_points_used} spent / #{@character.perk_points_total} total" %>
+    Perk Points: <b><%= "#{@character.perk_points_unspent} unused" %></b><%=" / #{@character.perk_points_total} total" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
         <th>Source</th>

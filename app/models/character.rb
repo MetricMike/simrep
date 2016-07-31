@@ -32,20 +32,19 @@ class Character < ApplicationRecord
   has_many :perks, through: :character_perks, inverse_of: :characters, dependent: :destroy
   has_many :events, through: :character_events, inverse_of: :characters, dependent: :destroy
   has_many :projects, through: :project_contributions, inverse_of: :characters, dependent: :destroy
-  has_many :groups, through: :group_memberships
+  has_many :groups, through: :group_memberships, dependent: :destroy
 
   has_many :character_backgrounds, ->{ includes(:background) }, inverse_of: :character, dependent: :destroy
   has_many :character_origins, ->{ includes(:origin) }, inverse_of: :character, dependent: :destroy
   has_many :character_skills, ->{ includes(:skill) }, inverse_of: :character, dependent: :destroy
   has_many :character_perks, ->{ includes(:perk) }, inverse_of: :character, dependent: :destroy
   has_many :character_events, inverse_of: :character, dependent: :destroy
-  has_many :group_memberships, inverse_of: :character, dependent: :destroy
+  has_many :group_memberships, foreign_key: 'member_id', dependent: :destroy
 
   has_many :project_contributions, inverse_of: :character, dependent: :destroy
   has_many :talents, inverse_of: :character, dependent: :destroy
   has_many :deaths, inverse_of: :character, dependent: :destroy
-  has_many :bank_accounts, foreign_key: :owner_id
-  delegate :personal_accounts, to: :bank_accounts, prefix: true
+  has_many :bank_accounts, class_name: 'PersonalBankAccount', foreign_key: :owner_id, dependent: :destroy
   has_many :crafting_points, dependent: :destroy
 
   has_many :temporary_effects, inverse_of: :character, dependent: :destroy
@@ -64,10 +63,15 @@ class Character < ApplicationRecord
   validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  before_create :extra_xp_for_holurheim
+  after_create :extra_xp_for_holurheim
+  after_create :assign_chapter, if: Proc.new { self.chapter.blank? }
   after_create :open_bankaccount
 
   attr_writer :perm_chance, :perm_counter
+
+  def assign_chapter
+    update(chapter: Event.where(weekend: 3.days.ago..Time.now).try(:first).try(:chapter))
+  end
 
   def level(with_multiplier=false)
     @level = EXP_CHART.rindex do |i|
@@ -104,7 +108,17 @@ class Character < ApplicationRecord
   end
 
   def dead?
-    self.origins.where('name ilike ?', '%Ghost%').try(:first).present?
+    self.origins.where('name ilike ?', '%Ghost%').try(:first).present? ||
+      self.last_living_breath.present?
+  end
+
+  def transformed?
+    self.backgrounds.where('name ilike ?', '%High Arcane%').try(:first).present?
+  end
+
+  def transformed_at
+    str_weekend = self.backgrounds_where('name ilike ?', '%High Arcane%').detail
+    Event.where(weekend: Date.str_weekend)
   end
 
   def last_living_breath
@@ -246,17 +260,22 @@ class Character < ApplicationRecord
   def extra_xp_for_holurheim
     return if self.chapter != Chapter::HOLURHEIM
     self.bonus_experiences.create(reason: "Holurheim Starting XP",
-                                  date_awarded: Date.today,
+                                  date_awarded: Time.now,
                                   amount: 40)
   end
 
   def open_bankaccount
-    return if primary_bank_account.present? || chapter.nil?
-    bank_accounts_personal_accounts.create(chapter: chapter)
+    assign_chapter if chapter.blank?
+    return if primary_bank_account.present?
+    bank_accounts.create(chapter: chapter, balance_currency: :vmk, line_of_credit_currency: :vmk)
+  end
+
+  def default_currency
+    chapter == Chapter::HOLURHEIM ? :hkr : :vmk
   end
 
   def primary_bank_account
-    bank_accounts_personal_accounts.where(chapter: chapter).try(:first)
+    bank_accounts.where(chapter: chapter).try(:first)
   end
 
   def display_name

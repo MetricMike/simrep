@@ -1,0 +1,24 @@
+[ 2016-07-29 19:15:09.3069 1847/7f2b48fb0780 age/Wat/WatchdogMain.cpp:1291 ]: Starting Passenger watchdog...
+[ 2016-07-29 19:15:09.3182 1847/7f2b48fb0780 Ser/Server.h:713 ]: [WatchdogApiServer] Cannot disable Nagle's algorithm on a TCP socket: Invalid argument (errno=22)
+[ 2016-07-29 19:15:09.3373 1850/7f87079d0780 age/Cor/CoreMain.cpp:982 ]: Starting Passenger core...
+[ 2016-07-29 19:15:09.3378 1850/7f87079d0780 age/Cor/CoreMain.cpp:235 ]: Passenger core running in multi-application mode.
+[ 2016-07-29 19:15:09.3525 1850/7f87079d0780 Ser/AcceptLoadBalancer.h:295 ]: Cannot disable Nagle's algorithm on a TCP socket: Invalid argument (errno=22)
+[ 2016-07-29 19:15:09.3540 1850/7f87079d0780 Ser/Server.h:713 ]: [ApiServer] Cannot disable Nagle's algorithm on a TCP socket: Invalid argument (errno=22)
+[ 2016-07-29 19:15:09.3549 1850/7f87079d0780 age/Cor/CoreMain.cpp:732 ]: Passenger core online, PID 1850
+[ 2016-07-29 19:15:09.3839 1855/7f1776c80780 age/Ust/UstRouterMain.cpp:529 ]: Starting Passenger UstRouter...
+[ 2016-07-29 19:15:09.3869 1855/7f1776c80780 Ser/Server.h:713 ]: [UstRouter] Cannot disable Nagle's algorithm on a TCP socket: Invalid argument (errno=22)
+[ 2016-07-29 19:15:09.3894 1855/7f1776c80780 Ser/Server.h:713 ]: [UstRouterApiServer] Cannot disable Nagle's algorithm on a TCP socket: Invalid argument (errno=22)
+[ 2016-07-29 19:15:09.3894 1855/7f1776c80780 age/Ust/UstRouterMain.cpp:342 ]: Passenger UstRouter online, PID 1855
+2016/07/29 19:15:09 [alert] 1873#0: ioctl(FIOASYNC) failed while spawning "worker process" (22: Invalid argument)
+[ 2016-07-29 19:16:19.4022 2408/7fcae58d0780 age/Wat/WatchdogMain.cpp:1291 ]: Starting Passenger watchdog...
+[ 2016-07-29 19:16:19.4082 2408/7fcae58d0780 Ser/Server.h:713 ]: [WatchdogApiServer] Cannot disable Nagle's algorithm on a TCP socket: Invalid argument (errno=22)
+[ 2016-07-29 19:16:19.4267 2411/7f58f03c0780 age/Cor/CoreMain.cpp:982 ]: Starting Passenger core...
+[ 2016-07-29 19:16:19.4267 2411/7f58f03c0780 age/Cor/CoreMain.cpp:235 ]: Passenger core running in multi-application mode.
+[ 2016-07-29 19:16:19.4342 2411/7f58f03c0780 Ser/AcceptLoadBalancer.h:295 ]: Cannot disable Nagle's algorithm on a TCP socket: Invalid argument (errno=22)
+[ 2016-07-29 19:16:19.4347 2411/7f58f03c0780 Ser/Server.h:713 ]: [ApiServer] Cannot disable Nagle's algorithm on a TCP socket: Invalid argument (errno=22)
+[ 2016-07-29 19:16:19.4347 2411/7f58f03c0780 age/Cor/CoreMain.cpp:732 ]: Passenger core online, PID 2411
+[ 2016-07-29 19:16:19.4542 2416/7fd3336e0780 age/Ust/UstRouterMain.cpp:529 ]: Starting Passenger UstRouter...
+[ 2016-07-29 19:16:19.4552 2416/7fd3336e0780 Ser/Server.h:713 ]: [UstRouter] Cannot disable Nagle's algorithm on a TCP socket: Invalid argument (errno=22)
+[ 2016-07-29 19:16:19.4577 2416/7fd3336e0780 Ser/Server.h:713 ]: [UstRouterApiServer] Cannot disable Nagle's algorithm on a TCP socket: Invalid argument (errno=22)
+[ 2016-07-29 19:16:19.4582 2416/7fd3336e0780 age/Ust/UstRouterMain.cpp:342 ]: Passenger UstRouter online, PID 2416
+2016/07/29 19:16:19 [alert] 2432#0: ioctl(FIOASYNC) failed while spawning "worker process" (22: Invalid argument)

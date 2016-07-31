@@ -16,7 +16,7 @@ class Talent < ApplicationRecord
   validates :spec, exclusion: { in: [nil] }
   validates :group, inclusion: {in: GROUPS}
   validates :value, numericality: {only_integer: true, greater_than_or_equal_to: 0}
-  validates :investment_limit, numericality: {only_integer: true, less_than_or_equal_to: 4}
+  validates :investment_limit, numericality: {only_integer: true, less_than_or_equal_to: 6}
 
   def rank
     @rank

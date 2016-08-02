@@ -47,6 +47,20 @@ ActiveAdmin.register CharacterEvent do
     redirect_to collection_path, notice: [ids, inputs].to_s
   end
 
+  batch_action :mass_pay, form: {
+    funds_cents:    :text,
+    funds_currency: [:vmk, :sgd, :hkr],
+    memo:           :text
+  } do |ids, inputs|
+    batch_action_collection.find(ids).each do |ce|
+      ce.character.primary_bank_account
+        .incoming_transactions.create(funds_cents: inputs[:funds_cents],
+                                      funds_currency: inputs[:funds_currency],
+                                      memo: inputs[:memo])
+    end
+    redirect_to collection_path, notice: [ids, inputs].to_s
+  end
+
   batch_action :clear_clean_coupon do |ids, inputs|
     batch_action_collection.find(ids).each do |ce|
       ce.character.user.update(free_cleaning_event_id: nil)

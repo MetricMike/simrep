@@ -2,17 +2,19 @@ ActiveAdmin.register BankAccount do
   menu false
 
   action_item :view, only: [:show, :edit] do
-    link_to 'View on Site', sti_bank_path(bank_account.type, bank_account)
+    if resource.type == 'PersonalBankAccount'
+      link_to 'View on Site', bank_account_path
+    end
   end
 
   index do
     selectable_column
     column :id do |ba|
-      link_to ba.id, sti_bank_path(ba.type, ba, admin: true)
+      link_to ba.id, polymorphic_path([:admin, ba])
     end
     column :type
     column :name do |ba|
-      ba.owner_name
+      ba.name
     end
     column :chapter
     column :balance_cents
@@ -23,6 +25,7 @@ ActiveAdmin.register BankAccount do
   end
 
   filter :type
+  filter :name
   filter :balance_cents
   filter :balance_currency
   filter :chapter_name
@@ -97,8 +100,8 @@ ActiveAdmin.register BankAccount do
   sidebar "Add an Item", priority: 1, only: :show do
     active_admin_form_for(:bank_item, url: admin_bank_items_path) do |f|
       f.inputs do
-        f.input :from_account, collection: BankAccount.all, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
-        f.input :to_account, collection: BankAccount.all, member_label: lambda { |a| "#{a.owner.name} | #{a.chapter.name}" }
+        f.input :from_account, collection: BankAccount.all
+        f.input :to_account, collection: BankAccount.all
         f.input :item_description, required: false
         f.input :item_count, as: :number, default: 1
       end

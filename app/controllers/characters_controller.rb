@@ -49,6 +49,8 @@ class CharactersController < ApplicationController
     @character = current_user.characters.new(character_params)
     authorize @character
 
+    @character.chapter = current_chapter || Event.last.chapter
+
     if @character.save
       redirect_to @character, notice: 'Character created successfully.'
     else
@@ -87,11 +89,6 @@ class CharactersController < ApplicationController
   def sign_in_character
     session[:current_char_id] = params[:id]
     @character = Character.find(params[:id])
-
-    # This should be redundant and can be removed
-    unless @character.bank_accounts.where(chapter: current_chapter).any?
-      @character.open_bankaccount
-    end
 
     authorize @character
   end

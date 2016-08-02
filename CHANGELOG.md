@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
 ## Unreleased
+
+## [1.18.6](v1.18.6) - 2016-08-02
 ### Added
 - Character#Show shows unspent points in bold for errything.
 - YAAASSS MASS PAYMENTS FOR THOSE 20-CHARACTER MODS 

@@ -16,6 +16,8 @@
 /*.dump
 
 # Ignore all logfiles, tempfiles, and environment
+/archived-log
+/archived_pdfs
 /log/*.log
 /tmp
 /.c9

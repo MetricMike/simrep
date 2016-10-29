@@ -10,12 +10,11 @@ class CharacterPolicy < ApplicationPolicy
     def initialize(context, scope)
       @user = context.user
       @character = context.character
-      @chapter = context.chapter
-      @scope = scope.where(chapter: @chapter)
+      @scope = scope.for_index
     end
 
     def resolve
-      @user.admin? ? scope.all : scope.where(user: @user)
+      @user.admin? ? @scope.all : @scope.where(user: @user)
     end
   end
 

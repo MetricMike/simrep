@@ -69,6 +69,7 @@ group :development, :test do
   gem 'better_errors'
   gem 'bullet'
   gem 'faker'
+  gem 'active_record_query_trace'
 end
 
 group :test do

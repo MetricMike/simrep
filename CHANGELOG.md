@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
 ## Unreleased
+### Added
+### Removed
+
+## [1.19.0](v1.19.0) - 2016-10-28
+### Changed/Fixed
+- Better organization on the characters index. Shows your most recently used
+characters first and shows all chapters
 
 ## [1.18.6](v1.18.6) - 2016-08-02
 ### Added

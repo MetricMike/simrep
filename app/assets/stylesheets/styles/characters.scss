@@ -40,14 +40,13 @@ aside {
     padding: 10px 0;
     border-top: 1px solid #e8e8e8;
   }
-  .name {
+  span {
     display: block;
     margin-left: 60px;
-  }
-  .experience {
-    color: $gray-light;
-    display: block;
-    margin-left: 60px;
+
+    &.experience, &.chapter {
+      color: $gray-light;
+    }
   }
 }
 

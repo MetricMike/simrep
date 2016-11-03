@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Core Binaries / Engines
-gem 'rails', '~> 5.0'
+gem 'rails', github: 'rails/rails', branch: '5-0-stable'
 gem 'pg'
 gem 'active_record_union'
 gem 'high_voltage'

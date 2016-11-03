@@ -60,14 +60,14 @@ ActiveAdmin.register Character do
     column :id do |c|
       link_to c.id, admin_character_path(c)
     end
-    column :player_name do |c|
+    column :player_name, sortable: 'users.name' do |c|
       if c.user.present?
         link_to c.user.name, admin_user_path(c.user)
       else
         "N/A"
       end
     end
-    column :character_name do |c|
+    column :character_name, sortable: 'name' do |c|
       c.name
     end
     column :chapter
@@ -210,6 +210,17 @@ ActiveAdmin.register Character do
     end
   end
 
+  sidebar :versionate, :partial => "admin/shared/version", :only => :show
+
+  sidebar :personal_bank_account, only: :show do
+    h3 "Chapter | Current Balance"
+    ul do
+      resource.bank_accounts.each do |b|
+        li a "#{b.chapter.name} | #{humanized_money_with_symbol b.balance}", href: admin_personal_bank_account_path(b)
+      end
+    end
+  end
+
   controller do
 
     def new
@@ -238,16 +249,4 @@ ActiveAdmin.register Character do
       show!
     end
   end
-
-  sidebar :versionate, :partial => "admin/shared/version", :only => :show
-
-  sidebar :personal_bank_account, only: :show do
-    h3 "Chapter | Current Balance"
-    ul do
-      resource.bank_accounts.each do |b|
-        li a "#{b.chapter.name} | #{humanized_money_with_symbol b.balance}", href: admin_personal_bank_account_path(b)
-      end
-    end
-  end
-
 end

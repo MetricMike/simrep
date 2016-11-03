@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Removed
 
+## [1.19.1](v1.19.1) - 2016-11-03
+### Added
+- Sorting on admin#characters on player name and character name
+
 ## [1.19.0](v1.19.0) - 2016-10-28
 ### Changed/Fixed
 - Better organization on the characters index. Shows your most recently used

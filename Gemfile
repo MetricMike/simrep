@@ -65,7 +65,9 @@ gem 'jazz_fingers'
 gem 'pry-rails'
 gem 'pry-byebug'
 
+
 group :development, :test do
+  gem 'heroku_db_restore'
   gem 'better_errors'
   gem 'bullet'
   gem 'faker'

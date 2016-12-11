@@ -15,6 +15,8 @@ class User < ApplicationRecord
 
   scope :latest,      -> { order(updated_at: :desc) }
   scope :unsponsored, -> { User.where.not(id: Referral.all.map { |r| r.referred_user.id } ).order(name: :asc) }
+  scope :single_character, -> { User.where(id: Character.group(:user_id).count.select{ |_,v| v == 1 }.keys.uniq) }
+
 
   attr_accessor :options_confirm, :options_skip_confirm
 

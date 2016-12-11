@@ -13,25 +13,11 @@ class Event < ApplicationRecord
   validates :clean_exp, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
   def paying_characters
-    @paying_characters = self.characters.references(:character_events).where(character_events: { paid: true })
-    @paying_characters -= self.new_characters
+    characters.where(character_events: { paid: true }) - new_characters
   end
 
   def new_characters
-    @new_characters = []
-    self.characters.map do |c|
-      flag = true
-      if c.user
-        if c != c.user.characters.by_name_asc.try(:first)
-          flag = false
-        end
-      end
-
-      if (self == c.first_event && flag)
-        @new_characters << c
-      end
-    end
-    return @new_characters
+    characters.first_event
   end
 
   def event_willpower

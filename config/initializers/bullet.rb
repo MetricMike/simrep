@@ -6,5 +6,5 @@ if defined? Bullet
 end
 
 if defined? ActiveRecordQueryTrace
-  ActiveRecordQueryTrace.enabled = true
+  # ActiveRecordQueryTrace.enabled = true
 end

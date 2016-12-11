@@ -17,6 +17,10 @@ class Character < ApplicationRecord
   scope :by_name_asc, -> { order(name: :asc) }
   scope :oldest, -> { order(created_at: :asc) }
   scope :newest, -> { order(updated_at: :desc) }
+  scope :no_user, -> { where(user: nil) }
+  scope :only_user, -> { where(user: User.single_character) }
+  scope :only_character, -> { no_user.or(Character.only_user) }
+  scope :first_event, -> { Character.where(id: CharacterEvent.group(:character_id).count.select {|_,v| v == 1 }.keys.uniq) }
   scope :for_index, -> { includes(:events, :backgrounds, :origins) }
   scope :for_current_chapter, ->(chapter) { where(chapter_id: chapter['id']) }
   scope :recently_played, ->(from=6.months.ago) { includes(:events)

@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
+- Turn event/xp log back on.
+- Bundle Update
+- N+1 Optimizations for Admin Character/Event pages
+
 ### Removed
 
 ## [1.19.1](v1.19.1) - 2016-11-03

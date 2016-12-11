@@ -2,7 +2,7 @@ ActiveAdmin.register Character do
   menu false
   config.per_page = [25, 50, 100, 1000]
 
-  includes :user, :bank_accounts
+  includes :user, :bank_accounts, :chapter
 
   scope("Recent Players") { |scope| scope.recently_played.newest }
 

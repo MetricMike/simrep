@@ -1,19 +1,18 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+def self.make_fake_chapters
+  3.times { Chapter.create name: Faker::Space.moon }
+  Chapter.create name: "Bastion"
+  Chapter.create name: "Holurheim"
+end
 
-def self.make_fake_projects()
+def self.make_fake_projects
   20.times {Project.create!(
     name: Faker::Hacker.adjective + Faker::Hacker.noun,
     description: Faker::Lorem.sentence(2, true, 3))}
 end
 
-def self.make_fake_events()
+def self.make_fake_events
   30.times {Event.create!(
+    chapter: Chapter.all.sample,
     campaign: Faker::Hacker.adjective + Faker::Hacker.noun,
     weekend: Faker::Date.backward(1000),
     play_exp: [10, 20, 20, 20, 20, 40].sample,
@@ -28,7 +27,6 @@ def self.make_fake_user(email, admin=false)
     password: email[/(\w+)/],
     password_confirmation: email[/(\w+)/])
 
-  user.skip_confirmation!
   user.save!
 end
 
@@ -36,6 +34,7 @@ def self.make_fake_characters(user)
   character = user.characters.create!(
     name: Faker::Name.name,
     race: Character::RACES.sample,
+    chapter: Chapter.all.sample,
     culture: Character::CULTURES.sample,
     costume: rand(0..3),
     costume_checked: Faker::Date.backward(365),
@@ -114,6 +113,9 @@ def self.make_fake_deaths(character)
 end
 
 #Events & Projects
+make_fake_chapters
+Chapter.all
+Chapter.count # hack to refresh the cache
 make_fake_events
 make_fake_projects
 

@@ -1,17 +1,21 @@
 source 'https://rubygems.org'
 
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
+
 # Core Binaries / Engines
-gem 'rails', github: 'rails/rails', branch: '5-0-stable'
+gem 'rails'
 gem 'pg'
 gem 'active_record_union'
 gem 'high_voltage'
-gem 'figaro'
+
+gem 'puma'
+gem 'rack-timeout'
 
 # Rails5 Preliminary for ActiveAdmin
 gem 'inherited_resources', github: 'activeadmin/inherited_resources'
-gem 'ransack',    github: 'activerecord-hackery/ransack'
-gem 'kaminari',   github: 'amatsuda/kaminari', branch: '0-17-stable'
-gem 'formtastic', github: 'justinfrench/formtastic'
 
 # Assets
 gem 'bootstrap-sass'
@@ -40,7 +44,6 @@ gem 'paper_trail-globalid'
 
 # PDF Handling
 gem 'wicked_pdf'
-gem 'wkhtmltopdf-heroku'
 
 # Currency handling
 gem 'money-rails'
@@ -65,6 +68,12 @@ gem 'jazz_fingers'
 gem 'pry-rails'
 gem 'pry-byebug'
 
+gem 'sidekiq'
+
+# Gimme The Cache
+# https://www.youtube.com/watch?v=OADJl-CVDo0
+gem 'redis-rails'
+gem 'redis-rack-cache'
 
 group :development, :test do
   gem 'heroku_db_restore'
@@ -72,6 +81,7 @@ group :development, :test do
   gem 'bullet'
   gem 'faker'
   gem 'active_record_query_trace'
+  gem 'letter_opener_web'
 end
 
 group :test do
@@ -81,9 +91,5 @@ group :test do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'fuubar'
-  gem 'codeclimate-test-reporter', group: :test, require: nil
-end
-
-group :production do
-  gem 'rails_12factor'
+  gem 'codeclimate-test-reporter', require: nil
 end

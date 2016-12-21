@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  ActiveAdmin.routes(self)
+  ActiveAdmin.routes(self) rescue ActiveAdmin::DatabaseHitDuringLoad
 
   devise_for :users, controllers: { sessions:           'users/sessions',
                                     omniauth_callbacks: 'users/omniauth_callbacks' }
@@ -18,4 +18,8 @@ Rails.application.routes.draw do
     get 'all', on: :collection
   end
   resources :npc_shifts
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 end

@@ -8,6 +8,25 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Removed
 
+## [1.20.0](v1.20.0) - 2016-12-21
+### Added
+- Docker-ized
+- Added Chapters to seeds, fixes a lot of development work
+- Added redis for cache, session, and background jobs
+- Added sidekiq for background jobs
+- Added lograge as the default logger
+- Added letter\_opener\_web for non-production
+- Added rescue in case ActiveAdmin gets loaded with an empty DB
+
+### Changed
+- Bundle update and reset bin/
+- Switched server to puma (again)
+- Using .env and sourcing instead of figaro/dotenv
+- Updated action_mailer host to use simterra.net instead of herokuapp.com
+
+### Removed
+- Cleaned up a lot of unused comments/defaults in environment files
+
 ## [1.19.5](v1.19.5) - 2016-12-10
 ### Added
 - Turn event/xp log back on.

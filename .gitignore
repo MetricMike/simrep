@@ -4,33 +4,28 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
-/*.sh
-
 # Ignore bundler config.
 /.bundle
 /vendor/bundle
 
-# Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
-/*.dump
-
 # Ignore all logfiles, tempfiles, and environment
+/log/*.log
+/tmp
+/*.env
+/**/*.env
+.pry_history
+
+# Ignore rspec states
+/spec/examples.txt
+
+# Ignore local copies of production assets
+/*.dump
+/**/*.dump
 /archived-log
 /archived_pdfs
 /pdfs
-/log/*.log
-/tmp
-/.c9
-/.env*
-/**/*.dump
-/config/newrelic.yml
-/.pryrc
-/config/application.yml
+/public/assets
 
 # Ignore sublime-text files
 *.sublime-project
 *.sublime-workspace
-
-# Ignore rspec states
-/spec/examples.txt

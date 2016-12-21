@@ -1,33 +1,13 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-#
-default: &default
-  encoding: unicode
-  adapter: postgresql
-  pool: 10
-  timeout: 5000
-  host: localhost
-  username: postgres
-  password: postgres
+---
 
 development:
-  <<: *default
-  database: simrep_development
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_development?') %>
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: simrep_test
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
+
+staging:
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_staging?') %>
 
 production:
-  <<: *default
-  database: <%= ENV['DB_NAME'] %>
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['DB_HOSTNAME'] %>
-  port: <%= ENV['DB_PORT'] %>
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_production?') %>

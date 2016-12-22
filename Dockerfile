@@ -33,8 +33,9 @@ RUN bundle install
 
 COPY . $APP_HOME
 
+RUN groupadd -r simrep && useradd -r -g simrep simrep
+RUN chown -R simrep:simrep $APP_HOME
+USER simrep
+
 # Expose a volume so that nginx will be able to read in assets in production.
 VOLUME ["$APP_HOME/public"]
-
-RUN groupadd -r simrep && useradd -r -g simrep simrep
-USER simrep

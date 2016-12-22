@@ -33,6 +33,7 @@ RUN bundle install
 
 COPY . $APP_HOME
 
+RUN chmod +x bin/*
 RUN groupadd -r simrep && useradd -r -g simrep simrep
 RUN chown -R simrep:simrep $APP_HOME
 USER simrep

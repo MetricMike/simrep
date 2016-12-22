@@ -60,6 +60,8 @@ services:
       - vol-bundle:/usr/local/bundle
     ports:
       - '3000:3000'
+    env_file:
+      - .ci.env
 
   # Add an nginx reverse-proxy
 
@@ -73,6 +75,8 @@ services:
     volumes:
       - .:/var/www/simrep
       - vol-bundle:/usr/local/bundle
+    env_file:
+      - .ci.env
 
 volumes:
   vol-redis-cache:

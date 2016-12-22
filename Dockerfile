@@ -39,4 +39,4 @@ VOLUME ["$APP_HOME/public"]
 RUN groupadd -r simrep && useradd -r -g simrep simrep
 USER simrep
 
-CMD ./bin/start_web
+CMD bin/start_web

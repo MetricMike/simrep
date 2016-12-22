@@ -17,6 +17,9 @@ env:
 
 install: echo "No need for bundler, that's taken care of by docker."
 
+notifications:
+  email: false
+
 before_script:
   # - docker build -t $IMAGE:$COMMIT app
   # - docker tag $IMAGE:$COMMIT $IMAGE:latest

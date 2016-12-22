@@ -1,10 +1,35 @@
+branches:
+  only:
+    - master
+
+sudo: required
+
 language: ruby
-cache: bundler
-sudo: false
-deploy:
-  provider: heroku
-  api_key:
-    secure: syyPNR7gUCjh9UFNTGWUbvuUVLvslIslrjMNFD5pgCNaS4R8iQ8SvTg8CocL0SC+53yT85LrVw4tfC+OPh8KseA1bsNmn4QGlCoCR4aCICWUipRJfIhPM6cm8nx0dlgVJFisx3w19XesFvBk9shYTYJYk0v66nVe0gLVfzyJV9A=
-  app: simrep
-  on:
-    repo: MetricMike/simrep
+
+services:
+- docker
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::8}
+    - IMAGE=metricmike/simrep
+    - IMAGE_VERSION=$IMAGE:$COMMIT
+
+before_script:
+  # - docker build -t $IMAGE:$COMMIT app
+  # - docker tag $IMAGE:$COMMIT $IMAGE:latest
+  # - docker tag $IMAGE:$COMMIT $IMAGE:travis-$TRAVIS_BUILD_NUMBER
+
+script:
+  - docker version
+  - docker-compose version
+  - docker-compose up -d
+  - docker ps -a
+  - docker-compose run --rm web rspec spec/
+  # - docker-compose -f docker-compose.ci.yml run test
+
+# after_success:
+#   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" registry.heroku.com
+#   - docker push $IMAGE
+#   - curl https://sdk.cloud.google.com | bash
+#   - source /home/travis/.bashrc

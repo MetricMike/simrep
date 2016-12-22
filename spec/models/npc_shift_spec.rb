@@ -5,7 +5,7 @@ RSpec.describe NpcShift, type: :model do
   # they'll log their starting time and ending time and be paid for that work.
   # If they NPC for a continuous 3 hours, they also have the option to overtime.
 
-  describe "the structure of an NpcShift" do
+  xdescribe "the structure of an NpcShift" do
 
     it "is associated with a character and event" do
       # An equal, but more flexible example would test character and event

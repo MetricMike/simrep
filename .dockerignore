@@ -5,7 +5,7 @@
 # Ignore all logfiles, tempfiles, and environment
 /log/*.log
 /tmp
-/**/.env
+/.simrep.env
 
 # Cache gems
 Gemfile.lock

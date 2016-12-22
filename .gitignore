@@ -11,8 +11,7 @@
 # Ignore all logfiles, tempfiles, and environment
 /log/*.log
 /tmp
-/*.env
-/**/*.env
+/.simrep.env
 .pry_history
 
 # Ignore rspec states

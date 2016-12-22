@@ -1,0 +1,10 @@
+language: ruby
+cache: bundler
+sudo: false
+deploy:
+  provider: heroku
+  api_key:
+    secure: syyPNR7gUCjh9UFNTGWUbvuUVLvslIslrjMNFD5pgCNaS4R8iQ8SvTg8CocL0SC+53yT85LrVw4tfC+OPh8KseA1bsNmn4QGlCoCR4aCICWUipRJfIhPM6cm8nx0dlgVJFisx3w19XesFvBk9shYTYJYk0v66nVe0gLVfzyJV9A=
+  app: simrep
+  on:
+    repo: MetricMike/simrep

@@ -49,12 +49,15 @@ services:
   web:
     depends_on:
       - postgres
-      - redis
+      - redis-cache
+      - redis-session
+      - redis-metastore
+      - redis-entitystore
     build: .
     command: ./bin/start_web
     volumes:
       - .:/var/www/simrep
-      - vol-bundle:/usr/local/bin
+      - vol-bundle:/usr/local/bundle
     ports:
       - '3000:3000'
     env_file:
@@ -65,13 +68,13 @@ services:
   worker:
     depends_on:
       - postgres
-      - redis
-      - web
+      - web # Because web is responsible for bundle install and precompile if necessary
+      - redis-worker
     build: .
     command: ./bin/start_worker
     volumes:
       - .:/var/www/simrep
-      - vol-bundle:/usr/local/bin
+      - vol-bundle:/usr/local/bundle
     env_file:
       - .simrep.env
 volumes:

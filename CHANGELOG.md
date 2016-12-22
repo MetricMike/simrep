@@ -8,6 +8,20 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Removed
 
+## [1.21.0](v1.21.0) - 2016-12-22
+### Added
+- Travis CI/CD -> Heroku
+- Clarifications on SignUp/LogIn page
+- CMD for starting up web servicve to dockerfile (will often be pushing ONLY web)
+
+### Changed
+- Used default (to the docker/ruby image) location for bundler
+- Require only the redis containers needed on web/worker services
+
+### Removed
+- Removed Hirb from pryrc by default. SimRep is column-heavy so Hirb is usually less than helpful. I might change my mind when I upgrade to 4K monitors.
+- worker service no longer checks bundle or assets
+
 ## [1.20.0](v1.20.0) - 2016-12-21
 ### Added
 - Docker-ized

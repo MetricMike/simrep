@@ -15,10 +15,20 @@ machine:
   services:
     - docker
 
-test:
-  pre:
+dependencies:
+  override:
+    - echo "Docker's got this."
+
+database:
+  override:
+    - echo "Docker's got this."
+
+compile:
+  override:
     - docker-compose -f docker-compose.ci.yml up -d
     - docker-compose -f docker-compose.ci.yml run --rm web rake db:reset
+
+test:
   override:
     - docker-compose -f docker-compose.ci.yml run --rm web rspec spec/
     # - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" registry.heroku.com

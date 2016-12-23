@@ -40,3 +40,5 @@ USER simrep
 
 # Expose a volume so that nginx will be able to read in assets in production.
 VOLUME ["$APP_HOME/public"]
+
+ENTRYPOINT /bin/bash

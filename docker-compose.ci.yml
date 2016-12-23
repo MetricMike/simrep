@@ -54,6 +54,7 @@ services:
       - redis-metastore
       - redis-entitystore
     build: .
+    image: metricmike/simrep
     command: ./bin/start_web
     volumes:
       - .:/var/www/simrep
@@ -70,7 +71,7 @@ services:
       - postgres
       - web # Because web is responsible for bundle install and precompile if necessary
       - redis-worker
-    build: .
+    image: metricmike/simrep
     command: ./bin/start_worker
     volumes:
       - .:/var/www/simrep

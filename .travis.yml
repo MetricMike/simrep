@@ -57,9 +57,9 @@ install: echo "No need for bundler, that's taken care of by docker."
 
 before_script:
   - docker ps -a
-  - docker build -t $IMAGE:$COMMIT web
-  - docker tag $IMAGE:$COMMIT $IMAGE:latest
-  - docker tag $IMAGE:$COMMIT $IMAGE:travis-$TRAVIS_BUILD_NUMBER
+  # - docker build -t $IMAGE:$COMMIT web
+  # - docker tag $IMAGE:$COMMIT $IMAGE:latest
+  # - docker tag $IMAGE:$COMMIT $IMAGE:travis-$TRAVIS_BUILD_NUMBER
   - docker-compose -f docker-compose.ci.yml run --rm web rake db:reset
 
 script:
@@ -68,7 +68,8 @@ script:
 after_success:
   # Cache image previous image
   - if [[ ${TRAVIS_BRANCH} == "master" ]] && [[ ${TRAVIS_PULL_REQUEST} == "false" ]]; then mkdir -p $(dirname ${DOCKER_CACHE_FILE}) ; docker save $(docker history -q ${DOCKER_REPOSITORY}:${TRAVIS_COMMIT} | grep -v '<missing>') | gzip > ${DOCKER_CACHE_FILE}; fi
-#   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" registry.heroku.com
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" registry.heroku.com
+  - docker inspect $IMAGE
 #   - docker push $IMAGE
 #   - curl https://sdk.cloud.google.com | bash
 #   - source /home/travis/.bashrc

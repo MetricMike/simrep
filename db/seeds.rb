@@ -2,6 +2,7 @@ def self.make_fake_chapters
   3.times { Chapter.create name: Faker::Space.moon }
   Chapter.create name: "Bastion"
   Chapter.create name: "Holurheim"
+  Chapter.cache_constants # Refresh cache
 end
 
 def self.make_fake_projects
@@ -114,8 +115,6 @@ end
 
 #Events & Projects
 make_fake_chapters
-Chapter.all
-Chapter.count # hack to refresh the cache
 make_fake_events
 make_fake_projects
 

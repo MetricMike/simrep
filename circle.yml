@@ -15,10 +15,6 @@ machine:
   services:
     - docker
 
-  ruby:
-    # I don't use this, but circleCI will try to compile 2.3.3 if I don't
-    version: 2.2.4p230
-
 dependencies:
   override:
     - echo "Docker's got this."

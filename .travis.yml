@@ -11,7 +11,7 @@ services:
 
 env:
   global:
-    - DOCKER_COMPOSE_VERSION: 1.9.0
+    - DOCKER_COMPOSE_VERSION=1.9.0
     - COMMIT=${TRAVIS_COMMIT::8}
     - IMAGE=metricmike/simrep
     - IMAGE_VERSION=$IMAGE:$COMMIT
@@ -54,7 +54,6 @@ before_script:
   # - docker tag $IMAGE:$COMMIT $IMAGE:travis-$TRAVIS_BUILD_NUMBER
 
 script:
-  - docker-compose -f docker-compose.ci.yml up -d
   - docker ps -a
   - docker-compose -f docker-compose.ci.yml run --rm web rake db:reset
   - docker-compose -f docker-compose.ci.yml run --rm web rake db:migrate

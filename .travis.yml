@@ -1,10 +1,12 @@
+---
+notifications:
+  email: false
+
 branches:
   only:
     - master
 
 sudo: required
-
-language: ruby
 
 services:
 - docker
@@ -43,20 +45,17 @@ before_install:
   # before doing the update.
   - docker-compose --version
 
-install: echo "No need for bundler, that's taken care of by docker."
-
-notifications:
-  email: false
+# install: echo "No need for bundler, that's taken care of by docker."
 
 before_script:
+  - docker ps -a
+  - docker-compose -f docker-compose.ci.yml run --rm web rake db:reset
+  - docker-compose -f docker-compose.ci.yml run --rm web rake db:migrate
   # - docker build -t $IMAGE:$COMMIT app
   # - docker tag $IMAGE:$COMMIT $IMAGE:latest
   # - docker tag $IMAGE:$COMMIT $IMAGE:travis-$TRAVIS_BUILD_NUMBER
 
 script:
-  - docker ps -a
-  - docker-compose -f docker-compose.ci.yml run --rm web rake db:reset
-  - docker-compose -f docker-compose.ci.yml run --rm web rake db:migrate
   - docker-compose -f docker-compose.ci.yml run --rm web rspec spec/
   # - docker-compose -f docker-compose.ci.yml run test
 

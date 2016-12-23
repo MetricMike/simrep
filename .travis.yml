@@ -14,9 +14,14 @@ services:
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.9.0
+    - DOCKER_CACHE_FILE=/home/travis/docker/cache.tar.gz
     - COMMIT=${TRAVIS_COMMIT::8}
     - IMAGE=metricmike/simrep
     - IMAGE_VERSION=$IMAGE:$COMMIT
+
+cache:
+  directories:
+    - /home/travis/docker/
 
 before_install:
   # update is required to update the repositories to see the new packages for
@@ -45,21 +50,24 @@ before_install:
   # before doing the update.
   - docker-compose --version
 
+  # Use cached image if it exists.
+  - if [ -f ${DOCKER_CACHE_FILE} ]; then gunzip -c ${DOCKER_CACHE_FILE} | docker load; fi
+
 install: echo "No need for bundler, that's taken care of by docker."
 
 before_script:
   - docker ps -a
   - docker-compose -f docker-compose.ci.yml run --rm web rake db:reset
-  - docker-compose -f docker-compose.ci.yml run --rm web rake db:migrate
   # - docker build -t $IMAGE:$COMMIT app
   # - docker tag $IMAGE:$COMMIT $IMAGE:latest
   # - docker tag $IMAGE:$COMMIT $IMAGE:travis-$TRAVIS_BUILD_NUMBER
 
 script:
   - docker-compose -f docker-compose.ci.yml run --rm web rspec spec/
-  # - docker-compose -f docker-compose.ci.yml run test
 
-# after_success:
+after_success:
+  # Cache image previous image
+  - if [[ ${TRAVIS_BRANCH} == "master" ]] && [[ ${TRAVIS_PULL_REQUEST} == "false" ]]; then mkdir -p $(dirname ${DOCKER_CACHE_FILE}) ; docker save $(docker history -q ${DOCKER_REPOSITORY}:${TRAVIS_COMMIT} | grep -v '<missing>') | gzip > ${DOCKER_CACHE_FILE}; fi
 #   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" registry.heroku.com
 #   - docker push $IMAGE
 #   - curl https://sdk.cloud.google.com | bash

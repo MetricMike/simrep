@@ -11,48 +11,17 @@ services:
     volumes:
       - vol-postgres:/var/lib/postgresql/data
 
-  redis-cache:
+  redis:
     image: redis:latest
     expose:
       - '6379'
     volumes:
-      - vol-redis-cache:/var/lib/redis/data
-
-  redis-session:
-    image: redis:latest
-    expose:
-      - '6379'
-    volumes:
-      - vol-redis-session:/var/lib/redis/data
-
-  redis-metastore:
-    image: redis:latest
-    expose:
-      - '6379'
-    volumes:
-      - vol-redis-metastore:/var/lib/redis/data
-
-  redis-entitystore:
-    image: redis:latest
-    expose:
-      - '6379'
-    volumes:
-      - vol-redis-entitystore:/var/lib/redis/data
-
-  redis-worker:
-    image: redis:latest
-    expose:
-      - '6379'
-    volumes:
-      - vol-redis-worker:/var/lib/redis/data
+      - vol-redis:/var/lib/redis/data
 
   web:
     depends_on:
       - postgres
-      - redis-cache
-      - redis-session
-      - redis-metastore
-      - redis-entitystore
+      - redis
     build: .
     image: metricmike/simrep
     command: ./bin/start_web
@@ -69,8 +38,8 @@ services:
   worker:
     depends_on:
       - postgres
+      - redis
       - web # Because web is responsible for bundle install and precompile if necessary
-      - redis-worker
     image: metricmike/simrep
     command: ./bin/start_worker
     volumes:
@@ -80,10 +49,6 @@ services:
       - .ci.env
 
 volumes:
-  vol-redis-cache:
-  vol-redis-session:
-  vol-redis-metastore:
-  vol-redis-entitystore:
-  vol-redis-worker:
   vol-postgres:
+  vol-redis:
   vol-bundle:

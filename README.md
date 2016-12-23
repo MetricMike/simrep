@@ -1,4 +1,4 @@
-[![Build Status](https://snap-ci.com/MetricMike/simrep/branch/master/build_image)](https://snap-ci.com/MetricMike/simrep/branch/master)
+[![CircleCI](https://circleci.com/gh/MetricMike/simrep/tree/master.svg?style=svg)](https://circleci.com/gh/MetricMike/simrep/tree/master)
 [![Code Climate](https://codeclimate.com/github/MetricMike/simrep/badges/gpa.svg)](https://codeclimate.com/github/MetricMike/simrep)
 [![Test Coverage](https://codeclimate.com/github/MetricMike/simrep/badges/coverage.svg)](https://codeclimate.com/github/MetricMike/simrep)
 

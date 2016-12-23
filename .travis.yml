@@ -45,7 +45,7 @@ before_install:
   # before doing the update.
   - docker-compose --version
 
-# install: echo "No need for bundler, that's taken care of by docker."
+install: echo "No need for bundler, that's taken care of by docker."
 
 before_script:
   - docker ps -a

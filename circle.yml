@@ -1,0 +1,36 @@
+machine:
+  timezone:
+    America/New_York # Set the timezone
+
+  environment:
+    DOCKER_COMPOSE_VERSION: 1.9.0
+    COMMIT: ${TRAVIS_COMMIT::8}
+    IMAGE: metricmike/simrep
+    IMAGE_VERSION: $IMAGE:$COMMIT
+
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.11.2
+    - pip install docker-compose
+
+  services:
+    - docker
+
+dependencies:
+  override:
+    # - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+    - sudo pip install --upgrade docker-compose==$DOCKER_COMPOSE_VERSION
+
+test:
+  pre:
+    - docker-compose -f docker-compose.ci.yml up -d
+    - docker-compose -f docker-compose.ci.yml run --rm web rake db:reset
+  override:
+    - docker-compose -f docker-compose.ci.yml run --rm web rspec spec/
+    # - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" registry.heroku.com
+    # - docker inspect $IMAGE
+
+# deployment:
+#   staging:
+#     branch: master
+#     heroku:
+#       appname: simrep

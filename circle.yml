@@ -9,11 +9,15 @@ machine:
     IMAGE_VERSION: $IMAGE:$COMMIT
 
   pre:
-    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.11.2
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
     - sudo pip install docker-compose
 
   services:
     - docker
+
+  ruby:
+    # I don't use this, but circleCI will try to compile 2.3.3 if I don't
+    version: 2.2.4p230
 
 dependencies:
   override:

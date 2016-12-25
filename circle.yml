@@ -2,10 +2,6 @@ machine:
   timezone:
     America/New_York
 
-  ruby:
-    version:
-      ruby-2.3.1
-
   environment:
     DOCKER_COMPOSE_VERSION: 1.9.0
     COMMIT: ${TRAVIS_COMMIT::8}
@@ -21,18 +17,13 @@ dependencies:
     - sudo pip install docker-compose
 
   override:
-    - echo "Docker's got this."
-
-database:
-  override:
-    - echo "Docker's got this."
-
-compile:
-  override:
-    - docker-compose --verbose -f docker-compose.ci.yml up
-    - docker-compose -f docker-compose.ci.yml run --rm web rake db:reset
+    - docker info
+    - docker-compose version
 
 test:
+  pre:
+    - docker-compose --verbose -f docker-compose.ci.yml up -d
+    - docker-compose -f docker-compose.ci.yml run --rm web rake db:reset
   override:
     - docker-compose -f docker-compose.ci.yml run --rm web rspec spec/
     # - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" registry.heroku.com

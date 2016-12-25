@@ -1,22 +1,21 @@
 /* header */
 
-.branding {
-  float: left;
-  margin-right: 10px;
-  font-size: 1.7em;
-  color: white;
+.navbar-brand {
   text-transform: uppercase;
   letter-spacing: -1px;
-  padding-top: 9px;
   font-weight: bold;
   &:hover {
-    color: white;
     text-decoration: none;
   }
 }
 
 .separator {
   margin-top: 5px;
+}
+
+/* Top level containers only */
+body > .container {
+  margin-top: 1rem;
 }
 
 /* footer */
@@ -49,41 +48,19 @@ footer {
 
 .debug_dump {
   clear: both;
-  float: left;
   width: 100%;
-  margin-top: 45px;
   @include box_sizing;
 }
 
-/*flash*/
-.alert ul {
-  list-style: none;
+.card-muted {
+  @include card-variant(ghostwhite, ghostwhite);
 }
 
-.alert-error {
-    background-color: #f2dede;
-    border-color: #eed3d7;
-    color: #b94a48;
-    text-align: left;
- }
-
-.alert-alert {
-    background-color: #f2dede;
-    border-color: #eed3d7;
-    color: #b94a48;
-    text-align: left;
- }
-
-.alert-success {
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
-    color: #468847;
-    text-align: left;
- }
-
+/*flash*/
 .alert-notice {
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
-    color: #468847;
-    text-align: left;
- }
+  @extend .alert-success;
+}
+
+.alert-alert, .alert-error {
+  @extend .alert-danger;
+}

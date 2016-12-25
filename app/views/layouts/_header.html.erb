@@ -1,52 +1,53 @@
-<nav class="navbar navbar-fixed-top navbar-inverse">
-  <div class="container-fluid">
-    <div class="nav navbar-nav navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <%= link_to "SimRep", root_path, class: "branding" %>
-      <% if current_user.try(:admin?) %>
-        <span class="glyphicon glyphicon-option-horizontal branding separator" aria-hidden="true"></span>
-        <%= link_to("Back Office", admin_root_path, class: "branding") %>
-      <% end %>
-    </div>
-    <div class="collapse navbar-collapse" id="navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right">
-      <% if current_chapter %>
-        <li class="navbar-text">Current Chapter: <%= current_chapter.name %>
-          <% unless current_character.present? && current_character.persisted? %>
-            (<strong><%= link_to "Switch", switch_chapter_path %></strong>)
+<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+  <div class="container">
+    <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
+    <div class="row flex-items-xs-middle collapse navbar-toggleable-md" id="navbarResponsive">
+
+      <div class="float-xs-left">
+        <%= link_to "SimRep", root_path, class: "navbar-brand" %>
+        <% if current_user.try(:admin?) %>
+          <i class="fa fa-ellipsis-h navbar-brand separator" aria-hidden="true"></i>
+          <%= link_to "Back Office", admin_root_path, class: "navbar-brand" %>
+        <% end %>
+      </div>
+
+      <div class="float-xs-right">
+        <ul class="nav navbar-nav">
+
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <span class="navbar-text text-muted">Logged in as
+              <strong><%= link_to "#{current_user.name}", edit_user_registration_path %></strong>
+              <% if current_char.present? && current_char.persisted? %>
+                / <strong><%= link_to "#{current_char.name}", character_path(current_char) %></strong>
+              <% end %>
+            </span>
+          </li>
+          <li class="nav-item"><span class="navbar-text text-muted">|</span></li>
+          <li class="nav-item">
+            <%= link_to 'View All Characters', characters_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item"><span class="navbar-text text-muted">|</span></li>
+          <li class="nav-item">
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, class: 'nav-link' %>
+          </li>
+        <% else %>
+          <% if ENV['MTOWER'] %>
+            <li class="nav-item">
+              <%= link_to user_developer_omniauth_authorize_path, class: 'nav-link' do %>
+                <i class="fa fa-envelope-o" aria-hidden="true"></i> Sign in with Email
+              <% end %>
+            </li>
+            <li class="nav-item"><span class="navbar-text text-muted">|</span></li>
           <% end %>
-        </li>
-        <li class="navbar-text" style="margin-left: 0px; margin-right: 0px;">|</li>
-      <% end %>
-      <% if user_signed_in? %>
-        <li class="navbar-text">Logged in as <strong><%= link_to "#{current_user.name}", characters_path %></strong>
-          <% if current_char.present? && current_char.persisted? %>
-             / <strong><%= link_to "#{current_char.name}", character_path(current_char) %></strong>
-          <% end %>
-        </li>
-        <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %></li>
-        <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
-      <% else %>
-        <% if ENV['MTOWER'] %>
-          <li>
-            <%= link_to user_developer_omniauth_authorize_path, class: 'navbar-link' do %>
-              <i class="fa fa-envelope-o" aria-hidden="true"></i> Sign in with Email
+          <li class="nav-item">
+            <%= link_to user_facebook_omniauth_authorize_path, class: 'nav-link' do %>
+              <i class="fa fa-facebook" aria-hidden="true"></i> Sign in with Facebook
             <% end %>
           </li>
-          <li class="navbar-text" style="margin-left: 0px; margin-right: 0px;">/</li>
         <% end %>
-        <li>
-        <%= link_to user_facebook_omniauth_authorize_path, class: 'navbar-link' do %>
-          <i class="fa fa-facebook" aria-hidden="true"></i> Sign in with Facebook
-        <% end %>
-        </li>
-      <% end %>
-      </ul>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>

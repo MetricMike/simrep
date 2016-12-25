@@ -1,19 +1,13 @@
-<h2>Sign Up or Log In</h2>
+<h2>
+  Sign Up or Log In<br/>
+  <small class="text-muted">We couldn't match your Facebook account to a SimRep user.</small>
+</h2>
 
 <hr/>
 
 <div class="row">
-  <div class="col-md-8 col-md-offset-2">
-    <p class="text-center">If you have previously used a password with SimRep, please enter it on the right.</p>
-    <p class="text-center">If you are new, you can just click "Sign Up" on the left side.</p>
-    <p class="text-center">Thanks!</p>
-  </div>
-</div>
-
-<hr/>
-
-<div class="row">
-  <div class="col-md-4 col-md-offset-1 pull-left">
+  <div class="col-xs-5 float-xs-left">
+    <p class="text-xs-center">If this is your first time using SimRep, this is normal! Please verify the information provided by Facebook.</p>
     <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { id: 'new_user' }) do |f| %>
       <%= f.error_notification %>
       <%= f.input :email, autofocus: true %>
@@ -21,7 +15,8 @@
       <%= f.button :submit, "Sign up" %>
     <% end %>
   </div>
-  <div class="col-md-6 col-md-offset-1 pull-right">
+  <div class="col-xs-6 offset-xs-1 float-xs-right v-divider">
+    <p class="text-xs-center">If you have previously used SimRep, please log in with your email/password combination to associate your Facebook account.</p>
     <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: 'old_user' }) do |f| %>
       <%= f.error_notification %>
       <%= f.input :email, autofocus: true %>

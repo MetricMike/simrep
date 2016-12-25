@@ -78,6 +78,7 @@ gem 'redis-rack-cache'
 group :development, :test do
   gem 'heroku_db_restore'
   gem 'better_errors'
+  gem 'active_record_doctor'
   gem 'bullet'
   gem 'faker'
   gem 'active_record_query_trace'

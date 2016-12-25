@@ -18,7 +18,12 @@ gem 'rack-timeout'
 gem 'inherited_resources', github: 'activeadmin/inherited_resources'
 
 # Assets
-gem 'bootstrap-sass'
+gem 'bootstrap', '~> 4.0.0.alpha5'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.1.0'
+end
+
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160730173543) do
+ActiveRecord::Schema.define(version: 20161223024515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(version: 20160730173543) do
     t.integer  "item_count",       default: 1, null: false
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.index ["from_account_id"], name: "index_bank_items_on_from_account_id", using: :btree
+    t.index ["to_account_id"], name: "index_bank_items_on_to_account_id", using: :btree
   end
 
   create_table "bank_transactions", force: :cascade do |t|
@@ -70,6 +72,8 @@ ActiveRecord::Schema.define(version: 20160730173543) do
     t.boolean  "posted",          default: false, null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.index ["from_account_id"], name: "index_bank_transactions_on_from_account_id", using: :btree
+    t.index ["to_account_id"], name: "index_bank_transactions_on_to_account_id", using: :btree
   end
 
   create_table "bonus_experiences", force: :cascade do |t|
@@ -220,6 +224,7 @@ ActiveRecord::Schema.define(version: 20160730173543) do
     t.datetime "updated_at",                          null: false
     t.integer  "bank_transaction_id"
     t.index ["bank_transaction_id"], name: "index_npc_shifts_on_bank_transaction_id", using: :btree
+    t.index ["character_event_id"], name: "index_npc_shifts_on_character_event_id", using: :btree
   end
 
   create_table "origins", force: :cascade do |t|
@@ -334,6 +339,7 @@ ActiveRecord::Schema.define(version: 20160730173543) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   end
 
+  add_foreign_key "bank_accounts", "chapters"
   add_foreign_key "bank_accounts", "characters", column: "owner_id"
   add_foreign_key "bank_accounts", "groups"
   add_foreign_key "bank_items", "bank_accounts", column: "from_account_id"
@@ -351,7 +357,11 @@ ActiveRecord::Schema.define(version: 20160730173543) do
   add_foreign_key "character_perks", "perks"
   add_foreign_key "character_skills", "characters"
   add_foreign_key "character_skills", "skills"
+  add_foreign_key "characters", "chapters"
+  add_foreign_key "characters", "users"
   add_foreign_key "crafting_points", "characters"
+  add_foreign_key "deaths", "characters"
+  add_foreign_key "events", "chapters"
   add_foreign_key "group_memberships", "characters", column: "member_id"
   add_foreign_key "group_memberships", "groups"
   add_foreign_key "npc_shifts", "bank_transactions"
@@ -362,6 +372,7 @@ ActiveRecord::Schema.define(version: 20160730173543) do
   add_foreign_key "referrals", "events", column: "event_claimed_id"
   add_foreign_key "referrals", "users", column: "referred_user_id"
   add_foreign_key "referrals", "users", column: "sponsor_id"
+  add_foreign_key "talents", "characters"
   add_foreign_key "temporary_effects", "characters"
   add_foreign_key "users", "events", column: "free_cleaning_event_id"
 end

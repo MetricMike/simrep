@@ -22,7 +22,7 @@ dependencies:
 
 database:
   override:
-    - "Skip!"
+    - echo "Skip!"
 
 test:
   pre:

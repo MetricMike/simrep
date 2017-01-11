@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161223024515) do
+ActiveRecord::Schema.define(version: 20170104173216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,14 @@ ActiveRecord::Schema.define(version: 20161223024515) do
     t.index ["to_account_id"], name: "index_bank_transactions_on_to_account_id", using: :btree
   end
 
+  create_table "birthrights", force: :cascade do |t|
+    t.string   "source"
+    t.string   "name"
+    t.string   "detail"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "bonus_experiences", force: :cascade do |t|
     t.integer  "character_id"
     t.string   "reason"
@@ -88,9 +96,9 @@ ActiveRecord::Schema.define(version: 20161223024515) do
 
   create_table "chapters", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "default_xp", default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "default_xp", default: 31
   end
 
   create_table "character_backgrounds", force: :cascade do |t|
@@ -100,6 +108,15 @@ ActiveRecord::Schema.define(version: 20161223024515) do
     t.datetime "updated_at",    null: false
     t.index ["background_id"], name: "index_character_backgrounds_on_background_id", using: :btree
     t.index ["character_id"], name: "index_character_backgrounds_on_character_id", using: :btree
+  end
+
+  create_table "character_birthrights", force: :cascade do |t|
+    t.integer  "character_id"
+    t.integer  "birthright_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["birthright_id"], name: "index_character_birthrights_on_birthright_id", using: :btree
+    t.index ["character_id"], name: "index_character_birthrights_on_character_id", using: :btree
   end
 
   create_table "character_events", force: :cascade do |t|
@@ -243,6 +260,17 @@ ActiveRecord::Schema.define(version: 20161223024515) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pghero_query_stats", force: :cascade do |t|
+    t.text     "database"
+    t.text     "user"
+    t.text     "query"
+    t.bigint   "query_hash"
+    t.float    "total_time"
+    t.bigint   "calls"
+    t.datetime "captured_at"
+    t.index ["database", "captured_at"], name: "index_pghero_query_stats_on_database_and_captured_at", using: :btree
+  end
+
   create_table "project_contributions", force: :cascade do |t|
     t.integer  "timeunits"
     t.integer  "character_id"
@@ -349,6 +377,8 @@ ActiveRecord::Schema.define(version: 20161223024515) do
   add_foreign_key "bonus_experiences", "characters"
   add_foreign_key "character_backgrounds", "backgrounds"
   add_foreign_key "character_backgrounds", "characters"
+  add_foreign_key "character_birthrights", "birthrights"
+  add_foreign_key "character_birthrights", "characters"
   add_foreign_key "character_events", "characters"
   add_foreign_key "character_events", "events"
   add_foreign_key "character_origins", "characters"

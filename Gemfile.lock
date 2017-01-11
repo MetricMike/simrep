@@ -28,6 +28,13 @@ GIT
       responders
 
 GIT
+  remote: https://github.com/flori/json.git
+  revision: c7a6e31f3abde6efbf0629dea68b43bebb62c94a
+  branch: v1.8
+  specs:
+    json (1.8.5)
+
+GIT
   remote: https://github.com/tpitale/constant_cache.git
   revision: c7a72a49037ec0c3b8b427a581cb6a30f2c7295f
   branch: ar
@@ -70,7 +77,7 @@ GEM
     active_record_query_trace (1.5.4)
     active_record_union (1.2.0)
       activerecord (>= 4.0)
-    activeadmin-ajax_filter (0.3.4)
+    activeadmin-ajax_filter (0.3.5)
       activeadmin (>= 1.0.0.pre1)
       coffee-rails (>= 4.1.0)
       selectize-rails (>= 0.11.2)
@@ -90,6 +97,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
+    anbt-sql-formatter (0.0.5)
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (7.1.4)
@@ -110,12 +118,12 @@ GEM
       sass (~> 3.4)
       thor (~> 0.19)
     builder (3.2.2)
-    bullet (5.4.3)
+    bullet (5.5.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.10.0)
     byebug (9.0.6)
     cocoon (1.2.9)
-    codeclimate-test-reporter (1.0.3)
+    codeclimate-test-reporter (1.0.4)
       simplecov
     coderay (1.1.1)
     coffee-rails (4.2.1)
@@ -125,7 +133,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.0.3)
+    concurrent-ruby (1.0.4)
     connection_pool (2.2.1)
     coolline (0.5.0)
       unicode_utils (~> 1.4)
@@ -146,9 +154,9 @@ GEM
     factory_girl_rails (4.8.0)
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
-    faker (1.6.6)
+    faker (1.7.1)
       i18n (~> 0.5)
-    faraday (0.9.2)
+    faraday (0.10.1)
       multipart-post (>= 1.2, < 3)
     font-awesome-rails (4.7.0.1)
       railties (>= 3.2, < 5.1)
@@ -175,13 +183,18 @@ GEM
       pry-byebug (~> 3.4)
       pry-coolline (~> 0.2)
       pry-doc (~> 0.6)
-    jquery-rails (4.2.1)
+    jquery-rails (4.2.2)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    json (2.0.2)
+    jsonapi-authorization (0.8.1)
+      jsonapi-resources (~> 0.8.0.beta1)
+      pundit (~> 1.0)
+    jsonapi-resources (0.8.1)
+      concurrent-ruby
+      rails (>= 4.0)
     jwt (1.5.6)
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
@@ -219,10 +232,10 @@ GEM
     multipart-post (2.0.0)
     newrelic_rpm (3.17.2.327)
     nio4r (1.2.1)
-    nokogiri (1.6.8.1)
+    nokogiri (1.7.0)
       mini_portile2 (~> 2.1.0)
-    oauth2 (1.2.0)
-      faraday (>= 0.8, < 0.10)
+    oauth2 (1.3.0)
+      faraday (>= 0.8, < 0.11)
       jwt (~> 1.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
@@ -244,8 +257,15 @@ GEM
       globalid
       paper_trail (>= 3.0.0)
     pg (0.19.0)
+    pg_query (0.11.3)
+      json (~> 1.8)
+    pghero (1.6.2)
+      activerecord
     polyamorous (1.3.1)
       activerecord (>= 3.0)
+    pp_sql (0.2.3)
+      anbt-sql-formatter (~> 0.0.5)
+      rails (>= 4.0.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -255,12 +275,12 @@ GEM
       pry (~> 0.10)
     pry-coolline (0.2.5)
       coolline (~> 0.5)
-    pry-doc (0.9.0)
+    pry-doc (0.10.0)
       pry (~> 0.9)
-      yard (~> 0.8)
+      yard (~> 0.9)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
-    public_suffix (2.0.4)
+    public_suffix (2.0.5)
     puma (3.6.2)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
@@ -271,7 +291,6 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rack-timeout (0.4.2)
     rails (5.0.1)
       actioncable (= 5.0.1)
       actionmailer (= 5.0.1)
@@ -284,10 +303,11 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 5.0.1)
       sprockets-rails (>= 2.0.0)
+    rails-assets-seiyria-bootstrap-slider (9.5.4)
     rails-assets-tether (1.4.0)
-    rails-dom-testing (2.0.1)
+    rails-dom-testing (2.0.2)
       activesupport (>= 4.2.0, < 6.0)
-      nokogiri (~> 1.6.0)
+      nokogiri (~> 1.6)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
     railties (5.0.1)
@@ -311,6 +331,8 @@ GEM
     redis-activesupport (5.0.1)
       activesupport (>= 3, < 6)
       redis-store (~> 1.2.0)
+    redis-namespace (1.5.2)
+      redis (~> 3.0, >= 3.0.4)
     redis-rack (2.0.0)
       rack (~> 2.0)
       redis-store (~> 1.2.0)
@@ -347,6 +369,8 @@ GEM
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
     ruby-progressbar (1.8.1)
+    rufus-scheduler (3.3.1)
+      tzinfo
     sass (3.4.23)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -362,6 +386,13 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (~> 3.2, >= 3.2.1)
+    sidekiq-cron (0.4.5)
+      redis-namespace (>= 1.5.2)
+      rufus-scheduler (>= 2.0.24)
+      sidekiq (>= 4.2.1)
+    sidekiq-unique-jobs (4.0.18)
+      sidekiq (>= 2.6)
+      thor
     simple_form (3.3.1)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
@@ -390,11 +421,6 @@ GEM
     uniform_notifier (1.10.0)
     warden (1.2.6)
       rack (>= 1.0)
-    web-console (3.4.0)
-      actionview (>= 5.0)
-      activemodel (>= 5.0)
-      debug_inspector
-      railties (>= 5.0)
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -435,6 +461,9 @@ DEPENDENCIES
   jazz_fingers
   jquery-rails
   jquery-ui-rails
+  json!
+  jsonapi-authorization
+  jsonapi-resources
   letter_opener_web
   money-rails
   newrelic_rpm
@@ -443,13 +472,16 @@ DEPENDENCIES
   paper_trail
   paper_trail-globalid
   pg
+  pg_query
+  pghero
+  pp_sql
   pry-byebug
   pry-rails
   puma
   pundit
-  rack-timeout
   rails
-  rails-assets-tether (>= 1.1.0)!
+  rails-assets-seiyria-bootstrap-slider!
+  rails-assets-tether!
   redis-rack-cache
   redis-rails
   rollbar
@@ -459,10 +491,11 @@ DEPENDENCIES
   selectize-rails
   shoulda-matchers
   sidekiq
+  sidekiq-cron
+  sidekiq-unique-jobs
   simple_form
   uglifier
-  web-console
   wicked_pdf
 
 BUNDLED WITH
-   1.13.6
+   1.13.7

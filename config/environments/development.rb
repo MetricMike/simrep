@@ -1,7 +1,6 @@
 Rails.application.configure do
 
   BetterErrors::Middleware.allow_ip! '172.16.0.0/12'
-  config.web_console.whitelisted_ips = '172.16.0.0/12'
 
   config.action_mailer.default_url_options = { host: 'localhost', port: ENV['PORT'] }
   config.action_mailer.delivery_method = :letter_opener_web

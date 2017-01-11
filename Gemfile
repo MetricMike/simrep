@@ -12,10 +12,12 @@ gem 'active_record_union'
 gem 'high_voltage'
 
 gem 'puma'
-gem 'rack-timeout'
 
-# Rails5 Preliminary for ActiveAdmin
+# Tracking master for Rails5
 gem 'inherited_resources', github: 'activeadmin/inherited_resources'
+
+# Tracking master for Ruby2.4
+gem 'json', github: 'flori/json', branch: 'v1.8'
 
 # Assets
 gem 'bootstrap', '~> 4.0.0.alpha5'
@@ -43,6 +45,11 @@ gem 'newrelic_rpm'
 gem 'rollbar'
 gem 'oj'
 
+# Backgrounding
+gem 'sidekiq'
+gem "sidekiq-cron"
+gem 'sidekiq-unique-jobs'
+
 # History
 gem 'paper_trail'
 gem 'paper_trail-globalid'
@@ -65,15 +72,10 @@ gem 'activeadmin-ajax_filter'
 gem 'active_admin_datetimepicker'
 
 # Console and Error handling
-# Yeah, this should go in dev/test, but I'm a bad person
-# and do live edits in production.
-gem 'web-console'
-gem 'binding_of_caller'
 gem 'jazz_fingers'
 gem 'pry-rails'
 gem 'pry-byebug'
-
-gem 'sidekiq'
+gem 'pp_sql'
 
 # Gimme The Cache
 # https://www.youtube.com/watch?v=OADJl-CVDo0
@@ -82,12 +84,16 @@ gem 'redis-rack-cache'
 
 group :development, :test do
   gem 'heroku_db_restore'
-  gem 'better_errors'
+  gem 'letter_opener_web'
+
   gem 'active_record_doctor'
   gem 'bullet'
-  gem 'faker'
   gem 'active_record_query_trace'
-  gem 'letter_opener_web'
+
+  gem 'better_errors'
+  gem 'binding_of_caller'
+
+  gem 'faker'
 end
 
 group :test do

@@ -19,6 +19,12 @@ Rails.application.routes.draw do
   end
   resources :npc_shifts
 
+  authenticate :user, -> (user) { user.admin? } do
+    require 'sidekiq/web'
+    mount Sidekiq::Web => '/sidekiq'
+    mount PgHero::Engine, at: '/pghero'
+  end
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

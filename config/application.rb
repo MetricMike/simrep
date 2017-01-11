@@ -8,7 +8,6 @@ Bundler.require(*Rails.groups)
 
 module SimRep
   class Application < Rails::Application
-    config.web_console.template_paths = "app/assets/stylesheets/styles/"
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -21,7 +20,6 @@ module SimRep
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-    config.web_console.development_only = false # srrrrrryyyyyy
 
     # We want to set up a custom logger which logs to STDOUT.
     # Docker expects your application to log to STDOUT/STDERR and to be ran
@@ -42,7 +40,5 @@ module SimRep
     # If you've never dealt with background workers before, this is the Rails
     # way to use them through Active Job. We just need to tell it to use Sidekiq.
     config.active_job.queue_adapter = :sidekiq
-
-    # ...
   end
 end

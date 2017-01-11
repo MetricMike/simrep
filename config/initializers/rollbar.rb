@@ -2,49 +2,95 @@ Rollbar.configure do |config|
   # Without configuration, Rollbar is enabled in all environments.
   # To disable in specific environments, set config.enabled=false.
 
-  config.access_token = ENV['ROLLBAR_ACCESS_TOKEN']
-
-  # Here we'll disable in 'test':
-  # if Rails.env.test?
+  config.access_token = ENV['ROLLBAR_SV_TOKEN']
+  if Rails.env.test? # || Rails.env.development?
     config.enabled = false
-  # end
+    config.js_enabled = false
+  end
 
-  # By default, Rollbar will try to call the `current_user` controller method
-  # to fetch the logged-in user object, and then call that object's `id`,
-  # `username`, and `email` methods to fetch those properties. To customize:
-  # config.person_method = "my_current_user"
-  # config.person_id_method = "my_id"
-  # config.person_username_method = "my_username"
-  # config.person_email_method = "my_email"
+  # These are probably VERY restrictive, but the default js_options burn
+  # through 5k errors in 30 seconds.
+  config.js_options = {
+    itemsPerMinute: 1,
+    maxItems: 5,
+    reportLevel: "error",
+    accessToken: ENV['ROLLBAR_CL_TOKEN'],
+    ignoredMessages: [],
+    captureUncaught: true,
+    payload: {
+      environment: Rails.env
+    }
+  }
 
-  # If you want to attach custom data to all exception and message reports,
-  # provide a lambda like the following. It should return a hash.
-  # config.custom_data_method = lambda { {:some_key => "some_value" } }
 
-  # Add exception class names to the exception_level_filters hash to
-  # change the level that exception is reported at. Note that if an exception
-  # has already been reported and logged the level will need to be changed
-  # via the rollbar interface.
-  # Valid levels: 'critical', 'error', 'warning', 'info', 'debug', 'ignore'
-  # 'ignore' will cause the exception to not be reported at all.
-  # config.exception_level_filters.merge!('MyCriticalException' => 'critical')
+  # Default ignores from AirBrake
+  config.exception_level_filters.merge!({
+    'AbstractController::ActionNotFound' => 'ignore',
+    'ActiveRecord::RecordNotFound' => 'ignore',
+    'ActionController::RoutingError' => 'ignore',
+    'ActionController::InvalidAuthenticityToken' => 'ignore',
+    'ActionController::UnknownAction' => 'ignore',
+    'ActionController::UnknownHttpMethod' => 'ignore',
+    'CGI::Session::CookieStore::TamperedWithCookie' => 'ignore',
+    'Mongoid::Errors::DocumentNotFound' => 'ignore',
+    'ActionController::UnknownFormat' => 'ignore',
+    'Exceptions::APIRejected' => 'ignore'
+  })
+
+  config.dj_threshold = 2
+
+  # This is a very naive attempt at rate-limiting because Rollbar doesn't do any client-side
+  # processing and as an item-limited service, that's rather expensive.
   #
-  # You can also specify a callable, which will be called with the exception instance.
-  # config.exception_level_filters.merge!('MyCriticalException' => lambda { |e| 'critical' })
+  # If the same error occurs for the same person in the same context on the
+  # same server (not the same passenger instance) within the last five
+  # minutes, ignore it.
+  rate_limiter = proc do |options|
+    scope = options[:scope]
 
-  # Enable asynchronous reporting (uses girl_friday or Threading if girl_friday
-  # is not installed)
-  # config.use_async = true
-  # Supply your own async handler:
-  # config.async_handler = Proc.new { |payload|
-  #  Thread.new { Rollbar.process_from_async_handler(payload) }
-  # }
+    item = {
+      person: scope[:person],
+      context: scope[:context],
+      exception: options[:exception],
+      message: options[:message]
+    }
 
-  # Enable asynchronous reporting (using sucker_punch)
-  # config.use_sucker_punch
+    item_hash = item.hash
 
-  # Enable delayed reporting (using Sidekiq)
-  # config.use_sidekiq
-  # You can supply custom Sidekiq options:
-  # config.use_sidekiq 'queue' => 'default'
+    possible_dup = Rails.cache.read(item_hash)
+    if possible_dup.present?
+      # Note: A duplicate item only checks the last 5 minutes. If an item
+      # occurs at 9:52am, 9:55am, and 9:58am, the 9:52am and 9:58am items
+      # will both be reported.
+      raise Rollbar::Ignore if item_hash == possible_dup
+    else
+      Rails.cache.write(item_hash, item, expires_in: 5.minutes)
+    end
+  end
+  config.before_process << rate_limiter
+
+end
+
+# More informative errors for common reponse codes
+module Rollbar
+  class Notifier
+
+    # I only want to log a link if successful.
+    def log_instance_link(data)
+    end
+
+    def handle_response(response)
+      res_b = Rollbar::JSON.load(response.body)
+      case response.code
+      when '200'
+        log_info '[Rollbar] Success'
+        # Let rollbar.com generate the uuid
+        log_info "[Rollbar] Details: #{Util.uuid_rollbar_url({uuid: res_b['result']['uuid']}, configuration)}"
+      else
+        log_info '[Rollbar] Failure'
+        log_info "[Rollbar] Code: #{response.code}"
+        log_info "[Rollbar] Message: #{res_b['message']}"
+      end
+    end
+  end
 end

@@ -80,7 +80,6 @@ gem 'active_admin_datetimepicker'
 gem 'jazz_fingers'
 gem 'pry-rails'
 gem 'pry-byebug'
-gem 'pp_sql'
 
 # Gimme The Cache
 # https://www.youtube.com/watch?v=OADJl-CVDo0

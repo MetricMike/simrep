@@ -3,16 +3,21 @@
     <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
     <div class="row flex-items-xs-middle collapse navbar-toggleable-md" id="navbarResponsive">
 
-      <div class="float-xs-left">
-        <%= link_to "SimRep", root_path, class: "navbar-brand" %>
-        <% if current_user.try(:admin?) %>
-          <i class="fa fa-ellipsis-h navbar-brand separator" aria-hidden="true"></i>
-          <%= link_to "Back Office", admin_root_path, class: "navbar-brand" %>
-        <% end %>
+      <div class="float-lg-left">
+        <ul class="nav navbar-nav with-separators">
+          <li class="nav-item">
+            <%= link_to "SimRep", root_path, class: "navbar-brand" %>
+          </li>
+          <% if current_user.try(:admin?) %>
+          <li class="nav-item">
+            <%= link_to "Back Office", admin_root_path, class: "navbar-brand" %>
+          </li>
+          <% end %>
+        </ul>
       </div>
 
-      <div class="float-xs-right">
-        <ul class="nav navbar-nav">
+      <div class="float-lg-right">
+        <ul class="nav navbar-nav with-separators">
 
         <% if user_signed_in? %>
           <li class="nav-item">
@@ -23,11 +28,9 @@
               <% end %>
             </span>
           </li>
-          <li class="nav-item"><span class="navbar-text text-muted">|</span></li>
           <li class="nav-item">
             <%= link_to 'View All Characters', characters_path, class: 'nav-link' %>
           </li>
-          <li class="nav-item"><span class="navbar-text text-muted">|</span></li>
           <li class="nav-item">
             <%= link_to "Logout", destroy_user_session_path, method: :delete, class: 'nav-link' %>
           </li>
@@ -38,7 +41,6 @@
                 <i class="fa fa-envelope-o" aria-hidden="true"></i> Sign in with Email
               <% end %>
             </li>
-            <li class="nav-item"><span class="navbar-text text-muted">|</span></li>
           <% end %>
           <li class="nav-item">
             <%= link_to user_facebook_omniauth_authorize_path, class: 'nav-link' do %>

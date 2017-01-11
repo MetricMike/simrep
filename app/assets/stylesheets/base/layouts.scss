@@ -4,13 +4,21 @@
   text-transform: uppercase;
   letter-spacing: -1px;
   font-weight: bold;
+  margin-right: 0;
   &:hover {
     text-decoration: none;
   }
 }
 
-.separator {
-  margin-top: 5px;
+@include media-breakpoint-up(lg) {
+  .with-separators {
+    li:not(:last-child) {
+      padding-right: 1rem;
+      border-right-width: thin;
+      border-right-style: solid;
+      border-right-color: grey;
+    }
+  }
 }
 
 /* Top level containers only */

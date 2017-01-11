@@ -24,7 +24,8 @@ gem 'json', github: 'flori/json', branch: 'v1.8'
 gem 'bootstrap', '~> 4.0.0.alpha5'
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-tether', '>= 1.1.0'
+  gem 'rails-assets-tether'
+  gem 'rails-assets-seiyria-bootstrap-slider'
 end
 
 gem 'sass-rails'

@@ -1,12 +1,12 @@
-<% provide(:title, current_user.email) %>
-<div class="row">
-  <aside class="col-md-4">
+<% provide(:title, "#{current_user.name}'s Characters") %>
+<div class="row flex-items-xs-center">
+  <aside class="col-xs-3">
     <section class="user_info">
-      <h1><%= current_user.email %></h1>
-      <%= link_to 'Create New Character', new_character_path, class: "btn btn-sm btn-success" %>
+      <%= link_to 'Create New Character', new_character_path, class: "btn btn-block btn-primary" %>
     </section>
   </aside>
-  <div class="col-md-8">
+  <div class="col-xs-2"></div>
+  <div class="col-xs-6">
     <% if @active_characters.present? %>
       <h3>Active Characters (<%= @active_characters.count %>)</h3>
       <ul class="characters">

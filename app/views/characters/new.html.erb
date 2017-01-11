@@ -1,121 +1,42 @@
-<div class="row">
-  <div class="col-md-10 col-md-offset-1">
-    <%= simple_form_for @character do |f| %>
-      <%= f.error_notification %>
-      <div class="row">
-        <div class="col-md-8">
-          <%= f.input :name, label: "Character Name" %>
-        </div>
-        <div class="col-md-4">
-          <%= f.input :chapter, disabled: true, input_html: { value: current_chapter.name } %>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <%= f.input :race, collection: Character::RACES, required: true %>
-        </div>
-        <div class="col-md-6">
-          <%= f.input :culture, collection: Character::CULTURES, required: true %>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <%= f.input :experience, disabled: true, input_html: { value: current_chapter.default_xp } %>
-        </div>
-        <div class="col-md-6">
-          <%= f.input :costume, collection: 0..3, as: :radio_buttons, checked: 0, wrapper_html: { class: 'inline' } %>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-            <h3><a href="https://drive.google.com/open?id=0B2hJFH5LqdqZVTRGVjFXYW8ycVU">Birthrights & Origins</a></h3>
-            <table class="table table-condensed table-hover table-responsive">
-              <thead>
-                <tr>
-                  <th class="col-md-3">Source</th>
-                  <th class="col-md-3" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= t 'origins.name-tooltip' %>">Name</th>
-                  <th class="col-md-4">Detail</th>
-                </tr>
-              </thead>
-              <tbody id="character_origins">
-                <%= f.simple_fields_for :character_origins do |character_origin| %>
-                  <%= render 'character_origin_fields', f: character_origin %>
-                <% end %>
-              </tbody>
-              <tfoot class="links">
-                <tr>
-                  <th>
-                    <%= link_to_add_association 'add origin', f, :character_origins, class: "btn btn-primary",
-                    :"data-association-insertion-node" => "tbody#character_origins",
-                    :"data-association-insertion-method" => "append",
-                    wrap_object: Proc.new {|character_origin| character_origin.build_origin; character_origin} %>
-                  </th>
-                </tr>
-              </tfoot>
-            </table>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-            <h3><a href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHhybkpGYm4yN2s">
-              <%= "Skills (#{@character.skill_points_for_experience(current_chapter.default_xp)} Total)" %>
-            </a></h3>
-            <table class="table table-condensed table-hover table-responsive">
-              <thead>
-                <tr>
-                  <th class="col-md-3">Source</th>
-                  <th class="col-md-3" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= t 'skills.name-tooltip' %>">Name</th>
-                  <th class="col-md-4">Cost</th>
-                </tr>
-              </thead>
-              <tbody id="character_skills">
-                <%= f.simple_fields_for :character_skills do |character_skill| %>
-                  <%= render 'character_skill_fields', f: character_skill %>
-                <% end %>
-              </tbody>
-              <tfoot class="links">
-                <tr>
-                  <th>
-                    <%= link_to_add_association 'add skill', f, :character_skills, class: "btn btn-primary",
-                    :"data-association-insertion-node" => "tbody#character_skills",
-                    :"data-association-insertion-method" => "append",
-                    wrap_object: Proc.new {|character_skill| character_skill.build_skill; character_skill} %>
-                  </th>
-                </tr>
-              </tfoot>
-            </table>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-            <h3><a href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHNybU1MQmNnMUE">Perks</a></h3>
-            <table class="table table-condensed table-hover table-responsive">
-              <thead>
-                <tr>
-                  <th class="col-md-3">Source</th>
-                  <th class="col-md-3" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= t 'perks.name-tooltip' %>">Name</th>
-                  <th class="col-md-4">Cost</th>
-                </tr>
-              </thead>
-              <tbody id="character_perks">
-                <%= f.simple_fields_for :character_perks do |character_perk| %>
-                  <%= render 'character_perk_fields', f: character_perk %>
-                <% end %>
-              </tbody>
-              <tfoot class="links">
-                <tr>
-                  <th>
-                    <%= link_to_add_association 'add perk', f, :character_perks, class: "btn btn-primary",
-                    :"data-association-insertion-node" => "tbody#character_perks",
-                    :"data-association-insertion-method" => "append",
-                    wrap_object: Proc.new {|character_perk| character_perk.build_perk; character_perk} %>
-                  </th>
-                </tr>
-              </tfoot>
-            </table>
-        </div>
-      </div>
-      <%= f.button :submit, "Create a New Character", class: "btn btn-lg btn-block btn-success" %>
-      <% end %>
+<% unless params[:choice] %>
+  <div class="row">
+    <div class="col-xs-12">
+      <p>Creating a character to play in SimTerra is the first step into an exciting, complex world with thousands of decisions. To help guide you, choose one of the following options that best suits the amount of help you need. You will always have the option to review and adjust your choices at the end of this questionnaire, and if anything goes wrong we're available by Facebook and email to help!</p>
+    </div>
   </div>
-</div>
+  <hr/>
+  <div class="row">
+    <div class="col-xs-4">
+      <div class="row">
+        <div class="col-xs-12">
+          <p>You've read the rules and you know exactly what skills your character needs to play just how you want in SimTerra</p>
+        </div>
+        <div class="col-xs-12">
+          <a class="btn btn-block btn-primary" href="/characters/new?choice=gamer">GAMER</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <div class="row">
+        <div class="col-xs-12">
+          <p>You have a specific vision for your ideas, but you might not have LARPed or aren't familiar with SimTerra's system.
+        </div>
+        <div class="col-xs-12">
+          <a class="btn btn-block btn-primary disabled" href="/characters/new?choice=narrator">NARRATOR</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <div class="row">
+        <div class="col-xs-12">
+          <p>You've read the rules, but are indecisive or need some help matching your ideas to SimTerra's system.</p>
+        </div>
+        <div class="col-xs-12">
+          <a class="btn btn-block btn-primary disabled" href="/characters/new?choice=simulator">SIMULATOR</a>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <%= render "characters/new/#{params[:choice]}" %>
+<% end %>

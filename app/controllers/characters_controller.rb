@@ -30,7 +30,8 @@ class CharactersController < ApplicationController
   end
 
   def new
-    @character = current_user.characters.new(chapter: current_chapter)
+    @default_chapter = Event.last.chapter
+    @character = current_user.characters.new
     authorize @character
   end
 

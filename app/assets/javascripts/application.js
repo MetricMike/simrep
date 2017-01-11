@@ -17,6 +17,7 @@
 //= require bootstrap-sprockets
 //= require cocoon
 //= require selectize
+//= require seiyria-bootstrap-slider
 
 $(document).ready(function() {
   $(':input.select').selectize();

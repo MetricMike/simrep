@@ -46,6 +46,8 @@ gem 'jsonapi-authorization'
 gem 'newrelic_rpm'
 gem 'rollbar'
 gem 'oj'
+gem 'pghero'
+gem 'pg_query'
 
 # Backgrounding
 gem 'sidekiq'

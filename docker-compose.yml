@@ -2,7 +2,7 @@ version: '2'
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:9.6-alpine
     environment:
       POSTGRES_USER: simrep
       POSTGRES_PASSWORD: simrep
@@ -12,41 +12,43 @@ services:
       - vol-postgres:/var/lib/postgresql/data
 
   redis-cache:
-    image: redis:latest
+    image: redis:3.2-alpine
     expose:
       - '6379'
     volumes:
       - vol-redis-cache:/var/lib/redis/data
 
   redis-session:
-    image: redis:latest
+    image: redis:3.2-alpine
     expose:
       - '6379'
     volumes:
       - vol-redis-session:/var/lib/redis/data
 
   redis-metastore:
-    image: redis:latest
+    image: redis:3.2-alpine
     expose:
       - '6379'
     volumes:
       - vol-redis-metastore:/var/lib/redis/data
 
   redis-entitystore:
-    image: redis:latest
+    image: redis:3.2-alpine
     expose:
       - '6379'
     volumes:
       - vol-redis-entitystore:/var/lib/redis/data
 
   redis-worker:
-    image: redis:latest
+    image: redis:3.2-alpine
     expose:
       - '6379'
     volumes:
       - vol-redis-worker:/var/lib/redis/data
 
   web:
+    tty: true
+    stdin_open: true
     depends_on:
       - postgres
       - redis-cache

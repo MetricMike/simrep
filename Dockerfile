@@ -1,4 +1,4 @@
-FROM ruby:2.3.3-slim
+FROM ruby:2.4-slim
 
 # Optionally set a maintainer name to let people know who made this image.
 MAINTAINER Michael Weigle <michael.weigle@gmail.com>
@@ -7,8 +7,8 @@ MAINTAINER Michael Weigle <michael.weigle@gmail.com>
 RUN apt-get update -qq
 
 # - build-essential: To ensure certain gems can be compiled
-# - git: Cause slim doesn't include it for some bizarre reason
-# - nodejs: Compile assets and js runetime
+# - git: Cause slim doesn't include it
+# - nodejs: Compile assets and js runtime
 # - libpq-dev: Communicate with postgres through the postgres gem
 # - postgresql-client: In case you want to talk directly to postgres
 # - wkhtmltopdf: Generates PDFs for printing at the event

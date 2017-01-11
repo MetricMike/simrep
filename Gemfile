@@ -9,6 +9,7 @@ end
 gem 'rails'
 gem 'pg'
 gem 'active_record_union'
+gem 'jsonapi-resources'
 gem 'high_voltage'
 
 gem 'puma'
@@ -39,6 +40,7 @@ gem 'font-awesome-rails'
 gem 'devise'
 gem 'omniauth-facebook'
 gem 'pundit'
+gem 'jsonapi-authorization'
 
 # Analytics
 gem 'newrelic_rpm'

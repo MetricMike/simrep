@@ -20,6 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  birthrights:
+    name-tooltip: "Choose one of the sample names, or another. Please follow the pattern provided."
   origins:
     name-tooltip: "Choose one of the sample names, or another. Please follow the pattern provided."
   perks:

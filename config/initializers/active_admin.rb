@@ -208,6 +208,7 @@ ActiveAdmin.setup do |config|
         character.add label: 'Backgrounds',            url: :admin_character_backgrounds_path
         character.add label: 'Events',                 url: :admin_character_events_path
         character.add label: 'Origins',                url: :admin_character_origins_path
+        character.add label: 'Birthrights',            url: :admin_character_birthrights_path
         character.add label: 'Perks',                  url: :admin_character_perks_path
         character.add label: 'Skills',                 url: :admin_character_skills_path
         character.add label: 'Talents',                url: :admin_talents_path
@@ -232,6 +233,7 @@ ActiveAdmin.setup do |config|
         base.add label: 'Backgrounds', url: :admin_backgrounds_path
         base.add label: 'Events',      url: :admin_events_path
         base.add label: 'Origins',     url: :admin_origins_path
+        base.add label: 'Birthrights', url: :admin_birthrights_path
         base.add label: 'Perks',       url: :admin_perks_path
         base.add label: 'Skills',      url: :admin_skills_path
         base.add label: 'Projects',    url: :admin_projects_path

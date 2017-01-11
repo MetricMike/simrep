@@ -92,6 +92,7 @@ ActiveAdmin.register Character do
   filter :talents
   filter :events
   filter :backgrounds
+  filter :birthrights
   filter :origins
 
   form do |f|
@@ -110,9 +111,17 @@ ActiveAdmin.register Character do
           f.input :unused_talents
         end
 
+        f.inputs 'Character Birthrights' do
+          f.has_many :birthrights, allow_destroy: true do |co_f|
+            co_f.input :source, collection: Birthright::SOURCES, label: false
+            co_f.input :name, label: false
+            co_f.input :detail, label: false
+          end
+        end
+
         f.inputs 'Character Origins' do
           f.has_many :origins, allow_destroy: true do |co_f|
-            co_f.input :source, collection: (Character::RACES|Character::CULTURES), label: false
+            co_f.input :source, collection: Origin::SOURCES, label: false
             co_f.input :name, label: false
             co_f.input :detail, label: false
           end

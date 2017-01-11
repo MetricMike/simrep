@@ -1,14 +1,15 @@
-class Origin < ApplicationRecord
-  has_many :characters, through: :character_origins, inverse_of: :origins
-  has_many :character_origins, inverse_of: :origin
+class Birthright < ApplicationRecord
+  has_many :characters, through: :character_birthrights, inverse_of: :birthrights
+  has_many :character_birthrights, inverse_of: :birthright
 
   SOURCES = (Character::RACES|Character::CULTURES|[
     "Template: Clocksmith",
     "Template: Proto"]
   )
   SAMPLE = [
-    "Cryogen",
-    "Common House of Arcane",
+    "Arcane Aptitude",
+    "Gnomish Luck",
+    "Proto Form",
   ]
 
   validates :source, inclusion: {in: SOURCES }

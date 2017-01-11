@@ -32,6 +32,7 @@ class Character < ApplicationRecord
 
   has_many :backgrounds, through: :character_backgrounds, inverse_of: :characters, dependent: :destroy
   has_many :origins, through: :character_origins, inverse_of: :characters, dependent: :destroy
+  has_many :birthrights, through: :character_birthrights, inverse_of: :characters, dependent: :destroy
   has_many :skills, through: :character_skills, inverse_of: :characters, dependent: :destroy
   has_many :perks, through: :character_perks, inverse_of: :characters, dependent: :destroy
   has_many :events, through: :character_events, inverse_of: :characters, dependent: :destroy
@@ -40,6 +41,7 @@ class Character < ApplicationRecord
 
   has_many :character_backgrounds, ->{ includes(:background) }, inverse_of: :character, dependent: :destroy
   has_many :character_origins, ->{ includes(:origin) }, inverse_of: :character, dependent: :destroy
+  has_many :character_birthrights, ->{ includes(:birthright) }, inverse_of: :character, dependent: :destroy
   has_many :character_skills, ->{ includes(:skill) }, inverse_of: :character, dependent: :destroy
   has_many :character_perks, ->{ includes(:perk) }, inverse_of: :character, dependent: :destroy
   has_many :character_events, inverse_of: :character, dependent: :destroy
@@ -54,10 +56,10 @@ class Character < ApplicationRecord
   has_many :temporary_effects, inverse_of: :character, dependent: :destroy
   has_many :bonus_experiences, inverse_of: :character, dependent: :destroy
 
-  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills,
+  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_birthrights, :character_skills,
                                 :character_perks, :character_events, :bank_accounts,
                                 :crafting_points, :group_memberships, allow_destroy: true
-  accepts_nested_attributes_for :project_contributions, :talents, :deaths, :origins, :backgrounds,
+  accepts_nested_attributes_for :project_contributions, :talents, :deaths, :birthrights, :origins, :backgrounds,
                                 :events, :skills, :perks, :temporary_effects, :bonus_experiences,
                                 allow_destroy: true
 

@@ -9,7 +9,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
                           password:   Devise.friendly_token[0,20] )
     end
     sign_in_and_redirect @user, event: :authentication
-    set_flash_message(:success, kind: "Local") if is_navigational_format?
+    set_flash_message(:notice, :success, kind: "Local") if is_navigational_format?
   end
 
   def facebook

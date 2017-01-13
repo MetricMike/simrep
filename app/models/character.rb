@@ -133,7 +133,7 @@ class Character < ApplicationRecord
     self.deaths.where('description ilike ?', '%PERMED%').try(:last).try(:weekend)
   end
 
-  def skill_points_for_experience(exp=BASE_XP)
+  def self.skill_points_for_experience(exp=BASE_XP)
     SKILL_CHART[ EXP_CHART.rindex{ |i| exp >= i } ]
   end
 

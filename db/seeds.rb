@@ -1,5 +1,5 @@
 def self.make_fake_chapters
-  3.times { Chapter.create name: Faker::Space.moon }
+  3.times { Chapter.create(name: Faker::Space.moon, default_xp: 31 + rand(100)) }
   Chapter.create name: "Bastion"
   Chapter.create name: "Holurheim"
   Chapter.cache_constants # Refresh cache

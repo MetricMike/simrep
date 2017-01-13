@@ -1,10 +1,10 @@
-<tr class="nested-fields no-border">
+<tr class="row col-12 nested-fields no-border">
   <%= f.simple_fields_for :birthright do |f_birthright| %>
-    <td class="col-xs-3"><%= f_birthright.input :source, collection: Birthright::SOURCES, label: false %></td>
-    <td class="col-xs-3"><%= f_birthright.input :name, collection: Birthright::SAMPLE, label: false %></td>
-    <td class="col-xs-4"><%= f_birthright.input :detail, label: false %></td>
+    <td class="col-3"><%= f_birthright.input :source, collection: Birthright::SOURCES, label: false %></td>
+    <td class="col-3"><%= f_birthright.input :name, collection: Birthright::SAMPLE, label: false %></td>
+    <td class="col-4"><%= f_birthright.input :detail, label: false %></td>
     <% if f_birthright.object.new_record? %>
-    <td class="col-xs-2"><%= link_to_remove_association "Remove Birthright", f, class: "btn btn-danger"%></td>
+    <td class="col-2"><%= link_to_remove_association "Remove Birthright", f, class: "btn btn-danger"%></td>
     <% end %>
   <% end %>
 </tr>

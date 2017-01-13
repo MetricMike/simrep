@@ -5,8 +5,21 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
+- Re-enabled Rollbar for error tracking, yey.
+- JSONApi for client-side updates and external use (pipe dream!)
+- PGHero for more info on DB queries and performance
+- Reworked character creation page, more guidance
+
 ### Changed
+- Birthrights and Origins have been split into 2 separate models 
+- All chapters now correctly report 31 as the starting XP (with the option for temporary boosts)
+- Upgraded to Bootstrap4 for user facing views (not for persisted characters yet)
+- Fixed the collapsible navbar, so mobile SimRep won't literally kill you
+- Birthrights/Origins now properly source Templates on the Admin view
+- Development Chapters have random default_xp values (31..131)
+
 ### Removed
+- I've broken up with web_console in production, as more and more concurrency is used
 
 ## [1.21.0](v1.21.0) - 2016-12-22
 ### Added

@@ -1,41 +1,19 @@
 <% unless params[:choice] %>
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
       <p>Creating a character to play in SimTerra is the first step into an exciting, complex world with thousands of decisions. To help guide you, choose one of the following options that best suits the amount of help you need. You will always have the option to review and adjust your choices at the end of this questionnaire, and if anything goes wrong we're available by Facebook and email to help!</p>
     </div>
   </div>
   <hr/>
   <div class="row">
-    <div class="col-xs-4">
-      <div class="row">
-        <div class="col-xs-12">
-          <p>You've read the rules and you know exactly what skills your character needs to play just how you want in SimTerra</p>
-        </div>
-        <div class="col-xs-12">
-          <a class="btn btn-block btn-primary" href="/characters/new?choice=gamer">GAMER</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-4">
-      <div class="row">
-        <div class="col-xs-12">
-          <p>You have a specific vision for your ideas, but you might not have LARPed or aren't familiar with SimTerra's system.
-        </div>
-        <div class="col-xs-12">
-          <a class="btn btn-block btn-primary disabled" href="/characters/new?choice=narrator">NARRATOR</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-4">
-      <div class="row">
-        <div class="col-xs-12">
-          <p>You've read the rules, but are indecisive or need some help matching your ideas to SimTerra's system.</p>
-        </div>
-        <div class="col-xs-12">
-          <a class="btn btn-block btn-primary disabled" href="/characters/new?choice=simulator">SIMULATOR</a>
-        </div>
-      </div>
-    </div>
+    <p class="col-4">You've read the rules and you know exactly what skills your character needs to play just how you want in SimTerra</p>
+    <p class="col-4">You have a specific vision for your ideas, but you might not have LARPed or aren't familiar with SimTerra's system.
+    <p class="col-4">You've read the rules, but are indecisive or need some help matching your ideas to SimTerra's system.</p>
+  </div>
+  <div class="row justify-content-around">
+    <div class="col-3"><a class="btn btn-block btn-primary" href="/characters/new?choice=gamer">GAMER</a></div>
+    <div class="col-3"><a class="btn btn-block btn-primary disabled" href="/characters/new?choice=narrator">NARRATOR</a></div>
+    <div class="col-3"><a class="btn btn-block btn-primary disabled" href="/characters/new?choice=simulator">SIMULATOR</a></div>
   </div>
 <% else %>
   <%= render "characters/new/#{params[:choice]}" %>

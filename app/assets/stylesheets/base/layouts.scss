@@ -12,6 +12,11 @@
 
 @include media-breakpoint-up(lg) {
   .with-separators {
+    li.nav-item > .nav-link {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
     li:not(:last-child) {
       padding-right: 1rem;
       border-right-width: thin;

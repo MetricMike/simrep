@@ -1,10 +1,10 @@
-<tr class="nested-fields no-border">
+<tr class="row col-12 nested-fields no-border">
   <%= f.simple_fields_for :perk do |f_perk| %>
-    <td><%= f_perk.input :source, collection: Perk::SOURCES, label: false %></td>
-    <td><%= f_perk.input :name, collection: Perk::SAMPLE, label: false %></td>
-    <td><%= f_perk.input :cost, label: false %></td>
+    <td class="col-3"><%= f_perk.input :source, collection: Perk::SOURCES, label: false %></td>
+    <td class="col-5"><%= f_perk.input :name, collection: Perk::SAMPLE, label: false %></td>
+    <td class="col-2"><%= f_perk.input :cost, label: false %></td>
     <% if f_perk.object.new_record? %>
-    <td><%= link_to_remove_association "remove perk", f, class: "btn btn-danger"%></td>
+    <td class="col-2"><%= link_to_remove_association "remove perk", f, class: "btn btn-danger"%></td>
     <% end %>
   <% end %>
 </tr>

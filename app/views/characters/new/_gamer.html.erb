@@ -1,51 +1,54 @@
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-12">
     <%= simple_form_for @character do |f| %>
       <%= f.error_notification %>
       <div class="row">
-        <div class="col-xs-8">
+        <div class="col-8">
           <%= f.input :name, label: "Character Name" %>
         </div>
-        <div class="col-xs-4">
+        <div class="col-4">
           <%= f.input :chapter, collection: Chapter.all, selected: @default_chapter %>
         </div>
       </div>
       <hr/>
       <div class="row">
-        <div class="col-xs-6">
+        <div class="col-6">
           <%= f.input :race, collection: Character::RACES, required: true %>
         </div>
-        <div class="col-xs-6">
+        <div class="col-6">
           <%= f.input :culture, collection: Character::CULTURES, required: true %>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
           <p><small class="text-muted">Only the most common races and cultures are listed above. Staff-owned cultures should be marked "Minor". Player-owned cultures should be marked "Custom".</small><br/>
-          <small class="text-muted">If you don't see anything familiar, "Custom" is probably the right choice. Clarify with a Custom Origin</small></p>
+          <small class="text-muted">If you selected "Minor" or "Custom", please add an Origin to clarify.</small></p>
         </div>
       </div>
       <hr/>
-      <div class="row flex-items-xs-around">
-        <div class="col-xs-4">
+      <div class="row justify-content-around">
+        <div class="col-4">
           <%= f.input :experience, disabled: true, input_html: { value: @default_chapter.default_xp } %>
         </div>
-        <div class="col-xs-2"></div>
-        <div class="col-xs-4">
+        <div class="col-4">
           <%= f.input :costume, label_html: { class: 'wide' }, wrapper_html: { class: 'slider' } %>
         </div>
       </div>
       <hr/>
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3><a href="https://drive.google.com/open?id=0B2hJFH5LqdqZVTRGVjFXYW8ycVU">Birthrights & Origins</a></h3>
-            <p>Even members of the same race or culture differ a little bit from each other, depending on where or how they were raised. These must be chosen at character creation.</p>
-            <p>Birthrights are similar to Perks and grant special abilities, but come with both benefits and detriments.</p>
+            <br/>
+            <h5>Even members of the same race or culture differ a little bit from each other, depending on where or how they were raised</h5>
+            <h5>These must be chosen at character creation</h5>
+            <br/>
+            <h6>Birthrights are similar to Perks and grant special abilities, but come with both benefits and detriments.</h6>
             <div class="table-responsive">
-              <table class="table table-hover">
+              <table class="col-12 table table-hover">
                 <thead>
-                  <tr>
-                    <th class="col-xs-4">Source</th>
-                    <th class="col-xs-4" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= t 'birthrights.name-tooltip' %>">Name</th>
-                    <th class="col-xs-4">Detail</th>
+                  <tr class="row col-12">
+                    <th class="col-3">Source</th>
+                    <th class="col-3">Name</th>
+                    <th class="col-4">Detail</th>
+                    <th class="col-2"></th>
                   </tr>
                 </thead>
                 <tbody id="character_birthrights">
@@ -65,15 +68,16 @@
                 </tfoot>
               </table>
             </div>
-            <hr/>
-            <p>Origins tell the story of where/how your character was raised, and usually give access to sets of Perks and Talents.</p>
+            <br/>
+            <h6>Origins tell the story of where/how your character was raised, and usually give access to sets of Perks and Talents.</h6>
             <div class="table-responsive">
-              <table class="table table-hover">
+              <table class="col-12 table table-hover">
                 <thead>
-                  <tr>
-                    <th class="col-xs-4">Source</th>
-                    <th class="col-xs-4" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= t 'origins.name-tooltip' %>">Name</th>
-                    <th class="col-xs-4">Detail</th>
+                  <tr class="row col-12">
+                    <th class="col-3">Source</th>
+                    <th class="col-3">Name</th>
+                    <th class="col-4">Detail</th>
+                    <th class="col-2"></th>
                   </tr>
                 </thead>
                 <tbody id="character_origins">
@@ -97,46 +101,52 @@
       </div>
       <hr/>
       <div class="row">
-        <div class="col-xs-12">
-            <h3><a href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHhybkpGYm4yN2s">
-              <%= "Skills (#{@character.skill_points_for_experience(current_chapter.default_xp)} Total)" %>
-            </a></h3>
-            <div clas=
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th class="col-xs-3">Source</th>
-                  <th class="col-xs-3" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= t 'skills.name-tooltip' %>">Name</th>
-                  <th class="col-xs-4">Cost</th>
-                </tr>
-              </thead>
-              <tbody id="character_skills">
-                <%= f.simple_fields_for :character_skills do |character_skill| %>
-                  <%= render 'character_skill_fields', f: character_skill %>
-                <% end %>
-              </tbody>
-              <tfoot class="links">
-                <tr>
-                  <th>
-                    <%= link_to_add_association 'add skill', f, :character_skills, class: "btn btn-primary",
-                    :"data-association-insertion-node" => "tbody#character_skills",
-                    :"data-association-insertion-method" => "append",
-                    wrap_object: Proc.new {|character_skill| character_skill.build_skill; character_skill} %>
-                  </th>
-                </tr>
-              </tfoot>
-            </table>
+        <div class="col-12">
+            <h3><a id="skills_header" href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHhybkpGYm4yN2s">Skills (2 Total)</a></h3>
+            <br/>
+            <h6>Skills are techniques your character has learned to gain an edge in <strong>combat</strong>, beyond the usual swinging of a sword.</h6>
+            <div class="table-responsive">
+              <table class="col-12 table table-hover">
+                <thead>
+                  <tr class="row col-12">
+                    <th class="col-3">Source</th>
+                    <th class="col-5">Name</th>
+                    <th class="col-2">Cost</th>
+                    <th class="col-2"></th>
+                  </tr>
+                </thead>
+                <tbody id="character_skills">
+                  <%= f.simple_fields_for :character_skills do |character_skill| %>
+                    <%= render 'character_skill_fields', f: character_skill %>
+                  <% end %>
+                </tbody>
+                <tfoot class="links">
+                  <tr>
+                    <th>
+                      <%= link_to_add_association 'Add Skill', f, :character_skills, class: "btn btn-primary",
+                      :"data-association-insertion-node" => "tbody#character_skills",
+                      :"data-association-insertion-method" => "append",
+                      wrap_object: Proc.new {|character_skill| character_skill.build_skill; character_skill} %>
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12">
-            <h3><a href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHNybU1MQmNnMUE">Perks</a></h3>
-            <table class="table table-condensed table-hover table-responsive">
+        <div class="col-12">
+            <h3><a id="perks_header" href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHNybU1MQmNnMUE">Perks (0 Total)</a></h3>
+            <br/>
+            <h6>Perks are techniques from your race or culture that (usually) improve your <strong>combat</strong> ability.</h6>
+            <div class="table-responsive">
+            <table class="col-12 table table-hover">
               <thead>
-                <tr>
-                  <th class="col-xs-3">Source</th>
-                  <th class="col-xs-3" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= t 'perks.name-tooltip' %>">Name</th>
-                  <th class="col-xs-4">Cost</th>
+                <tr class="row col-12">
+                  <th class="col-3">Source</th>
+                  <th class="col-5">Name</th>
+                  <th class="col-2">Cost</th>
+                  <th class="col-2"></th>
                 </tr>
               </thead>
               <tbody id="character_perks">
@@ -147,7 +157,7 @@
               <tfoot class="links">
                 <tr>
                   <th>
-                    <%= link_to_add_association 'add perk', f, :character_perks, class: "btn btn-primary",
+                    <%= link_to_add_association 'Add Perk', f, :character_perks, class: "btn btn-primary",
                     :"data-association-insertion-node" => "tbody#character_perks",
                     :"data-association-insertion-method" => "append",
                     wrap_object: Proc.new {|character_perk| character_perk.build_perk; character_perk} %>
@@ -157,13 +167,15 @@
             </table>
         </div>
       </div>
+      <br/>
+      <br/>
       <%= f.button :submit, "Create a New Character", class: "btn btn-lg btn-block btn-success" %>
       <% end %>
   </div>
 </div>
 
 <script>
-  var xhr, chapter, chapter_xp;
+  var xhr, chapter, chapter_xp, chapter_skills;
   $('#character_chapter').selectize({
     onChange: function(value) {
       $('#character_experience').css('border-color', 'blue');
@@ -172,6 +184,7 @@
         url: '/api/v1/chapters/' + value + '.json',
         success: function(results) {
           chapter_xp = results.data.attributes['default-xp'];
+          chapter_skills = results.data.attributes['default-skills'];
         },
         error: function() {
           chapter_xp = -1;
@@ -179,6 +192,7 @@
         complete: function() {
           $('#character_experience').css('border-color', '');
           $('#character_experience').val(chapter_xp);
+          $('#skills_header').val("Skills (" + chapter_skills + " Total)");
         }
       })
     }

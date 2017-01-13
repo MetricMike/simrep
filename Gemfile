@@ -28,7 +28,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-seiyria-bootstrap-slider'
 end
 
-gem 'sass-rails'
+gem 'sassc-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'jquery-rails'

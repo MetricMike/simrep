@@ -34,7 +34,7 @@ module SimRep
     end
 
     # Since we're using Redis for Sidekiq, we might as well use Redis to back
-    # our cache store. This keeps our application stateless as well.
+    # our cache store. This helps keep our application stateless as well.
     config.cache_store = :redis_store, ENV['CACHE_URL']
 
     # If you've never dealt with background workers before, this is the Rails

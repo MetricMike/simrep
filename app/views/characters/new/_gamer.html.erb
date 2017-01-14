@@ -29,7 +29,15 @@
           <%= f.input :experience, disabled: true, input_html: { value: @default_chapter.default_xp } %>
         </div>
         <div class="col-4">
-          <%= f.input :costume, label_html: { class: 'wide' }, wrapper_html: { class: 'slider' } %>
+          <%= f.input :costume, label_html: { class: 'wide' }, wrapper_html: { class: 'slider' }, input_html: {
+            id: 'costume_slider',
+            'data-provide': 'slider',
+            'data-slider-ticks': '[0, 1, 2, 3, 4]',
+            'data-slider-ticks-labels': '["0", "1", "2", "3", "4"]',
+            'data-slider-step': '1',
+            'data-slider-value': '0',
+            'data-slider-tooltip': 'hide'
+            } %>
         </div>
       </div>
       <hr/>
@@ -102,7 +110,7 @@
       <hr/>
       <div class="row">
         <div class="col-12">
-            <h3><a id="skills_header" href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHhybkpGYm4yN2s">Skills (2 Total)</a></h3>
+            <h3><a id="skills_header" href="https://drive.google.com/open?id=0B2hJFH5LqdqZdHhybkpGYm4yN2s">Skills (<%= @default_chapter.default_skills %> Total)</a></h3>
             <br/>
             <h6>Skills are techniques your character has learned to gain an edge in <strong>combat</strong>, beyond the usual swinging of a sword.</h6>
             <div class="table-responsive">
@@ -176,6 +184,7 @@
 
 <script>
   var xhr, chapter, chapter_xp, chapter_skills;
+
   $('#character_chapter').selectize({
     onChange: function(value) {
       $('#character_experience').css('border-color', 'blue');
@@ -192,16 +201,14 @@
         complete: function() {
           $('#character_experience').css('border-color', '');
           $('#character_experience').val(chapter_xp);
-          $('#skills_header').val("Skills (" + chapter_skills + " Total)");
+          $('#skills_header').text("Skills (" + chapter_skills + " Total)");
         }
       })
     }
   });
 
-  var costumeSlider = $('.slider > input').bootstrapSlider({
-    value: 0,
-    ticks: <%= (0..4).to_a %>,
-    ticks_labels: <%= raw (0..4).map(&:to_s) %>,
-    ticks_snap_bounds: 1
+  $("#costume_slider").bootstrapSlider();
+  $("#costume_slider").on("change", function(changeEvt) {
+    $("#perks_header").text("Perks (" + changeEvt.value.newValue + " Total)");
   });
 </script>

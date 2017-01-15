@@ -5,10 +5,6 @@ module ActiveAdmin
       def build
         super :id => "footer"
         powered_by_message
-
-        div do
-          console
-        end
       end
 
     end

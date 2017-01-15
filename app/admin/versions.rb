@@ -1,4 +1,5 @@
 ActiveAdmin.register PaperTrail::Version, as: "Version" do
+  menu false
 
   index do
     selectable_column

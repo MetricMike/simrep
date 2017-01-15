@@ -122,7 +122,7 @@ ActiveAdmin.setup do |config|
   # config.comments = false
   #
   # You can disable the menu item for the comments index page:
-  # config.show_comments_in_menu = false
+  config.show_comments_in_menu = false
   #
   # You can change the name under which comments are registered:
   # config.comments_registration_name = 'AdminComment'
@@ -238,6 +238,12 @@ ActiveAdmin.setup do |config|
         base.add label: 'Skills',      url: :admin_skills_path
         base.add label: 'Projects',    url: :admin_projects_path
         base.add label: 'Groups',      url: :admin_groups_path
+      end
+
+      menu.add label: 'SimRep Admin', url: '#', priority: 9 do |base|
+        base.add label: 'Canon Pulls', url: :admin_canon_pulls_path
+        base.add label: 'Comments',    url: :admin_comments_path
+        base.add label: 'Versions',    url: :admin_versions_path
       end
     end
   end

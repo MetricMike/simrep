@@ -22,7 +22,7 @@ Rails.application.configure do
   config.active_record.migration_error = :page_load
 
   config.sass.inline_source_maps = true
-  config.assets.debug = false
+  config.assets.debug = true
   config.assets.quiet = false
 
   config.assets.raise_runtime_errors = true

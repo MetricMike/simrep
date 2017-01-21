@@ -20,11 +20,63 @@
 //= require seiyria-bootstrap-slider
 
 $(document).ready(function() {
-  $(':input.select').selectize();
+  $(':input.select').selectize({
+    selectOnTab: true,
+  });
 
-  $('tbody').on('cocoon:after-insert', function(e, insertedItem) {
+  $('tbody#character_skills').on('cocoon:after-insert', function(e, insertedItem) {
     insertedItem.find('select').selectize({
-      create: true,
+      selectOnTab: true,
+      create: false,
+    });
+    $('.character-skill-fields').on('cocoon:after-insert', function(e, insertedItem) {
+      $(this).children('td.csf').remove();
+      insertedItem.find('select').selectize({
+        selectOnTab: true,
+        create: true,
+      });
+    });
+  });
+
+  $('tbody#character_perks').on('cocoon:after-insert', function(e, insertedItem) {
+    insertedItem.find('select').selectize({
+      selectOnTab: true,
+      create: false,
+    });
+    $('.character-perk-fields').on('cocoon:after-insert', function(e, insertedItem) {
+      $(this).children('td.cpf').remove();
+      insertedItem.find('select').selectize({
+        selectOnTab: true,
+        create: true,
+      });
+    });
+  });
+
+  $('tbody#character_birthrights').on('cocoon:after-insert', function(e, insertedItem) {
+    insertedItem.find('select').selectize({
+      selectOnTab: true,
+      create: false,
+    });
+    $('.character-birthright-fields').on('cocoon:after-insert', function(e, insertedItem) {
+      $(this).children('td.cbf').remove();
+      insertedItem.find('select').selectize({
+        selectOnTab: true,
+        create: true,
+      });
+    });
+  });
+
+  $('tbody#character_origins').on('cocoon:after-insert', function(e, insertedItem) {
+    insertedItem.find('select').selectize({
+      selectOnTab: true,
+      create: false,
+    });
+    $('.character-origin-fields').on('cocoon:after-insert', function(e, insertedItem) {
+      $(this).children('td.cof').remove();
+      insertedItem.find('select').selectize({
+        selectOnTab: true,
+        create: true,
+      });
     });
   });
 

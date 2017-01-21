@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  ActiveAdmin.routes(self) rescue ActiveAdmin::DatabaseHitDuringLoad
+  ActiveAdmin.routes(self) # rescue ActiveAdmin::DatabaseHitDuringLoad
 
   devise_for :users, controllers: { sessions:           'users/sessions',
                                     omniauth_callbacks: 'users/omniauth_callbacks' }
@@ -8,9 +8,7 @@ Rails.application.routes.draw do
     patch '/confirm' => 'confirmations#confirm'
   end
 
-  get '/switch_chapter', to: 'application#switch_chapter', as: :switch_chapter
-
-  resources :characters, except: [:edit, :destroy] do
+  resources :characters, except: [:edit, :update, :destroy] do
     get 'all', on: :collection
   end
   resources :projects

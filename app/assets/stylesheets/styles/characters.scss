@@ -85,3 +85,11 @@ label.wide {
 .slider > div.slider {
   margin-left: 1rem;
 }
+
+.btn {
+  cursor: pointer;
+}
+
+.blurred {
+  filter: blur(.25rem);
+}

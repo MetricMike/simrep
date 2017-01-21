@@ -8,13 +8,9 @@
 // $sidebar-width: 242px;
 
 // Active Admin's got SASS!
+@import "activeadmin_addons/all";
 @import "active_admin/mixins";
 @import "active_admin/base";
-
-@import "active_admin_datetimepicker";
-@import "selectize";
-@import "selectize.default";
-@import "activeadmin-ajax_filter";
 
 #header h1.site_title {
   background-color: inherit;

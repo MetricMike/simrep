@@ -72,9 +72,8 @@ gem 'constant_cache', github: 'tpitale/constant_cache', branch: 'ar'
 # ActiveAdmin and Friends
 gem 'activeadmin', github: 'activeadmin'
 gem 'cocoon' #needed for associations
+gem 'activeadmin_addons'
 gem 'active_admin_csv_import'
-gem 'activeadmin-ajax_filter'
-gem 'active_admin_datetimepicker'
 
 # Console and Error handling
 gem 'jazz_fingers'

@@ -14,6 +14,9 @@
 /.simrep.env
 .pry_history
 
+# Ignore secrets
+/config/simrep-google-serviceaccount.json
+
 # Ignore rspec states
 /spec/examples.txt
 

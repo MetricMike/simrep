@@ -7,6 +7,9 @@
 /tmp
 /.simrep.env
 
+# Ignore secrets
+/config/simrep-google-serviceaccount.json
+
 # Cache gems
 Gemfile.lock
 

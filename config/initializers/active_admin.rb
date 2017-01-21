@@ -66,7 +66,6 @@ ActiveAdmin.setup do |config|
       end
 
       menu.add label: 'SimRep Admin', url: '#', priority: 9 do |base|
-        base.add label: 'Canon Pulls', url: :admin_canon_pulls_path
         base.add label: 'Comments',    url: :admin_comments_path
         base.add label: 'Versions',    url: :admin_versions_path
       end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170104173216) do
+ActiveRecord::Schema.define(version: 20170117023624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,8 +80,10 @@ ActiveRecord::Schema.define(version: 20170104173216) do
     t.string   "source"
     t.string   "name"
     t.string   "detail"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "characters_count", default: 0
+    t.datetime "reviewed_at"
   end
 
   create_table "bonus_experiences", force: :cascade do |t|
@@ -248,16 +250,20 @@ ActiveRecord::Schema.define(version: 20170104173216) do
     t.string   "source"
     t.string   "name"
     t.string   "detail"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "characters_count", default: 0
+    t.datetime "reviewed_at"
   end
 
   create_table "perks", force: :cascade do |t|
     t.string   "source"
     t.string   "name"
     t.integer  "cost"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "characters_count", default: 0
+    t.datetime "reviewed_at"
   end
 
   create_table "pghero_query_stats", force: :cascade do |t|
@@ -305,8 +311,10 @@ ActiveRecord::Schema.define(version: 20170104173216) do
     t.string   "source"
     t.string   "name"
     t.integer  "cost"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "characters_count", default: 0
+    t.datetime "reviewed_at"
   end
 
   create_table "talents", force: :cascade do |t|

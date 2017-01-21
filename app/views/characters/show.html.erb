@@ -7,10 +7,9 @@
   <%= link_to "Bank", bank_accounts_path, class: 'btn btn-success' %>
   <%= link_to "NPC", npc_shifts_path, class: 'btn btn-primary' %>
   <%= link_to "Print", character_path(@character, format: :pdf), class: 'btn btn-info' %>
-  <%= link_to "Move to #{alt_chapter.name}", character_path(@character, chapter: alt_chapter), method: :patch, class: 'btn btn-danger', confirm: "Moving chapters will cost 1 TU. Are you sure you want to continue?" %>
 </div>
 <div class="row" id="demographics">
-  <div class="col-md-6">
+  <div class="col-6">
     Vitals
     <dl class="dl-horizontal">
       <dt>Name</dt><dd><%= "#{@character.name}" %></dd>
@@ -21,7 +20,7 @@
       <dt>Starting Willpower</dt><dd><%= "#{@character.calc_willpower}" %></dd>
     </dl>
   </div>
-  <div class="col-md-6">
+  <div class="col-6">
     Birthrights & Origins
       <table class="table table-condensed table-hover table-responsive">
       <tr>
@@ -34,7 +33,7 @@
   </div>
 </div>
 <div class="row" id="deaths">
-  <div class="col-md-12">
+  <div class="col-12">
     <%= "Deaths\t|\tPerm Chance: #{@character.perm_chance}\t|Reduces in #{@character.perm_counter} events" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
@@ -49,7 +48,7 @@
   </div>
 </div>
 <div class="row system">
-  <div class="col-md-4">
+  <div class="col-4">
     <%= raw "Backgrounds: #{(link_to (@character.history_approval ? "official" : "unofficial") + ' history', @character.history_link) if @character.history_link}" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
@@ -61,7 +60,7 @@
   </div>
 </div>
 <div class="row system">
-  <div class="col-md-4" id="skills">
+  <div class="col-4" id="skills">
     Skill Points: <b><%= "#{@character.skill_points_unspent} unused" %></b><%=" / #{@character.skill_points_total} total" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
@@ -72,7 +71,7 @@
       <%= render partial: "characters/partials/skill", collection: @character.skills %>
     </table>
   </div>
-  <div class="col-md-4" id="perks">
+  <div class="col-4" id="perks">
     Perk Points: <b><%= "#{@character.perk_points_unspent} unused" %></b><%=" / #{@character.perk_points_total} total" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>
@@ -83,7 +82,7 @@
       <%= render partial: "characters/partials/perk", collection: @character.perks %>
     </table>
   </div>
-  <div class="col-md-4" id="talents">
+  <div class="col-4" id="talents">
     Talent Points: <b><%= "#{@character.unused_talents} unused"%></b><%=" / #{@character.talent_points_total} total" %>
     <table class="table table-condensed table-hover table-responsive">
       <tr>

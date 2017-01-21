@@ -1,10 +1,9 @@
-<tr class="row col-12 nested-fields no-border">
-  <%= f.simple_fields_for :perk do |f_perk| %>
-    <td class="col-3"><%= f_perk.input :source, collection: Perk::SOURCES, label: false %></td>
-    <td class="col-5"><%= f_perk.input :name, collection: Perk::SAMPLE, label: false %></td>
-    <td class="col-2"><%= f_perk.input :cost, label: false %></td>
-    <% if f_perk.object.new_record? %>
-    <td class="col-2"><%= link_to_remove_association "remove perk", f, class: "btn btn-danger"%></td>
-    <% end %>
+<tr class="row col-12 nested-fields no-border character-perk-fields">
+  <td class="cpf standard-character-perks col-6">
+    <%= f.association :perk, label: false, label_method: :display_name, collection: Perk.canon %>
+  </td>
+  <td class="cpf col-3"><%= link_to_add_association "Add Custom Perk", f, :perk, class: "btn btn-info" %></td>
+  <% if f.object.new_record? or current_user.admin? %>
+    <td class="cpf col-3"><%= link_to_remove_association "Remove Perk", f, class: "btn btn-danger"%></td>
   <% end %>
 </tr>

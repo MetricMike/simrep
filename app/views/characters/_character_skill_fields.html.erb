@@ -1,10 +1,9 @@
-<tr class="row col-12 nested-fields no-border">
-  <%= f.simple_fields_for :skill do |f_skill| %>
-    <td class="col-3"><%= f_skill.input :source, collection: Skill::SOURCES, label: false %></td>
-    <td class="col-5"><%= f_skill.input :name, collection: Skill::SAMPLE, label: false %></td>
-    <td class="col-2"><%= f_skill.input :cost, label: false %></td>
-    <% if f_skill.object.new_record? or current_user.admin? %>
-    <td class="col-2"><%= link_to_remove_association "Remove Skill", f, class: "btn btn-danger"%></td>
-    <% end %>
+<tr class="row col-12 nested-fields no-border character-skill-fields">
+  <td class="csf standard-character-skills col-6">
+    <%= f.association :skill, label: false, label_method: :display_name, collection: Skill.canon %>
+  </td>
+  <td class="csf col-3"><%= link_to_add_association "Add Custom Skill", f, :skill, class: "btn btn-info" %></td>
+  <% if f.object.new_record? or current_user.admin? %>
+    <td class="csf col-3"><%= link_to_remove_association "Remove Skill", f, class: "btn btn-danger"%></td>
   <% end %>
 </tr>

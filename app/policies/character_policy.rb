@@ -5,7 +5,7 @@ class CharacterPolicy < ApplicationPolicy
   end
 
   class Scope
-    attr_reader :user, :character, :chapter, :scope
+    attr_reader :user, :character, :scope
 
     def initialize(context, scope)
       @user = context.user

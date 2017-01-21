@@ -9,11 +9,6 @@ class ApplicationController < ActionController::Base
 
   # before_action :configure_permitted_parameters, if: :devise_controller?
 
-  def switch_chapter
-    session[:current_chapter_id] = current_chapter == Chapter::BASTION ? Chapter::HOLURHEIM.id : Chapter::BASTION.id
-    redirect_back(fallback_location: root_path)
-  end
-
   protected
 
   # def configure_permitted_parameters
@@ -22,13 +17,8 @@ class ApplicationController < ActionController::Base
   # end
 
   def pundit_user
-    UserWithContext.new(current_user, current_character, current_chapter)
+    UserWithContext.new(current_user, current_character)
   end
-
-  def current_chapter
-    @chapter ||= Chapter.where(id: session[:current_chapter_id]).try(:first) || Chapter::BASTION
-  end
-  helper_method :current_chapter
 
   def current_character
     @character ||= session[:current_char_id] && Character.find(session[:current_char_id])

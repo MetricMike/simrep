@@ -69,14 +69,14 @@ class Character < ApplicationRecord
   validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  after_create :extra_xp_for_holurheim
-  after_create :assign_chapter, if: Proc.new { self.chapter.blank? }
+  before_create :assign_chapter, if: Proc.new { self.chapter.blank? }
+  after_create :award_starting_bonus_xp
   after_create :open_bankaccount
 
   attr_writer :perm_chance, :perm_counter
 
   def assign_chapter
-    update(chapter: Event.where(weekend: 3.days.ago..Time.now).try(:first).try(:chapter))
+    self.chapter = Event.last.try(:chapter)
   end
 
   def level(with_multiplier=false)
@@ -91,10 +91,6 @@ class Character < ApplicationRecord
 
   def last_event
     @last_event = self.events.newest.try(:first)
-  end
-
-  def first_event
-    @first_event = self.events.oldest.try(:first)
   end
 
   def experience
@@ -270,6 +266,17 @@ class Character < ApplicationRecord
     self.bonus_experiences.create(reason: "Holurheim Starting XP",
                                   date_awarded: Time.now,
                                   amount: 40)
+  end
+
+  def award_starting_bonus_xp
+    return if self.bonus_experiences.where(reason: "Chapter Starting XP").present?
+    self.bonus_experiences.create(reason: "Chapter Starting XP",
+                                  date_awarded: self.starting_event,
+                                  amount: self.chapter.default_xp - Character::BASE_XP)
+  end
+
+  def starting_event
+    self.events.try(:first).try(:weekend) || Time.current
   end
 
   def open_bankaccount

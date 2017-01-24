@@ -29,12 +29,6 @@ class CharactersController < ApplicationController
     head :ok
   end
 
-  def new
-    @default_chapter = Event.last.chapter
-    @character = current_user.characters.new
-    authorize @character
-  end
-
   def show
     @last_event = @character.events.order(weekend: :desc).pluck(:weekend).try(:first).try(:strftime, "%Y %b %d")
     @last_event = "" unless @last_event
@@ -58,15 +52,15 @@ class CharactersController < ApplicationController
     end
   end
 
-  def edit
-    # No way to reach here, the route is gone!
+  def new
+    @default_chapter = Event.last.chapter
+    @character = current_user.characters.new
+    authorize @character
   end
 
   def create
     @character = current_user.characters.new(character_params)
     authorize @character
-
-    # @character.chapter = current_chapter || Event.last.chapter
 
     if @character.save
       redirect_to @character, notice: 'Character created successfully.'
@@ -74,6 +68,10 @@ class CharactersController < ApplicationController
       flash[:error] = @character.errors
       render action: :new
     end
+  end
+
+  def edit
+    # No way to reach here, the route is gone!
   end
 
   # Removed route

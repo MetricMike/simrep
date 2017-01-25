@@ -8,9 +8,9 @@ class Death < ApplicationRecord
   delegate :character_events, to: :character
   alias_method :events, :character_events
 
-  scope :latest,    -> { order(weekend: :desc) }
-  scope :countable, -> { where(countable: true) }
-  scope :previous,  -> { where('updated_at < ?', self.updated_at).latest }
+  scope :latest,        -> { order(weekend: :desc) }
+  scope :affects_perm,  -> { where(countable: true) }
+  scope :previous,      -> { where('updated_at < ?', self.updated_at).latest }
 
   validates :description, :physical, :roleplay, :weekend, presence: true
 

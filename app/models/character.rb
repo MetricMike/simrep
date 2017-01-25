@@ -165,6 +165,10 @@ class Character < ApplicationRecord
     perk_points_total - perk_points_used
   end
 
+  def talent_points_unspent
+    unused_talents
+  end
+
   def invest_in_project(amt, talent=nil)
     self.unused_talents -= amt
     self.talents.find(talent).invest(amt, false) if talent.present?
@@ -234,7 +238,7 @@ class Character < ApplicationRecord
     @perm_chance = 0
     @perm_counter = 0
 
-    deaths = self.deaths.countable.latest.to_a
+    deaths = self.deaths.affects_perm.latest.to_a
     next_death = deaths.try(:pop)
     while prev_death = next_death
       next_death = deaths.try(:pop)

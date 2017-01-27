@@ -231,11 +231,11 @@ class Character < ApplicationRecord
 
   def perm_chance
     return 0 unless self.deaths.affects_perm.present?
-    DEATH_PERCENTAGES[count_active_deaths]
+    DEATH_PERCENTAGES[self.active_deaths.count]
   end
 
-  def count_active_deaths
-    self.deaths.affects_perm.find_all { |d| d.active? }.count
+  def active_deaths
+    self.deaths.affects_perm.find_all { |d| d.active? }
   end
 
   def turn_off_nested_callbacks

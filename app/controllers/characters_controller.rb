@@ -37,17 +37,22 @@ class CharactersController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        # @character.attend_event(Event.order(weekend: :desc).first.id)
-        @last_event = @character.events.order(weekend: :desc).pluck(:weekend).first.strftime("%Y %b %d")
+
+        if Event.last.weekend >= 5.days.ago
+          @character.attend_event(Event.order(weekend: :desc).first.id)
+          @last_event = @character.events.order(weekend: :desc).pluck(:weekend).first.strftime("%Y %b %d")
+        end
+
         render  pdf:            "#{@filename}",
-                template:       "characters/show.html.erb",
+                layout:         "pdf.html.erb",
+                template:       "characters/print.html.erb",
                 grayscale:      true,
                 page_size:      'Letter',
                 save_to_file:   Rails.root.join('pdfs', "#{@filename}.pdf"),
                 header:         { center: 'SimTerra Character Sheet' },
                 footer:         { left: "#{@character.user.name}",
                                   right: "For #{@last_event} Event" },
-                show_as_html:   params[:debug].present?
+                show_as_html:   true #params[:debug].present?
       end
     end
   end

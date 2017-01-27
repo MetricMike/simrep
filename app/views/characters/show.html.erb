@@ -39,14 +39,14 @@
       <dt class="col-3">History</dt>
       <dd class="col-9"><%= link_to (@character.history_approval ? "official" : "unofficial") + ' history', @character.history_link %></dd>
     </dl>
+    <div class="row col-12">
+      <h5 class="col-6 text-muted">Perm Chance: <%= @character.perm_chance %></h4>
+      <h5 class="col-6 text-muted">Reduces In: <%= @character.perm_counter %> Events</h4>
+    </div>
   </div>
 </div>
 <br/>
 <div class="row deaths">
-  <h4 class="col-4">Deaths</h4>
-  <h5 class="col-4 text-muted">Perm Chance: <%= @character.perm_chance %></h4>
-  <h5 class="col-4 text-muted">Reduces In: <%= @character.perm_counter %> Events</h4>
-
   <div class="col-12">
     <ul class="nav nav-tabs">
       <li class="nav-item">
@@ -59,7 +59,7 @@
 
     <div class="tab-content">
       <div class="tab-pane active" id="active">
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
           <thead>
             <tr class="row col-12">
               <th class="col-4">Description</th>
@@ -74,7 +74,7 @@
         </table>
       </div>
       <div class="tab-pane" id="historical">
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
           <thead>
             <tr class="row col-12">
               <th class="col-4">Description</th>
@@ -109,7 +109,7 @@
 
     <div class="tab-content">
       <div class="tab-pane active" id="birthrights">
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
           <thead>
             <tr class="row col-12">
               <th class="col-4">Source</th>
@@ -123,7 +123,7 @@
         </table>
       </div>
       <div class="tab-pane" id="origins">
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
           <thead>
             <tr class="row col-12">
               <th class="col-4">Source</th>
@@ -137,7 +137,7 @@
         </table>
       </div>
       <div class="tab-pane" id="backgrounds">
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
           <thead>
             <tr class="row col-12">
               <th class="col-4"></th>
@@ -170,7 +170,7 @@
 
     <div class="tab-content">
       <div class="tab-pane active" id="skills">
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
           <thead>
             <tr class="row col-12">
               <th class="col-3">Source</th>
@@ -184,7 +184,7 @@
         </table>
       </div>
       <div class="tab-pane" id="perks">
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
           <thead>
             <tr class="row col-12">
               <th class="col-3">Source</th>
@@ -198,7 +198,7 @@
         </table>
       </div>
       <div class="tab-pane" id="talents">
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
           <thead>
             <tr class="row col-12">
               <th class="col-1">Spec?</th>

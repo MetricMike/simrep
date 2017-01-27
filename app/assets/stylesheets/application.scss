@@ -18,9 +18,10 @@
 @import "jquery-ui";
 
 @import "seiyria-bootstrap-slider";
+@import "sortable-theme-bootstrap";
 
-@import "base/mixins.scss";
-@import "base/universal.scss";
-@import "base/layouts.scss";
+@import "base/mixins";
+@import "base/universal";
+@import "base/layouts";
 
-@import "styles/characters.scss";
+@import "styles/characters";

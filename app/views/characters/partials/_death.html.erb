@@ -1,4 +1,4 @@
-<tr class="row col-12 <%= 'table-info' if (death.events_since < 3 and death.countable?) %>">
+<tr class="row col-12">
   <td class="col-4"><%= death.description %></td>
   <td class="col-3"><%= death.physical if death.events_since < 1 || historical %></td>
   <td class="col-3"><%= death.roleplay if death.events_since < 3 || historical %></td>

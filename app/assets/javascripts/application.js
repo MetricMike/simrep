@@ -18,6 +18,7 @@
 //= require cocoon
 //= require selectize
 //= require seiyria-bootstrap-slider
+//= require sortable
 
 $(document).ready(function() {
   $(':input.select').selectize({

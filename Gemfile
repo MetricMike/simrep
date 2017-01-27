@@ -61,6 +61,7 @@ gem 'paper_trail-globalid'
 
 # PDF Handling
 gem 'wicked_pdf'
+gem 'wkhtmltopdf-heroku'
 
 # Currency handling
 gem 'money-rails'

@@ -18,9 +18,11 @@
     </div>
     <div class="container">
       <%= render 'layouts/footer' %>
+      <% if Rails.env.development? %>
       <div class="card card-muted card-block" style="margin-top: 3rem;">
-        <%= debug(params) if Rails.env.development? %>
+        <%= debug(params) %>
       </div>
+      <% end %>
     </div>
   </body>
 </html>

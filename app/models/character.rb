@@ -73,8 +73,6 @@ class Character < ApplicationRecord
   after_create :award_starting_bonus_xp
   after_create :open_bankaccount
 
-  attr_writer :perm_chance, :perm_counter
-
   def assign_chapter
     self.chapter = Event.last.try(:chapter)
   end
@@ -227,35 +225,18 @@ class Character < ApplicationRecord
   end
 
   def perm_counter
-    @perm_counter ||= (record_deaths; @perm_counter)
+    return 0 unless self.deaths.affects_perm.present?
+    3 - self.deaths.affects_perm.latest.first.events_since
   end
 
   def perm_chance
-    @perm_chance ||= (record_deaths; @perm_chance)
+    return 0 unless self.deaths.affects_perm.present?
+    DEATH_PERCENTAGES[count_active_deaths]
   end
 
-  def record_deaths
-    @perm_chance = 0
-    @perm_counter = 0
-
-    deaths = self.deaths.affects_perm.latest.to_a
-    next_death = deaths.try(:pop)
-    while prev_death = next_death
-      next_death = deaths.try(:pop)
-      self.increment_death if prev_death
-
-      if next_death
-        # I'm not crazy about how this reads. It feels backwards, but it's 0121 on a weeknight.
-        prev_death.events_since(next_death.weekend).times { self.decrement_death }
-      else #most recent death
-        prev_death.events_since.times {self.decrement_death }
-      end
-    end
-    if perm_modifiers = self.temporary_effects.where(attr: 'perm_chance').where('expiration > ?', Time.current)
-      @perm_chance += perm_modifiers.reduce(0) { |sum, eff| sum + eff.modifier }
-    end
+  def count_active_deaths
+    self.deaths.affects_perm.find_all { |d| d.active? }.count
   end
-  alias_method :recount_deaths, :record_deaths
 
   def turn_off_nested_callbacks
     ProjectContribution.skip_callback(:create, :before, :invest_talent)
@@ -299,22 +280,6 @@ class Character < ApplicationRecord
 
   def display_name
     "#{self.name}"
-  end
-
-  def increment_death
-    index = [DEATH_PERCENTAGES.index(@perm_chance) + 1, DEATH_PERCENTAGES.size - 1].min
-    @perm_chance = DEATH_PERCENTAGES[index]
-    @perm_counter = DEATH_COUNTER[index]
-  end
-
-  def decrement_death
-    if @perm_counter == 0
-      index = [DEATH_PERCENTAGES.index(@perm_chance) - 1, 0].max
-      @perm_chance = DEATH_PERCENTAGES[index]
-      @perm_counter = DEATH_COUNTER[index]
-    else
-      @perm_counter -= 1
-    end
   end
 
   def calc_willpower

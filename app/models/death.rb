@@ -22,19 +22,9 @@ class Death < ApplicationRecord
   end
 
   def affects_perm_chance?
-    return self.events_since <= 3 unless previous_death
-    # How many events since this death?
-      # 3? Yes.
-      # 2? Is there another death in the last 2+3? Yes.
-      # 1? Is there another death in the last
-    # index = DEATH_PERCENTAGES.index(self.perm_chance)
-    # previous_death.events_since + self.events_since
-    # is the previous death within the counter?
-    # 90 0
-    # 60 1
-    # 30 2
-    # 10 3
+    self.events_since <= 3
   end
+  alias_method :active?, :affects_perm_chance?
 
   def previous_death
     self.characters.death.previous.first

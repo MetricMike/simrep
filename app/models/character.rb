@@ -203,7 +203,7 @@ class Character < ApplicationRecord
     if self.user.retirement_xp?
       self.bonus_experiences.create(reason: "Retirement XP",
                                     date_awarded: Event.find(event_id).weekend.in_time_zone,
-                                    amount: self.user.award_retirement_xp)
+                                    amount: self.user.deduct_retirement_xp)
     end
   end
 

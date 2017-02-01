@@ -43,3 +43,33 @@
       }
   }
 }
+
+.panel_contents {
+  form {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+
+    fieldset.inputs {
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      margin-left: -.5rem;
+
+      ol > li {
+        padding: 0.25rem;
+
+        label {
+          width: 100%;
+        }
+
+      }
+
+    }
+
+    li.action {
+      list-style: none;
+      margin: 0 auto;
+    }
+  }
+}

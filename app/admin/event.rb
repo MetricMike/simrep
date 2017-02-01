@@ -48,7 +48,8 @@ ActiveAdmin.register Event do
       para "#{resource.characters.count} Attended"
       para "#{resource.paying_characters.count} Paid"
       para "#{resource.new_characters.count} New"
-      table_for event.character_events.includes(:character).order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')).order('characters.name ASC'), sortable: true do
+      table_for event.character_events.includes(character: :user).order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')).order('characters.name ASC'), sortable: true do
+        column(:player) { |ce| link_to ce.character.user.name, admin_user_path(ce.character.user_id) }
         column(:character) { |ce| link_to ce.character.name, admin_character_path(ce.character_id) }
         column :paid
         column :cleaned

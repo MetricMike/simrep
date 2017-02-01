@@ -5,21 +5,39 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
+### Changed
+### Removed
+
+## [2.0.0](v2.0.0) - 2017-02-01
+### Added
+- Fancy selectize fields now select on Tab (thank you Nick Blue)
 - Re-enabled Rollbar for error tracking, yey.
 - JSONApi for client-side updates and external use (pipe dream!)
 - PGHero for more info on DB queries and performance
-- Reworked character creation page, more guidance
+- Reworked character creation page, more guidance (sorta N & S buttons haven't been made yet)
+- New characters will set the "costumed checked at" on character creation
+- All tables are sortable!!!
 
 ### Changed
+- Consolidated AA gems/plugins
+- Consolidated SCSS files
+- Source is no longer required, but will auto-load related models.
 - Birthrights and Origins have been split into 2 separate models 
 - All chapters now correctly report 31 as the starting XP (with the option for temporary boosts)
-- Upgraded to Bootstrap4 for user facing views (not for persisted characters yet)
+- Upgraded to Bootstrap4 for user facing views
 - Fixed the collapsible navbar, so mobile SimRep won't literally kill you
 - Birthrights/Origins now properly source Templates on the Admin view
 - Development Chapters have random default_xp values (31..131)
+- Bonus Chapter XP generalized for all chapters, not just Holurheim
+- Updated perm counters to use the simplified death system
+- LOL PROTOS SHOULD MULTIPLY SP NOT EXP
+- Ghosts get XP after perming again
 
 ### Removed
+- PCs can no longer move themselves between chapters, will require manual intervention by staff.
 - I've broken up with web_console in production, as more and more concurrency is used
+- PDF creation is broken
+- Don't award bonus chapter xp if 0
 
 ## [1.21.0](v1.21.0) - 2016-12-22
 ### Added

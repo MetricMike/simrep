@@ -93,8 +93,8 @@ class Character < ApplicationRecord
 
   def experience
     @experience ||= begin
-      pay_xp = living_events.paid_with_xp.pluck('events.play_exp').reduce(0, :+)
-      clean_xp = living_events.cleaned_with_xp.pluck('events.clean_exp').reduce(0, :+)
+      pay_xp = self.character_events.paid_with_xp.pluck('events.play_exp').reduce(0, :+)
+      clean_xp = self.character_events.cleaned_with_xp.pluck('events.clean_exp').reduce(0, :+)
       background_xp = (self.backgrounds.find { |b| b.name.start_with?("Experienced") }) ? 20 : 0
       bonus_xp = (self.bonus_experiences.pluck(:amount).reduce(0, :+))
       BASE_XP + pay_xp + clean_xp + background_xp + bonus_xp

@@ -77,10 +77,8 @@ class Character < ApplicationRecord
     self.chapter = Event.last.try(:chapter)
   end
 
-  def level(with_multiplier=false)
-    @level = EXP_CHART.rindex do |i|
-      (with_multiplier ? self.experience*self.experience_multiplier : self.experience) >= i
-    end
+  def level
+    @level = EXP_CHART.rindex { |i| self.experience >= i }
   end
 
   def exp_to_next
@@ -135,16 +133,18 @@ class Character < ApplicationRecord
     @skill_points_used = self.skills.reduce(0) { |sum, el| sum + el.cost }
   end
 
-  def skill_points_total(level=level(true))
-    @skill_points_total = SKILL_CHART[level]
+  def skill_points_total
+    @skill_points_total = SKILL_CHART[level] * skillpoint_multiplier
   end
 
   def skill_points_unspent
     skill_points_total - skill_points_used
   end
 
-  def experience_multiplier
+  def skillpoint_multiplier
+    return 3 if self.perks.find { |p| p.name =~ /proto revelation/i }
     return 3 if self.origins.find { |o| o.name =~ /proto revelation/i }
+    return 2 if self.birthrights.find { |o| o.name =~ /proto form/i }
     return 2 if self.origins.find { |o| o.name =~ /proto/i }
     return 1
   end

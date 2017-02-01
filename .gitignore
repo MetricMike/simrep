@@ -12,6 +12,7 @@
 /log/*.log
 /tmp
 /.simrep.env
+/.local.env
 .pry_history
 
 # Ignore secrets
@@ -23,6 +24,7 @@
 # Ignore local copies of production assets
 /*.dump
 /**/*.dump
+*.rdb
 /archived-log
 /archived_pdfs
 /pdfs
@@ -31,3 +33,5 @@
 # Ignore sublime-text files
 *.sublime-project
 *.sublime-workspace
+
+

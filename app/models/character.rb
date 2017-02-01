@@ -255,6 +255,7 @@ class Character < ApplicationRecord
 
   def award_starting_bonus_xp
     return if self.bonus_experiences.where(reason: "Chapter Starting XP").present?
+    return if self.chapter.default_xp == Character::BASE_XP
     self.bonus_experiences.create(reason: "Chapter Starting XP",
                                   date_awarded: self.starting_event,
                                   amount: self.chapter.default_xp - Character::BASE_XP)

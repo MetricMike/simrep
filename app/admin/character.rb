@@ -139,7 +139,7 @@ ActiveAdmin.register Character do
       tab 'Events & Custom XP' do
 
         f.inputs 'Events', header: "" do
-          f.has_many :character_events, allow_destroy: true do |ce_f|
+          f.has_many :character_events, header: "", allow_destroy: true do |ce_f|
             ce_f.input :event
             ce_f.input :paid, label: "Paid?"
             ce_f.input :cleaned, label: "Cleaned?"

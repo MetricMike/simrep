@@ -1,17 +1,18 @@
 version: 2
-executorType: docker
+executorType: machine
 
-# test:
-#   pre:
-#     - docker-compose --verbose -f docker-compose.ci.yml up -d
-#     - docker-compose -f docker-compose.ci.yml run --rm web rake db:reset
-#   override:
-#     - docker-compose -f docker-compose.ci.yml run --rm web rspec spec/
-    # - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" registry.heroku.com
-    # - docker inspect $IMAGE
-
-# deployment:
-#   staging:
-#     branch: master
-#     heroku:
-#       appname: simrep
+stages:
+  build:
+    workDir: ~/simrep
+    steps:
+      - type: checkout
+      - type: shell
+        name: Build Project
+        command: |
+          docker --version
+          docker-compose --version
+          docker-compose up -d
+      - type: shell
+        name: Ping SimRep
+        command: |
+          curl -I localhost:3000

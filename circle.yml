@@ -7,11 +7,6 @@ stages:
     steps:
       - type: checkout
       - type: shell
-        name: Check Docker Version
-        command: |
-          docker --version
-          docker-compose --version
-      - type: shell
         name: Upgrade Docker
         command: |
           sudo apt-get update
@@ -25,9 +20,11 @@ stages:
         command: |
           docker --version
           docker-compose --version
-
-      #     docker-compose -f docker-compose.ci.yml up -d
-      # - type: shell
-      #   name: Ping SimRep
-      #   command: |
-      #     curl -I localhost:3000
+      - type: shell
+        name: Build SimRep
+        command: |
+          docker-compose -f docker-compose.ci.yml up -d
+      - type: shell
+        name: Ping SimRep
+        command: |
+          curl -I localhost:3000

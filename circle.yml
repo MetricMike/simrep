@@ -19,8 +19,7 @@ stages:
       - type: shell
         name: Upgrade Docker-Compose
         command: |
-          curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+          pip install docker-compose
       - type: shell
         name: Check Docker Version
         command: |

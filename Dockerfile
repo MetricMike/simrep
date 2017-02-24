@@ -23,10 +23,10 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ENV APP_HOME /var/www/simrep
 RUN mkdir -p $APP_HOME
 
-# RUN groupadd -r simrep && useradd -r -g simrep simrep
-# RUN chown -R simrep:simrep $APP_HOME
-# RUN chown -R simrep:simrep /usr/local/bundle
-# USER simrep
+RUN adduser --group --system simrep
+RUN chown -R simrep:simrep $APP_HOME
+RUN chown -R simrep:simrep /usr/local/bundle
+USER simrep
 
 # Set an environment variable to store where the app is installed to inside
 # of the Docker image.
@@ -34,7 +34,7 @@ WORKDIR $APP_HOME
 
 # Run bundler with shared cache
 COPY Gemfile .gemrc $APP_HOME/
-ENV BUNDLE_GEMFILE=$APP_HOME/Gemfile BUNDLE_JOBS=2
+ENV BUNDLE_PATH=/usr/local/bundle BUNDLE_GEMFILE=$APP_HOME/Gemfile BUNDLE_JOBS=2
 RUN bundle install
 
 COPY . $APP_HOME

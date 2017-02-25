@@ -23,7 +23,7 @@ services:
       - postgres
       - redis
     build: .
-    command: ./bin/start_web
+    command: bash ./bin/start_web
     volumes:
       - .:/var/www/simrep
       - vol-bundle:/usr/local/bundle
@@ -40,7 +40,7 @@ services:
       - web # Because web is responsible for bundle install and precompile if necessary
       - redis
     build: .
-    command: ./bin/start_worker
+    command: bash ./bin/start_worker
     volumes:
       - .:/var/www/simrep
       - vol-bundle:/usr/local/bundle

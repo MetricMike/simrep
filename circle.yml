@@ -23,8 +23,17 @@ stages:
       - type: shell
         name: Build SimRep
         command: |
-          sudo docker-compose -f docker-compose.ci.yml up -d
+          docker-compose -f docker-compose.ci.yml up -d
+          docker-compose run --rm web rails db:setup
+      - type: shell
+        name: Test SimRep
+        command: |
+          docker-compose run --rm -e RAILS_ENV=test web rspec spec/
       - type: shell
         name: Ping SimRep
         command: |
           curl -I localhost:3000
+      - type: shell
+        name: Push SimRep image
+        command: |
+          echo "Ready to push!"

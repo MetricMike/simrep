@@ -4,8 +4,8 @@ class AddDefaultXpToChapters < ActiveRecord::Migration[5.0]
   end
 
   # def better_defaults
-  #   Chapter::BASTION.update(default_xp: 31)
-  #   Chapter::HOLURHEIM.update(default_xp: 71)
+  #   Chapter.find_by(name: "Bastion").update(default_xp: 31)
+  #   Chapter.find_by(name: "Holurheim").update(default_xp: 71)
   #   # Aquia and Last Rest aren't active yet, so they get NOTHING
   # end
 end

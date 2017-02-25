@@ -6,11 +6,11 @@ class AdjustBankAccountDefaults < ActiveRecord::Migration[5.0]
 
     reversible do |dir|
       dir.up do
-        BankAccount.where(chapter: Chapter::BASTION).map do |ba|
+        BankAccount.where(chapter: Chapter.find_by(name: "Bastion")).map do |ba|
           ba.update(balance_currency: :vmk, line_of_credit_currency: :vmk)
         end
 
-        holurheim_accounts = BankAccount.where(chapter: Chapter::HOLURHEIM)
+        holurheim_accounts = BankAccount.where(chapter: Chapter.find_by(name: "Holurheim"))
 
         holurheim_accounts.map do |ba|
           ba.update(balance_currency: :hkr, line_of_credit_currency: :hkr)

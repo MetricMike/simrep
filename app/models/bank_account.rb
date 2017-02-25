@@ -16,7 +16,7 @@ class BankAccount < ApplicationRecord
   validates_presence_of :chapter
 
   before_validation(on: :create) do
-    currency = chapter == Chapter::HOLURHEIM ? :hkr : :vmk
+    currency = chapter == Chapter.find_by(name: "Holurheim") ? :hkr : :vmk
     balance_currency = currency
     line_of_credit_currency = currency
   end
@@ -26,8 +26,8 @@ class BankAccount < ApplicationRecord
   end
 
   AVAIL_CURRENCIES = {
-    Chapter::BASTION    => [Money::Currency.find(:vmk), Money::Currency.find(:sgd)],
-    Chapter::HOLURHEIM  => [Money::Currency.find(:hkr)]
+    Chapter.find_by(name: "Bastion")    => [Money::Currency.find(:vmk), Money::Currency.find(:sgd)],
+    Chapter.find_by(name: "Holurheim")  => [Money::Currency.find(:hkr)]
   }
 
   def not_my_first_account

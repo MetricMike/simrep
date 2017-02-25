@@ -247,7 +247,7 @@ class Character < ApplicationRecord
   end
 
   def extra_xp_for_holurheim
-    return if self.chapter != Chapter::HOLURHEIM
+    return if self.chapter != Chapter.find_by(name: "Holurheim")
     self.bonus_experiences.create(reason: "Holurheim Starting XP",
                                   date_awarded: Time.now,
                                   amount: 40)
@@ -272,7 +272,7 @@ class Character < ApplicationRecord
   end
 
   def default_currency
-    chapter == Chapter::HOLURHEIM ? :hkr : :vmk
+    chapter == Chapter.find_by(name: "Holurheim") ? :hkr : :vmk
   end
 
   def primary_bank_account

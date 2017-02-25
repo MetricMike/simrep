@@ -27,8 +27,8 @@ services:
     volumes:
       - .:/var/www/simrep
       - vol-bundle:/usr/local/bundle
-    expose:
-      - '3000'
+    ports:
+      - '3000:3000'
     env_file:
       - .ci.env
 

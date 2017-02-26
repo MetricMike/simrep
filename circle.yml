@@ -25,7 +25,7 @@ stages:
       - type: shell
         name: Build SimRep
         command: |
-          docker build -t simrep:build
+          docker build -t simrep:build .
           docker-compose -f docker-compose.ci.yml up -d
           docker-compose -f docker-compose.ci.yml run web rails db:setup
 

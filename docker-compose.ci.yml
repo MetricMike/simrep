@@ -22,7 +22,7 @@ services:
     depends_on:
       - postgres
       - redis
-    build: .
+    image: simrep:build
     command: bash ./bin/start_web
     volumes:
       - .:/var/www/simrep
@@ -37,9 +37,8 @@ services:
   worker:
     depends_on:
       - postgres
-      - web # Because web is responsible for bundle install and precompile if necessary
       - redis
-    build: .
+    image: simrep:build
     command: bash ./bin/start_worker
     volumes:
       - .:/var/www/simrep

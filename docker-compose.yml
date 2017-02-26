@@ -55,7 +55,7 @@ services:
       - redis-session
       - redis-metastore
       - redis-entitystore
-    build: .
+    image: metricmike/simrep:2.0.0
     command: ./bin/start_web
     volumes:
       - .:/var/www/simrep
@@ -70,15 +70,15 @@ services:
   worker:
     depends_on:
       - postgres
-      - web # Because web is responsible for bundle install and precompile if necessary
       - redis-worker
-    build: .
+    image: metricmike/simrep:2.0.0
     command: ./bin/start_worker
     volumes:
       - .:/var/www/simrep
       - vol-bundle:/usr/local/bundle
     env_file:
       - .simrep.env
+
 volumes:
   vol-redis-cache:
   vol-redis-session:

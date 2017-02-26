@@ -6,6 +6,7 @@ stages:
     workDir: ~/simrep
     steps:
       - type: checkout
+
       - type: shell
         name: Upgrade Docker
         command: |
@@ -24,20 +25,19 @@ stages:
       - type: shell
         name: Build SimRep
         command: |
+          docker build -t simrep:build
           docker-compose -f docker-compose.ci.yml up -d
-          docker-compose -f docker-compose.ci.yml run --rm web rails db:setup
+          docker-compose -f docker-compose.ci.yml run web rails db:setup
+
       - type: shell
         name: Test SimRep
         command: |
           docker-compose -f docker-compose.ci.yml run --rm -e RAILS_ENV=test web rspec spec/
 
       - type: shell
-        name: Ping SimRep
-        command: |
-          curl localhost:3000
-
-      - type: shell
         name: Push SimRep image
         command: |
-          docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-          docker push simrep/build-image:2.0.0
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          VERSION=$(docker-compose run web rails runner "puts SimRep::Application::Version")
+          docker tag $(docker images -q simrep:build) metricmike/simrep:$VERSION
+          docker push metricmike/simrep:$VERSION

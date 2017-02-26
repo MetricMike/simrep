@@ -1,0 +1,12 @@
+#!/bin/bash
+
+curl -I $WEB_CONTAINER_URL
+
+while ! [ "$?" = "0" ]; do
+  echo "Could not connect to web container. Sleeping.";
+  sleep 15;
+  curl -I $WEB_CONTAINER_URL
+done
+
+bundle exec rails db:setup
+bundle exec rspec spec/

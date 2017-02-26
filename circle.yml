@@ -27,12 +27,11 @@ stages:
         command: |
           docker build -t simrep:build .
           docker-compose -f docker-compose.ci.yml up -d
-          docker-compose -f docker-compose.ci.yml run web rails db:setup
 
       - type: shell
         name: Test SimRep
         command: |
-          docker-compose -f docker-compose.ci.yml run --rm -e RAILS_ENV=test web rspec spec/
+          docker-compose -f docker-compose.ci.yml run -e RAILS_ENV=test web bash ./bin/start_test
 
       - type: shell
         name: Push SimRep image

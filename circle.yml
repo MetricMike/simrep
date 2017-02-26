@@ -20,6 +20,7 @@ stages:
         command: |
           docker --version
           docker-compose --version
+
       - type: shell
         name: Build SimRep
         command: |
@@ -29,11 +30,14 @@ stages:
         name: Test SimRep
         command: |
           docker-compose -f docker-compose.ci.yml run --rm -e RAILS_ENV=test web rspec spec/
+
       - type: shell
         name: Ping SimRep
         command: |
-          curl -I localhost:3000
+          curl localhost:3000
+
       - type: shell
         name: Push SimRep image
         command: |
-          echo "Ready to push!"
+          docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+          docker push simrep/build-image:2.0.0

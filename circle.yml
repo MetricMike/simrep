@@ -18,6 +18,7 @@ stages:
 
       - type: shell
         name: Login to Docker Hub and Pull
+        command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
           docker pull metricmike/simrep
 

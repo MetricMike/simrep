@@ -56,7 +56,7 @@ services:
       - redis-metastore
       - redis-entitystore
     image: metricmike/simrep:1.0.0
-    command: ./bin/start_web
+    command: bash ./bin/start_web
     volumes:
       - .:/var/www/simrep
       - vol-bundle:/usr/local/bundle
@@ -72,7 +72,7 @@ services:
       - postgres
       - redis-worker
     image: metricmike/simrep:1.0.0
-    command: ./bin/start_worker
+    command: bash ./bin/start_worker
     volumes:
       - .:/var/www/simrep
       - vol-bundle:/usr/local/bundle

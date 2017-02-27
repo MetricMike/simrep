@@ -33,8 +33,3 @@ stages:
         name: Test SimRep
         command: |
           docker-compose run -e RAILS_ENV=test web bash ./bin/start_test
-
-      - type: shell
-        name: Push new build to Heroku
-        command: |
-          echo "nothing yet"

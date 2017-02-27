@@ -10,8 +10,9 @@ stages:
       - type: checkout
 
       - type: shell
-        name: Upgrade Docker & Docker Compose
+        name: Prep VM (PG Off, Docker Updates)
         command: |
+          sudo service postgresql stop
           sudo apt-get update
           sudo apt-get -y install docker-engine
           pip install docker-compose

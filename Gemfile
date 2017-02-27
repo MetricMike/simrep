@@ -102,7 +102,6 @@ end
 group :test do
   # Better Testing
   gem 'rspec-rails'
-  gem 'rspec_junit_formatter'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'shoulda-matchers'

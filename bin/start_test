@@ -9,4 +9,4 @@ while ! [ "$?" = "0" ]; do
 done
 
 bundle exec rails db:setup
-bundle exec rspec -r rspec_junit_formatter --format progress --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml spec/
+bundle exec rspec spec/

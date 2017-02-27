@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: simrep
       POSTGRES_PASSWORD: simrep
     ports:
-      - "${PG_PORT:-5432}:${PG_PORT:-5432}"
+      - '5432:5432'
     volumes:
       - vol-postgres:/var/lib/postgresql/data
 

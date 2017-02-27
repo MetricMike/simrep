@@ -22,7 +22,7 @@ stages:
         name: Login to Docker Hub and Pull
         command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker pull metricmike/simrep:base
+          docker pull metricmike/simrep:1.0.0
 
       - type: shell
         name: Build SimRep

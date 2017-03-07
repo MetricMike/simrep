@@ -11,7 +11,7 @@
 # Ignore all logfiles, tempfiles, and environment
 /log/*.log
 /tmp
-/.simrep.env
+/docker/.simrep.env
 /.local.env
 .pry_history
 

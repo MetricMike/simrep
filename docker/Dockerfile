@@ -5,11 +5,12 @@ MAINTAINER Michael Weigle <michael.weigle@gmail.com>
 
 ENV BUILD_PACKAGES="build-base" \
     DEV_PACKAGES="zlib-dev libxml2-dev libxslt-dev tzdata postgresql-dev nodejs" \
-    CONVENIENCE_PACKAGES="git curl bash"
+    CONVENIENCE_PACKAGES="git curl bash docker"
 
 RUN \
-  apk --update --upgrade add $BUILD_PACKAGES $CONVENIENCE_PACKAGES $DEV_PACKAGES && \
-  bundle config build.nokogiri --use-system-libraries
+  apk --update --upgrade add $BUILD_PACKAGES $CONVENIENCE_PACKAGES $DEV_PACKAGES \
+  && bundle config build.nokogiri --use-system-libraries \
+  && rm -rf /var/cache/apk/*
 
 # Set an environment variable to store where the app is installed to inside
 # of the Docker image.
@@ -25,8 +26,9 @@ RUN \
 USER simrep
 
 # Set bundler to use a shared cache
-COPY Gemfile .gemrc $APP_HOME/
 ENV BUNDLE_GEMFILE=$APP_HOME/Gemfile BUNDLE_JOBS=4
 
 # Expose a volume so that nginx will be able to read in assets in production.
 # VOLUME ["$APP_HOME/public"]
+
+CMD ["bash"]

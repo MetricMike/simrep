@@ -23,14 +23,16 @@ stages:
         name: Login to Docker Hub and Pull
         command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker pull metricmike/simrep:1.0.0
+          docker pull metricmike/simrep:1.1.1
 
       - type: shell
         name: Build SimRep
         command: |
+          cd docker
           docker-compose up -d
 
       - type: shell
         name: Test SimRep
         command: |
+          cd docker
           docker-compose run -e RAILS_ENV=test web bash ./bin/start_test

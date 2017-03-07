@@ -1,6 +1,6 @@
 ---
 # Heroku Settings
-:concurrency: 3
+:concurrency: 5
 :timeout: 8
 
 :queues:

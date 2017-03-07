@@ -54,16 +54,16 @@ gem 'pg_query'
 
 # Backgrounding
 gem 'sidekiq'
-gem "sidekiq-cron"
+gem 'sidekiq-cron'
 gem 'sidekiq-unique-jobs'
+gem 'sidekiq-statistic'
 
 # History
 gem 'paper_trail'
 gem 'paper_trail-globalid'
 
 # PDF Handling
-gem 'wicked_pdf'
-gem 'wkhtmltopdf-heroku'
+gem 'google_drive'
 
 # Currency handling
 gem 'money-rails'
@@ -87,6 +87,13 @@ gem 'pry-byebug'
 gem 'redis-rails'
 gem 'redis-rack-cache'
 
+#PERF (only active on MTOWER)
+gem 'rack-mini-profiler'
+gem 'memory_profiler' # For memory profiling (requires Ruby MRI 2.1+)
+# For call-stack profiling flamegraphs (requires Ruby MRI 2.0.0+)
+gem 'flamegraph'
+gem 'stackprof'     # For Ruby MRI 2.1+
+
 group :development, :test do
   gem 'heroku_db_restore'
   gem 'letter_opener_web'
@@ -95,10 +102,9 @@ group :development, :test do
   gem 'bullet'
   gem 'active_record_query_trace'
 
+  gem 'faker'
   gem 'better_errors'
   gem 'binding_of_caller'
-
-  gem 'faker'
 end
 
 group :test do

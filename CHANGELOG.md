@@ -3,10 +3,19 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
-## Unreleased
+## [2.1.0](v2.1.0) - 2017-03-07
 ### Added
+- Better styling on Bank Accounts (personal should be viewable for everybody again)
+- Faster, more reliable Character Sheet and Bank Account pdf dumping
+- Profile badge while on local
+
 ### Changed
+- Docker gets its own directory for better organization
+- Should be smoother to switch environments between dev/prod now
+
 ### Removed
+- No more caching in dev
+- WickedPDF and leftovers (Capistrano, Guard, Procfiles)
 
 ## [2.0.0](v2.0.0) - 2017-02-01
 ### Added

@@ -1,2 +1,2 @@
-web: bash bin/start_web
+web: bash bin/start_app
 worker: bash bin/start_worker

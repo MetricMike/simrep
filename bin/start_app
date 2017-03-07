@@ -4,6 +4,7 @@ bundle check || bundle install
 
 if [ "$RAILS_ENV" = "production" ]
 then
+  bundle exec rake assets:clean
   bundle exec rake assets:precompile
 fi
 

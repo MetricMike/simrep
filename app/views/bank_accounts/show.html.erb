@@ -1,51 +1,54 @@
 <% provide(:title, "#{@bank_account.display_name}") %>
 <div class="row">
-  <div class="col-md-4" id="overview">
-    <div class="row">
-      <dl class="dl-horizontal">
-        <dt>Balance</dt><dd><%= humanized_money_with_symbol @bank_account.balance %></dd>
-      </dl>
+  <div class="col-2" id="overview">
+    <h3 class="text-center">Balance</h3>
+    <h5 class="text-center"><%= humanized_money_with_symbol @bank_account.balance %></h5>
+  </div>
+  <div class="row logs col-10">
+    <div class="col-12">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#transactions">Transactions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#items">Items</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="transactions">
+          <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
+            <thead>
+              <tr class="row col-12">
+                <th class="col-3">From</th>
+                <th class="col-3">To</th>
+                <th class="col-1">Amount</th>
+                <th class="col-3">Memo</th>
+                <th class="col-2">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= render partial: "bank_accounts/transaction", collection: @transactions %>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane" id="items">
+          <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
+            <thead>
+              <tr class="row col-12">
+                <th class="col-3">From</th>
+                <th class="col-3">To</th>
+                <th class="col-1">Count</th>
+                <th class="col-3">Description</th>
+                <th class="col-2">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= render partial: "bank_accounts/item", collection: @items %>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="col-md-8" id="transaction_log">
-    <h3>Bank Transactions</h3>
-    <table class="table table-condensed table-hover table-responsive">
-      <tr>
-        <th>From</th>
-        <th>To</th>
-        <th>Amount</th>
-        <th>Memo</th>
-        <th>Date</th>
-      </tr>
-      <%= render partial: "bank_accounts/transaction", collection: @transactions, as: :transaction %>
-    </table>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-6" id="item_log">
-    <h3>Bank Items</h3>
-    <table class="table table-condensed table-hover table-responsive">
-      <tr>
-        <th>From</th>
-        <th>To</th>
-        <th>Description</th>
-        <th>Count</th>
-        <th>Date</th>
-      </tr>
-      <%= render partial: "bank_accounts/item", collection: @items, as: :item %>
-    </table>
-  </div>
-  <div class="col-md-6" id="crafting_points_log">
-    <h3>Crafting Points</h3>
-    <table class="table table-condensed table-hover table-responsive">
-      <tr>
-        <th>Type</th>
-        <th>Unranked</th>
-        <th>Apprentice</th>
-        <th>Journeyman</th>
-        <th>Master</th>
-      </tr>
-      <%= render partial: "bank_accounts/crafting_points", collection: @crafting_points, as: :crafting_point %>
-    </table>
   </div>
 </div>

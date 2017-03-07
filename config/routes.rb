@@ -9,17 +9,18 @@ Rails.application.routes.draw do
   end
 
   resources :characters, except: [:edit, :update, :destroy] do
-    get 'all', on: :collection
+    get 'print', on: :member
   end
   resources :projects
   resources :bank_accounts, except: [:edit, :destroy] do
-    get 'all', on: :collection
+    get 'print', on: :member
   end
   resources :npc_shifts
 
-  authenticate :user, -> (user) { user.admin? } do
+  if ENV['MTOWER'].present?
+    # authenticate :user, -> (user) { user.admin? } do
     require 'sidekiq/web'
-    mount Sidekiq::Web => '/sidekiq'
+    mount Sidekiq::Web, at: '/sidekiq'
     mount PgHero::Engine, at: '/pghero'
   end
 

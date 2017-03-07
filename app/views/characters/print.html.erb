@@ -1,8 +1,8 @@
 <% provide(:title, @character.name) %>
-<div class="row header">
-  <div class="col-9 demographics">
+<div class="row header justify-content-around">
+  <div class="col-6 demographics">
     <dl class="row">
-      <dt class="col-3">Name</dt>
+      <dt class="col-3">Character Name</dt>
       <dd class="col-9"><%= "#{@character.name}" %></dd>
 
       <dt class="col-3">Race / Culture</dt>
@@ -18,7 +18,15 @@
       <dd class="col-9"><%= (@character.history_approval ? "official" : "unofficial") + ' history' %></dd>
     </dl>
   </div>
-  <div class="col-3 deaths">
+  <div class="col-4 deaths">
+    <div class="row">
+      <dt class="col-4">Player Name </dt>
+      <dd class="col-8"><%= "#{@character.user.try(:name)}" %></dd>
+
+      <dt class="col-4">Generated At</dt>
+      <dd class="col-8"><%= Date.current.to_formatted_s('%F %H:%M') %></dd>
+    </div>
+    <br/>
     <h5 class="text-muted">Perm Chance: <%= @character.perm_chance %></h5>
     <h6 class="text-muted">Reduces In: <%= @character.perm_counter %> Events</h6>
   </div>

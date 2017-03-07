@@ -1,11 +1,11 @@
 class CharactersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :print
 
-  before_action :sign_in_character, except: [:all, :index, :new, :create]
+  before_action :sign_in_character, except: [:print, :index, :new, :create]
   before_action :sign_out_character, only: :index
 
-  after_action :verify_authorized, :except => [:all, :index]
-  after_action :verify_policy_scoped, :only => :index
+  after_action :verify_authorized, except: [:print, :index]
+  after_action :verify_policy_scoped, only: :index
 
   def index
     @characters = policy_scope(Character)
@@ -13,48 +13,17 @@ class CharactersController < ApplicationController
     @retired_characters = @characters.newest.where(retired: true)
   end
 
-  def all
-    Character.find_each(finish: 78) do |c|
-      @character = c
-      filename = "#{c.name.parameterize} - #{Date.today.to_s.gsub(',','')}"
-      pdf = render_to_string pdf: "#{filename}",
-        template:       "characters/show.html.erb",
-        grayscale:      true,
-        page_size:      'Letter',
-        header:         { center: 'SimTerra Character Sheet' },
-        footer:         { left: "#{c.try(:user, :name)}",
-                          right: "Generated At #{Date.today}" }
-      File.open(Rails.root.join('pdfs', "#{filename}.pdf"), 'wb') { |f| f << pdf }
-    end
-    head :ok
-  end
-
   def show
     @last_event = @character.events.order(weekend: :desc).pluck(:weekend).try(:first).try(:strftime, "%Y %b %d")
     @last_event = "" unless @last_event
     @filename = "#{@character.name.parameterize} - #{@last_event}"
+  end
 
-    respond_to do |format|
-      format.html
-      format.pdf do
+  def print
+    return unless ENV['MTOWER'].present?
+    sign_in_character(false)
 
-        if Event.last.weekend >= 5.days.ago
-          @character.attend_event(Event.order(weekend: :desc).first.id)
-          @last_event = @character.events.order(weekend: :desc).pluck(:weekend).first.strftime("%Y %b %d")
-        end
-
-        render  pdf:            "#{@filename}",
-                layout:         "pdf.html.erb",
-                template:       "characters/print.html.erb",
-                grayscale:      true,
-                page_size:      'Letter',
-                save_to_file:   Rails.root.join('pdfs', "#{@filename}.pdf"),
-                header:         { center: 'SimTerra Character Sheet' },
-                footer:         { left: "#{@character.user.name}",
-                                  right: "For #{@last_event} Event" },
-                show_as_html:   true #params[:debug].present?
-      end
-    end
+    render layout: 'pdf.html.erb'
   end
 
   def new
@@ -98,11 +67,11 @@ class CharactersController < ApplicationController
 
   private
 
-  def sign_in_character
+  def sign_in_character(auth=true)
     session[:current_char_id] = params[:id]
     @character = Character.find(params[:id])
 
-    authorize @character
+    authorize @character if auth
   end
 
   def sign_out_character

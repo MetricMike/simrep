@@ -46,23 +46,15 @@ class BankAccount < ApplicationRecord
   end
 
   def transactions
-    @transactions ||= outgoing_transactions.union(incoming_transactions)
-                    .includes(from_account: :owner, to_account: :owner)
-                    .latest
-  end
-
-  def last_transaction
-    @transactions.last if @transactions
+    outgoing_transactions.union(incoming_transactions)
+      .includes(from_account: :owner, to_account: :owner)
+      .latest
   end
 
   def items
-    @items ||= outgoing_items.union(incoming_items)
-                .includes(from_account: :owner, to_account: :owner)
-                .latest
-  end
-
-  def last_item
-    @items.last if @items
+    outgoing_items.union(incoming_items)
+      .includes(from_account: :owner, to_account: :owner)
+      .latest
   end
 
   def withdraw(amt, force=false)

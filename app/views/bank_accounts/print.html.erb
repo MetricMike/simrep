@@ -1,0 +1,44 @@
+<% provide(:title, "#{@bank_account.display_name}") %>
+<div class="row overview justify-content-between">
+  <div class="col-3"><h5>Chapter: <%= @bank_account.chapter.name %></h5></div>
+  <div class="col-3"><h5>Owner: <%= @bank_account.owner.name %></h5></div>
+  <div class="col-2"><h5>Balance: <%= humanized_money_with_symbol @bank_account.balance %></h5></div>
+</div>
+<br/>
+<div class="row logs">
+  <div class="row col-12">
+    <h4>Last 10 Transactions</h4>
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr class="row col-12">
+          <th class="col-3">From</th>
+          <th class="col-3">To</th>
+          <th class="col-1">Amount</th>
+          <th class="col-3">Memo</th>
+          <th class="col-2">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: "bank_accounts/transaction", collection: @transactions %>
+      </tbody>
+    </table>
+  </div>
+  <hr/>
+  <div class="row col-12">
+    <h4>Items</h4>
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr class="row col-12">
+          <th class="col-3">From</th>
+          <th class="col-3">To</th>
+          <th class="col-1">Count</th>
+          <th class="col-3">Description</th>
+          <th class="col-2">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: "bank_accounts/item", collection: @items %>
+      </tbody>
+    </table>
+  </div>
+</div>

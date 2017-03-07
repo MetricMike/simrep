@@ -1,7 +1,12 @@
 class ApplicationController < ActionController::Base
   include Pundit
   protect_from_forgery with: :exception
+  before_action :check_rack_mini_profiler
   before_action :set_paper_trail_whodunnit
+
+  def check_rack_mini_profiler
+      Rack::MiniProfiler.authorize_request
+  end
 
   def after_sign_in_path_for(resource)
     characters_path
@@ -26,7 +31,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_character
 
   def authenticate_admin!
-    redirect_to root_path unless current_user && current_user.admin?
+    redirect_to root_path unless current_user.try(:admin?)
   end
 
   private

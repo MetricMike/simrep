@@ -246,13 +246,6 @@ class Character < ApplicationRecord
     ProjectContribution.set_callback(:create, :before, :invest_talent)
   end
 
-  def extra_xp_for_holurheim
-    return if self.chapter != Chapter.find_by(name: "Holurheim")
-    self.bonus_experiences.create(reason: "Holurheim Starting XP",
-                                  date_awarded: Time.now,
-                                  amount: 40)
-  end
-
   def award_starting_bonus_xp
     return if self.bonus_experiences.where(reason: "Chapter Starting XP").present?
     return if self.chapter.default_xp == Character::BASE_XP

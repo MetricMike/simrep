@@ -20,10 +20,11 @@ stages:
           docker-compose --version
 
       - type: shell
-        name: Login to Docker Hub and Pull
+        name: Login to Docker Hub, Build, and Push
         command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker pull metricmike/simrep:1.1.1
+          docker build -t metricmike/simrep:1.1.1 .
+          docker push metricmike/simrep:1.1.1
 
       - type: shell
         name: Build SimRep

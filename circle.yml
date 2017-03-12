@@ -23,7 +23,7 @@ stages:
         name: Login to Docker Hub, Build, and Push
         command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker build -t metricmike/simrep:1.1.1 .
+          docker build -t metricmike/simrep:1.1.1 ./docker
           docker push metricmike/simrep:1.1.1
 
       - type: shell

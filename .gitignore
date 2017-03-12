@@ -18,8 +18,9 @@
 # Ignore secrets
 /config/simrep-google-serviceaccount.json
 
-# Ignore rspec states
+# Ignore rspec states and coverage
 /spec/examples.txt
+/coverage
 
 # Ignore local copies of production assets
 /*.dump

@@ -8,7 +8,7 @@ class DumpCharacterJob < ApplicationJob
 
     localhost = `getent hosts app | awk '{ print $1 ; exit }'`.strip
     filename = "#{character.name}_#{Date.current.to_formatted_s(:iso8601)}".parameterize + ".pdf"
-    command = "curl 'athena:8080/convert\?auth\=arachnys-weaver\&url\=http://#{localhost}:3000/characters/#{character.id}/print'"
+    command = "curl 'athena:8081/convert\?auth\=arachnys-weaver\&url\=http://#{localhost}:3000/characters/#{character.id}/print'"
 
     char_stream = StringIO.new(`#{command}`)
     raise AthenaConversionError if char_stream.length < 1000

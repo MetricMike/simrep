@@ -9,7 +9,7 @@ class DumpBankAccountJob < ApplicationJob
 
     localhost = `getent hosts app | awk '{ print $1 ; exit }'`.strip
     filename = "#{bank_account.owner.name}_#{Date.current.to_formatted_s(:iso8601)}".parameterize + ".pdf"
-    command = "curl 'athena:8080/convert\?auth\=arachnys-weaver\&url\=http://#{localhost}:3000/bank_accounts/#{bank_account.id}/print'"
+    command = "curl 'athena:8081/convert\?auth\=arachnys-weaver\&url\=http://#{localhost}:3000/bank_accounts/#{bank_account.id}/print'"
 
     pdf_stream = StringIO.new(`#{command}`)
     raise AthenaConversionError if pdf_stream.length < 1000

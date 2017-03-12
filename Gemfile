@@ -114,5 +114,6 @@ group :test do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'fuubar'
+  gem "simplecov"
   gem 'codeclimate-test-reporter', require: nil
 end

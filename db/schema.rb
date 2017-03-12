@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117023624) do
+ActiveRecord::Schema.define(version: 20170307194314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -47,6 +48,7 @@ ActiveRecord::Schema.define(version: 20170117023624) do
     t.integer  "chapter_id"
     t.string   "type"
     t.integer  "group_id"
+    t.datetime "uploaded_at"
     t.index ["chapter_id"], name: "index_bank_accounts_on_chapter_id", using: :btree
     t.index ["group_id"], name: "index_bank_accounts_on_group_id", using: :btree
     t.index ["owner_id"], name: "index_bank_accounts_on_owner_id", using: :btree
@@ -177,6 +179,7 @@ ActiveRecord::Schema.define(version: 20170117023624) do
     t.integer  "unused_talents",   default: 0
     t.boolean  "retired",          default: false
     t.integer  "chapter_id"
+    t.datetime "uploaded_at"
     t.index ["chapter_id"], name: "index_characters_on_chapter_id", using: :btree
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end

@@ -36,3 +36,4 @@ stages:
         command: |
           cd docker
           docker-compose run -e RAILS_ENV=test web bash ./bin/start_test
+          docker-compose run -e RAILS_ENV=test web codeclimate-test-reporter

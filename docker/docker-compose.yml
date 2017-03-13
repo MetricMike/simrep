@@ -69,8 +69,6 @@ services:
     env_file:
       - "${ENV_FILE:-.simrep.env}"
 
-  # Add an nginx reverse-proxy
-
   worker:
     depends_on:
       - postgres

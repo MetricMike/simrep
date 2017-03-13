@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: ubuntu:xenial
+      - image: docker:17.03-git
       - image: postgres:9.6-alpine
       - image: redis:3.2-alpine
       - image: nginx:1.11-alpine
@@ -18,11 +18,8 @@ jobs:
       - run:
           name: Prep Environment
           command: |
-            docker --version
-            docker-compose --version
-            sudo apt-get -y install docker-engine
+            apk add py-pip
             pip install docker-compose
-            docker --version
             docker-compose --version
 
       - run:
@@ -30,12 +27,6 @@ jobs:
           command: |
             cd docker
             docker-compose up -d
-            sleep 60
-            docker-compose logs -t app
-            sleep 60
-            docker-compose logs -t app
-            sleep 60
-            docker-compose logs -t app
 
       - run:
           name: Test SimRep

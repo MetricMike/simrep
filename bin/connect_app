@@ -3,13 +3,15 @@
 res_code=$(curl -LI $WEB_CONTAINER_URL -o /dev/null -w '%{http_code}\n' -s)
 
 if [[ ! "$res_code" = "200" ]]; then
-  echo "Could not connect to app container. Sleeping 60 seconds.";
+  echo "Could not connect to app container. Received $res_code. Sleeping 60 seconds.";
   sleep 60;
+  echo "Trying to connect to $WEB_CONTAINER_URL".
   res_code=$(curl -LI $WEB_CONTAINER_URL -o /dev/null -w '%{http_code}\n' -s)
 fi
 
 while [[ ! "$res_code" = "200" ]]; do
-  echo "Could not connect to app container. Sleeping 15 seconds.";
+  echo "Could not connect to app container. Received $res_code. Sleeping 15 seconds.";
   sleep 15;
+  echo "Trying to connect to $WEB_CONTAINER_URL".
   res_code=$(curl -LI $WEB_CONTAINER_URL -o /dev/null -w '%{http_code}\n' -s)
 done

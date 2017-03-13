@@ -51,6 +51,7 @@ gem 'rollbar'
 gem 'oj'
 gem 'pghero'
 gem 'pg_query'
+gem 'okcomputer'
 
 # Backgrounding
 gem 'sidekiq'

@@ -1,18 +1,6 @@
 #!/bin/bash
 
-curl -I $APP_CONTAINER_URL
-
-if [[ ! "$?" = "0" ]]; then
-  echo "Could not connect to app container. Sleeping 60 seconds.";
-  sleep 60;
-  curl -I $APP_CONTAINER_URL
-fi
-
-while [[ ! "$?" = "0" ]]; do
-  echo "Could not connect to app container. Sleeping 15 seconds.";
-  sleep 15;
-  curl -I $APP_CONTAINER_URL
-done
+./bin/connect_app
 
 echo "Connected. Starting tests."
 

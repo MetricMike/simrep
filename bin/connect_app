@@ -1,0 +1,15 @@
+#!/bin/bash
+
+res_code=$(curl -LI $WEB_CONTAINER_URL -o /dev/null -w '%{http_code}\n' -s)
+
+if [[ ! "$res_code" = "200" ]]; then
+  echo "Could not connect to app container. Sleeping 60 seconds.";
+  sleep 60;
+  res_code=$(curl -LI $WEB_CONTAINER_URL -o /dev/null -w '%{http_code}\n' -s)
+fi
+
+while [[ ! "$res_code" = "200" ]]; do
+  echo "Could not connect to app container. Sleeping 15 seconds.";
+  sleep 15;
+  res_code=$(curl -LI $WEB_CONTAINER_URL -o /dev/null -w '%{http_code}\n' -s)
+done

@@ -30,6 +30,7 @@ stages:
         command: |
           cd docker
           docker-compose up -d
+          docker-compose ps
 
       - type: shell
         name: Test SimRep

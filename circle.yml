@@ -30,7 +30,14 @@ stages:
         command: |
           cd docker
           docker-compose up -d
-          docker-compose ps
+          sleep 30
+          docker-compose logs -t app
+          sleep 30
+          docker-compose logs -t app
+          sleep 30
+          docker-compose logs -t app
+          sleep 30
+          docker-compose logs -t app
 
       - type: shell
         name: Test SimRep

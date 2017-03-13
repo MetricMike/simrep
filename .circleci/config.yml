@@ -1,0 +1,42 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: docker:17.03-git
+      - image: postgres:9.6-alpine
+      - image: redis:3.2-alpine
+      - image: nginx:1.11-alpine
+      - image: metricmike/simrep:1.1.1
+    working_directory: ~/simrep
+    environment:
+      - ENV_FILE: ".ci.env"
+    steps:
+      - checkout
+      - setup_docker_engine
+
+      - run:
+          name: Report On Environment
+          command: |
+            pwd
+            docker --version
+            docker-compose --version
+
+      - run:
+          name: Build SimRep
+          command: |
+            cd docker
+            docker-compose up -d
+            sleep 60
+            docker-compose logs -t app
+            sleep 60
+            docker-compose logs -t app
+            sleep 60
+            docker-compose logs -t app
+
+      - run:
+          name: Test SimRep
+          command: |
+            cd docker
+            docker-compose run -e RAILS_ENV=test app bash ./bin/start_test
+            docker-compose run -e RAILS_ENV=test app codeclimate-test-reporter

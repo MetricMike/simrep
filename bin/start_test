@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# This should transition to db:test:prepare eventually but I'm still dependent on seeds
-bundle exec rails db:setup
-
 ./bin/connect_app
 
 echo "Connected. Starting tests."

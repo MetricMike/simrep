@@ -2,10 +2,16 @@
 
 bundle check || bundle install
 
+# This should transition to db:test:prepare eventually but I'm still dependent on seeds
+if [ "$RAILS_ENV" = "test" ]
+then
+  bundle exec rails db:setup
+fi
+
 if [ "$RAILS_ENV" = "production" ]
 then
-  bundle exec rake assets:clean
-  bundle exec rake assets:precompile
+  bundle exec rails assets:clean
+  bundle exec rails assets:precompile
 fi
 
 bundle exec puma -C config/puma.rb

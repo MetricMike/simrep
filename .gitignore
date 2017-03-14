@@ -10,7 +10,8 @@
 
 # Ignore all logfiles, tempfiles, and environment
 /log/*.log
-/tmp
+/tmp/*
+!/tmp/.keep
 /docker/.simrep.env
 /docker/url
 .pry_history

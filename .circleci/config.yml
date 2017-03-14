@@ -13,13 +13,15 @@ jobs:
       - ENV_FILE: ".ci.env"
     steps:
       - checkout
+
       - setup_docker_engine
 
       - run:
           name: Prep Environment
           command: |
-            apk --update --upgrade add py-pip
+            apk --update add py-pip
             pip install docker-compose
+            docker --version
             docker-compose --version
 
       - run:

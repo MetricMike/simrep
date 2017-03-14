@@ -89,7 +89,7 @@ gem 'redis-rails'
 gem 'redis-rack-cache'
 
 #PERF (only active on MTOWER)
-gem 'rack-mini-profiler'
+gem 'rack-mini-profiler', require: false
 gem 'memory_profiler' # For memory profiling (requires Ruby MRI 2.1+)
 # For call-stack profiling flamegraphs (requires Ruby MRI 2.0.0+)
 gem 'flamegraph'

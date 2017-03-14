@@ -1,34 +1,43 @@
 version: 2
-
 jobs:
   build:
-    docker:
-      - image: docker:17.03-git
-      - image: postgres:9.6-alpine
-      - image: redis:3.2-alpine
-      - image: nginx:1.11-alpine
-      - image: metricmike/simrep:1.1.1
-    working_directory: ~/simrep
+    machine:
+      enabled: true
+    workDir: ~/simrep
     environment:
       - ENV_FILE: ".ci.env"
     steps:
       - checkout
 
-      - setup_docker_engine
-
       - run:
-          name: Prep Environment
+          name: Prep VM (PG Off, Docker Updates)
           command: |
-            apk --update add py-pip
+            sudo service postgresql stop
+            sudo apt-get update
+            sudo apt-get -y install docker-engine
             pip install docker-compose
             docker --version
             docker-compose --version
+
+      - run:
+          name: Login to Docker Hub and Pull
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker pull metricmike/simrep:1.1.1
 
       - run:
           name: Build SimRep
           command: |
             cd docker
             docker-compose up -d
+            sleep 60
+            docker-compose logs -t app
+            sleep 60
+            docker-compose logs -t app
+            sleep 60
+            docker-compose logs -t app
+            sleep 60
+            docker-compose logs -t app
 
       - run:
           name: Test SimRep

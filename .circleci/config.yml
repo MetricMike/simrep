@@ -30,14 +30,7 @@ jobs:
           command: |
             cd docker
             docker-compose up -d
-            sleep 60
-            docker-compose logs -t app
-            sleep 60
-            docker-compose logs -t app
-            sleep 60
-            docker-compose logs -t app
-            sleep 60
-            docker-compose logs -t app
+            docker-compose logs -tf app
 
       - run:
           name: Test SimRep

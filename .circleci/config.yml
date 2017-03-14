@@ -3,7 +3,7 @@ jobs:
   build:
     machine:
       enabled: true
-    workDir: ~/simrep
+    workDir: ~/simrep/docker
     environment:
       - ENV_FILE: ".ci.env"
     steps:
@@ -31,7 +31,6 @@ jobs:
       - run:
           name: Build SimRep
           command: |
-            cd docker
             docker-compose up -d
 
       # - save_cache:
@@ -41,11 +40,11 @@ jobs:
 
       - run:
           name: "I say, 'Hey, what's going on?!'"
-          command: docker-compose logs -tf app
+          command: |
+            docker-compose logs -tf app
 
       - run:
           name: Test SimRep
           command: |
-            cd docker
             docker-compose run app bash ./bin/start_test
             docker-compose run app codeclimate-test-reporter

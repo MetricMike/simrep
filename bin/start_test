@@ -4,5 +4,6 @@
 
 echo "Connected. Starting tests."
 
-bundle exec rails db:test:prepare
+# This should transition to db:test:prepare eventually but I'm still dependent on seeds
+bundle exec rails db:setup
 bundle exec rspec spec/

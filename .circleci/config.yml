@@ -25,12 +25,23 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker pull metricmike/simrep:1.1.1
 
+      # - restore_cache:
+      #     key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+
       - run:
           name: Build SimRep
           command: |
             cd docker
             docker-compose up -d
-            docker-compose logs -tf app
+
+      # - save_cache:
+      #     key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+      #     paths:
+      #       - vendor/bundle
+
+      - run:
+          name: "I say, 'Hey, what's going on?!'"
+          command: docker-compose logs -tf app
 
       - run:
           name: Test SimRep

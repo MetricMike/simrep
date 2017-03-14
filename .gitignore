@@ -11,7 +11,9 @@
 # Ignore all logfiles, tempfiles, and environment
 /log/*.log
 /tmp/*
+/tmp/miniprofiler/*
 !/tmp/.keep
+!/tmp/miniprofiler/.keep
 /docker/.simrep.env
 /docker/url
 .pry_history

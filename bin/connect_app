@@ -1,17 +1,22 @@
 #!/bin/bash
 
-res_code=$(curl -LI $WEB_CONTAINER_URL -o /dev/null -w '%{http_code}\n' -s)
+# Courtesy of https://superuser.com/a/862395
+# Create a new file descriptor 3 that redirects to 1 (STDOUT)
+exec 3>&1
+# Run curl in a separate command, capturing output of -w "%{http_code}" into HTTP_STATUS
+# and sending the content to this command's STDOUT with -o >(cat >&3)
+HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) $WEB_CONTAINER_URL)
 
-if [[ ! "$res_code" = "200" ]]; then
-  echo "Could not connect to app container. Received $res_code. Sleeping 60 seconds.";
+if [[ ! "$HTTP_STATUS" = "200" ]]; then
+  echo "Could not connect to app container. Sleeping 60 seconds.";
   sleep 60;
   echo "Trying to connect to $WEB_CONTAINER_URL".
-  res_code=$(curl -LI $WEB_CONTAINER_URL -o /dev/null -w '%{http_code}\n' -s)
+  HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) $WEB_CONTAINER_URL)
 fi
 
-while [[ ! "$res_code" = "200" ]]; do
-  echo "Could not connect to app container. Received $res_code. Sleeping 15 seconds.";
+while [[ ! "$HTTP_STATUS" = "200" ]]; do
+  echo "Could not connect to app container. Sleeping 15 seconds.";
   sleep 15;
   echo "Trying to connect to $WEB_CONTAINER_URL".
-  res_code=$(curl -LI $WEB_CONTAINER_URL -o /dev/null -w '%{http_code}\n' -s)
+  HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) $WEB_CONTAINER_URL)
 done

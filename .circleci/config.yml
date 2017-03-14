@@ -18,7 +18,7 @@ jobs:
       - run:
           name: Prep Environment
           command: |
-            apk add py2-pip
+            apk --update --upgrade add py-pip
             pip install docker-compose
             docker-compose --version
 

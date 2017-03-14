@@ -33,6 +33,14 @@ jobs:
           command: |
             cd docker
             docker-compose up -d
+            sleep 30
+            docker-compose logs -t app
+            sleep 30
+            docker-compose logs -t app
+            sleep 30
+            docker-compose logs -t app
+            sleep 30
+            docker-compose logs -t app
 
       - save_cache:
           key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}

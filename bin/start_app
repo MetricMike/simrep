@@ -1,11 +1,13 @@
 #!/bin/bash
 
-bundle check || bundle install
 
 # This should transition to db:test:prepare eventually but I'm still dependent on seeds
 if [ "$RAILS_ENV" = "test" ]
 then
+  bundle check || bundle install --deployment
   bundle exec rails db:setup
+else
+  bundle check || bundle install
 fi
 
 if [ "$RAILS_ENV" = "production" ]

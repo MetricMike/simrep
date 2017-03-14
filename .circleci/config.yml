@@ -33,19 +33,12 @@ jobs:
           command: |
             cd docker
             docker-compose up -d
-            sleep 30
-            docker-compose logs -t app
-            sleep 30
-            docker-compose logs -t app
-            sleep 30
-            docker-compose logs -t app
-            sleep 30
-            docker-compose logs -t app
+            docker-compose logs -ft app
 
       - save_cache:
           key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
-            - /usr/local/bundle
+            - vendor/bundle
 
       - run:
           name: Test SimRep

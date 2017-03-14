@@ -36,5 +36,5 @@ jobs:
           name: Test SimRep
           command: |
             cd docker
-            docker-compose run -e RAILS_ENV=test app bash ./bin/start_test
-            docker-compose run -e RAILS_ENV=test app codeclimate-test-reporter
+            docker-compose run app bash ./bin/start_test
+            docker-compose run app codeclimate-test-reporter

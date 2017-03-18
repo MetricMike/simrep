@@ -16,12 +16,6 @@ gem 'high_voltage'
 
 gem 'puma'
 
-# Tracking master for Rails5
-gem 'inherited_resources', github: 'activeadmin/inherited_resources'
-
-# Tracking master for Ruby2.4
-gem 'json', github: 'flori/json', branch: 'v1.8'
-
 # Assets
 gem 'bootstrap', '~> 4.0.0.alpha5'
 

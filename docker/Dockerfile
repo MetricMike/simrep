@@ -25,10 +25,7 @@ RUN \
   chown -R simrep:simrep $APP_HOME
 USER simrep
 
-# Set bundler to use a shared cache
-ENV BUNDLE_GEMFILE=$APP_HOME/Gemfile BUNDLE_JOBS=4
-
-# Expose a volume so that nginx will be able to read in assets in production.
-# VOLUME ["$APP_HOME/public"]
+# Moar bundler
+ENV BUNDLE_JOBS=4
 
 CMD ["bash"]

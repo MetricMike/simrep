@@ -43,14 +43,12 @@ jobs:
       - save_cache:
           key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
-            - "${BUNDLE_PATH}"
+            - /var/www/simrep/vendor/bundle
 
       - run:
           name: Test SimRep
           command: |
+            chmod -R a+rwX
             cd docker
-            whoami
-            ls -lah ..
-            ls -lah ../coverage
             docker-compose run app bash ./bin/start_test
             docker-compose run app codeclimate-test-reporter

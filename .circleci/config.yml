@@ -49,5 +49,8 @@ jobs:
           name: Test SimRep
           command: |
             cd docker
+            whoami
+            ls -lah
+            ls -lah coverage
             docker-compose run app bash ./bin/start_test
             docker-compose run app codeclimate-test-reporter

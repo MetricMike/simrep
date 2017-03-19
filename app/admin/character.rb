@@ -83,7 +83,8 @@ ActiveAdmin.register Character do
     actions
   end
 
-  filter :name
+  filter :user_name, as: :string, label: 'Player Name'
+  filter :name, label: 'Character Name'
   filter :race
   filter :chapter
   filter :culture

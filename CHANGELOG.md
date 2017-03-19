@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
+## [Untagged](#) - 2017-03-19
+### Added 
+- Filter by player name on admin/charactes
+
 ## [2.1.1](v2.1.1) - 2017-03-12
 ### Changed
 - Moar automated cloud testing

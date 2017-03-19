@@ -1,21 +1,22 @@
 version: 2
 jobs:
   build:
-    machine:
-      enabled: true
-    workDir: ~/simrep
+    docker:
+      - image: amidos/dcind
+      - image: postgres:9.6-alpine
+      - image: redis:3.2-alpine
+      - image: nginx:1.11-alpine
+      - image: metricmike/simrep:1.1.1
     environment:
       - ENV_FILE: ".ci.env"
     steps:
       - checkout
 
+      - setup_docker_engine
+
       - run:
-          name: Prep VM (PG Off, Docker Updates)
+          name: Prep Environment
           command: |
-            sudo service postgresql stop
-            sudo apt-get update
-            sudo apt-get -y install docker-engine
-            pip install docker-compose
             docker --version
             docker-compose --version
 
@@ -25,8 +26,8 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker pull metricmike/simrep:1.1.1
 
-      - restore_cache:
-          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+      # - restore_cache:
+      #     key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
 
       - run:
           name: Build SimRep
@@ -40,10 +41,10 @@ jobs:
             docker-compose logs -t app
             sleep 120
 
-      - save_cache:
-          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-          paths:
-            - "${BUNDLE_PATH}"
+      # - save_cache:
+      #     key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+      #     paths:
+      #       - "${BUNDLE_PATH}"
 
       - run:
           name: Test SimRep

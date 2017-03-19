@@ -11,15 +11,17 @@ jobs:
     environment:
       - ENV_FILE: ".ci.env"
     steps:
-      - checkout
-
-      - setup_docker_engine
-
       - run:
           name: Prep Environment
           command: |
+            apk add git
+            git --version
             docker --version
             docker-compose --version
+
+      - checkout
+
+      - setup_docker_engine
 
       - run:
           name: Login to Docker Hub and Pull

@@ -26,7 +26,7 @@ jobs:
             docker pull metricmike/simrep:1.1.1
 
       - restore_cache:
-          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}-v1
+          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}-v2
 
       - run:
           name: Build SimRep
@@ -41,7 +41,7 @@ jobs:
             sleep 120
 
       - save_cache:
-          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}-v1
+          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}-v2
           paths:
             - /var/www/simrep/vendor/bundle
 

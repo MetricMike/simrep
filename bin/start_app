@@ -1,6 +1,11 @@
 #!/bin/bash
 
-bundle check || bundle install
+if [ "$CIRCLECI" = true ]
+then
+  bundle check || bundle install --path vendor/bundle
+else
+  bundle check || bundle install
+fi
 
 # This should transition to db:test:prepare eventually but I'm still dependent on seeds
 if [ "$RAILS_ENV" = "test" ]

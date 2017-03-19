@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Prep Environment
           command: |
-            apk add git
+            apk --update add git
             git --version
             docker --version
             docker-compose --version

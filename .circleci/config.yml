@@ -43,7 +43,7 @@ jobs:
       - save_cache:
           key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
-            - vendor/bundle
+            - "${BUNDLE_PATH}"
 
       - run:
           name: Test SimRep

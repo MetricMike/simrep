@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
   protect_from_forgery with: :exception
-  before_action :check_rack_mini_profiler
+  before_action :check_rack_mini_profiler if ENV['MTOWER'].present?
   before_action :set_paper_trail_whodunnit
 
   def check_rack_mini_profiler

@@ -26,7 +26,7 @@ jobs:
             docker pull metricmike/simrep:1.1.1
 
       - restore_cache:
-          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}-v1
 
       - run:
           name: Build SimRep
@@ -41,14 +41,14 @@ jobs:
             sleep 120
 
       - save_cache:
-          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}-v1
           paths:
             - /var/www/simrep/vendor/bundle
 
       - run:
           name: Test SimRep
           command: |
-            chmod -R a+rwX
+            chmod -R a+rwX .
             cd docker
             docker-compose run app bash ./bin/start_test
             docker-compose run app codeclimate-test-reporter

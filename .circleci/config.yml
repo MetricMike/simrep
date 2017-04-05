@@ -33,12 +33,6 @@ jobs:
           command: |
             cd docker
             docker-compose up -d
-            docker-compose logs -t app
-            sleep 120
-            docker-compose logs -t app
-            sleep 120
-            docker-compose logs -t app
-            sleep 120
 
       - save_cache:
           key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}-v2
@@ -50,5 +44,5 @@ jobs:
           command: |
             chmod -R a+rwX .
             cd docker
-            docker-compose run app bash ./bin/start_test
-            docker-compose run -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN app codeclimate-test-reporter
+            docker-compose run -e RAILS_ENV=test app_development bash ./bin/start_test
+            docker-compose run -e RAILS_ENV=test -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN app_development codeclimate-test-reporter

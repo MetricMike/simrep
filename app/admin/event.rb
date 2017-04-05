@@ -32,8 +32,6 @@ ActiveAdmin.register Event do
   filter :clean_exp
   filter :weekend
 
-  csv_importable :columns => [:campaign, :weekend, :play_exp, :clean_exp]
-
   show do
     attributes_table do
       row :id

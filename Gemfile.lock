@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/activeadmin/activeadmin.git
-  revision: fd0612d9a72d106b5d7855db3751ed8f9ccf0a81
+  revision: 4b49319751b8c58363f46ae1d99e5bb1b7b65c39
   specs:
     activeadmin (1.0.0.pre5)
-      arbre (~> 1.0, >= 1.0.2)
+      arbre (>= 1.1.1)
       bourbon
       coffee-rails
       formtastic (~> 3.1)
@@ -12,7 +12,7 @@ GIT
       jquery-rails
       jquery-ui-rails
       kaminari (>= 0.15, < 2.0)
-      railties (>= 4.0, < 5.1)
+      railties (>= 4.2, < 5.1)
       ransack (~> 1.3)
       sass-rails
       sprockets (< 4.1)
@@ -44,14 +44,10 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    active_admin_csv_import (2.0.0)
-      rails (>= 4.0)
-    active_record_doctor (1.3.0)
-      rails (>= 4.2, < 5.1)
     active_record_query_trace (1.5.4)
     active_record_union (1.2.0)
       activerecord (>= 4.0)
-    activeadmin_addons (0.10.1)
+    activeadmin_addons (0.11.0)
       railties
       select2-rails (~> 3.5.9)
       xdan-datetimepicker-rails (~> 2.5.1)
@@ -69,12 +65,12 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    addressable (2.5.0)
+    addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (7.1.4)
-    autoprefixer-rails (6.7.7)
+    autoprefixer-rails (6.7.7.1)
       execjs
     awesome_print (1.7.0)
     bcrypt (3.1.11)
@@ -87,7 +83,7 @@ GEM
     bootstrap (4.0.0.alpha6)
       autoprefixer-rails (>= 6.0.3)
       sass (>= 3.4.19)
-    bourbon (4.3.3)
+    bourbon (4.3.4)
       sass (~> 3.4)
       thor (~> 0.19)
     builder (3.2.3)
@@ -96,8 +92,8 @@ GEM
       uniform_notifier (~> 1.10.0)
     byebug (9.0.6)
     cocoon (1.2.9)
-    codeclimate-test-reporter (1.0.7)
-      simplecov
+    codeclimate-test-reporter (1.0.8)
+      simplecov (<= 0.13)
     coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
@@ -114,7 +110,7 @@ GEM
     debug_inspector (0.0.2)
     declarative (0.0.9)
     declarative-option (0.1.0)
-    devise (4.2.0)
+    devise (4.2.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 5.1)
@@ -123,6 +119,8 @@ GEM
     diff-lcs (1.3)
     docile (1.1.5)
     erubis (2.7.0)
+    et-orbi (1.0.2)
+      tzinfo
     execjs (2.7.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
@@ -145,13 +143,11 @@ GEM
       ruby-progressbar (~> 1.4)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
-    google-api-client (0.10.1)
-      addressable (~> 2.3)
+    google-api-client (0.11.0)
+      addressable (>= 2.5.1)
       googleauth (~> 0.5)
-      httpclient (~> 2.7)
-      hurley (~> 0.1)
-      memoist (~> 0.11)
-      mime-types (>= 1.6)
+      httpclient (>= 2.8.1, < 3.0)
+      mime-types (>= 3.0)
       representable (~> 3.0)
       retriable (>= 2.0, < 4.0)
     google_drive (2.1.2)
@@ -170,11 +166,9 @@ GEM
       actionpack (>= 4.1, < 5.1)
       activesupport (>= 4.1, < 5.1)
     hashie (3.5.5)
-    heroku_db_restore (0.0.5)
     high_voltage (3.0.0)
     hirb (0.7.3)
     httpclient (2.8.3)
-    hurley (0.2)
     i18n (0.8.1)
     inherited_resources (1.7.0)
       actionpack (>= 3.2, < 5.1)
@@ -188,7 +182,7 @@ GEM
       pry-byebug (~> 3.4)
       pry-coolline (~> 0.2)
       pry-doc (~> 0.6)
-    jquery-rails (4.2.2)
+    jquery-rails (4.3.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
@@ -226,6 +220,10 @@ GEM
     logging (2.2.0)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
+    lograge (0.4.1)
+      actionpack (>= 4, < 5.1)
+      activesupport (>= 4, < 5.1)
+      railties (>= 4, < 5.1)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -251,9 +249,9 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
-    newrelic_rpm (3.18.1.330)
+    newrelic_rpm (4.0.0.332)
     nio4r (2.0.0)
-    nokogiri (1.7.0.1)
+    nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
     oauth2 (1.3.1)
       faraday (>= 0.8, < 0.12)
@@ -261,8 +259,8 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    oj (2.18.2)
-    okcomputer (1.14.1)
+    oj (2.18.5)
+    okcomputer (1.14.2)
     omniauth (1.6.1)
       hashie (>= 3.4.6, < 3.6.0)
       rack (>= 1.6.2, < 3)
@@ -273,7 +271,7 @@ GEM
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
     os (0.9.6)
-    paper_trail (6.0.2)
+    paper_trail (7.0.0)
       activerecord (>= 4.0, < 5.2)
       request_store (~> 1.1)
     paper_trail-globalid (0.2.0)
@@ -298,8 +296,8 @@ GEM
     pry-doc (0.10.0)
       pry (~> 0.9)
       yard (~> 0.9)
-    pry-rails (0.3.5)
-      pry (>= 0.9.10)
+    pry-rails (0.3.6)
+      pry (>= 0.10.4)
     public_suffix (2.0.5)
     puma (3.8.2)
     pundit (1.1.0)
@@ -375,7 +373,7 @@ GEM
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     retriable (3.0.1)
-    rollbar (2.14.0)
+    rollbar (2.14.1)
       multi_json
     rounding (1.0.1)
     rspec-core (3.5.4)
@@ -396,8 +394,8 @@ GEM
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
     ruby-progressbar (1.8.1)
-    rufus-scheduler (3.3.4)
-      tzinfo
+    rufus-scheduler (3.4.0)
+      et-orbi (~> 1.0)
     sass (3.4.23)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -421,7 +419,7 @@ GEM
     selectize-rails (0.12.4)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
-    sidekiq (4.2.9)
+    sidekiq (4.2.10)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
@@ -460,11 +458,11 @@ GEM
     stackprof (0.2.10)
     thor (0.19.4)
     thread_safe (0.3.6)
-    tilt (2.0.6)
-    tzinfo (1.2.2)
+    tilt (2.0.7)
+    tzinfo (1.2.3)
       thread_safe (~> 0.1)
     uber (0.1.0)
-    uglifier (3.1.7)
+    uglifier (3.1.13)
       execjs (>= 0.3.0, < 3)
     unicode_utils (1.4.0)
     uniform_notifier (1.10.0)
@@ -482,8 +480,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_admin_csv_import
-  active_record_doctor
   active_record_query_trace
   active_record_union
   activeadmin!
@@ -494,7 +490,6 @@ DEPENDENCIES
   bullet
   cocoon
   codeclimate-test-reporter
-  coffee-rails
   database_cleaner
   devise
   factory_girl_rails
@@ -503,7 +498,6 @@ DEPENDENCIES
   font-awesome-rails
   fuubar
   google_drive
-  heroku_db_restore
   high_voltage
   jazz_fingers
   jquery-rails
@@ -511,6 +505,7 @@ DEPENDENCIES
   jsonapi-authorization
   jsonapi-resources
   letter_opener_web
+  lograge
   memory_profiler
   money-rails
   newrelic_rpm

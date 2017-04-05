@@ -24,10 +24,6 @@ Rails.application.routes.draw do
     mount PgHero::Engine, at: '/pghero'
   end
 
-  if Rails.env.development?
-    mount LetterOpenerWeb::Engine, at: "/letter_opener"
-  end
-
   namespace :api do
     namespace :v1, defaults: { format: :json } do
       jsonapi_resources :chapters

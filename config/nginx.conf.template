@@ -3,6 +3,7 @@ user nobody nogroup;
 
 pid /run/nginx.pid;
 error_log /var/log/nginx/error.log;
+env APP_URL;
 
 events {
   worker_connections 1024;
@@ -24,24 +25,24 @@ http {
   gzip_proxied any;
   gzip_min_length 500;
   gzip_disable "MSIE [1-6]\.";
-  gzip_types text/plain text/html text/xml text/css
+  gzip_types text/plain text/xml text/css
              text/comma-separated-values
              text/javascript application/x-javascript
              application/atom+xml;
 
   upstream app_server {
-    server app:3000;
+    server $APP_URL;
   }
 
   server {
 
-    listen 8080 default deferred;
+    listen 80 default deferred;
 
     client_max_body_size 4G;
     server_name _;
 
     keepalive_timeout 10;
-    root /var/app/simrep/public;
+    root /var/www/simrep/public;
     try_files $uri/index.html $uri.html $uri @app;
 
 
@@ -54,7 +55,7 @@ http {
 
     error_page 500 502 503 504 /500.html;
     location = /500.html {
-      root /var/app/simrep/public;
+      root /var/www/simrep/public;
     }
   }
 }

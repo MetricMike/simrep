@@ -1,3 +1,5 @@
+require 'faker'
+
 def self.make_fake_chapters
   3.times { Chapter.create(name: Faker::Space.moon, default_xp: 31 + rand(100)) }
   Chapter.create name: "Bastion"
@@ -19,13 +21,15 @@ def self.make_fake_events
     clean_exp: [5, 5, 5, 5, 10].sample)}
 end
 
-def self.make_fake_user(email, admin=false)
+def self.make_fake_user(email, admin=false, michaelfb=false)
   user = User.new(
     name: email[/(\w+)/],
     email: email,
     admin: admin,
     password: email[/(\w+)/],
-    password_confirmation: email[/(\w+)/])
+    password_confirmation: email[/(\w+)/],
+    provider: michaelfb ? 'facebook' : nil,
+    uid: michaelfb ? '2740772609494' : nil)
 
   user.save!
 end
@@ -112,6 +116,8 @@ def self.make_fake_deaths(character)
   }
 end
 
+return if User.count > 0
+
 #Events & Projects
 make_fake_chapters
 make_fake_events
@@ -120,9 +126,10 @@ make_fake_projects
 #Users
 make_fake_user("orphaned@example.com")
 make_fake_user("sterling.archer@isis.gov")
-make_fake_user("malory.archer@isis.gov", true)
 make_fake_user("lana.kane@isis.gov")
 make_fake_user("cyril.figgis@isis.gov")
+make_fake_user("malory.archer@isis.gov", true)
+make_fake_user("michael.weigle@gmail.com", true, true)
 
 #Characters
 [User.first, User.second, User.last].each { |u| make_fake_characters(u) }

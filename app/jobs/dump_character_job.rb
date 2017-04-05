@@ -1,3 +1,5 @@
+require 'google_drive'
+
 class DumpCharacterJob < ApplicationJob
   queue_as :default
 

@@ -10,11 +10,16 @@ end
 # Core Binaries / Engines
 gem 'rails'
 gem 'pg'
+gem 'oj'
 gem 'active_record_union'
 gem 'jsonapi-resources'
 gem 'high_voltage'
-
 gem 'puma'
+
+# Gimme The Cache
+# https://www.youtube.com/watch?v=OADJl-CVDo0
+gem 'redis-rails'
+gem 'redis-rack-cache'
 
 # Assets
 gem 'bootstrap', '~> 4.0.0.alpha5'
@@ -25,7 +30,6 @@ source 'https://rails-assets.org' do
 end
 
 gem 'sassc-rails'
-gem 'coffee-rails'
 gem 'uglifier'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -39,14 +43,6 @@ gem 'omniauth-facebook'
 gem 'pundit'
 gem 'jsonapi-authorization'
 
-# Analytics
-gem 'newrelic_rpm'
-gem 'rollbar'
-gem 'oj'
-gem 'pghero'
-gem 'pg_query'
-gem 'okcomputer'
-
 # Backgrounding
 gem 'sidekiq'
 gem 'sidekiq-cron'
@@ -58,7 +54,7 @@ gem 'paper_trail'
 gem 'paper_trail-globalid'
 
 # PDF Handling
-gem 'google_drive'
+gem 'google_drive', require: false
 
 # Currency handling
 gem 'money-rails'
@@ -70,34 +66,33 @@ gem 'rounding'
 gem 'activeadmin', github: 'activeadmin'
 gem 'cocoon' #needed for associations
 gem 'activeadmin_addons'
-gem 'active_admin_csv_import'
 
 # Console and Error handling
 gem 'jazz_fingers'
 gem 'pry-rails'
 gem 'pry-byebug'
 
-# Gimme The Cache
-# https://www.youtube.com/watch?v=OADJl-CVDo0
-gem 'redis-rails'
-gem 'redis-rack-cache'
+# Analytics
+gem 'lograge'
+gem 'newrelic_rpm'
+gem 'rollbar'
+gem 'pghero'
+gem 'pg_query'
+gem 'okcomputer'
 
-#PERF (only active on MTOWER)
+# PERF (only active on MTOWER)
 gem 'rack-mini-profiler', require: false
-gem 'memory_profiler' # For memory profiling (requires Ruby MRI 2.1+)
-# For call-stack profiling flamegraphs (requires Ruby MRI 2.0.0+)
-gem 'flamegraph'
-gem 'stackprof'     # For Ruby MRI 2.1+
+gem 'memory_profiler',    require: false
+gem 'flamegraph',         require: false
+gem 'stackprof',          require: false
 
 group :development, :test do
-  gem 'heroku_db_restore'
-  gem 'letter_opener_web'
+  gem 'letter_opener_web', require: false
+  gem 'faker', require: false
 
-  gem 'active_record_doctor'
   gem 'bullet'
-  gem 'active_record_query_trace'
+  gem 'active_record_query_trace', require: false
 
-  gem 'faker'
   gem 'better_errors'
   gem 'binding_of_caller'
 end

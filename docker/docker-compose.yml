@@ -7,84 +7,135 @@ services:
       POSTGRES_USER: simrep
       POSTGRES_PASSWORD: simrep
     ports:
-      - '5432:5432'
+      - 5432:5432
     volumes:
       - vol-postgres:/var/lib/postgresql/data
 
   redis-cache:
     image: redis:3.2-alpine
-    command: "redis-server --save '' --appendonly no"
     expose:
-      - '6379'
+      - 6379
+    command: "redis-server --save '' --appendonly no"
 
   redis-session:
     image: redis:3.2-alpine
-    command: "redis-server --save '' --appendonly no"
     expose:
-      - '6379'
+      - 6379
+    command: "redis-server --save '' --appendonly no"
 
   redis-metastore:
     image: redis:3.2-alpine
-    command: "redis-server --save '' --appendonly no"
     expose:
-      - '6379'
+      - 6379
+    command: "redis-server --save '' --appendonly no"
 
   redis-entitystore:
     image: redis:3.2-alpine
-    command: "redis-server --save '' --appendonly no"
     expose:
-      - '6379'
+      - 6379
+    command: "redis-server --save '' --appendonly no"
 
   redis-worker:
     image: redis:3.2-alpine
-    command: "redis-server --save '' --appendonly no"
     expose:
-      - '6379'
+      - 6379
+    command: "redis-server --save '' --appendonly no"
 
-  web:
-    depends_on:
-      - app
-    image: nginx:1.11-alpine
-    command: "nginx -g 'daemon off;'"
-    volumes:
-      - ..:/var/app/simrep
-      - ../config/nginx.conf:/etc/nginx/nginx.conf
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
     ports:
-      - '8080:8080'
-
-  app:
-    depends_on:
-      - postgres
-      - redis-cache
-      - redis-session
-      - redis-metastore
-      - redis-entitystore
-    image: metricmike/simrep:1.1.1
-    command: bash ./bin/start_app
+      - "80:80"
     volumes:
-      - ..:/var/www/simrep
-      - vol-bundle:/usr/local/bundle
-    ports:
-      - '3000:3000'
-    env_file:
-      - "${ENV_FILE:-.simrep.env}"
+      - /var/run/docker.sock:/tmp/docker.sock:ro
 
-  worker:
+  app_development:
     depends_on:
       - postgres
       - redis-worker
     image: metricmike/simrep:1.1.1
-    command: bash ./bin/start_worker
+    environment:
+      RAILS_ENV: "development"
+    env_file: "${ENV_FILE:-.simrep.env}"
+    ports:
+      - 3000:3000
+    tty: true
+    stdin_open: true
     volumes:
       - ..:/var/www/simrep
       - vol-bundle:/usr/local/bundle
-    env_file:
-      - "${ENV_FILE:-.simrep.env}"
+    command: bash ./bin/start_app
+
+  web_development:
+    depends_on:
+      - app_development
+    image: nginx:1.11-alpine
+    environment:
+      APP_URL: "app_development:3000"
+      VIRTUAL_HOST: "dev.simrep.simterra.lan"
+    ports:
+      - "8080:80"
+    volumes:
+      - ..:/var/www/simrep
+      - ../config/nginx.conf.template:/tmp/nginx.conf.template
+    command: sh -c "envsubst '$$APP_URL' < /tmp/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+
+  worker_development:
+    depends_on:
+      - web_development
+    image: metricmike/simrep:1.1.1
+    environment:
+      RAILS_ENV: "development"
+      WEB_CONTAINER_URL: "app_development:3000/okcomputer/all"
+    env_file: "${ENV_FILE:-.simrep.env}"
+    volumes:
+      - ..:/var/www/simrep
+      - vol-bundle:/usr/local/bundle
+    command: bash ./bin/start_worker
+
+  app_production:
+    depends_on:
+      - postgres
+      - redis-worker
+    image: metricmike/simrep:1.1.1
+    environment:
+      RAILS_ENV: "production"
+    env_file: "${ENV_FILE:-.simrep.env}"
+    ports:
+      - 3001:3000
+    volumes:
+      - ..:/var/www/simrep
+      - vol-bundle:/usr/local/bundle
+    command: bash ./bin/start_app
+
+  web_production:
+    depends_on:
+      - app_production
+    image: nginx:1.11-alpine
+    environment:
+      APP_URL: "app_production:3000"
+      VIRTUAL_HOST: "simrep.simterra.lan"
+    ports:
+      - "8081:80"
+    volumes:
+      - ..:/var/www/simrep
+      - ../config/nginx.conf.template:/tmp/nginx.conf.template
+    command: sh -c "envsubst '$$APP_URL' < /tmp/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+
+  worker_production:
+    depends_on:
+      - web_production
+    image: metricmike/simrep:1.1.1
+    environment:
+      RAILS_ENV: "production"
+      WEB_CONTAINER_URL: "app_production:3000/okcomputer/all"
+    env_file: "${ENV_FILE:-.simrep.env}"
+    volumes:
+      - ..:/var/www/simrep
+      - vol-bundle:/usr/local/bundle
+    command: bash ./bin/start_worker
 
   athena:
     image: arachnysdocker/athenapdf-service
-    ports:
-      - "8081:8081"
     environment:
       GIN_MODE: "debug"
       WEAVER_AUTH_KEY: "arachnys-weaver"
@@ -93,6 +144,8 @@ services:
       WEAVER_MAX_CONVERSION_QUEUE: "50"
       WEAVER_WORKER_TIMEOUT: "90"
       WEAVER_CONVERSION_FALLBACK: "false"
+    ports:
+      - 8888:8888
 
 volumes:
   vol-postgres:

@@ -2,8 +2,6 @@ ActiveAdmin.register BankTransaction do
   menu false
   belongs_to :bank_account, optional: true
 
-  csv_importable :columns => [:from_account_id, :to_account_id, :funds_cents, :funds_currency, :memo]
-
   index do
     selectable_column
     column :id

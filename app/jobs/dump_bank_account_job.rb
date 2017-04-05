@@ -1,3 +1,5 @@
+require 'google_drive'
+
 class DumpBankAccountJob < ApplicationJob
   queue_as :default
 

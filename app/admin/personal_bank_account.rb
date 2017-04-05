@@ -1,8 +1,6 @@
 ActiveAdmin.register PersonalBankAccount do
   menu false
 
-  csv_importable :columns => [:owner_id, :balance_cents, :balance_currency]
-
   action_item :view, only: [:show, :edit] do
     link_to 'View on Site', bank_account_path(bank_account)
   end

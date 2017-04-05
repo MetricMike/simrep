@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# Usage info
+show_help() {
+cat << EOF
+Usage: ${0##*/} [-hcdp] [FILE]...
+Run pg_restore commands for dev and production dbs from a
+provided .dump file. Optionally pull from Heroku first.
+FILE defaults to "latest.dump" if not provided.
+
+    -h          display this help and exit
+    -c          capture/download backup from Heroku and
+                overwrites FILE. Requires a git
+                heroku remote and authenticated session
+    -d          restore development db
+    -p          restore production db
+EOF
+}
+
+capture=false
+development=false
+production=false
+
+OPTIND=1
+while getopts hcdp opt; do
+    case $opt in
+        h)
+            show_help
+            exit 0
+            ;;
+        c)  capture=true
+            ;;
+        d)  development=true
+            ;;
+        p)  production=true
+            ;;
+        *)
+            show_help >&2
+            exit 1
+            ;;
+    esac
+done
+shift "$((OPTIND-1))" # Shift off the options and optional --.
+
+# Everything that's left in "$@" is a non-option.  In our case, a FILE to process.
+FILE=${@:-'latest.dump'}
+
+if [ "$capture" ]
+then
+  heroku pg:backups:capture
+  heroku pg:backups:download -o "$FILE"
+fi
+
+if [ "$development" ]
+then
+  echo "restoring development"
+  PGPASSWORD=simrep pg_restore --verbose --clean --no-acl --no-owner -h localhost -U simrep -d simrep_development latest.dump
+fi
+
+if [ "$production" ]
+then
+  echo "restoring production"
+  PGPASSWORD=simrep pg_restore --verbose --clean --no-acl --no-owner -h localhost -U simrep -d simrep_production latest.dump
+fi

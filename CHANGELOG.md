@@ -3,9 +3,37 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
-## [Untagged](#) - 2017-03-19
+## [Untagged](#)
+### Added
+- !
+
+## [2.2.0](v2.2.0) - 2017-04-04
 ### Added 
-- Filter by player name on admin/charactes
+- Filter by player name on admin/characters
+- Compose runs dev and production at the same time
+- Script for syncing heroku db to mtower db (I only do this at events and
+  I forget the steps every time, adding 10 minutes and panic every check-in)
+- Nginx reverse proxy for pretty urls (simrep.simterra.lan vs http://localhost:3000)
+- Nginx web server for faster static file serving
+- Longer timeouts for dev requests (from 1min->5min) for debugging
+- Lograge for prettier logs
+- Use cookies for SessionStore in Dev (less redis instances needed)
+- Add michael's FB UID to seeds.rb so I don't have to enter 5 stupid commands to "login-with-one-click"
+- Moar automated cloud testing with circleci (is actually broken as of this version)
+
+### Changed
+- Prefix background jobs by environment
+- Reorganized Gemfile (less global requires, moar speed)
+- Adjusted bin/start_app (moar db automation)
+- Cleaned up application.rb and environment files (logging, comments)
+- Return early from seeds.rb if DB isn't empty.
+- Cleaned up docker-compose.yml and .env files
+- Fancier footer
+
+### Removed
+- Removed active\_admin\_csv\_importable
+- I don't have a staging environment, so I don't need a staging db URL
+- LetterOpenerWeb, I don't have any mailers
 
 ## [2.1.1](v2.1.1) - 2017-03-12
 ### Changed

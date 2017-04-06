@@ -4,8 +4,6 @@ jobs:
     machine:
       enabled: true
     workDir: ~/simrep
-    environment:
-      - ENV_FILE: ".ci.env"
     steps:
       - checkout
 
@@ -31,7 +29,7 @@ jobs:
       - run:
           name: Build SimRep
           command: |
-            cd docker
+            cd .circleci
             docker-compose up -d
 
       - save_cache:
@@ -43,6 +41,6 @@ jobs:
           name: Test SimRep
           command: |
             chmod -R a+rwX .
-            cd docker
-            docker-compose run -e RAILS_ENV=test app_development bash ./bin/start_test
-            docker-compose run -e RAILS_ENV=test -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN app_development codeclimate-test-reporter
+            cd .circleci
+            docker-compose run app_test bash ./bin/start_test
+            docker-compose run -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN app_test codeclimate-test-reporter

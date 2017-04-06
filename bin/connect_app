@@ -5,6 +5,7 @@
 exec 3>&1
 # Run curl in a separate command, capturing output of -w "%{http_code}" into HTTP_STATUS
 # and sending the content to this command's STDOUT with -o >(cat >&3)
+echo "Trying to connect to $WEB_CONTAINER_URL".
 HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) $WEB_CONTAINER_URL)
 
 if [[ ! "$HTTP_STATUS" = "200" ]]; then

@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_USER: simrep
+      POSTGRES_PASSWORD: simrep
+    ports:
+      - 5432:5432
+    volumes:
+      - vol-postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis:3.2-alpine
+    expose:
+      - 6379
+    command: "redis-server --save '' --appendonly no"
+
+  app_test:
+    depends_on:
+      - postgres
+      - redis
+    image: metricmike/simrep:1.1.1
+    environment:
+      WEB_CONTAINER_URL: "web_test/okcomputer/all"
+    env_file: .test.env
+    ports:
+      - 3000:3000
+    volumes:
+      - ..:/var/www/simrep
+      - vol-bundle:/usr/local/bundle
+    command: bash ./bin/start_app
+
+  web_test:
+    depends_on:
+      - app_test
+    image: nginx:1.11-alpine
+    environment:
+      APP_URL: "app_test:3000"
+    ports:
+      - "80:80"
+    volumes:
+      - ..:/var/www/simrep
+      - ../config/nginx.conf.template:/tmp/nginx.conf.template
+    command: sh -c "envsubst '$$APP_URL' < /tmp/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+
+  worker_test:
+    depends_on:
+      - web_test
+    image: metricmike/simrep:1.1.1
+    environment:
+      WEB_CONTAINER_URL: "app_test:3000/okcomputer/all"
+    env_file: .test.env
+    volumes:
+      - ..:/var/www/simrep
+      - vol-bundle:/usr/local/bundle
+    command: bash ./bin/start_worker
+
+  athena:
+    image: arachnysdocker/athenapdf-service
+    environment:
+      GIN_MODE: "debug"
+      WEAVER_AUTH_KEY: "arachnys-weaver"
+      WEAVER_ATHENA_CMD: "athenapdf -S"
+      WEAVER_MAX_WORKERS: "10"
+      WEAVER_MAX_CONVERSION_QUEUE: "50"
+      WEAVER_WORKER_TIMEOUT: "90"
+      WEAVER_CONVERSION_FALLBACK: "false"
+    ports:
+      - 8888:8888
+
+volumes:
+  vol-postgres:
+  vol-bundle:

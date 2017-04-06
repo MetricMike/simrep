@@ -55,7 +55,7 @@ services:
     image: metricmike/simrep:1.1.1
     environment:
       RAILS_ENV: "development"
-      WEB_CONTAINER_URL: "app_development:3000/okcomputer/all"
+      WEB_CONTAINER_URL: "web_development/okcomputer/all"
     env_file: "${ENV_FILE:-.simrep.env}"
     ports:
       - 3000:3000
@@ -100,7 +100,7 @@ services:
     image: metricmike/simrep:1.1.1
     environment:
       RAILS_ENV: "production"
-      WEB_CONTAINER_URL: "app_production:3000/okcomputer/all"
+      WEB_CONTAINER_URL: "web_production/okcomputer/all"
     env_file: "${ENV_FILE:-.simrep.env}"
     ports:
       - 3001:3000

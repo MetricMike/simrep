@@ -3,9 +3,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
-## [Untagged](#)
+## [Untagged](#) - 2017-04-09
 ### Added
 - !
+
+### Changed
+- Added lambdas to the admin pages, which removes ActiveAdmin trying to read the DB on load, which solves a race condition when recreating the app from scratch.
+
+### Removed
+- Lots of duplication (BankAccounts have largely been consolidated on the admin pages)
 
 ## [2.2.0](v2.2.0) - 2017-04-04
 ### Added 

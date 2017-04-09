@@ -1,6 +1,9 @@
 ActiveAdmin.register BankAccount do
   menu false
 
+  scope("Personal") { |scope| scope.personal_accounts }
+  scope("Group") { |scope| scope.group_accounts }
+
   action_item :view, only: [:show, :edit] do
     if resource.type == 'PersonalBankAccount'
       link_to 'View on Site', bank_account_path
@@ -14,7 +17,11 @@ ActiveAdmin.register BankAccount do
     end
     column :type
     column :name do |ba|
-      ba.name
+      if ba.type == 'PersonalBankAccount'
+        link_to ba.name, admin_character_path(ba.owner_id)
+      else
+        link_to ba.name, admin_group_path(ba.group_id)
+      end
     end
     column :chapter
     column :balance_cents
@@ -24,11 +31,10 @@ ActiveAdmin.register BankAccount do
     actions
   end
 
-  filter :type
-  filter :name
+  filter :chapter_name, as: :string
+  filter :name #, as: :string
   filter :balance_cents
   filter :balance_currency
-  filter :chapter_name
 
   show do
     attributes_table do
@@ -41,7 +47,7 @@ ActiveAdmin.register BankAccount do
         tab "Incoming" do
           table_for bank_account.incoming_transactions.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.owner.name : "Cash Deposit" }
+            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.name : "Cash Deposit" }
             column :memo, sortable: false
             column(:funds, sortable: :funds_cents) { |t| humanized_money_with_symbol t.funds }
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -51,7 +57,7 @@ ActiveAdmin.register BankAccount do
         tab "Outgoing" do
           table_for bank_account.outgoing_transactions.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.owner.name : "Cash Withdrawal" }
+            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.name : "Cash Withdrawal" }
             column :memo, sortable: false
             column(:funds, sortable: :funds_cents) { |t| humanized_money_with_symbol t.funds }
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -65,7 +71,7 @@ ActiveAdmin.register BankAccount do
         tab "Incoming" do
           table_for bank_account.incoming_items.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.owner.name : "Deposit" }
+            column(:source, sortable: :from_account_id) { |t| t.from_account ? t.from_account.name : "Deposit" }
             column :item_description, sortable: false
             column :item_count, sortable: false
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -74,7 +80,7 @@ ActiveAdmin.register BankAccount do
         tab "Outgoing" do
           table_for bank_account.outgoing_items.order(params[:order].to_s.gsub(/(.*)(_)(.*)/, '\1 \3')), sortable: true do
             column :id
-            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.owner.name : "Withdrawal" }
+            column(:destination, sortable: :to_account_id) { |t| t.to_account ? t.to_account.name : "Withdrawal" }
             column :item_description, sortable: false
             column :item_count, sortable: false
             column(:date, sortable: :updated_at) { |t| t.updated_at }
@@ -129,19 +135,5 @@ ActiveAdmin.register BankAccount do
   end
 
   sidebar :versionate, :partial => "admin/shared/version", :only => :show
-
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if resource.something?
-#   permitted
-# end
-
 
 end

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  ActiveAdmin.routes(self) rescue ActiveAdmin::DatabaseHitDuringLoad
+  ActiveAdmin.routes(self) # rescue ActiveAdmin::DatabaseHitDuringLoad
 
   devise_for :users, controllers: { sessions:           'users/sessions',
                                     omniauth_callbacks: 'users/omniauth_callbacks' }

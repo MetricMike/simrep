@@ -64,6 +64,7 @@ gem 'rounding'
 
 # ActiveAdmin and Friends
 gem 'activeadmin', github: 'activeadmin'
+gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'cocoon' #needed for associations
 gem 'activeadmin_addons'
 

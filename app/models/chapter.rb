@@ -6,4 +6,15 @@ class Chapter < ApplicationRecord
   def default_skills
     Character.skill_points_for_experience(default_xp)
   end
+
+  def currencies
+    case name
+    when "Bastion"
+      [Money::Currency.find(:vmk), Money::Currency.find(:sgd)]
+    when "Holurheim"
+      [Money::Currency.find(:hkr)]
+    else
+      []
+    end
+  end
 end

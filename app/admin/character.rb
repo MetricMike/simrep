@@ -16,12 +16,12 @@ ActiveAdmin.register Character do
     column("Unspent TUs", humanize_name: false) { |c| c.unused_talents }
   end
 
-  batch_action :attend_event, form: {
-    event:               Event.newest.limit(20).map { |e| [e.display_name, e.id] },
-    paid:                :checkbox,
-    cleaned:             :checkbox,
-    check_clean_coupon:  :checkbox,
-    override:            :checkbox
+  batch_action :attend_event, form: -> {
+    { event:                Event.newest.for_form,
+      paid:                 :checkbox,
+      cleaned:              :checkbox,
+      check_clean_coupon:   :checkbox,
+      override:             :checkbox }
     } do |ids, inputs|
       batch_action_collection.find(ids).each do |character|
         character.attend_event(inputs[:event], inputs[:paid], inputs[:cleaned], inputs[:check_clean_coupon], inputs[:override])
@@ -29,11 +29,11 @@ ActiveAdmin.register Character do
       redirect_to collection_path, notice: [ids, inputs].to_s
   end
 
-  batch_action :kill, form: {
-    description:  :text,
-    physical:     :text,
-    roleplay:     :text,
-    weekend:      Event.newest,
+  batch_action :kill, form: -> {
+    { description:  :text,
+      physical:     :text,
+      roleplay:     :text,
+      weekend:      Event.newest.for_form }
     } do |ids, inputs|
       batch_action_collection.find(ids).each do |character|
         character.deaths.create(inputs)
@@ -78,7 +78,7 @@ ActiveAdmin.register Character do
     column :unused_talents
     column "Bank Account", :bank_account do |c|
       link_to humanized_money_with_symbol(c.bank_accounts.first.balance),
-        admin_personal_bank_account_path(c.bank_accounts.first)
+        admin_bank_account_path(c.bank_accounts.first)
     end
     actions
   end
@@ -226,7 +226,7 @@ ActiveAdmin.register Character do
     h3 "Chapter | Current Balance"
     ul do
       resource.bank_accounts.each do |b|
-        li a "#{b.chapter.name} | #{humanized_money_with_symbol b.balance}", href: admin_personal_bank_account_path(b)
+        li a "#{b.chapter.name} | #{humanized_money_with_symbol b.balance}", href: admin_bank_account_path(b)
       end
     end
   end

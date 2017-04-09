@@ -21,14 +21,13 @@ class BankAccount < ApplicationRecord
     line_of_credit_currency = currency
   end
 
-  def name
-    ""
-  end
+  def self.inherited(base)
+    super
 
-  AVAIL_CURRENCIES = {
-    Chapter.find_by(name: "Bastion")    => [Money::Currency.find(:vmk), Money::Currency.find(:sgd)],
-    Chapter.find_by(name: "Holurheim")  => [Money::Currency.find(:hkr)]
-  }
+    def base.model_name
+      superclass.model_name
+    end
+  end
 
   def not_my_first_account
     return false if self.type == "GroupBankAccount"
@@ -36,7 +35,7 @@ class BankAccount < ApplicationRecord
   end
 
   def currencies
-    @currencies ||= AVAIL_CURRENCIES[chapter]
+    @currencies ||= chapter.currencies
   end
 
   def does_not_exceed_credit

@@ -16,7 +16,7 @@ then
   bundle exec rails db:test:prepare
 elif [ "$RAILS_ENV" = "production" ]
 then
-  bundle exec rails db:migrate 2>/dev/null || bundle exec rails db:schema:load
+  bundle exec rails db:migrate 2>/dev/null || ( bundle exec rails db:create && bundle exec rails db:schema:load )
   bundle exec rails assets:precompile
   bundle exec rails assets:clean
 fi

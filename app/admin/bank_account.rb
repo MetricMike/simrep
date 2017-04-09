@@ -114,26 +114,4 @@ ActiveAdmin.register BankAccount do
       f.action :submit, label: "Add Item"
     end
   end
-
-  member_action :history do
-    @bank_account = BankAccount.find(params[:id])
-    @versions = @bank_account.versions
-    render "admin/shared/history"
-  end
-
-  action_item :history, only: :show do
-    link_to "Version History", history_admin_bank_account_path(resource)
-  end
-
-  controller do
-    def show
-      @bank_account = BankAccount.includes(versions: :item).find(params[:id])
-      @versions = @bank_account.versions
-      @bank_account = @bank_account.versions[params[:version].to_i].reify if params[:version]
-      show!
-    end
-  end
-
-  sidebar :versionate, :partial => "admin/shared/version", :only => :show
-
 end

@@ -45,16 +45,6 @@ ActiveAdmin.register Character do
     link_to 'View on Site', character_path(character)
   end
 
-  member_action :history do
-    @character = Character.find(params[:id])
-    @versions = @character.versions
-    render "admin/shared/history"
-  end
-
-  action_item :history, only: :show do
-    link_to "Version History", history_admin_character_path(resource)
-  end
-
   index do
     selectable_column
     column :id do |c|
@@ -220,8 +210,6 @@ ActiveAdmin.register Character do
     end
   end
 
-  sidebar :versionate, :partial => "admin/shared/version", :only => :show
-
   sidebar :personal_bank_account, only: :show do
     h3 "Chapter | Current Balance"
     ul do
@@ -232,7 +220,6 @@ ActiveAdmin.register Character do
   end
 
   controller do
-
     def new
       resource = Character.new(params[:character]) if params[:character]
       new!
@@ -250,13 +237,6 @@ ActiveAdmin.register Character do
       resource = Character.includes({character_events: :event}, :talents, :deaths, {project_contributions: :project})
                           .find(params[:id])
       edit!
-    end
-
-    def show
-      @character = Character.includes(:bank_accounts).find(params[:id])
-      @versions = @character.versions
-      @character = @character.versions[params[:version].to_i].reify if params[:version]
-      show!
     end
   end
 end

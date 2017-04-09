@@ -55,6 +55,9 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_admin_versioning (0.2.1)
+      activeadmin (>= 1.0.0.pre4)
+      paper_trail (>= 4.2.0)
     active_record_query_trace (1.5.4)
     active_record_union (1.2.0)
       activerecord (>= 4.0)
@@ -485,6 +488,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_admin_versioning
   active_record_query_trace
   active_record_union
   activeadmin!

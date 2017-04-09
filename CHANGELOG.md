@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 - Lots of duplication (BankAccounts have largely been consolidated on the admin pages)
+- Consolidated admin versions
 
 ## [2.2.0](v2.2.0) - 2017-04-04
 ### Added 

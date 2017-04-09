@@ -3,10 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
-## [Untagged](#) - 2017-04-09
+## [Unreleased](#) - 2017-04-09
 ### Added
 - !
 
+## [2.2.1](v2.2.1) - 2017-04-09
 ### Changed
 - Added lambdas to the admin pages, which removes ActiveAdmin trying to read the DB on load, which solves a race condition when recreating the app from scratch.
 

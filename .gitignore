@@ -18,10 +18,12 @@
 /docker/url
 /docker/.simrep.env
 .pry_history
+config/simrep-google-serviceaccount.json
 
 # Ignore rspec states and coverage
 /coverage/*
 /spec/examples.txt
+coverage/
 
 # But keep directory structure
 !/coverage/.keep

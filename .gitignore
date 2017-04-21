@@ -14,9 +14,11 @@
 /*.env
 /**/*.env
 .pry_history
+config/simrep-google-serviceaccount.json
 
 # Ignore rspec states
 /spec/examples.txt
+coverage/
 
 # Ignore local copies of production assets
 /*.dump

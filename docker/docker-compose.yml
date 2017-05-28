@@ -74,7 +74,7 @@ services:
       APP_URL: "app_development:3000"
       VIRTUAL_HOST: "dev.simrep.simterra.lan"
     ports:
-      - "8080:80"
+      - "8081:80"
     volumes:
       - ..:/var/www/simrep
       - ../config/nginx.conf.template:/tmp/nginx.conf.template
@@ -117,7 +117,7 @@ services:
       APP_URL: "app_production:3000"
       VIRTUAL_HOST: "simrep.simterra.lan"
     ports:
-      - "8081:80"
+      - "8082:80"
     volumes:
       - ..:/var/www/simrep
       - ../config/nginx.conf.template:/tmp/nginx.conf.template
@@ -147,7 +147,7 @@ services:
       WEAVER_WORKER_TIMEOUT: "90"
       WEAVER_CONVERSION_FALLBACK: "false"
     ports:
-      - 8888:8888
+      - 8080:8080
 
 volumes:
   vol-postgres:

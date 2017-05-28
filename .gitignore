@@ -8,21 +8,33 @@
 /.bundle
 /vendor/bundle
 
-# Ignore all logfiles, tempfiles, and environment
+# Ignore all logfiles, tempfiles
 /log/*.log
-/tmp
-/*.env
-/**/*.env
+/tmp/*
+/tmp/miniprofiler/*
+
+# Ignore secrets and environment
+/config/simrep-google-serviceaccount.json
+/docker/url
+/docker/.simrep.env
 .pry_history
 config/simrep-google-serviceaccount.json
 
-# Ignore rspec states
+# Ignore rspec states and coverage
+/coverage/*
 /spec/examples.txt
 coverage/
+
+# But keep directory structure
+!/coverage/.keep
+!/tmp/.keep
+!/tmp/miniprofiler/.keep
+
 
 # Ignore local copies of production assets
 /*.dump
 /**/*.dump
+*.rdb
 /archived-log
 /archived_pdfs
 /pdfs
@@ -31,3 +43,5 @@ coverage/
 # Ignore sublime-text files
 *.sublime-project
 *.sublime-workspace
+
+

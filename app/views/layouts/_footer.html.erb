@@ -1,8 +1,20 @@
-<footer class="footer">
+<footer class='footer'>
   <nav>
     <ul>
-      <li><%= link_to "Facebook", "https://www.facebook.com/SimTerra" %></li>
-      <li><%= mail_to "simterra@googlegroups.com", "Email Us" %></li>
+      <li>
+        <i class='fa fa-facebook'></i>
+        <a href='https://www.facebook.com/SimTerra'>Facebook</a>
+      </li>
+      <li>
+        <i class='fa fa-envelope'></i>
+        <a href='mailto:simterra@googlegroups.com'>Email Staff</a>
+      </li>
+      <li>
+        <i class='fa fa-github'></i>
+        <a href='<%= "https://github.com/MetricMike/simrep/releases/tag/v#{SimRep::Application::Version}" %>'>
+          <%= "Version #{SimRep::Application::Version}" %>
+        </a>
+      </li>
     </ul>
   </nav>
 </footer>

@@ -5,7 +5,6 @@ class ApplicationPolicy
     raise Pundit::NotAuthorizedError, "must be signed in" unless context.user
     @user = context.user
     @character = context.character
-    @chapter = context.chapter
     @record = record
   end
 
@@ -30,12 +29,11 @@ class ApplicationPolicy
   end
 
   class Scope
-    attr_reader :user, :character, :chapter, :scope
+    attr_reader :user, :character, :scope
 
     def initialize(context, scope)
       @user = context.user
       @character = context.character
-      @chapter = context.chapter
       @scope = scope
     end
 

@@ -1,25 +1,18 @@
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
-
-  # I KNOW THIS IS WRONG
-  config.web_console.whitelisted_ips = '0.0.0.0/0'
-
-  # Code is not reloaded between requests.
   config.cache_classes = true
-
-  # Eager load code on boot. This eager loads most of Rails and
-  # your application in memory, allowing both threaded web servers
-  # and those relying on copy on write to perform better.
-  # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
-
-  # Disable serving static files from the `/public` folder by default since
-  # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
-  # Full error reports are disabled and caching is turned on.
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
+
+
   config.consider_all_requests_local       = false
 
+  config.cache_store = :redis_store, ENV['CACHE_URL']
   config.action_controller.perform_caching = true
   config.action_dispatch.rack_cache = {
     metastore: ENV['METASTORE_URL'],
@@ -43,21 +36,11 @@ Rails.application.configure do
     password: ENV["GMAIL_PASSWORD"]
   }
 
-  # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
   config.assets.css_compressor = :sass
 
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
-
-  # Generate digests for assets URLs.
   config.assets.digest = true
-
-  # Set to :debug to see everything in the log.
-  config.log_level = :info
-
-  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
 
   # Send deprecation notices to registered listeners.

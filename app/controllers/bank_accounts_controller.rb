@@ -1,40 +1,30 @@
 class BankAccountsController < ApplicationController
-  before_action :authenticate_user!, except: :all
+  before_action :authenticate_user!, except: :print
 
-  after_action :verify_authorized, :except => [:index, :all]
-  after_action :verify_policy_scoped, :only => :index
+  after_action :verify_authorized, except: [:print, :index]
+  after_action :verify_policy_scoped, only: :index
 
   def index
-    @bank_accounts = policy_scope(PersonalBankAccount)
-    redirect_to bank_account_path(@bank_accounts.first) if @bank_accounts.count == 1
-  end
-
-  def all
-    PersonalBankAccount.find_each do |ba|
-      @bank_account = ba
-      @transactions = @bank_account.transactions
-      @items = @bank_account.items.latest
-      @crafting_points = @bank_account.owner.crafting_points
-      filename = "#{ba.display_name.parameterize} - #{Date.today.to_s.gsub(',','')}"
-      pdf = render_to_string pdf: "#{filename}",
-        template:       "bank_accounts/show.html.erb",
-        grayscale:      true,
-        page_size:      'Letter',
-        header:         { center: 'SimTerra Bank Account' },
-        footer:         { left: "#{ba.display_name}",
-                          right: "Generated At #{Date.today}" }
-      File.open(Rails.root.join('pdfs', 'Bank Accounts', ba.chapter.name.titlecase, "#{filename}.pdf"), 'wb') { |f| f << pdf }
-    end
-    head :ok
+    @personal_bank_accounts = policy_scope(PersonalBankAccount)
+    redirect_to bank_account_path(@personal_bank_accounts.first) if @personal_bank_accounts.count == 1
   end
 
   def show
     @bank_account = PersonalBankAccount.find(params[:id])
     @transactions = @bank_account.transactions
     @items = @bank_account.items.latest
-    @crafting_points = @bank_account.owner.crafting_points
     @bank_account_transaction = @bank_account.outgoing_transactions.build()
     authorize @bank_account
+  end
+
+  def print
+    return unless ENV['MTOWER'].present?
+
+    @bank_account = PersonalBankAccount.find(params[:id])
+    @transactions = @bank_account.transactions.limit(10)
+    @items = @bank_account.incoming_items.latest
+
+    render layout: 'pdf.html.erb'
   end
 
   def new

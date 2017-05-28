@@ -16,19 +16,18 @@ class BankAccount < ApplicationRecord
   validates_presence_of :chapter
 
   before_validation(on: :create) do
-    currency = chapter == Chapter::HOLURHEIM ? :hkr : :vmk
+    currency = chapter == Chapter.find_by(name: "Holurheim") ? :hkr : :vmk
     balance_currency = currency
     line_of_credit_currency = currency
   end
 
-  def name
-    ""
-  end
+  def self.inherited(base)
+    super
 
-  AVAIL_CURRENCIES = {
-    Chapter::BASTION    => [Money::Currency.find(:vmk), Money::Currency.find(:sgd)],
-    Chapter::HOLURHEIM  => [Money::Currency.find(:hkr)]
-  }
+    def base.model_name
+      superclass.model_name
+    end
+  end
 
   def not_my_first_account
     return false if self.type == "GroupBankAccount"
@@ -36,7 +35,7 @@ class BankAccount < ApplicationRecord
   end
 
   def currencies
-    @currencies ||= AVAIL_CURRENCIES[chapter]
+    @currencies ||= chapter.currencies
   end
 
   def does_not_exceed_credit
@@ -46,23 +45,15 @@ class BankAccount < ApplicationRecord
   end
 
   def transactions
-    @transactions ||= outgoing_transactions.union(incoming_transactions)
-                    .includes(from_account: :owner, to_account: :owner)
-                    .latest
-  end
-
-  def last_transaction
-    @transactions.last if @transactions
+    outgoing_transactions.union(incoming_transactions)
+      .includes(from_account: :owner, to_account: :owner)
+      .latest
   end
 
   def items
-    @items ||= outgoing_items.union(incoming_items)
-                .includes(from_account: :owner, to_account: :owner)
-                .latest
-  end
-
-  def last_item
-    @items.last if @items
+    outgoing_items.union(incoming_items)
+      .includes(from_account: :owner, to_account: :owner)
+      .latest
   end
 
   def withdraw(amt, force=false)

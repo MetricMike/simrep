@@ -1,0 +1,46 @@
+version: 2
+jobs:
+  build:
+    machine:
+      enabled: true
+    workDir: ~/simrep
+    steps:
+      - checkout
+
+      - run:
+          name: Prep VM (PG Off, Docker Updates)
+          command: |
+            sudo service postgresql stop
+            sudo apt-get update
+            sudo apt-get -y install docker-engine
+            pip install docker-compose
+            docker --version
+            docker-compose --version
+
+      - run:
+          name: Login to Docker Hub and Pull
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker pull metricmike/simrep:1.1.1
+
+      - restore_cache:
+          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}-v2
+
+      - run:
+          name: Build SimRep
+          command: |
+            cd .circleci
+            docker-compose up -d
+
+      - save_cache:
+          key: dependency-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}-v2
+          paths:
+            - /var/www/simrep/vendor/bundle
+
+      - run:
+          name: Test SimRep
+          command: |
+            chmod -R a+rwX .
+            cd .circleci
+            docker-compose run app_test bash ./bin/start_test
+            docker-compose run -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN app_test codeclimate-test-reporter

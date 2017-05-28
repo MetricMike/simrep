@@ -1,0 +1,8 @@
+---
+# Heroku Settings
+:concurrency: 5
+:timeout: 8
+
+:queues:
+  - <%= "#{ENV['RAILS_ENV']}_default" %>
+  - <%= "#{ENV['RAILS_ENV']}_mailers" %>

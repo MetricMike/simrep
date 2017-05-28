@@ -12,6 +12,10 @@ class Event < ApplicationRecord
   validates :play_exp, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
   validates :clean_exp, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
+  def self.for_form(record_limit=10)
+    limit(record_limit).map { |e| [e.display_name, e.id] }
+  end
+
   def paying_characters
     characters.where(character_events: { paid: true }) - new_characters
   end

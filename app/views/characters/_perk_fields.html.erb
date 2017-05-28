@@ -1,0 +1,6 @@
+<td class="pf col-3"><%= f.input :source, collection: Perk::SOURCES, label: false %></td>
+<td class="pf col-5"><%= f.input :name, collection: Perk::SAMPLE, label: false %></td>
+<td class="pf col-2"><%= f.input :cost, label: false %></td>
+<% if f.object.new_record? or current_user.admin? %>
+  <td class="pf col-2"><%= link_to_remove_association "Remove Perk", f, class: "btn btn-danger"%></td>
+<% end %>

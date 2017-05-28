@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  ActiveAdmin.routes(self) rescue ActiveAdmin::DatabaseHitDuringLoad
+  ActiveAdmin.routes(self) # rescue ActiveAdmin::DatabaseHitDuringLoad
 
   devise_for :users, controllers: { sessions:           'users/sessions',
                                     omniauth_callbacks: 'users/omniauth_callbacks' }
@@ -8,18 +8,25 @@ Rails.application.routes.draw do
     patch '/confirm' => 'confirmations#confirm'
   end
 
-  get '/switch_chapter', to: 'application#switch_chapter', as: :switch_chapter
-
-  resources :characters, except: [:edit, :destroy] do
-    get 'all', on: :collection
+  resources :characters, except: [:edit, :update, :destroy] do
+    get 'print', on: :member
   end
   resources :projects
   resources :bank_accounts, except: [:edit, :destroy] do
-    get 'all', on: :collection
+    get 'print', on: :member
   end
   resources :npc_shifts
 
-  if Rails.env.development?
-    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  if ENV['MTOWER'].present?
+    # authenticate :user, -> (user) { user.admin? } do
+    require 'sidekiq/web'
+    mount Sidekiq::Web, at: '/sidekiq'
+    mount PgHero::Engine, at: '/pghero'
+  end
+
+  namespace :api do
+    namespace :v1, defaults: { format: :json } do
+      jsonapi_resources :chapters
+    end
   end
 end

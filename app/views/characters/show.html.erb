@@ -1,100 +1,219 @@
 <% provide(:title, @character.name) %>
 <%= render "characters/partials/events" %>
-<div class="row" id="actionrow">
-  <%# link_to "Edit Character", edit_character_path(@character), class: 'btn btn-lg btn-primary', disabled: true %>
-  <%# link_to "Retire Character", character_path(@character), confirm: "Are you sure you want to retire #{@character.name}?", method: :delete, class: 'btn btn-sm btn-danger', disabled: true %>
-  <%= link_to "Projects", projects_path, class: 'btn btn-primary' %>
-  <%= link_to "Bank", bank_accounts_path, class: 'btn btn-success' %>
-  <%= link_to "NPC", npc_shifts_path, class: 'btn btn-primary' %>
-  <%= link_to "Print", character_path(@character, format: :pdf), class: 'btn btn-info' %>
-  <%= link_to "Move to #{alt_chapter.name}", character_path(@character, chapter: alt_chapter), method: :patch, class: 'btn btn-danger', confirm: "Moving chapters will cost 1 TU. Are you sure you want to continue?" %>
-</div>
-<div class="row" id="demographics">
-  <div class="col-md-6">
-    Vitals
-    <dl class="dl-horizontal">
-      <dt>Name</dt><dd><%= "#{@character.name}" %></dd>
-      <dt>Race</dt><dd><%= "#{@character.race}" %></dd>
-      <dt>Culture</dt><dd><%= "#{@character.culture}" %></dd>
-      <dt>Experience</dt><dd><%= raw "#{link_to "#{@character.experience} / #{@character.exp_to_next} until next level", "#", data: {toggle: "modal", target: "#eventsModal"}}" %></dd>
-      <dt>Costume</dt><dd><%= "#{@character.costume} (last checked on #{@character.costume_checked})" %></dd>
-      <dt>Starting Willpower</dt><dd><%= "#{@character.calc_willpower}" %></dd>
+<div class="row header justify-content-around align-items-center">
+  <div class="col-3 actions">
+    <ul class="nav flex-column">
+      <div class="row justify-content-around">
+        <li class="col-5 p-2 nav-item">
+          <%= link_to "Projects", projects_path, class: 'btn btn-primary nav-link' %>
+        </li>
+        <li class="col-5 p-2 nav-item">
+          <%= link_to "Bank", bank_accounts_path(@character.primary_bank_account), class: 'btn btn-success nav-link' %>
+        </li>
+      </div>
+      <br/>
+      <div class="row justify-content-around">
+        <li class="col-5 p-2 nav-item">
+          <%= link_to "NPC", npc_shifts_path, class: 'btn btn-info nav-link' %>
+        </li>
+        <li class="col-5 p-2 nav-item">
+          <%= link_to "Print", print_character_path(@character), class: 'btn btn-secondary nav-link' %>
+        </li>
+      </div>
+    </ul>
+  </div>
+  <div class="col-6 demographics">
+    <dl class="row">
+      <dt class="col-3">Name</dt>
+      <dd class="col-9"><%= "#{@character.name}" %></dd>
+
+      <dt class="col-3">Race / Culture</dt>
+      <dd class="col-9"><%= "#{@character.race} / #{@character.culture}" %></dd>
+
+      <dt class="col-3">Experience</dt>
+      <dd class="col-9"><%= link_to "#{@character.experience} / #{@character.exp_to_next} until next level", "#", data: { toggle: "modal", target: "#eventsModal" } %></dd>
+
+      <dt class="col-3">Costume</dt>
+      <dd class="col-9"><%= "#{@character.costume} (last checked on #{@character.costume_checked})" %></dd>
+
+      <dt class="col-3">History</dt>
+      <dd class="col-9"><%= link_to (@character.history_approval ? "official" : "unofficial") + ' history', @character.history_link %></dd>
     </dl>
-  </div>
-  <div class="col-md-6">
-    Birthrights & Origins
-      <table class="table table-condensed table-hover table-responsive">
-      <tr>
-        <th>Source</th>
-        <th>Name</th>
-        <th>Detail</th>
-      </tr>
-      <%= render partial: "characters/partials/origin", collection: @character.origins %>
-    </table>
+    <div class="row col-12">
+      <h5 class="col-6 text-muted">Perm Chance: <%= @character.perm_chance %></h4>
+      <h5 class="col-6 text-muted">Reduces In: <%= @character.perm_counter %> Events</h4>
+    </div>
   </div>
 </div>
-<div class="row" id="deaths">
-  <div class="col-md-12">
-    <%= "Deaths\t|\tPerm Chance: #{@character.perm_chance}\t|Reduces in #{@character.perm_counter} events" %>
-    <table class="table table-condensed table-hover table-responsive">
-      <tr>
-        <th>Description</th>
-        <th>Physical Effect</th>
-        <th>Roleplay Effect</th>
-        <th>Date</th>
-        <th>Affects Perm Chance?</th>
-      </tr>
-      <%= render partial: "characters/partials/death", collection: @character.deaths %>
-    </table>
+<br/>
+<div class="row deaths">
+  <div class="col-12">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#active">Active</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#historical">Historical</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="active">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
+          <thead>
+            <tr class="row col-12">
+              <th class="col-4">Description</th>
+              <th class="col-3">Physical Effect</th>
+              <th class="col-3">Roleplay Effect</th>
+              <th class="col-2">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "characters/partials/death", collection: @character.active_deaths, locals: { historical: false } %>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="historical">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
+          <thead>
+            <tr class="row col-12">
+              <th class="col-4">Description</th>
+              <th class="col-3">Physical Effect</th>
+              <th class="col-3">Roleplay Effect</th>
+              <th class="col-2">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "characters/partials/death", collection: @character.deaths, locals: { historical: true } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 </div>
-<div class="row system">
-  <div class="col-md-4">
-    <%= raw "Backgrounds: #{(link_to (@character.history_approval ? "official" : "unofficial") + ' history', @character.history_link) if @character.history_link}" %>
-    <table class="table table-condensed table-hover table-responsive">
-      <tr>
-        <th>Name</th>
-        <th>Detail</th>
-      </tr>
-      <%= render partial: "characters/partials/background", collection: @character.backgrounds %>
-    </table>
+<br/>
+<div class="row static">
+  <div class="col-12">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#birthrights">Birthrights</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#origins">Origins</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#backgrounds">Backgrounds</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="birthrights">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
+          <thead>
+            <tr class="row col-12">
+              <th class="col-4">Source</th>
+              <th class="col-4">Name</th>
+              <th class="col-4">Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "characters/partials/birthright", collection: @character.birthrights %>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="origins">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
+          <thead>
+            <tr class="row col-12">
+              <th class="col-4">Source</th>
+              <th class="col-4">Name</th>
+              <th class="col-4">Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "characters/partials/origin", collection: @character.origins %>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="backgrounds">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
+          <thead>
+            <tr class="row col-12">
+              <th class="col-4"></th>
+              <th class="col-4">Name</th>
+              <th class="col-4">Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "characters/partials/background", collection: @character.backgrounds %>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
-<div class="row system">
-  <div class="col-md-4" id="skills">
-    Skill Points: <b><%= "#{@character.skill_points_unspent} unused" %></b><%=" / #{@character.skill_points_total} total" %>
-    <table class="table table-condensed table-hover table-responsive">
-      <tr>
-        <th>Source</th>
-        <th>Name</th>
-        <th>Cost</th>
-      </tr>
-      <%= render partial: "characters/partials/skill", collection: @character.skills %>
-    </table>
-  </div>
-  <div class="col-md-4" id="perks">
-    Perk Points: <b><%= "#{@character.perk_points_unspent} unused" %></b><%=" / #{@character.perk_points_total} total" %>
-    <table class="table table-condensed table-hover table-responsive">
-      <tr>
-        <th>Source</th>
-        <th>Name</th>
-        <th>Cost</th>
-      </tr>
-      <%= render partial: "characters/partials/perk", collection: @character.perks %>
-    </table>
-  </div>
-  <div class="col-md-4" id="talents">
-    Talent Points: <b><%= "#{@character.unused_talents} unused"%></b><%=" / #{@character.talent_points_total} total" %>
-    <table class="table table-condensed table-hover table-responsive">
-      <tr>
-        <th>Spec?</th>
-        <th>Rank</th>
-        <th>Group</th>
-        <th>Name</th>
-        <th>Value</th>
-        <th>Investment Limit</th>
-      </tr>
-      <%= render partial: "characters/partials/talent", collection: @character.talents %>
-    </table>
+<br/>
+<div class="row dynamic">
+  <div class="col-12">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#skills">Skills (<%= @character.skill_points_unspent %>)</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#perks">Perks (<%= @character.perk_points_unspent %>)</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#talents">Talents (<%= @character.talent_points_unspent %>)</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="skills">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
+          <thead>
+            <tr class="row col-12">
+              <th class="col-3">Source</th>
+              <th class="col-6">Name</th>
+              <th class="col-3">Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "characters/partials/skill", collection: @character.skills %>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="perks">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
+          <thead>
+            <tr class="row col-12">
+              <th class="col-3">Source</th>
+              <th class="col-6">Name</th>
+              <th class="col-3">Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "characters/partials/perk", collection: @character.perks %>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="talents">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
+          <thead>
+            <tr class="row col-12">
+              <th class="col-1">Spec?</th>
+              <th class="col-2">Rank</th>
+              <th class="col-2">Group</th>
+              <th class="col-4">Name</th>
+              <th class="col-1">Value</th>
+              <th class="col-2">Investment Limit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "characters/partials/talent", collection: @character.talents %>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

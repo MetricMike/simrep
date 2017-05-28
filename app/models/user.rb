@@ -71,7 +71,7 @@ class User < ApplicationRecord
     self.std_retirement_xp_pool > 0 || self.leg_retirement_xp_pool > 0
   end
 
-  def award_retirement_xp
+  def deduct_retirement_xp
     leg_amount = 0 # No more than 20
     std_amount = 0 # No more than 10
 

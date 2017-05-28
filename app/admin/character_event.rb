@@ -84,39 +84,5 @@ ActiveAdmin.register CharacterEvent do
     def scoped_collection
       super.includes :character, :event
     end
-
-    def show
-      @character_event = CharacterEvent.includes(versions: :item).find(params[:id])
-      @versions = @character_event.versions
-      @character_event = @character_event.versions[params[:version].to_i].reify if params[:version]
-      show!
-    end
-
   end
-
-  member_action :history do
-    @character_event = CharacterEvent.find(params[:id])
-    @versions = @character_event.versions
-    render "admin/shared/history"
-  end
-
-  action_item :history, only: :show do
-    link_to "Version History", history_admin_character_event_path(resource)
-  end
-
-  sidebar :versionate, :partial => "admin/shared/version", :only => :show
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # permit_params :list, :of, :attributes, :on, :model
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:permitted, :attributes]
-  #   permitted << :other if resource.something?
-  #   permitted
-  # end
-
-
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160730173543) do
+ActiveRecord::Schema.define(version: 20170117023624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(version: 20160730173543) do
     t.integer  "item_count",       default: 1, null: false
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.index ["from_account_id"], name: "index_bank_items_on_from_account_id", using: :btree
+    t.index ["to_account_id"], name: "index_bank_items_on_to_account_id", using: :btree
   end
 
   create_table "bank_transactions", force: :cascade do |t|
@@ -70,6 +72,18 @@ ActiveRecord::Schema.define(version: 20160730173543) do
     t.boolean  "posted",          default: false, null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.index ["from_account_id"], name: "index_bank_transactions_on_from_account_id", using: :btree
+    t.index ["to_account_id"], name: "index_bank_transactions_on_to_account_id", using: :btree
+  end
+
+  create_table "birthrights", force: :cascade do |t|
+    t.string   "source"
+    t.string   "name"
+    t.string   "detail"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "characters_count", default: 0
+    t.datetime "reviewed_at"
   end
 
   create_table "bonus_experiences", force: :cascade do |t|
@@ -84,9 +98,9 @@ ActiveRecord::Schema.define(version: 20160730173543) do
 
   create_table "chapters", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "default_xp", default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "default_xp", default: 31
   end
 
   create_table "character_backgrounds", force: :cascade do |t|
@@ -96,6 +110,15 @@ ActiveRecord::Schema.define(version: 20160730173543) do
     t.datetime "updated_at",    null: false
     t.index ["background_id"], name: "index_character_backgrounds_on_background_id", using: :btree
     t.index ["character_id"], name: "index_character_backgrounds_on_character_id", using: :btree
+  end
+
+  create_table "character_birthrights", force: :cascade do |t|
+    t.integer  "character_id"
+    t.integer  "birthright_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["birthright_id"], name: "index_character_birthrights_on_birthright_id", using: :btree
+    t.index ["character_id"], name: "index_character_birthrights_on_character_id", using: :btree
   end
 
   create_table "character_events", force: :cascade do |t|
@@ -154,6 +177,7 @@ ActiveRecord::Schema.define(version: 20160730173543) do
     t.integer  "unused_talents",   default: 0
     t.boolean  "retired",          default: false
     t.integer  "chapter_id"
+    t.datetime "uploaded_at"
     t.index ["chapter_id"], name: "index_characters_on_chapter_id", using: :btree
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
@@ -220,22 +244,38 @@ ActiveRecord::Schema.define(version: 20160730173543) do
     t.datetime "updated_at",                          null: false
     t.integer  "bank_transaction_id"
     t.index ["bank_transaction_id"], name: "index_npc_shifts_on_bank_transaction_id", using: :btree
+    t.index ["character_event_id"], name: "index_npc_shifts_on_character_event_id", using: :btree
   end
 
   create_table "origins", force: :cascade do |t|
     t.string   "source"
     t.string   "name"
     t.string   "detail"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "characters_count", default: 0
+    t.datetime "reviewed_at"
   end
 
   create_table "perks", force: :cascade do |t|
     t.string   "source"
     t.string   "name"
     t.integer  "cost"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "characters_count", default: 0
+    t.datetime "reviewed_at"
+  end
+
+  create_table "pghero_query_stats", force: :cascade do |t|
+    t.text     "database"
+    t.text     "user"
+    t.text     "query"
+    t.bigint   "query_hash"
+    t.float    "total_time"
+    t.bigint   "calls"
+    t.datetime "captured_at"
+    t.index ["database", "captured_at"], name: "index_pghero_query_stats_on_database_and_captured_at", using: :btree
   end
 
   create_table "project_contributions", force: :cascade do |t|
@@ -272,8 +312,10 @@ ActiveRecord::Schema.define(version: 20160730173543) do
     t.string   "source"
     t.string   "name"
     t.integer  "cost"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "characters_count", default: 0
+    t.datetime "reviewed_at"
   end
 
   create_table "talents", force: :cascade do |t|
@@ -334,34 +376,24 @@ ActiveRecord::Schema.define(version: 20160730173543) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   end
 
-  add_foreign_key "bank_accounts", "characters", column: "owner_id"
+  add_foreign_key "bank_accounts", "chapters"
   add_foreign_key "bank_accounts", "groups"
   add_foreign_key "bank_items", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_items", "bank_accounts", column: "to_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "to_account_id"
-  add_foreign_key "bonus_experiences", "characters"
   add_foreign_key "character_backgrounds", "backgrounds"
-  add_foreign_key "character_backgrounds", "characters"
-  add_foreign_key "character_events", "characters"
+  add_foreign_key "character_birthrights", "birthrights"
   add_foreign_key "character_events", "events"
-  add_foreign_key "character_origins", "characters"
-  add_foreign_key "character_origins", "origins"
-  add_foreign_key "character_perks", "characters"
-  add_foreign_key "character_perks", "perks"
-  add_foreign_key "character_skills", "characters"
-  add_foreign_key "character_skills", "skills"
+  add_foreign_key "characters", "users"
   add_foreign_key "crafting_points", "characters"
   add_foreign_key "group_memberships", "characters", column: "member_id"
   add_foreign_key "group_memberships", "groups"
   add_foreign_key "npc_shifts", "bank_transactions"
   add_foreign_key "npc_shifts", "character_events"
-  add_foreign_key "project_contributions", "characters"
-  add_foreign_key "project_contributions", "projects"
   add_foreign_key "projects", "characters", column: "leader_id"
   add_foreign_key "referrals", "events", column: "event_claimed_id"
   add_foreign_key "referrals", "users", column: "referred_user_id"
   add_foreign_key "referrals", "users", column: "sponsor_id"
-  add_foreign_key "temporary_effects", "characters"
   add_foreign_key "users", "events", column: "free_cleaning_event_id"
 end

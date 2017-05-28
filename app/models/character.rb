@@ -32,6 +32,7 @@ class Character < ApplicationRecord
 
   has_many :backgrounds, through: :character_backgrounds, inverse_of: :characters, dependent: :destroy
   has_many :origins, through: :character_origins, inverse_of: :characters, dependent: :destroy
+  has_many :birthrights, through: :character_birthrights, inverse_of: :characters, dependent: :destroy
   has_many :skills, through: :character_skills, inverse_of: :characters, dependent: :destroy
   has_many :perks, through: :character_perks, inverse_of: :characters, dependent: :destroy
   has_many :events, through: :character_events, inverse_of: :characters, dependent: :destroy
@@ -40,6 +41,7 @@ class Character < ApplicationRecord
 
   has_many :character_backgrounds, ->{ includes(:background) }, inverse_of: :character, dependent: :destroy
   has_many :character_origins, ->{ includes(:origin) }, inverse_of: :character, dependent: :destroy
+  has_many :character_birthrights, ->{ includes(:birthright) }, inverse_of: :character, dependent: :destroy
   has_many :character_skills, ->{ includes(:skill) }, inverse_of: :character, dependent: :destroy
   has_many :character_perks, ->{ includes(:perk) }, inverse_of: :character, dependent: :destroy
   has_many :character_events, inverse_of: :character, dependent: :destroy
@@ -54,10 +56,10 @@ class Character < ApplicationRecord
   has_many :temporary_effects, inverse_of: :character, dependent: :destroy
   has_many :bonus_experiences, inverse_of: :character, dependent: :destroy
 
-  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_skills,
+  accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_birthrights, :character_skills,
                                 :character_perks, :character_events, :bank_accounts,
                                 :crafting_points, :group_memberships, allow_destroy: true
-  accepts_nested_attributes_for :project_contributions, :talents, :deaths, :origins, :backgrounds,
+  accepts_nested_attributes_for :project_contributions, :talents, :deaths, :birthrights, :origins, :backgrounds,
                                 :events, :skills, :perks, :temporary_effects, :bonus_experiences,
                                 allow_destroy: true
 
@@ -67,20 +69,16 @@ class Character < ApplicationRecord
   validates :costume, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
   validates :unused_talents, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  after_create :extra_xp_for_holurheim
-  after_create :assign_chapter, if: Proc.new { self.chapter.blank? }
+  before_create :assign_chapter, if: Proc.new { self.chapter.blank? }
+  after_create :award_starting_bonus_xp
   after_create :open_bankaccount
 
-  attr_writer :perm_chance, :perm_counter
-
   def assign_chapter
-    update(chapter: Event.where(weekend: 3.days.ago..Time.now).try(:first).try(:chapter))
+    self.chapter = Event.last.try(:chapter)
   end
 
-  def level(with_multiplier=false)
-    @level = EXP_CHART.rindex do |i|
-      (with_multiplier ? self.experience*self.experience_multiplier : self.experience) >= i
-    end
+  def level
+    @level = EXP_CHART.rindex { |i| self.experience >= i }
   end
 
   def exp_to_next
@@ -91,14 +89,10 @@ class Character < ApplicationRecord
     @last_event = self.events.newest.try(:first)
   end
 
-  def first_event
-    @first_event = self.events.oldest.try(:first)
-  end
-
   def experience
     @experience ||= begin
-      pay_xp = living_events.paid_with_xp.pluck('events.play_exp').reduce(0, :+)
-      clean_xp = living_events.cleaned_with_xp.pluck('events.clean_exp').reduce(0, :+)
+      pay_xp = self.character_events.paid_with_xp.pluck('events.play_exp').reduce(0, :+)
+      clean_xp = self.character_events.cleaned_with_xp.pluck('events.clean_exp').reduce(0, :+)
       background_xp = (self.backgrounds.find { |b| b.name.start_with?("Experienced") }) ? 20 : 0
       bonus_xp = (self.bonus_experiences.pluck(:amount).reduce(0, :+))
       BASE_XP + pay_xp + clean_xp + background_xp + bonus_xp
@@ -131,7 +125,7 @@ class Character < ApplicationRecord
     self.deaths.where('description ilike ?', '%PERMED%').try(:last).try(:weekend)
   end
 
-  def skill_points_for_experience(exp=BASE_XP)
+  def self.skill_points_for_experience(exp=BASE_XP)
     SKILL_CHART[ EXP_CHART.rindex{ |i| exp >= i } ]
   end
 
@@ -139,16 +133,18 @@ class Character < ApplicationRecord
     @skill_points_used = self.skills.reduce(0) { |sum, el| sum + el.cost }
   end
 
-  def skill_points_total(level=level(true))
-    @skill_points_total = SKILL_CHART[level]
+  def skill_points_total
+    @skill_points_total = SKILL_CHART[level] * skillpoint_multiplier
   end
 
   def skill_points_unspent
     skill_points_total - skill_points_used
   end
 
-  def experience_multiplier
+  def skillpoint_multiplier
+    return 3 if self.perks.find { |p| p.name =~ /proto revelation/i }
     return 3 if self.origins.find { |o| o.name =~ /proto revelation/i }
+    return 2 if self.birthrights.find { |o| o.name =~ /proto form/i }
     return 2 if self.origins.find { |o| o.name =~ /proto/i }
     return 1
   end
@@ -165,6 +161,10 @@ class Character < ApplicationRecord
 
   def perk_points_unspent
     perk_points_total - perk_points_used
+  end
+
+  def talent_points_unspent
+    unused_talents
   end
 
   def invest_in_project(amt, talent=nil)
@@ -203,7 +203,7 @@ class Character < ApplicationRecord
     if self.user.retirement_xp?
       self.bonus_experiences.create(reason: "Retirement XP",
                                     date_awarded: Event.find(event_id).weekend.in_time_zone,
-                                    amount: self.user.award_retirement_xp)
+                                    amount: self.user.deduct_retirement_xp)
     end
   end
 
@@ -225,35 +225,18 @@ class Character < ApplicationRecord
   end
 
   def perm_counter
-    @perm_counter ||= (record_deaths; @perm_counter)
+    return 0 unless self.deaths.affects_perm.present?
+    3 - self.deaths.affects_perm.latest.first.events_since
   end
 
   def perm_chance
-    @perm_chance ||= (record_deaths; @perm_chance)
+    return 0 unless self.deaths.affects_perm.present?
+    DEATH_PERCENTAGES[self.active_deaths.count]
   end
 
-  def record_deaths
-    @perm_chance = 0
-    @perm_counter = 0
-
-    deaths = self.deaths.countable.latest.to_a
-    next_death = deaths.try(:pop)
-    while prev_death = next_death
-      next_death = deaths.try(:pop)
-      self.increment_death if prev_death
-
-      if next_death
-        # I'm not crazy about how this reads. It feels backwards, but it's 0121 on a weeknight.
-        prev_death.events_since(next_death.weekend).times { self.decrement_death }
-      else #most recent death
-        prev_death.events_since.times {self.decrement_death }
-      end
-    end
-    if perm_modifiers = self.temporary_effects.where(attr: 'perm_chance').where('expiration > ?', Time.current)
-      @perm_chance += perm_modifiers.reduce(0) { |sum, eff| sum + eff.modifier }
-    end
+  def active_deaths
+    self.deaths.affects_perm.find_all { |d| d.active? }
   end
-  alias_method :recount_deaths, :record_deaths
 
   def turn_off_nested_callbacks
     ProjectContribution.skip_callback(:create, :before, :invest_talent)
@@ -263,11 +246,16 @@ class Character < ApplicationRecord
     ProjectContribution.set_callback(:create, :before, :invest_talent)
   end
 
-  def extra_xp_for_holurheim
-    return if self.chapter != Chapter::HOLURHEIM
-    self.bonus_experiences.create(reason: "Holurheim Starting XP",
-                                  date_awarded: Time.now,
-                                  amount: 40)
+  def award_starting_bonus_xp
+    return if self.bonus_experiences.where(reason: "Chapter Starting XP").present?
+    return if self.chapter.default_xp == Character::BASE_XP
+    self.bonus_experiences.create(reason: "Chapter Starting XP",
+                                  date_awarded: self.starting_event,
+                                  amount: self.chapter.default_xp - Character::BASE_XP)
+  end
+
+  def starting_event
+    self.events.try(:first).try(:weekend) || Time.current
   end
 
   def open_bankaccount
@@ -277,7 +265,7 @@ class Character < ApplicationRecord
   end
 
   def default_currency
-    chapter == Chapter::HOLURHEIM ? :hkr : :vmk
+    chapter == Chapter.find_by(name: "Holurheim") ? :hkr : :vmk
   end
 
   def primary_bank_account
@@ -286,22 +274,6 @@ class Character < ApplicationRecord
 
   def display_name
     "#{self.name}"
-  end
-
-  def increment_death
-    index = [DEATH_PERCENTAGES.index(@perm_chance) + 1, DEATH_PERCENTAGES.size - 1].min
-    @perm_chance = DEATH_PERCENTAGES[index]
-    @perm_counter = DEATH_COUNTER[index]
-  end
-
-  def decrement_death
-    if @perm_counter == 0
-      index = [DEATH_PERCENTAGES.index(@perm_chance) - 1, 0].max
-      @perm_chance = DEATH_PERCENTAGES[index]
-      @perm_counter = DEATH_COUNTER[index]
-    else
-      @perm_counter -= 1
-    end
   end
 
   def calc_willpower

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ "$CIRCLECI" = true ]
+then
+  bundle check || bundle install --path vendor/bundle
+else
+  bundle check || bundle install
+fi
+
+
+if [ "$RAILS_ENV" = "development" ]
+then
+  bundle exec rails db:migrate 2>/dev/null || bundle exec rails db:reset
+elif [ "$RAILS_ENV" = "test" ]
+then
+  bundle exec rails db:test:prepare
+elif [ "$RAILS_ENV" = "production" ]
+then
+  bundle exec rails db:migrate 2>/dev/null || ( bundle exec rails db:create && bundle exec rails db:schema:load )
+  bundle exec rails assets:precompile
+  bundle exec rails assets:clean
+fi
+
+bundle exec puma -C config/puma.rb

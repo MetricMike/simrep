@@ -67,36 +67,6 @@ ActiveAdmin.register User do
     end
   end
 
-  # sidebar "Referrals", only: :index do
-  #   active_admin_form_for :
-  # end
-
-  # f.inputs 'Referrals' do
-    #   f.has_many :downstream_referrals, heading: "Referrals", allow_destroy: true do |dr|
-    #     dr.input :sponsor_id, as: :hidden, input_html: { value: f.object.id }
-    #     dr.input :referred_user_id, as: :select, collection: User.unsponsored.map { |u| [ u.name, u.id ] }
-    #     dr.input :event_claimed_id, as: :select, collection: f.object.played_events.map { |e| [ "#{e.weekend} / #{e.campaign}", e.id ] }
-    #   end
-    #   f.has_many :upstream_referral, heading: "Sponsor", allow_destroy: true do |ur|
-    #     ur.input :sponsor_id, as: :select, collection: User.all.map { |u| [ u.name, u.id ] }
-    #     ur.input :referred_user_id, as: :select, input_html: { readonly: true, value: ur.object }
-    #     ur.input :event_claimed_id, as: :select, collection: f.object.played_events.map { |e| [ "#{e.weekend} / #{e.campaign}", e.id ] }
-    #   end
-    # end
-
-  # sidebar "Post a Transaction", priority: 0, only: :show do
-  #   active_admin_form_for(:bank_transaction, url: admin_bank_transactions_path) do |f|
-  #     f.inputs do
-  #       f.input :from_account, collection: BankAccount.all.by_name, member_label: lambda { |a| a.owner.name }
-  #       f.input :to_account, collection: BankAccount.all.by_name, member_label: lambda { |a| a.owner.name }
-  #       f.input :funds, as: :number, default: 0.00
-  #       f.input :funds_currency, as: :select, include_blank: false, collection: [Money::Currency.find(:vmk), Money::Currency.find(:sgd)], label_method: :name, value_method: :to_s
-  #       f.input :memo, required: false
-  #     end
-  #     f.action :submit, label: "Post New Transaction"
-  #   end
-  # end
-
   controller do
     def create
       @user = User.new(params[:user])
@@ -111,25 +81,5 @@ ActiveAdmin.register User do
 
       redirect_to admin_user_path(@user)
     end
-
-    def show
-      @user = User.includes(versions: :item).find(params[:id])
-      @versions = @user.versions
-      @user = @user.versions[params[:version].to_i].reify if params[:version]
-      show!
-    end
   end
-
-  member_action :history do
-    @user = User.find(params[:id])
-    @versions = @user.versions
-    render "admin/shared/history"
-  end
-
-  action_item :history, only: :show do
-    link_to "Version History", history_admin_user_path(resource)
-  end
-
-  sidebar :versionate, :partial => "admin/shared/version", :only => :show
-
 end

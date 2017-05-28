@@ -1,6 +1,6 @@
-<tr>
-  <td><%= event.campaign %></td>
-  <td><%= event.weekend %></td>
-  <td><%= @character.character_events.find_by(event_id: event.id).paid ? event.play_exp : 0 %></td>
-  <td><%= @character.character_events.find_by(event_id: event.id).cleaned ? event.clean_exp : 0 %></td>
+<tr class="row col-12">
+  <td class="col-3"><%= event.campaign %></td>
+  <td class="col-3"><%= event.weekend %></td>
+  <td class="col-3"><%= @character.character_events.find_by(event_id: event.id).paid ? event.play_exp : 0 %></td>
+  <td class="col-3"><%= @character.character_events.find_by(event_id: event.id).cleaned ? event.clean_exp : 0 %></td>
 </tr>

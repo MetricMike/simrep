@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.4.1'
+
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
@@ -8,19 +10,26 @@ end
 # Core Binaries / Engines
 gem 'rails'
 gem 'pg'
+gem 'oj'
 gem 'active_record_union'
+gem 'jsonapi-resources'
 gem 'high_voltage'
-
 gem 'puma'
-gem 'rack-timeout'
 
-# Rails5 Preliminary for ActiveAdmin
-gem 'inherited_resources', github: 'activeadmin/inherited_resources'
+# Gimme The Cache
+# https://www.youtube.com/watch?v=OADJl-CVDo0
+gem 'redis-rails'
+gem 'redis-rack-cache'
 
 # Assets
-gem 'bootstrap-sass'
-gem 'sass-rails'
-gem 'coffee-rails'
+gem 'bootstrap', '~> 4.0.0.alpha5'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether'
+  gem 'rails-assets-seiyria-bootstrap-slider'
+end
+
+gem 'sassc-rails'
 gem 'uglifier'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -32,56 +41,61 @@ gem 'font-awesome-rails'
 gem 'devise'
 gem 'omniauth-facebook'
 gem 'pundit'
+gem 'jsonapi-authorization'
 
-# Analytics
-gem 'newrelic_rpm'
-gem 'rollbar'
-gem 'oj'
+# Backgrounding
+gem 'sidekiq'
+gem 'sidekiq-cron'
+gem 'sidekiq-unique-jobs'
+gem 'sidekiq-statistic'
 
 # History
 gem 'paper_trail'
 gem 'paper_trail-globalid'
 
 # PDF Handling
-gem 'wicked_pdf'
+gem 'google_drive', require: false
 
 # Currency handling
 gem 'money-rails'
 
 # Convenience Methods
 gem 'rounding'
-gem 'constant_cache', github: 'tpitale/constant_cache', branch: 'ar'
 
 # ActiveAdmin and Friends
-gem 'activeadmin', github: 'activeadmin'
+gem 'activeadmin'
 gem 'cocoon' #needed for associations
-gem 'active_admin_csv_import'
-gem 'activeadmin-ajax_filter'
-gem 'active_admin_datetimepicker'
+gem 'active_admin_versioning'
+gem 'activeadmin_addons'
 
 # Console and Error handling
-# Yeah, this should go in dev/test, but I'm a bad person
-# and do live edits in production.
-gem 'web-console'
-gem 'binding_of_caller'
 gem 'jazz_fingers'
 gem 'pry-rails'
 gem 'pry-byebug'
 
-gem 'sidekiq'
+# Analytics
+gem 'lograge'
+gem 'newrelic_rpm'
+gem 'rollbar'
+gem 'pghero'
+gem 'pg_query'
+gem 'okcomputer'
 
-# Gimme The Cache
-# https://www.youtube.com/watch?v=OADJl-CVDo0
-gem 'redis-rails'
-gem 'redis-rack-cache'
+# PERF (only active on MTOWER)
+gem 'rack-mini-profiler', require: false
+gem 'memory_profiler',    require: false
+gem 'flamegraph',         require: false
+gem 'stackprof',          require: false
 
 group :development, :test do
-  gem 'heroku_db_restore'
-  gem 'better_errors'
+  gem 'letter_opener_web', require: false
+  gem 'faker', require: false
+
   gem 'bullet'
-  gem 'faker'
-  gem 'active_record_query_trace'
-  gem 'letter_opener_web'
+  gem 'active_record_query_trace', require: false
+
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :test do
@@ -91,5 +105,6 @@ group :test do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'fuubar'
+  gem "simplecov"
   gem 'codeclimate-test-reporter', require: nil
 end

@@ -16,12 +16,12 @@ ActiveAdmin.register Character do
     column("Unspent TUs", humanize_name: false) { |c| c.unused_talents }
   end
 
-  batch_action :attend_event, form: {
-    event:               Event.newest.limit(20).map { |e| [e.display_name, e.id] },
-    paid:                :checkbox,
-    cleaned:             :checkbox,
-    check_clean_coupon:  :checkbox,
-    override:            :checkbox
+  batch_action :attend_event, form: -> {
+    { event:                Event.newest.for_form,
+      paid:                 :checkbox,
+      cleaned:              :checkbox,
+      check_clean_coupon:   :checkbox,
+      override:             :checkbox }
     } do |ids, inputs|
       batch_action_collection.find(ids).each do |character|
         character.attend_event(inputs[:event], inputs[:paid], inputs[:cleaned], inputs[:check_clean_coupon], inputs[:override])
@@ -29,11 +29,11 @@ ActiveAdmin.register Character do
       redirect_to collection_path, notice: [ids, inputs].to_s
   end
 
-  batch_action :kill, form: {
-    description:  :text,
-    physical:     :text,
-    roleplay:     :text,
-    weekend:      Event.newest,
+  batch_action :kill, form: -> {
+    { description:  :text,
+      physical:     :text,
+      roleplay:     :text,
+      weekend:      Event.newest.for_form }
     } do |ids, inputs|
       batch_action_collection.find(ids).each do |character|
         character.deaths.create(inputs)
@@ -43,16 +43,6 @@ ActiveAdmin.register Character do
 
   action_item :view, only: [:show, :edit] do
     link_to 'View on Site', character_path(character)
-  end
-
-  member_action :history do
-    @character = Character.find(params[:id])
-    @versions = @character.versions
-    render "admin/shared/history"
-  end
-
-  action_item :history, only: :show do
-    link_to "Version History", history_admin_character_path(resource)
   end
 
   index do
@@ -78,12 +68,13 @@ ActiveAdmin.register Character do
     column :unused_talents
     column "Bank Account", :bank_account do |c|
       link_to humanized_money_with_symbol(c.bank_accounts.first.balance),
-        admin_personal_bank_account_path(c.bank_accounts.first)
+        admin_bank_account_path(c.bank_accounts.first)
     end
     actions
   end
 
-  filter :name
+  filter :user_name, as: :string, label: 'Player Name'
+  filter :name, label: 'Character Name'
   filter :race
   filter :chapter
   filter :culture
@@ -92,6 +83,7 @@ ActiveAdmin.register Character do
   filter :talents
   filter :events
   filter :backgrounds
+  filter :birthrights
   filter :origins
 
   form do |f|
@@ -110,9 +102,17 @@ ActiveAdmin.register Character do
           f.input :unused_talents
         end
 
+        f.inputs 'Character Birthrights' do
+          f.has_many :birthrights, allow_destroy: true do |co_f|
+            co_f.input :source, collection: Birthright::SOURCES, label: false
+            co_f.input :name, label: false
+            co_f.input :detail, label: false
+          end
+        end
+
         f.inputs 'Character Origins' do
           f.has_many :origins, allow_destroy: true do |co_f|
-            co_f.input :source, collection: (Character::RACES|Character::CULTURES), label: false
+            co_f.input :source, collection: Origin::SOURCES, label: false
             co_f.input :name, label: false
             co_f.input :detail, label: false
           end
@@ -130,7 +130,7 @@ ActiveAdmin.register Character do
       tab 'Events & Custom XP' do
 
         f.inputs 'Events', header: "" do
-          f.has_many :character_events, allow_destroy: true do |ce_f|
+          f.has_many :character_events, header: "", allow_destroy: true do |ce_f|
             ce_f.input :event
             ce_f.input :paid, label: "Paid?"
             ce_f.input :cleaned, label: "Cleaned?"
@@ -210,19 +210,16 @@ ActiveAdmin.register Character do
     end
   end
 
-  sidebar :versionate, :partial => "admin/shared/version", :only => :show
-
   sidebar :personal_bank_account, only: :show do
     h3 "Chapter | Current Balance"
     ul do
       resource.bank_accounts.each do |b|
-        li a "#{b.chapter.name} | #{humanized_money_with_symbol b.balance}", href: admin_personal_bank_account_path(b)
+        li a "#{b.chapter.name} | #{humanized_money_with_symbol b.balance}", href: admin_bank_account_path(b)
       end
     end
   end
 
   controller do
-
     def new
       resource = Character.new(params[:character]) if params[:character]
       new!
@@ -240,13 +237,6 @@ ActiveAdmin.register Character do
       resource = Character.includes({character_events: :event}, :talents, :deaths, {project_contributions: :project})
                           .find(params[:id])
       edit!
-    end
-
-    def show
-      @character = Character.includes(:bank_accounts).find(params[:id])
-      @versions = @character.versions
-      @character = @character.versions[params[:version].to_i].reify if params[:version]
-      show!
     end
   end
 end

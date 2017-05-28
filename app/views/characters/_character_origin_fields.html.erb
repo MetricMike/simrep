@@ -1,10 +1,9 @@
-<tr class="nested-fields no-border">
-  <%= f.simple_fields_for :origin do |f_origin| %>
-    <td><%= f_origin.input :source, collection: Origin::SOURCES, label: false %></td>
-    <td><%= f_origin.input :name, collection: Origin::SAMPLE, label: false %></td>
-    <td><%= f_origin.input :detail, label: false %></td>
-    <% if f_origin.object.new_record? %>
-    <td><%= link_to_remove_association "remove origin", f, class: "btn btn-danger"%></td>
-    <% end %>
+<tr class="row col-12 nested-fields no-border character-origin-fields">
+  <td class="cof standard-character-origins col-6">
+    <%= f.association :origin, label: false, label_method: :display_name, collection: Origin.canon %>
+  </td>
+  <td class="cof col-3"><%= link_to_add_association "Add Custom Origin", f, :origin, class: "btn btn-info" %></td>
+  <% if f.object.new_record? or current_user.admin? %>
+    <td class="cof col-3"><%= link_to_remove_association "Remove Origin", f, class: "btn btn-danger"%></td>
   <% end %>
 </tr>

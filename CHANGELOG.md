@@ -3,10 +3,94 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
-## Unreleased
+## [Unreleased](#) - 2017-04-09
 ### Added
+- !
+
+## [2.2.1](v2.2.1) - 2017-04-09
 ### Changed
+- Added lambdas to the admin pages, which removes ActiveAdmin trying to read the DB on load, which solves a race condition when recreating the app from scratch.
+
 ### Removed
+- Lots of duplication (BankAccounts have largely been consolidated on the admin pages)
+- Consolidated admin versions
+
+## [2.2.0](v2.2.0) - 2017-04-04
+### Added 
+- Filter by player name on admin/characters
+- Compose runs dev and production at the same time
+- Script for syncing heroku db to mtower db (I only do this at events and
+  I forget the steps every time, adding 10 minutes and panic every check-in)
+- Nginx reverse proxy for pretty urls (simrep.simterra.lan vs http://localhost:3000)
+- Nginx web server for faster static file serving
+- Longer timeouts for dev requests (from 1min->5min) for debugging
+- Lograge for prettier logs
+- Use cookies for SessionStore in Dev (less redis instances needed)
+- Add michael's FB UID to seeds.rb so I don't have to enter 5 stupid commands to "login-with-one-click"
+- Moar automated cloud testing with circleci (is actually broken as of this version)
+
+### Changed
+- Prefix background jobs by environment
+- Reorganized Gemfile (less global requires, moar speed)
+- Adjusted bin/start_app (moar db automation)
+- Cleaned up application.rb and environment files (logging, comments)
+- Return early from seeds.rb if DB isn't empty.
+- Cleaned up docker-compose.yml and .env files
+- Fancier footer
+
+### Removed
+- Removed active\_admin\_csv\_importable
+- I don't have a staging environment, so I don't need a staging db URL
+- LetterOpenerWeb, I don't have any mailers
+
+## [2.1.1](v2.1.1) - 2017-03-12
+### Changed
+- Moar automated cloud testing
+
+## [2.1.0](v2.1.0) - 2017-03-07
+### Added
+- Better styling on Bank Accounts (personal should be viewable for everybody again)
+- Faster, more reliable Character Sheet and Bank Account pdf dumping
+- Profile badge while on local
+
+### Changed
+- Docker gets its own directory for better organization
+- Should be smoother to switch environments between dev/prod now
+
+### Removed
+- No more caching in dev
+- WickedPDF and leftovers (Capistrano, Guard, Procfiles)
+
+## [2.0.0](v2.0.0) - 2017-02-01
+### Added
+- Fancy selectize fields now select on Tab (thank you Nick Blue)
+- Re-enabled Rollbar for error tracking, yey.
+- JSONApi for client-side updates and external use (pipe dream!)
+- PGHero for more info on DB queries and performance
+- Reworked character creation page, more guidance (sorta N & S buttons haven't been made yet)
+- New characters will set the "costumed checked at" on character creation
+- All tables are sortable!!!
+
+### Changed
+- Consolidated AA gems/plugins
+- Consolidated SCSS files
+- Source is no longer required, but will auto-load related models.
+- Birthrights and Origins have been split into 2 separate models 
+- All chapters now correctly report 31 as the starting XP (with the option for temporary boosts)
+- Upgraded to Bootstrap4 for user facing views
+- Fixed the collapsible navbar, so mobile SimRep won't literally kill you
+- Birthrights/Origins now properly source Templates on the Admin view
+- Development Chapters have random default_xp values (31..131)
+- Bonus Chapter XP generalized for all chapters, not just Holurheim
+- Updated perm counters to use the simplified death system
+- LOL PROTOS SHOULD MULTIPLY SP NOT EXP
+- Ghosts get XP after perming again
+
+### Removed
+- PCs can no longer move themselves between chapters, will require manual intervention by staff.
+- I've broken up with web_console in production, as more and more concurrency is used
+- PDF creation is broken
+- Don't award bonus chapter xp if 0
 
 ## [1.21.0](v1.21.0) - 2016-12-22
 ### Added

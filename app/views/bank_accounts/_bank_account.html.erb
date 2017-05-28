@@ -1,7 +1,5 @@
 <li id="bank_account-<%= bank_account.id %>">
-  <strong><%= link_to "#{bank_account.owner.name} (ID: #{bank_account.id})", bank_account_path(bank_account) %></strong>
-  <dl class="dl-horizontal">
-    <dt>Balance</dt><dd><%= "#{bank_account.balance}" %></dd>
-    <dt>Last Transaction Date</dt><dd><%= bank_account.last_transaction %></dd>
-  </dl>
+  <span class="name">Owner: <%= link_to bank_account.display_name, bank_account_path(bank_account) %></span>
+  <span class="balance">Balance: <%= humanized_money_with_symbol bank_account.balance %></span>
+  <span class="last_used">Last Transaction Date: <%= bank_account.transactions.try(:last).try(:updated_at).try(:to_s) %></span>
 </li>

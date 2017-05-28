@@ -1,6 +1,6 @@
-<tr class="<%= 'info' if (death.events_since < 3 and death.countable) %>">
-  <td><%= death.description %></td>
-  <td><%= death.physical if death.events_since < 1 %></td>
-  <td><%= death.roleplay if death.events_since < 3 %></td>
-  <td><%= death.weekend %></td>
+<tr class="row col-12">
+  <td class="col-4"><%= death.description %></td>
+  <td class="col-3"><%= death.physical if death.events_since < 1 || historical %></td>
+  <td class="col-3"><%= death.roleplay if death.events_since < 3 || historical %></td>
+  <td class="col-2"><%= death.weekend %></td>
 </tr>

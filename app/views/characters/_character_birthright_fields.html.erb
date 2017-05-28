@@ -1,0 +1,9 @@
+<tr class="row col-12 nested-fields no-border character-birthright-fields">
+  <td class="cbf standard-character-birthrights col-6">
+    <%= f.association :birthright, label: false, label_method: :display_name, collection: Birthright.canon %>
+  </td>
+  <td class="cbf col-3"><%= link_to_add_association "Add Custom Birthright", f, :birthright, class: "btn btn-info" %></td>
+  <% if f.object.new_record? or current_user.admin? %>
+    <td class="cbf col-3"><%= link_to_remove_association "Remove Birthright", f, class: "btn btn-danger"%></td>
+  <% end %>
+</tr>

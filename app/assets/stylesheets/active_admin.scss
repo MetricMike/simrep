@@ -8,13 +8,9 @@
 // $sidebar-width: 242px;
 
 // Active Admin's got SASS!
+@import "activeadmin_addons/all";
 @import "active_admin/mixins";
 @import "active_admin/base";
-
-@import "active_admin_datetimepicker";
-@import "selectize";
-@import "selectize.default";
-@import "activeadmin-ajax_filter";
 
 #header h1.site_title {
   background-color: inherit;
@@ -45,5 +41,35 @@
       label {
         width: 100%;
       }
+  }
+}
+
+.panel_contents {
+  form {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+
+    fieldset.inputs {
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      margin-left: -.5rem;
+
+      ol > li {
+        padding: 0.25rem;
+
+        label {
+          width: 100%;
+        }
+
+      }
+
+    }
+
+    li.action {
+      list-style: none;
+      margin: 0 auto;
+    }
   }
 }

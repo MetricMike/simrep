@@ -1,0 +1,5 @@
+# Ignore app structure
+/docker-compose.yml
+
+# Ignore all logfiles, tempfiles, and environment
+/.simrep.env

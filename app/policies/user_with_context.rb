@@ -1,9 +1,8 @@
 class UserWithContext
-  attr_reader :user, :character, :chapter
+  attr_reader :user, :character
 
-  def initialize(user, character, chapter)
+  def initialize(user, character)
     @user = user
     @character = character
-    @chapter = chapter
   end
 end

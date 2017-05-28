@@ -4,5 +4,5 @@
 :timeout: 8
 
 :queues:
-  - default
-  - mailers
+  - <%= "#{ENV['RAILS_ENV']}_default" %>
+  - <%= "#{ENV['RAILS_ENV']}_mailers" %>

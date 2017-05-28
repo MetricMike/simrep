@@ -8,7 +8,7 @@
           <%= link_to "Projects", projects_path, class: 'btn btn-primary nav-link' %>
         </li>
         <li class="col-5 p-2 nav-item">
-          <%= link_to "Bank", bank_accounts_path, class: 'btn btn-success nav-link' %>
+          <%= link_to "Bank", bank_accounts_path(@character.primary_bank_account), class: 'btn btn-success nav-link' %>
         </li>
       </div>
       <br/>
@@ -17,7 +17,7 @@
           <%= link_to "NPC", npc_shifts_path, class: 'btn btn-info nav-link' %>
         </li>
         <li class="col-5 p-2 nav-item">
-          <%= link_to "Print", character_path(@character, format: :pdf), class: 'btn btn-secondary nav-link' %>
+          <%= link_to "Print", print_character_path(@character), class: 'btn btn-secondary nav-link' %>
         </li>
       </div>
     </ul>

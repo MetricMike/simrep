@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307194314) do
+ActiveRecord::Schema.define(version: 20170117023624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 20170307194314) do
     t.text     "body"
     t.string   "resource_id",   null: false
     t.string   "resource_type", null: false
-    t.string   "author_type"
     t.integer  "author_id"
+    t.string   "author_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(version: 20170307194314) do
     t.integer  "chapter_id"
     t.string   "type"
     t.integer  "group_id"
-    t.datetime "uploaded_at"
     t.index ["chapter_id"], name: "index_bank_accounts_on_chapter_id", using: :btree
     t.index ["group_id"], name: "index_bank_accounts_on_group_id", using: :btree
     t.index ["owner_id"], name: "index_bank_accounts_on_owner_id", using: :btree
@@ -378,41 +377,23 @@ ActiveRecord::Schema.define(version: 20170307194314) do
   end
 
   add_foreign_key "bank_accounts", "chapters"
-  add_foreign_key "bank_accounts", "characters", column: "owner_id"
   add_foreign_key "bank_accounts", "groups"
   add_foreign_key "bank_items", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_items", "bank_accounts", column: "to_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "to_account_id"
-  add_foreign_key "bonus_experiences", "characters"
   add_foreign_key "character_backgrounds", "backgrounds"
-  add_foreign_key "character_backgrounds", "characters"
   add_foreign_key "character_birthrights", "birthrights"
-  add_foreign_key "character_birthrights", "characters"
-  add_foreign_key "character_events", "characters"
   add_foreign_key "character_events", "events"
-  add_foreign_key "character_origins", "characters"
-  add_foreign_key "character_origins", "origins"
-  add_foreign_key "character_perks", "characters"
-  add_foreign_key "character_perks", "perks"
-  add_foreign_key "character_skills", "characters"
-  add_foreign_key "character_skills", "skills"
-  add_foreign_key "characters", "chapters"
   add_foreign_key "characters", "users"
   add_foreign_key "crafting_points", "characters"
-  add_foreign_key "deaths", "characters"
-  add_foreign_key "events", "chapters"
   add_foreign_key "group_memberships", "characters", column: "member_id"
   add_foreign_key "group_memberships", "groups"
   add_foreign_key "npc_shifts", "bank_transactions"
   add_foreign_key "npc_shifts", "character_events"
-  add_foreign_key "project_contributions", "characters"
-  add_foreign_key "project_contributions", "projects"
   add_foreign_key "projects", "characters", column: "leader_id"
   add_foreign_key "referrals", "events", column: "event_claimed_id"
   add_foreign_key "referrals", "users", column: "referred_user_id"
   add_foreign_key "referrals", "users", column: "sponsor_id"
-  add_foreign_key "talents", "characters"
-  add_foreign_key "temporary_effects", "characters"
   add_foreign_key "users", "events", column: "free_cleaning_event_id"
 end

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.4.0'
+ruby '2.4.1'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -63,8 +63,7 @@ gem 'money-rails'
 gem 'rounding'
 
 # ActiveAdmin and Friends
-gem 'activeadmin', github: 'activeadmin'
-gem 'ransack', github: 'activerecord-hackery/ransack'
+gem 'activeadmin'
 gem 'cocoon' #needed for associations
 gem 'active_admin_versioning'
 gem 'activeadmin_addons'

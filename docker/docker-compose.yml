@@ -52,7 +52,7 @@ services:
     depends_on:
       - postgres
       - redis-worker
-    image: metricmike/simrep:1.1.1
+    image: metricmike/simrep:1.1.2
     environment:
       RAILS_ENV: "development"
       WEB_CONTAINER_URL: "web_development/okcomputer/all"
@@ -83,7 +83,7 @@ services:
   worker_development:
     depends_on:
       - web_development
-    image: metricmike/simrep:1.1.1
+    image: metricmike/simrep:1.1.2
     environment:
       RAILS_ENV: "development"
       WEB_CONTAINER_URL: "app_development:3000/okcomputer/all"
@@ -97,7 +97,7 @@ services:
     depends_on:
       - postgres
       - redis-worker
-    image: metricmike/simrep:1.1.1
+    image: metricmike/simrep:1.1.2
     environment:
       RAILS_ENV: "production"
       WEB_CONTAINER_URL: "web_production/okcomputer/all"
@@ -126,7 +126,7 @@ services:
   worker_production:
     depends_on:
       - web_production
-    image: metricmike/simrep:1.1.1
+    image: metricmike/simrep:1.1.2
     environment:
       RAILS_ENV: "production"
       WEB_CONTAINER_URL: "app_production:3000/okcomputer/all"

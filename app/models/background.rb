@@ -1,6 +1,6 @@
 class Background < ApplicationRecord
-  has_many :characters, through: :character_backgrounds, inverse_of: :backgrounds
   has_many :character_backgrounds, inverse_of: :background
+  has_many :characters, through: :character_backgrounds, inverse_of: :backgrounds
 
   validates :name, presence: true
 

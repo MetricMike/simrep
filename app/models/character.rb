@@ -30,6 +30,14 @@ class Character < ApplicationRecord
   belongs_to :user, inverse_of: :characters
   belongs_to :chapter, inverse_of: :characters
 
+  has_many :character_backgrounds, ->{ includes(:background) }, inverse_of: :character, dependent: :destroy
+  has_many :character_origins, ->{ includes(:origin) }, inverse_of: :character, dependent: :destroy
+  has_many :character_birthrights, ->{ includes(:birthright) }, inverse_of: :character, dependent: :destroy
+  has_many :character_skills, ->{ includes(:skill) }, inverse_of: :character, dependent: :destroy
+  has_many :character_perks, ->{ includes(:perk) }, inverse_of: :character, dependent: :destroy
+  has_many :character_events, inverse_of: :character, dependent: :destroy
+  has_many :group_memberships, foreign_key: 'member_id', dependent: :destroy
+
   has_many :backgrounds, through: :character_backgrounds, inverse_of: :characters, dependent: :destroy
   has_many :origins, through: :character_origins, inverse_of: :characters, dependent: :destroy
   has_many :birthrights, through: :character_birthrights, inverse_of: :characters, dependent: :destroy
@@ -38,14 +46,6 @@ class Character < ApplicationRecord
   has_many :events, through: :character_events, inverse_of: :characters, dependent: :destroy
   has_many :projects, through: :project_contributions, inverse_of: :characters, dependent: :destroy
   has_many :groups, through: :group_memberships, dependent: :destroy
-
-  has_many :character_backgrounds, ->{ includes(:background) }, inverse_of: :character, dependent: :destroy
-  has_many :character_origins, ->{ includes(:origin) }, inverse_of: :character, dependent: :destroy
-  has_many :character_birthrights, ->{ includes(:birthright) }, inverse_of: :character, dependent: :destroy
-  has_many :character_skills, ->{ includes(:skill) }, inverse_of: :character, dependent: :destroy
-  has_many :character_perks, ->{ includes(:perk) }, inverse_of: :character, dependent: :destroy
-  has_many :character_events, inverse_of: :character, dependent: :destroy
-  has_many :group_memberships, foreign_key: 'member_id', dependent: :destroy
 
   has_many :project_contributions, inverse_of: :character, dependent: :destroy
   has_many :talents, inverse_of: :character, dependent: :destroy

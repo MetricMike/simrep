@@ -32,7 +32,6 @@ ActiveAdmin.register BankAccount do
   end
 
   filter :chapter_name, as: :string
-  filter :name #, as: :string
   filter :balance_cents
   filter :balance_currency
 

@@ -87,6 +87,8 @@ gem 'memory_profiler',    require: false
 gem 'flamegraph',         require: false
 gem 'stackprof',          require: false
 
+gem 'dotenv-rails',       require: false
+
 group :development, :test do
   gem 'letter_opener_web', require: false
   gem 'faker', require: false

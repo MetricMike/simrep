@@ -14,8 +14,8 @@ class Birthright < ApplicationRecord
   scope :canon,     ->            { where.not(reviewed_at: nil) }
   scope :non_canon, ->            { where(reviewed_at: nil) }
 
-  has_many :characters, through: :character_birthrights, inverse_of: :birthrights
   has_many :character_birthrights, inverse_of: :birthright
+  has_many :characters, through: :character_birthrights, inverse_of: :birthrights
 
   validates :source, presence: true#, inclusion: { in: SOURCES }
   validates :name, presence: true

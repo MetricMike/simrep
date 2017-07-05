@@ -3,9 +3,23 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
-## [Unreleased](#) - 2017-04-09
+## [Unreleased](#) - ????-??-??
+
+## [2.4.0](v.2.4.0) - 2017-07-04
 ### Added
-- !
+- Heroku Import and DB Snapshot tasks
+
+### Changed
+- Formatting
+
+### Broke
+- Adding BankItems & BankTransactions from the WebUI (they go through, but BACK is broken)
+
+## [2.3.1](v2.3.1) - 2017-05-28
+### Changed
+- Fixed character#show links (specifically #print)
+- Bundle and Ruby updates
+- Sidekiq prints will try to print offline by default
 
 ## [2.2.1](v2.2.1) - 2017-04-09
 ### Changed

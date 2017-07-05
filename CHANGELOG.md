@@ -3,7 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
-## [Unreleased](#) - 2017-07-04
+## [Unreleased](#) - ????-??-??
+
+## [2.4.0](v.2.4.0) - 2017-07-04
 ### Added
 - Heroku Import and DB Snapshot tasks
 

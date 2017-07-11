@@ -1,6 +1,6 @@
 <tr class="row col-12" id="item-<%= item.id %>">
-  <td class="col-3"><%= item.from_account ? item.from_account.owner.name : "Deposit" %></td>
-  <td class="col-3"><%= item.to_account ? item.to_account.owner.name : "Withdrawal" %></td>
+  <td class="col-3"><%= item.from_account ? item.from_account.name : "Deposit" %></td>
+  <td class="col-3"><%= item.to_account ? item.to_account.name : "Withdrawal" %></td>
   <td class="col-1"><%= item.item_count %></td>
   <td class="col-3"><%= item.item_description %></td>
   <td class="col-2"><%= item.updated_at.to_s %></td>

@@ -1,10 +1,8 @@
 class CharactersController < ApplicationController
-  before_action :authenticate_user!, except: :print
-
-  before_action :sign_in_character, except: [:print, :index, :new, :create]
+  before_action :sign_in_character, except: [:index, :new, :create]
   before_action :sign_out_character, only: :index
 
-  after_action :verify_authorized, except: [:print, :index]
+  after_action :verify_authorized, except: [:index]
   after_action :verify_policy_scoped, only: :index
 
   def index
@@ -20,9 +18,6 @@ class CharactersController < ApplicationController
   end
 
   def print
-    return unless ENV['MTOWER'].present?
-    sign_in_character(false)
-
     render layout: 'pdf.html.erb'
   end
 
@@ -67,11 +62,11 @@ class CharactersController < ApplicationController
 
   private
 
-  def sign_in_character(auth=true)
+  def sign_in_character
     session[:current_char_id] = params[:id]
     @character = Character.find(params[:id])
 
-    authorize @character if auth
+    authorize @character
   end
 
   def sign_out_character

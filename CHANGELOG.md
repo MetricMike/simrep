@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](#) - ????-??-??
 ### Added
 - Group BankAccounts display now as well
+- Print-view for all characters and bank accounts
 
 ### Changed
 - Totes fixed BankAccounts

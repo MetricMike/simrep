@@ -1,7 +1,7 @@
 class GroupBankAccountPolicy < ApplicationPolicy
 
   def has_control?
-    @character.in? record.group.members
+    @user.admin? or @character.in? @record.group.members
   end
 
   class Scope

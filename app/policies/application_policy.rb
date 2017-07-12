@@ -18,6 +18,7 @@ class ApplicationPolicy
 
   def index?  ; false;        end
   def show?   ; has_access?;  end
+  def print?  ; show?;        end
   def new?    ; create?;      end
   def create? ; has_control?; end
   def edit?   ; update?;      end

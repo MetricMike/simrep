@@ -1,7 +1,7 @@
 class BankAccountsController < ApplicationController
-  before_action :authenticate_user!, except: :print
+  before_action :authenticate_user!
 
-  after_action :verify_authorized, except: [:print, :index]
+  after_action :verify_authorized, except: :index
   after_action :verify_policy_scoped, only: :index
 
   def index
@@ -11,16 +11,17 @@ class BankAccountsController < ApplicationController
 
   def show
     @bank_account = BankAccount.find(params[:id])
+    authorize @bank_account
+
     @transactions = @bank_account.transactions
     @items = @bank_account.items.latest
     @bank_account_transaction = @bank_account.outgoing_transactions.build()
-    authorize @bank_account
   end
 
   def print
-    return unless ENV['MTOWER'].present?
-
     @bank_account = BankAccount.find(params[:id])
+    authorize @bank_account
+
     @transactions = @bank_account.transactions.limit(10)
     @items = @bank_account.incoming_items.latest
 

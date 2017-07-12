@@ -1,7 +1,7 @@
 class PersonalBankAccountPolicy < ApplicationPolicy
 
   def has_control?
-    record.owner == @character
+    @user.admin? or @record.owner == @character
   end
 
   class Scope

@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 20170117023624) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "active_admin_comments", id: :serial, force: :cascade do |t|
@@ -377,23 +378,41 @@ ActiveRecord::Schema.define(version: 20170117023624) do
   end
 
   add_foreign_key "bank_accounts", "chapters"
+  add_foreign_key "bank_accounts", "characters", column: "owner_id"
   add_foreign_key "bank_accounts", "groups"
   add_foreign_key "bank_items", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_items", "bank_accounts", column: "to_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "from_account_id"
   add_foreign_key "bank_transactions", "bank_accounts", column: "to_account_id"
+  add_foreign_key "bonus_experiences", "characters"
   add_foreign_key "character_backgrounds", "backgrounds"
+  add_foreign_key "character_backgrounds", "characters"
   add_foreign_key "character_birthrights", "birthrights"
+  add_foreign_key "character_birthrights", "characters"
+  add_foreign_key "character_events", "characters"
   add_foreign_key "character_events", "events"
+  add_foreign_key "character_origins", "characters"
+  add_foreign_key "character_origins", "origins"
+  add_foreign_key "character_perks", "characters"
+  add_foreign_key "character_perks", "perks"
+  add_foreign_key "character_skills", "characters"
+  add_foreign_key "character_skills", "skills"
+  add_foreign_key "characters", "chapters"
   add_foreign_key "characters", "users"
   add_foreign_key "crafting_points", "characters"
+  add_foreign_key "deaths", "characters"
+  add_foreign_key "events", "chapters"
   add_foreign_key "group_memberships", "characters", column: "member_id"
   add_foreign_key "group_memberships", "groups"
   add_foreign_key "npc_shifts", "bank_transactions"
   add_foreign_key "npc_shifts", "character_events"
+  add_foreign_key "project_contributions", "characters"
+  add_foreign_key "project_contributions", "projects"
   add_foreign_key "projects", "characters", column: "leader_id"
   add_foreign_key "referrals", "events", column: "event_claimed_id"
   add_foreign_key "referrals", "users", column: "referred_user_id"
   add_foreign_key "referrals", "users", column: "sponsor_id"
+  add_foreign_key "talents", "characters"
+  add_foreign_key "temporary_effects", "characters"
   add_foreign_key "users", "events", column: "free_cleaning_event_id"
 end

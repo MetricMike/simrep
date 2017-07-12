@@ -5,7 +5,7 @@ class DumpBankAccountJob < ApplicationJob
 
   def perform(bank_account, online=false)
     # localhost = `getent hosts app | awk '{ print $1 ; exit }'`.strip
-    filename = "#{bank_account.owner.name}_#{Date.current.to_formatted_s(:iso8601)}".parameterize + ".pdf"
+    filename = "#{bank_account.display_name}_#{Date.current.to_formatted_s(:iso8601)}".parameterize + ".pdf"
     command = "curl '$ATHENA_CONTAINER_URL/convert\?auth\=arachnys-weaver\&url\=http://web_{Rails.env}/bank_accounts/#{bank_account.id}/print'"
 
     pdf_stream = StringIO.new(`#{command}`)

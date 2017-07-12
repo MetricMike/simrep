@@ -29,6 +29,14 @@ class BankAccount < ApplicationRecord
     end
   end
 
+  def self.policy_class
+    "#{self.name}Policy".constantize
+  end
+
+  def policy_class
+    "#{self.type}Policy".constantize
+  end
+
   def not_my_first_account
     return false if self.type == "GroupBankAccount"
     return false if PersonalBankAccount.where(owner_id: self.owner_id).count > 0
@@ -42,18 +50,6 @@ class BankAccount < ApplicationRecord
     if balance < (Money.new(0, balance_currency) - self.line_of_credit)
       errors.add(:balance, "Insufficient funds in account for transaction")
     end
-  end
-
-  def transactions
-    outgoing_transactions.union(incoming_transactions)
-      .includes(from_account: :owner, to_account: :owner)
-      .latest
-  end
-
-  def items
-    outgoing_items.union(incoming_items)
-      .includes(from_account: :owner, to_account: :owner)
-      .latest
   end
 
   def withdraw(amt, force=false)

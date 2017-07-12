@@ -1,7 +1,7 @@
-class PersonalBankAccountPolicy < ApplicationPolicy
+class GroupBankAccountPolicy < ApplicationPolicy
 
   def has_control?
-    @user.admin? or @record.owner == @character
+    @user.admin? or @character.in? @record.group.members
   end
 
   class Scope
@@ -14,7 +14,7 @@ class PersonalBankAccountPolicy < ApplicationPolicy
     end
 
     def resolve
-      scope.where(owner: @character)
+      scope.where(group: @character.groups)
     end
   end
 

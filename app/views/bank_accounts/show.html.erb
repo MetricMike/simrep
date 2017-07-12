@@ -3,6 +3,12 @@
   <div class="col-2" id="overview">
     <h3 class="text-center">Balance</h3>
     <h5 class="text-center"><%= humanized_money_with_symbol @bank_account.balance %></h5>
+    <br/>
+    <ul class="nav row justify-content-center">
+      <li class="p-2 nav-item">
+        <%= link_to "Print", print_bank_account_path(@bank_account), class: 'btn btn-secondary nav-link' %>
+      </li>
+    </ul>
   </div>
   <div class="row logs col-10">
     <div class="col-12">

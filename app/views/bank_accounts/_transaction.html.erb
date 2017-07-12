@@ -1,6 +1,6 @@
 <tr class="row col-12 <%= "warning" unless transaction.posted? %>" id="transaction-<%= transaction.id %>">
-  <td class="col-3"><%= transaction.from_account ? transaction.from_account.owner.name : "Cash" %></td>
-  <td class="col-3"><%= transaction.to_account ? transaction.to_account.owner.name : "Cash" %></td>
+  <td class="col-3"><%= transaction.from_account ? transaction.from_account.name : "Cash" %></td>
+  <td class="col-3"><%= transaction.to_account ? transaction.to_account.name : "Cash" %></td>
   <td class="col-1"><%= humanized_money_with_symbol transaction.funds %></td>
   <td class="col-3"><%= transaction.memo %></td>
   <td class="col-2"><%= transaction.updated_at.to_s %></td>

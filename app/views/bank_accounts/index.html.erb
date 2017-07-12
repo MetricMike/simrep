@@ -12,5 +12,11 @@
         <%= render partial: 'bank_account', collection: @personal_bank_accounts %>
       </ul>
     <% end %>
+    <% if @group_bank_accounts.any? %>
+      <h3>Group Bank Accounts (<%= @group_bank_accounts.count %>)</h3>
+      <ul class="bank_accounts">
+        <%= render partial: 'bank_account', collection: @group_bank_accounts %>
+      </ul>
+    <% end %>
   </div>
 </div>

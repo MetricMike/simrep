@@ -4,8 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
 ## [Unreleased](#) - ????-??-??
+### Added
+- Group BankAccounts display now as well
+
 ### Changed
-- Partially fixed BankAccounts 500-ing (still have some Policy issues)
+- Totes fixed BankAccounts
 
 ### Removed
 - Rake DB tasks in favor of the shell script from 2.2.0 / 460803cb

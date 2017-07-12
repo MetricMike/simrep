@@ -5,12 +5,12 @@ class BankAccountsController < ApplicationController
   after_action :verify_policy_scoped, only: :index
 
   def index
+    @group_bank_accounts = policy_scope(GroupBankAccount)
     @personal_bank_accounts = policy_scope(PersonalBankAccount)
-    redirect_to bank_account_path(@personal_bank_accounts.first) if @personal_bank_accounts.count == 1
   end
 
   def show
-    @bank_account = PersonalBankAccount.find(params[:id])
+    @bank_account = BankAccount.find(params[:id])
     @transactions = @bank_account.transactions
     @items = @bank_account.items.latest
     @bank_account_transaction = @bank_account.outgoing_transactions.build()
@@ -20,7 +20,7 @@ class BankAccountsController < ApplicationController
   def print
     return unless ENV['MTOWER'].present?
 
-    @bank_account = PersonalBankAccount.find(params[:id])
+    @bank_account = BankAccount.find(params[:id])
     @transactions = @bank_account.transactions.limit(10)
     @items = @bank_account.incoming_items.latest
 
@@ -48,7 +48,7 @@ class BankAccountsController < ApplicationController
   end
 
   def update
-    @bank_account = PersonalBankAccount.find_by id: params[:id]
+    @bank_account = BankAccount.find_by id: params[:id]
     authorize @bank_account
 
     # Try updating transaction
@@ -82,8 +82,8 @@ class BankAccountsController < ApplicationController
 
   def bank_transaction_params
     params[:bank_transaction][:funds] = Money.new(params[:bank_transaction][:funds].to_f*100, params[:bank_transaction][:funds_currency])
-    params[:bank_transaction][:from_account] = PersonalBankAccount.find_by id: params[:bank_transaction][:from_account] if params[:bank_transaction][:from_account]
-    params[:bank_transaction][:to_account] = PersonalBankAccount.find_by id: params[:bank_transaction][:to_account] if params[:bank_transaction][:to_account]
+    params[:bank_transaction][:from_account] = BankAccount.find(id: params[:bank_transaction][:from_account]) if params[:bank_transaction][:from_account]
+    params[:bank_transaction][:to_account] = BankAccount.find(id: params[:bank_transaction][:to_account]) if params[:bank_transaction][:to_account]
     params.require(:bank_transaction).permit! #aaahhhhhhhh
   end
 

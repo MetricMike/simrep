@@ -238,6 +238,21 @@ class Character < ApplicationRecord
     self.deaths.affects_perm.find_all { |d| d.active? }
   end
 
+  def periods_between_deaths
+    return nil if deaths.empty?
+    return nil if deaths.count == 1
+    periods = []
+    deaths.latest.each_cons(2) do |d|
+      next if d[0].weekend == d[1].weekend
+      periods << {
+        from: d[1].weekend - 1.month,
+        to: d[0].weekend - 1.month,
+        breakSize: 1.month.to_i
+      }
+    end
+    return periods
+  end
+
   def turn_off_nested_callbacks
     ProjectContribution.skip_callback(:create, :before, :invest_talent)
   end

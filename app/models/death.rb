@@ -10,7 +10,6 @@ class Death < ApplicationRecord
 
   scope :latest,        -> { order(weekend: :desc) }
   scope :affects_perm,  -> { where(countable: true) }
-  scope :previous,      -> { where('updated_at < ?', self.updated_at).latest }
 
   validates :description, :physical, :roleplay, :weekend, presence: true
 
@@ -27,7 +26,7 @@ class Death < ApplicationRecord
   alias_method :active?, :affects_perm_chance?
 
   def previous_death
-    self.characters.death.previous.first
+    self.character.deaths.where('weekend <= ?', self.weekend).latest.second
   end
 
   def display_name

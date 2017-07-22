@@ -37,6 +37,11 @@ gem 'simple_form'
 gem 'selectize-rails'
 gem 'font-awesome-rails'
 
+# Charts
+gem 'chartkick'
+gem 'highcharts-rails'
+gem 'groupdate'
+
 # Auth[en|or]
 gem 'devise'
 gem 'omniauth-facebook'

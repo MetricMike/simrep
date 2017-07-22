@@ -55,6 +55,9 @@
       <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#historical">Historical</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#over-time">Over Time</a>
+      </li>
     </ul>
 
     <div class="tab-content">
@@ -87,6 +90,13 @@
             <%= render partial: "characters/partials/death", collection: @character.deaths, locals: { historical: true } %>
           </tbody>
         </table>
+      </div>
+      <div class="tab-pane" id="over-time">
+        <%= line_chart @character.deaths.group_by_month(:weekend).count,
+            library: {
+              xAxis: {
+                tickInterval: 1.month.to_i,
+                breaks: @character.periods_between_deaths } } %>
       </div>
     </div>
 

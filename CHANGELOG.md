@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](#) - ????-??-??
 ### Added
 - More CLI feedback when using bin/restore_db
+- GroupMemberships in Admin (thanks Stonecropt Sentinels!)
 
 ### Fixed
 - characters#projects now displays (order of operations matters!)

@@ -15,6 +15,7 @@ gem 'active_record_union'
 gem 'jsonapi-resources'
 gem 'high_voltage'
 gem 'puma'
+gem 'bootsnap'
 
 # Gimme The Cache
 # https://www.youtube.com/watch?v=OADJl-CVDo0

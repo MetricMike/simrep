@@ -92,14 +92,14 @@
         </table>
       </div>
       <div class="tab-pane" id="over-time">
-        <%= line_chart @character.deaths
-              .group_by_month(:weekend).count,
+        <%= line_chart @character.historical_perm_stats
+            # deaths.group_by_month(:weekend).count,
               # .reject { |k,v| v == 0 },
-            library: {
-              xAxis: {
-                tickInterval: 2.months.to_i * 1000,
-              }
-            }
+            # library: {
+              # xAxis: {
+                # tickInterval: 1.months.to_i * 1000,
+              # }
+            # }
           %>
       </div>
     </div>

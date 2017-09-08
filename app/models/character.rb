@@ -90,6 +90,12 @@ class Character < ApplicationRecord
     @last_event = self.events.newest.try(:first)
   end
 
+  def third_last_event(index_event=self.last_event)
+    all_events = self.events.where('weekend <= ?', index_event.weekend).newest
+    num_events = all_events.count
+    @third_last_event = num_events >= 3 ? all_events.third : all_events.last
+  end
+
   def experience
     @experience ||= begin
       pay_xp = self.character_events.paid_with_xp.pluck('events.play_exp').reduce(0, :+)
@@ -223,6 +229,25 @@ class Character < ApplicationRecord
       end
     end
     char_event.update(cleaned: bool || false)
+  end
+
+  def new_perm_chance(index_last=self.third_last_event, index_first=self.last_event)
+    percent_index, counter_index = 0, 0
+    active_deaths = self.deaths.between_events(
+      index_last.weekend, index_first.weekend)
+    active_deaths_count = active_deaths.count
+    DEATH_PERCENTAGES[active_deaths_count]
+  end
+
+  def historical_perm_stats
+    last_twelve_events = self.events.newest.limit(12)
+    max_events = last_twelve_events.count
+    historical_perm_chances = {}
+    last_twelve_events.each_with_index.map do |event, i|
+      plus_three_events = [i+3, max_events-1].min
+      historical_perm_chances[event.weekend] = self.new_perm_chance(event, last_twelve_events[plus_three_events])
+    end
+    historical_perm_chances
   end
 
   def perm_counter

@@ -8,8 +8,9 @@ class Death < ApplicationRecord
   delegate :character_events, to: :character
   alias_method :events, :character_events
 
-  scope :latest,        -> { order(weekend: :desc) }
-  scope :affects_perm,  -> { where(countable: true) }
+  scope :latest,          ->              { order(weekend: :desc) }
+  scope :affects_perm,    ->              { where(countable: true) }
+  scope :between_events,  ->(last, first) { where(weekend: first..last) }
 
   validates :description, :physical, :roleplay, :weekend, presence: true
 

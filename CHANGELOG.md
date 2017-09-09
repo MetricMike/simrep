@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](#) - ????-??-??
 ### Added
+- Retire Characters Button (for admins)
 - Fancy ass death percentages over time graphs!
 - More CLI feedback when using bin/restore_db
 - GroupMemberships in Admin (thanks Stonecropt Sentinels!)

@@ -36,6 +36,8 @@ class Character < ApplicationRecord
   has_many :character_skills, ->{ includes(:skill) }, inverse_of: :character, dependent: :destroy
   has_many :character_perks, ->{ includes(:perk) }, inverse_of: :character, dependent: :destroy
   has_many :character_events, inverse_of: :character, dependent: :destroy
+
+  has_many :project_contributions, inverse_of: :character, dependent: :destroy
   has_many :group_memberships, foreign_key: 'member_id', dependent: :destroy
 
   has_many :backgrounds, through: :character_backgrounds, inverse_of: :characters, dependent: :destroy
@@ -47,7 +49,6 @@ class Character < ApplicationRecord
   has_many :projects, through: :project_contributions, inverse_of: :characters, dependent: :destroy
   has_many :groups, through: :group_memberships, dependent: :destroy
 
-  has_many :project_contributions, inverse_of: :character, dependent: :destroy
   has_many :talents, inverse_of: :character, dependent: :destroy
   has_many :deaths, inverse_of: :character, dependent: :destroy
   has_many :bank_accounts, class_name: 'PersonalBankAccount', foreign_key: :owner_id, dependent: :destroy
@@ -87,6 +88,12 @@ class Character < ApplicationRecord
 
   def last_event
     @last_event = self.events.newest.try(:first)
+  end
+
+  def third_last_event(index_event=self.last_event)
+    all_events = self.events.where('weekend <= ?', index_event.weekend).newest
+    num_events = all_events.count
+    @third_last_event = num_events >= 3 ? all_events.third : all_events.last
   end
 
   def experience
@@ -224,6 +231,25 @@ class Character < ApplicationRecord
     char_event.update(cleaned: bool || false)
   end
 
+  def new_perm_chance(index_last=self.third_last_event, index_first=self.last_event)
+    percent_index, counter_index = 0, 0
+    active_deaths = self.deaths.between_events(
+      index_last.weekend, index_first.weekend)
+    active_deaths_count = active_deaths.count
+    DEATH_PERCENTAGES[active_deaths_count]
+  end
+
+  def historical_perm_stats
+    last_twelve_events = self.events.newest.limit(12)
+    max_events = last_twelve_events.count
+    historical_perm_chances = {}
+    last_twelve_events.each_with_index.map do |event, i|
+      plus_three_events = [i+3, max_events-1].min
+      historical_perm_chances[event.weekend] = self.new_perm_chance(event, last_twelve_events[plus_three_events])
+    end
+    historical_perm_chances
+  end
+
   def perm_counter
     return 0 unless self.deaths.affects_perm.present?
     3 - self.deaths.affects_perm.latest.first.events_since
@@ -236,6 +262,21 @@ class Character < ApplicationRecord
 
   def active_deaths
     self.deaths.affects_perm.find_all { |d| d.active? }
+  end
+
+  def periods_between_deaths
+    return nil if deaths.empty?
+    return nil if deaths.count == 1
+    periods = []
+    deaths.latest.each_cons(2) do |d|
+      next if d[0].weekend == d[1].weekend
+      periods << {
+        from: d[1].weekend - 1.month,
+        to: d[0].weekend - 1.month,
+        breakSize: 1.month.to_i
+      }
+    end
+    return periods
   end
 
   def turn_off_nested_callbacks

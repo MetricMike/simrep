@@ -12,6 +12,7 @@
 /log/*.log
 /tmp/*
 /tmp/miniprofiler/*
+*.bak
 
 # Ignore secrets and environment
 /config/simrep-google-serviceaccount.json

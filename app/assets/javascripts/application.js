@@ -19,6 +19,8 @@
 //= require selectize
 //= require seiyria-bootstrap-slider
 //= require sortable
+//= require highcharts
+//= require chartkick
 
 $(document).ready(function() {
   $(':input.select').selectize({

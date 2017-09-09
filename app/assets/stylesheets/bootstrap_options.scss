@@ -4,3 +4,13 @@ $enable-gradients:          true;
 $enable-transitions:        true;
 $enable-grid-classes:       false;
 $enable-hover-media-query:  true;
+
+/* https://stackoverflow.com/a/23267110 */
+/* bootstrap hack: fix content width inside hidden tabs */
+.tab-content > .tab-pane:not(.active),
+.pill-content > .pill-pane:not(.active) {
+    display: block;
+    height: 0;
+    overflow-y: hidden;
+}
+/* bootstrap hack end */

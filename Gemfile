@@ -15,6 +15,7 @@ gem 'active_record_union'
 gem 'jsonapi-resources'
 gem 'high_voltage'
 gem 'puma'
+gem 'bootsnap'
 
 # Gimme The Cache
 # https://www.youtube.com/watch?v=OADJl-CVDo0
@@ -36,6 +37,11 @@ gem 'jquery-ui-rails'
 gem 'simple_form'
 gem 'selectize-rails'
 gem 'font-awesome-rails'
+
+# Charts
+gem 'chartkick'
+gem 'highcharts-rails'
+gem 'groupdate'
 
 # Auth[en|or]
 gem 'devise'

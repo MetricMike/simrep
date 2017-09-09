@@ -4,6 +4,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 (Lol, it tries to, but SemVer is hard. Especially given this project's constraints.)
 
 ## [Unreleased](#) - ????-??-??
+### Added
+- Fancy ass death percentages over time graphs!
+- More CLI feedback when using bin/restore_db
+- GroupMemberships in Admin (thanks Stonecropt Sentinels!)
+
+### Fixed
+- characters#projects now displays (order of operations matters!)
+
+### Broke
+### Changed
+### Removed
 
 ## [2.5.0](v2.5.0) - 2017-07-12
 ### Added

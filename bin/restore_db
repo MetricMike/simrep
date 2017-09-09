@@ -25,7 +25,7 @@ OPTIND=1
 while getopts hcdp opt; do
   case $opt in
     h)
-      show_help
+      show_help 2>&1
       exit 0
       ;;
     c)
@@ -38,11 +38,16 @@ while getopts hcdp opt; do
       production=true
       ;;
     *)
-      show_help >&2
+      show_help 2>&1
       exit 1
       ;;
   esac
 done
+if [ "$OPTIND" -eq 1 ]; then
+  # No options were passed
+  show_help 2>&1;
+  exit 1;
+fi
 shift "$((OPTIND-1))" # Shift off the options and optional --.
 
 # Everything that's left in "$@" is a non-option.  In our case, a FILE to process.

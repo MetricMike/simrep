@@ -326,23 +326,25 @@ class Character < ApplicationRecord
   end
 
   def retire(type=:standard)
-    case type
+    case type.to_sym
     when :standard
       self.update(retired: true)
       self.user.update(std_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
     when :legacy
       self.update(retired: true)
-      self.user.update(leg_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
+      self.user.update(leg_retirement_xp_pool: (self.user.leg_retirement_xp_pool || 0) + (self.experience - 31)/2)
     when :high_arcane
       # What happens to previous experience? Does it no longer count or do you level REALLY slowly?
-      self.user.update(leg_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
+      self.user.update(leg_retirement_xp_pool: (self.user.leg_retirement_xp_pool || 0) + (self.experience - 31)/2)
     when :ghost
-      self.user.update(leg_retirement_xp_pool: (self.user.std_retirement_xp_pool || 0) + (self.experience - 31)/2)
+      self.user.update(leg_retirement_xp_pool: (self.user.leg_retirement_xp_pool || 0) + (self.experience - 31)/2)
     else
       Rails.logger.info "I don't know how to retire #{type}.\n" \
                         "It shouldn't have been possible to reach this state.\n" \
                         "You've summoned a Kiltrick.\n" \
                         "Good job."
+      self.errors[:base] << "Unknown retirement type #{type}"
+      return false
     end
   end
 

@@ -51,13 +51,18 @@ class CharactersController < ApplicationController
     #   redirect_to @character, notice: 'Character moved successfully. 1 Time Unit removed.'
     # else
     #   flash[:error] = "Couldn't move character. Do you have Time Units available?"
-    #   render action: :edit
+  #   render action: :edit
     # end
   end
 
   def destroy
-    # @character.update(retired: true)
-    # But I'm not ready to let PCs self-retire JUST yet
+    if @character.retire(params[:type])
+      flash[:success] = "Successfully retired (#{params[:type]}) #{@character.name}!"
+    else
+      flash[:danger] = "Unable to retire (#{params[:type]}) #{@character.name}!"
+      @character.errors.full_messages.each { |msg| flash[:danger] << "\n#{msg}" }
+    end
+    redirect_to action: :index
   end
 
   private

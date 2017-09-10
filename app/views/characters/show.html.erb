@@ -1,5 +1,6 @@
 <% provide(:title, @character.name) %>
 <%= render "characters/partials/events" %>
+<%= render "characters/partials/retire" %>
 <div class="row header justify-content-around align-items-center">
   <div class="col-3 actions">
     <ul class="nav flex-column">
@@ -12,14 +13,23 @@
         </li>
       </div>
       <br/>
-      <div class="row justify-content-around">
-        <li class="col-5 p-2 nav-item">
-          <%= link_to "NPC", npc_shifts_path, class: 'btn btn-info nav-link' %>
-        </li>
-        <li class="col-5 p-2 nav-item">
-          <%= link_to "Print", print_character_path(@character), class: 'btn btn-secondary nav-link' %>
-        </li>
-      </div>
+      <% unless @character.retired? %>
+        <div class="row justify-content-around">
+          <li class="col-5 p-2 nav-item">
+            <%= link_to "NPC", npc_shifts_path, class: 'btn btn-info nav-link' %>
+          </li>
+          <li class="col-5 p-2 nav-item">
+            <%= link_to "Print", print_character_path(@character), class: 'btn btn-secondary nav-link' %>
+          </li>
+          <% if current_user.try(:admin?) %>
+            <% content_for :footer_actions do %>
+              <li class="nav-item">
+                <%= link_to "Retire", "#", data: { toggle: "modal", target: "#retireModal" }, class: 'btn btn-danger nav-link' %>
+              </li>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
     </ul>
   </div>
   <div class="col-6 demographics">

@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](#) - ????-??-??
 ### Added
+- Retirement XP is shown on the Characters Index page
+- Retire Characters Button (for admins)
 - Fancy ass death percentages over time graphs!
 - More CLI feedback when using bin/restore_db
 - GroupMemberships in Admin (thanks Stonecropt Sentinels!)
@@ -14,7 +16,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Broke
 ### Changed
+- Retired Characters can be viewed for historical/vanity purposes
+
 ### Removed
+- Don't need "name" to log in with local/developer auth anymore
 
 ## [2.5.0](v2.5.0) - 2017-07-12
 ### Added

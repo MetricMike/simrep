@@ -16,6 +16,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Broke
 ### Changed
+- Retired Characters can be viewed for historical/vanity purposes
+
 ### Removed
 
 ## [2.5.0](v2.5.0) - 2017-07-12

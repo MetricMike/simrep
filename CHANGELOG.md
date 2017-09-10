@@ -5,10 +5,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](#) - ????-??-??
 ### Added
+- oauth id and retirement xp on admin/user#edit
+
 ### Fixed
 ### Broke
 ### Changed
+
 ### Removed
+- confirm options on admin/user#edit
 
 ## [2.6.0](v2.6.0) - 2017-09-10
 ### Added

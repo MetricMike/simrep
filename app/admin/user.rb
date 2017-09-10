@@ -48,8 +48,10 @@ ActiveAdmin.register User do
       f.input :name
       f.input :email
       f.input :admin
-      f.input :options_skip_confirm, as: :boolean
-      f.input :options_confirm, as: :boolean
+      f.input :std_retirement_xp_pool
+      f.input :leg_retirement_xp_pool
+      f.input :provider
+      f.input :uid
     end
     f.actions
   end

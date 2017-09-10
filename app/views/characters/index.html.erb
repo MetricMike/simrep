@@ -1,9 +1,22 @@
 <% provide(:title, "#{current_user.name}'s Characters") %>
 <div class="row justify-content-around">
   <aside class="col-4">
-    <section class="user_info">
-      <%= link_to 'Create New Character', new_character_path, class: "btn btn-block btn-primary" %>
-    </section>
+    <div class="row user_info">
+        <%= link_to 'Create New Character', new_character_path, class: "btn btn-block btn-primary" %>
+    </div>
+    <% if current_user.retirement_xp? %>
+    <br/>
+    <h5>Retirement XP</h5>
+    <br/>
+    <dl class="row">
+      <dt class="col-sm-4">Standard</dt>
+      <dd class="col-sm-2"><%= current_user.std_retirement_xp_pool %></dd>
+      <dd class="col-sm-6"><small>(10 XP per event)</small></dd>
+      <dt class="col-sm-4">Legacy</dt>
+      <dd class="col-sm-2"><%= current_user.leg_retirement_xp_pool %></dd>
+      <dd class="col-sm-6"><small>(20 XP per event)</small></dd>
+    </dl>
+    <% end %>
   </aside>
   <div class="col-6">
     <% if @active_characters.present? %>

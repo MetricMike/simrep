@@ -1,5 +1,6 @@
 <% provide(:title, @character.name) %>
 <%= render "characters/partials/events" %>
+<%= render "characters/partials/retire" %>
 <div class="row header justify-content-around align-items-center">
   <div class="col-3 actions">
     <ul class="nav flex-column">
@@ -12,14 +13,23 @@
         </li>
       </div>
       <br/>
-      <div class="row justify-content-around">
-        <li class="col-5 p-2 nav-item">
-          <%= link_to "NPC", npc_shifts_path, class: 'btn btn-info nav-link' %>
-        </li>
-        <li class="col-5 p-2 nav-item">
-          <%= link_to "Print", print_character_path(@character), class: 'btn btn-secondary nav-link' %>
-        </li>
-      </div>
+      <% unless @character.retired? %>
+        <div class="row justify-content-around">
+          <li class="col-5 p-2 nav-item">
+            <%= link_to "NPC", npc_shifts_path, class: 'btn btn-info nav-link' %>
+          </li>
+          <li class="col-5 p-2 nav-item">
+            <%= link_to "Print", print_character_path(@character), class: 'btn btn-secondary nav-link' %>
+          </li>
+          <% if current_user.try(:admin?) %>
+            <% content_for :footer_actions do %>
+              <li class="nav-item">
+                <%= link_to "Retire", "#", data: { toggle: "modal", target: "#retireModal" }, class: 'btn btn-danger nav-link' %>
+              </li>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
     </ul>
   </div>
   <div class="col-6 demographics">
@@ -55,6 +65,9 @@
       <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#historical">Historical</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#over-time">Over Time</a>
+      </li>
     </ul>
 
     <div class="tab-content">
@@ -87,6 +100,17 @@
             <%= render partial: "characters/partials/death", collection: @character.deaths, locals: { historical: true } %>
           </tbody>
         </table>
+      </div>
+      <div class="tab-pane" id="over-time">
+        <%= line_chart @character.historical_perm_stats
+            # deaths.group_by_month(:weekend).count,
+              # .reject { |k,v| v == 0 },
+            # library: {
+              # xAxis: {
+                # tickInterval: 1.months.to_i * 1000,
+              # }
+            # }
+          %>
       </div>
     </div>
 

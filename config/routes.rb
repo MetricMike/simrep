@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     patch '/confirm' => 'confirmations#confirm'
   end
 
-  resources :characters, except: [:edit, :update, :destroy] do
+  resources :characters, except: [:edit, :update] do
     get 'print', on: :member
   end
   resources :projects

@@ -234,7 +234,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   config.omniauth :facebook, ENV['FACEBOOK_ID'], ENV['FACEBOOK_SECRET']
   if ENV['MTOWER']
-    config.omniauth :developer, fields: [:name, :email], uid_field: :email
+    config.omniauth :developer, fields: [:email], uid_field: :email
   end
 
   # ==> Warden configuration

@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 ### Broke
 ### Changed
+- bootstrap alpha6 -> beta
 
 ### Removed
 - confirm options on admin/user#edit

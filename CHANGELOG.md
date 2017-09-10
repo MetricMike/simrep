@@ -5,6 +5,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](#) - ????-??-??
 ### Added
+### Fixed
+### Broke
+### Changed
+### Removed
+
+## [2.6.0](v2.6.0) - 2017-09-10
+### Added
 - Retirement XP is shown on the Characters Index page
 - Retire Characters Button (for admins)
 - Fancy ass death percentages over time graphs!
@@ -15,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - characters#projects now displays (order of operations matters!)
 
 ### Broke
+
 ### Changed
 - Retired Characters can be viewed for historical/vanity purposes
 

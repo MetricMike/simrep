@@ -42,7 +42,7 @@ ActiveAdmin.register BankItem do
         flash[:notice] = "Item add failed with: #{@bank_item.errors.messages}"
       end
 
-      redirect_to :back and return
+      redirect_back(fallback_location: admin_bank_accounts_path)
     end
 
     def bank_item_params

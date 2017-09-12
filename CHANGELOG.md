@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - oauth id and retirement xp on admin/user#edit
 
 ### Fixed
+- Bank transactions/items from Admin successfully redirect
+
 ### Broke
 ### Changed
 - bootstrap alpha6 -> beta

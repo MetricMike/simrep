@@ -54,14 +54,14 @@ class Character < ApplicationRecord
   has_many :bank_accounts, class_name: 'PersonalBankAccount', foreign_key: :owner_id, dependent: :destroy
   has_many :crafting_points, dependent: :destroy
 
-  has_many :temporary_effects, inverse_of: :character, dependent: :destroy
+  has_many :special_effects, inverse_of: :character, dependent: :destroy
   has_many :bonus_experiences, inverse_of: :character, dependent: :destroy
 
   accepts_nested_attributes_for :character_backgrounds, :character_origins, :character_birthrights, :character_skills,
                                 :character_perks, :character_events, :bank_accounts,
                                 :crafting_points, :group_memberships, allow_destroy: true
   accepts_nested_attributes_for :project_contributions, :talents, :deaths, :birthrights, :origins, :backgrounds,
-                                :events, :skills, :perks, :temporary_effects, :bonus_experiences,
+                                :events, :skills, :perks, :special_effects, :bonus_experiences,
                                 allow_destroy: true
 
   validates :name, presence: true
@@ -319,7 +319,7 @@ class Character < ApplicationRecord
 
   def calc_willpower
     @willpower = self.last_event.try(:event_willpower) || 1
-    if willpower_modifiers = self.temporary_effects.where(attr: 'willpower').where('expiration > ?', Time.current)
+    if willpower_modifiers = self.special_effects.where(attr: 'willpower').where('expiration > ?', Time.current)
       @willpower += willpower_modifiers.reduce(0) { |sum, eff| sum + eff.modifier }
     end
     @willpower

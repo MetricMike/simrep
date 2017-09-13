@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Broke
 ### Changed
 - bootstrap alpha6 -> beta
+- temporary effects are now special effects (because not all effects are temporary)
 
 ### Removed
 - confirm options on admin/user#edit

@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 - confirm options on admin/user#edit
+- bin/restore_db no longer uses --verbose when restoring
 
 ## [2.6.0](v2.6.0) - 2017-09-10
 ### Added

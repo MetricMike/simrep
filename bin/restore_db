@@ -78,11 +78,11 @@ fi
 if [ "$development" = true ]
 then
   echo "restoring development"
-  PGPASSWORD=simrep pg_restore --verbose --clean --no-acl --no-owner -h localhost -U simrep -d simrep_development latest.dump
+  PGPASSWORD=simrep pg_restore --clean --no-acl --no-owner -h localhost -U simrep -d simrep_development latest.dump
 fi
 
 if [ "$production" = true ]
 then
   echo "restoring production"
-  PGPASSWORD=simrep pg_restore --verbose --clean --no-acl --no-owner -h localhost -U simrep -d simrep_production latest.dump
+  PGPASSWORD=simrep pg_restore --clean --no-acl --no-owner -h localhost -U simrep -d simrep_production latest.dump
 fi

@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](#) - ????-??-??
 ### Added
+- option to dump local production db with bin/restore_db
 - oauth id and retirement xp on admin/user#edit
 
 ### Fixed

@@ -23,7 +23,7 @@ gem 'redis-rails'
 gem 'redis-rack-cache'
 
 # Assets
-gem 'bootstrap', '~> 4.0.0.alpha5'
+gem 'bootstrap', '~> 4.0.0.beta'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether'

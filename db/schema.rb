@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117023624) do
+ActiveRecord::Schema.define(version: 20170913113958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -318,6 +318,15 @@ ActiveRecord::Schema.define(version: 20170117023624) do
     t.datetime "reviewed_at"
   end
 
+  create_table "special_effects", id: :serial, force: :cascade do |t|
+    t.integer "character_id"
+    t.datetime "expiration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "description"
+    t.index ["character_id"], name: "index_special_effects_on_character_id"
+  end
+
   create_table "talents", id: :serial, force: :cascade do |t|
     t.string "group"
     t.string "name"
@@ -328,16 +337,6 @@ ActiveRecord::Schema.define(version: 20170117023624) do
     t.datetime "updated_at", null: false
     t.integer "investment_limit", default: 2
     t.index ["character_id"], name: "index_talents_on_character_id"
-  end
-
-  create_table "temporary_effects", id: :serial, force: :cascade do |t|
-    t.integer "character_id"
-    t.string "attr"
-    t.integer "modifier"
-    t.datetime "expiration"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["character_id"], name: "index_temporary_effects_on_character_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -411,7 +410,7 @@ ActiveRecord::Schema.define(version: 20170117023624) do
   add_foreign_key "referrals", "events", column: "event_claimed_id"
   add_foreign_key "referrals", "users", column: "referred_user_id"
   add_foreign_key "referrals", "users", column: "sponsor_id"
+  add_foreign_key "special_effects", "characters"
   add_foreign_key "talents", "characters"
-  add_foreign_key "temporary_effects", "characters"
   add_foreign_key "users", "events", column: "free_cleaning_event_id"
 end

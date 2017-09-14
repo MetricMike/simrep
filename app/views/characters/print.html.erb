@@ -32,6 +32,7 @@
   </div>
 </div>
 <br/>
+<% if @character.deaths.count > 0 %>
 <div class="row deaths">
   <h6>Active Deaths</h6>
   <table class="table table-condensed table-hover">
@@ -49,6 +50,7 @@
   </table>
 </div>
 <br/>
+<% end %>
 <% if @character.birthrights.present? %>
 <div class="row">
   <h6>Birthrights</h6>
@@ -98,6 +100,22 @@
     </thead>
     <tbody>
       <%= render partial: "characters/partials/background", collection: @character.backgrounds %>
+    </tbody>
+  </table>
+</div>
+<% end %>
+<% if @character.special_effects.present? %>
+<div class="row">
+  <h6>Special Effects</h6>
+  <table class="table table-condensed table-hover">
+    <thead>
+      <tr class="row col-12">
+        <th class="col-8">Description</th>
+        <th class="col-4">Expiration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: "characters/partials/special_effect", collection: @character.special_effects %>
     </tbody>
   </table>
 </div>

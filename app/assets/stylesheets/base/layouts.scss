@@ -36,12 +36,12 @@ body > .container {
 footer {
   margin-top: 45px;
   padding-top: 5px;
-  border-top: 1px solid $gray-medium-light;
-  color: $gray-light;
+  border-top: 1px solid $gray-500;
+  color: $gray-500;
   a {
-    color: $gray;
+    color: $gray-700;
     &:hover {
-      color: $gray-dark;
+      color: $gray-900;
     }
   }
   small {
@@ -66,7 +66,8 @@ footer {
 }
 
 .card-muted {
-  @include card-variant(ghostwhite, ghostwhite);
+  margin-top: 3rem;
+  padding: 1rem;
 }
 
 /*flash*/

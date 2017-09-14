@@ -46,7 +46,7 @@ ActiveAdmin.register BankTransaction do
         flash[:notice] = "Transaction failed with: #{@bank_transaction.errors.messages}"
       end
 
-      redirect_to :back and return
+      redirect_back(fallback_location: admin_bank_accounts_path)
     end
 
     def bank_transaction_params

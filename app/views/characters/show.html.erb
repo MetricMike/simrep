@@ -122,6 +122,9 @@
       <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#backgrounds">Backgrounds</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#special_effects">Special Effects</a>
+      </li>
     </ul>
 
     <div class="tab-content">
@@ -164,6 +167,19 @@
           </thead>
           <tbody>
             <%= render partial: "characters/partials/background", collection: @character.backgrounds %>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="special_effects">
+        <table class="table table-condensed table-hover sortable-theme-bootstrap" data-sortable>
+          <thead>
+            <tr class="row col-12">
+              <th class="col-8">Description</th>
+              <th class="col-4">Expiration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "characters/partials/special_effect", collection: @character.special_effects %>
           </tbody>
         </table>
       </div>

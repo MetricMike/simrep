@@ -104,6 +104,22 @@
   </table>
 </div>
 <% end %>
+<% if @character.special_effects.present? %>
+<div class="row">
+  <h6>Special Effects</h6>
+  <table class="table table-condensed table-hover">
+    <thead>
+      <tr class="row col-12">
+        <th class="col-8">Description</th>
+        <th class="col-4">Expiration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: "characters/partials/special_effect", collection: @character.special_effects %>
+    </tbody>
+  </table>
+</div>
+<% end %>
 <hr>
 <div class="row">
   <div class="col-6">

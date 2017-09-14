@@ -6,6 +6,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](#) - ????-??-??
 ### Added
 ### Fixed
+- fixed admin view of special_effects datefield
+
 ### Broke
 ### Changed
 ### Removed

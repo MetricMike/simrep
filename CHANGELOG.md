@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - bootstrap alpha6 -> beta
 - temporary effects are now special effects (because not all effects are temporary)
+- deaths panel only shows on character sheet if they exist
 
 ### Removed
 - confirm options on admin/user#edit

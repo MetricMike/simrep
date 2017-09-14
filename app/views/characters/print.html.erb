@@ -32,6 +32,7 @@
   </div>
 </div>
 <br/>
+<% if @character.deaths.count > 0 %>
 <div class="row deaths">
   <h6>Active Deaths</h6>
   <table class="table table-condensed table-hover">
@@ -49,6 +50,7 @@
   </table>
 </div>
 <br/>
+<% end %>
 <% if @character.birthrights.present? %>
 <div class="row">
   <h6>Birthrights</h6>

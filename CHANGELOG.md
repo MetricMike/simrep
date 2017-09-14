@@ -5,6 +5,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](#) - ????-??-??
 ### Added
+### Fixed
+### Broke
+### Changed
+### Removed
+
+## [2.7.0](v2.7.0) - 2017-09-13
+### Added
 - option to dump local production db with bin/restore_db
 - oauth id and retirement xp on admin/user#edit
 
@@ -12,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bank transactions/items from Admin successfully redirect
 
 ### Broke
+
 ### Changed
 - bootstrap alpha6 -> beta
 - temporary effects are now special effects (because not all effects are temporary)

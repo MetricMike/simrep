@@ -115,7 +115,7 @@
       </tr>
     </thead>
     <tbody>
-      <%= render partial: "characters/partials/special_effect", collection: @character.special_effects %>
+      <%= render partial: "characters/partials/special_effect", collection: @character.special_effects.active %>
     </tbody>
   </table>
 </div>

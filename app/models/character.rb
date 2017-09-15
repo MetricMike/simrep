@@ -231,12 +231,18 @@ class Character < ApplicationRecord
     char_event.update(cleaned: bool || false)
   end
 
-  def new_perm_chance(index_last=self.third_last_event, index_first=self.last_event)
-    percent_index, counter_index = 0, 0
-    active_deaths = self.deaths.between_events(
+  def active_deaths(index_last=self.third_last_event, index_first=self.last_event)
+    self.deaths.affects_perm.between_events(
       index_last.weekend, index_first.weekend)
-    active_deaths_count = active_deaths.count
-    DEATH_PERCENTAGES[active_deaths_count]
+  end
+
+  def perm_chance(index_last=self.third_last_event, index_first=self.last_event)
+    DEATH_PERCENTAGES[active_deaths(index_last, index_first).count]
+  end
+
+  def perm_counter(index_last=self.third_last_event, index_first=self.last_event)
+    num_events_since = active_deaths(index_last, index_first).last.try(:events_since) || 3
+    [3 - num_events_since, 0].max
   end
 
   def historical_perm_stats
@@ -245,38 +251,9 @@ class Character < ApplicationRecord
     historical_perm_chances = {}
     last_twelve_events.each_with_index.map do |event, i|
       plus_three_events = [i+3, max_events-1].min
-      historical_perm_chances[event.weekend] = self.new_perm_chance(event, last_twelve_events[plus_three_events])
+      historical_perm_chances[event.weekend] = self.perm_chance(event, last_twelve_events[plus_three_events])
     end
     historical_perm_chances
-  end
-
-  def perm_counter
-    return 0 unless self.deaths.affects_perm.present?
-    3 - self.deaths.affects_perm.latest.first.events_since
-  end
-
-  def perm_chance
-    return 0 unless self.deaths.affects_perm.present?
-    DEATH_PERCENTAGES[self.active_deaths.count]
-  end
-
-  def active_deaths
-    self.deaths.affects_perm.find_all { |d| d.active? }
-  end
-
-  def periods_between_deaths
-    return nil if deaths.empty?
-    return nil if deaths.count == 1
-    periods = []
-    deaths.latest.each_cons(2) do |d|
-      next if d[0].weekend == d[1].weekend
-      periods << {
-        from: d[1].weekend - 1.month,
-        to: d[0].weekend - 1.month,
-        breakSize: 1.month.to_i
-      }
-    end
-    return periods
   end
 
   def turn_off_nested_callbacks

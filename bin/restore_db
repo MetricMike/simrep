@@ -72,7 +72,7 @@ fi
 
 if [ "$local" = true ]
 then
-  PGPASSWORD=simrep pg_dump -Fc --no-acl --no-owner -h localhost -U simrep simrep_production > "$FILE"
+  PGPASSWORD=simrep pg_dump -Fc --no-acl --no-owner -h localhost -U simrep simrep_production >! "$FILE"
 fi
 
 if [ "$development" = true ]

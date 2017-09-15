@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Fixed
 - fixed admin view of special_effects datefield
+- dumping local db overwrites $FILE if it exists
 
 ### Broke
 ### Changed

@@ -11,6 +11,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Broke
 ### Changed
+- only active special effects show up on a character sheet now
+
 ### Removed
 
 ## [2.7.0](v2.7.0) - 2017-09-13

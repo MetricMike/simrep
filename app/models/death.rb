@@ -3,8 +3,6 @@ class Death < ApplicationRecord
   DEATH_COUNTER = [0, 3, 2, 1, 0]
   belongs_to :character, inverse_of: :deaths
 
-  delegate :perm_chance, :perm_counter, to: :character
-
   delegate :character_events, to: :character
   alias_method :events, :character_events
 
@@ -20,11 +18,6 @@ class Death < ApplicationRecord
     # HAVE A HIGHER DEATH THAN THEY REALLY DO
     self.events.paid.after(self.weekend+5.days).before(weekend).count
   end
-
-  def affects_perm_chance?
-    self.events_since <= 3
-  end
-  alias_method :active?, :affects_perm_chance?
 
   def previous_death
     self.character.deaths.where('weekend <= ?', self.weekend).latest.second

@@ -8,12 +8,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - fixed admin view of special_effects datefield
 - dumping local db overwrites $FILE if it exists
+- character sheet perm stats reflect new algorithm
 
 ### Broke
 ### Changed
 - only active special effects show up on a character sheet now
 
 ### Removed
+- lots of unused death/perm code
 
 ## [2.7.0](v2.7.0) - 2017-09-13
 ### Added

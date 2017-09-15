@@ -10,14 +10,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Removed
 
+## [2.8.1](v2.8.1) - 2017-09-14
+### Changed
+- bin/restore_db no longer chokes (or overwrites) if $FILE exists
+
 ## [2.8.0](v2.8.0) - 2017-09-14
-### Added
 ### Fixed
 - fixed admin view of special_effects datefield
 - dumping local db overwrites $FILE if it exists
 - character sheet perm stats reflect new algorithm
 
-### Broke
 ### Changed
 - only active special effects show up on a character sheet now
 

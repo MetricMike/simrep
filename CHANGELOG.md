@@ -6,6 +6,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](#) - ????-??-??
 ### Added
 ### Fixed
+### Broke
+### Changed
+### Removed
+
+## [2.8.0](v2.8.0) - 2017-09-14
+### Added
+### Fixed
 - fixed admin view of special_effects datefield
 - dumping local db overwrites $FILE if it exists
 - character sheet perm stats reflect new algorithm

@@ -1,4 +1,4 @@
-FROM ruby:2.4.1-alpine
+FROM ruby:2.4.2-alpine
 
 # Optionally set a maintainer name to let people know who made this image.
 MAINTAINER Michael Weigle <michael.weigle@gmail.com>

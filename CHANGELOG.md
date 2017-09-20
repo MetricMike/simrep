@@ -8,6 +8,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 ### Broke
 ### Changed
+- Upgraded all docker images
+- Upgrading to Redis4
+- Upgrading to Sprockets4
+- Turning off halting ActiveRecord callback chains on returning false
+
 ### Removed
 
 ## [2.8.1](v2.8.1) - 2017-09-14

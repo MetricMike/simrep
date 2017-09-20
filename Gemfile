@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.4.1'
+ruby '2.4.2'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -30,6 +30,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-seiyria-bootstrap-slider'
 end
 
+gem 'sprockets', '~> 4.0.0.beta'
 gem 'sassc-rails'
 gem 'uglifier'
 gem 'jquery-rails'

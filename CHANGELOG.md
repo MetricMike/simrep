@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](#) - ????-??-??
 ### Added
+- SUPER aggressive XP caching because I'm tired of waiting for characters#index
+
 ### Fixed
 ### Broke
 ### Changed

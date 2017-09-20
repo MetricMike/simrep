@@ -21,7 +21,6 @@ class Character < ApplicationRecord
   scope :only_user, -> { where(user: User.single_character) }
   scope :only_character, -> { no_user.or(Character.only_user) }
   scope :first_event, -> { Character.where(id: CharacterEvent.group(:character_id).count.select {|_,v| v == 1 }.keys.uniq) }
-  scope :for_index, -> { includes(:events, :backgrounds, :origins) }
   scope :for_current_chapter, ->(chapter) { where(chapter_id: chapter['id']) }
   scope :recently_played, ->(from=6.months.ago) { includes(:events)
                                                   .where('events.weekend': from..Time.current)
@@ -73,6 +72,12 @@ class Character < ApplicationRecord
   before_create :assign_chapter, if: Proc.new { self.chapter.blank? }
   after_create :award_starting_bonus_xp
   after_create :open_bankaccount
+
+  before_save :update_cached_xp
+
+  def update_cached_xp
+    self.cached_experience = self.experience
+  end
 
   def assign_chapter
     self.chapter = Event.last.try(:chapter)
@@ -270,6 +275,7 @@ class Character < ApplicationRecord
     self.bonus_experiences.create(reason: "Chapter Starting XP",
                                   date_awarded: self.starting_event,
                                   amount: self.chapter.default_xp - Character::BASE_XP)
+    self.update_cached_xp
   end
 
   def starting_event

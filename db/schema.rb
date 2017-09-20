@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170913113958) do
+ActiveRecord::Schema.define(version: 20170920021107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(version: 20170913113958) do
     t.boolean "retired", default: false
     t.integer "chapter_id"
     t.datetime "uploaded_at"
+    t.integer "cached_experience"
     t.index ["chapter_id"], name: "index_characters_on_chapter_id"
     t.index ["user_id"], name: "index_characters_on_user_id"
   end

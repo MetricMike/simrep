@@ -3,7 +3,7 @@
   <% if character.retired? %>
     <span class="experience">Total Events: <%= character.character_events.count %></span>
   <% else %>
-    <span class="experience">XP: <%= character.experience %></span>
+    <span class="experience">XP: <%= character.cached_experience || "ERROR" %></span>
   <% end %>
   <span class="chapter">Chapter: <%= character.chapter.try(:name) %></span>
 </li>

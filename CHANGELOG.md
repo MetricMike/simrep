@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - SUPER aggressive XP caching because I'm tired of waiting for characters#index
 
 ### Fixed
+- Bank Accounts CSV is actually useful instead of just primary IDs everywhere
+
 ### Broke
 ### Changed
 - Upgraded all docker images

@@ -4,6 +4,15 @@ ActiveAdmin.register BankAccount do
   scope("Personal") { |scope| scope.personal_accounts }
   scope("Group") { |scope| scope.group_accounts }
 
+  csv force_quotes: true do
+    column("Owner Name", humanize_name: false) { |ba| ba.name }
+    column("Bank Account Balance", humanize_name: false) { |ba| ba.balance }
+    column("Bank Account Currency", humanize_name: false) { |ba| ba.balance_currency }
+    column("Chapter", humanize_name: false) { |ba| ba.chapter.name }
+    column("Type", humanize_name: false) { |ba| ba.type }
+    column("Updated At", humanize_name: false) { |ba| ba.updated_at }
+  end
+
   action_item :view, only: [:show, :edit] do
     if resource.type == 'PersonalBankAccount'
       link_to 'View on Site', bank_account_path

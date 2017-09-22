@@ -10,7 +10,7 @@ class CharacterPolicy < ApplicationPolicy
     def initialize(context, scope)
       @user = context.user
       @character = context.character
-      @scope = scope.for_index
+      @scope = scope.includes(:chapter)
     end
 
     def resolve

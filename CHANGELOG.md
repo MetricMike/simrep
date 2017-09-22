@@ -5,19 +5,23 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](#) - ????-??-??
 ### Added
+### Fixed
+### Broke
+### Changed
+### Removed
+
+## [2.8.2](v2.8.2) - 2017-09-21
+### Added
 - SUPER aggressive XP caching because I'm tired of waiting for characters#index
 
 ### Fixed
 - Bank Accounts CSV is actually useful instead of just primary IDs everywhere
 
-### Broke
 ### Changed
 - Upgraded all docker images
 - Upgrading to Redis4
 - Upgrading to Sprockets4
 - Turning off halting ActiveRecord callback chains on returning false
-
-### Removed
 
 ## [2.8.1](v2.8.1) - 2017-09-14
 ### Changed

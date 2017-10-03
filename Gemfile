@@ -43,6 +43,7 @@ gem 'font-awesome-rails'
 gem 'chartkick'
 gem 'highcharts-rails'
 gem 'groupdate'
+gem 'descriptive_statistics'
 
 # Auth[en|or]
 gem 'devise'

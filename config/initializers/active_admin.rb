@@ -66,6 +66,7 @@ ActiveAdmin.setup do |config|
       menu.add label: 'SimRep Admin', url: '#', priority: 9 do |base|
         base.add label: 'Comments',    url: :admin_comments_path
         base.add label: 'Versions',    url: :admin_versions_path
+        base.add label: 'Statistics',  url: :admin_statistics_path
       end
     end
   end

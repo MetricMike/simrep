@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Starting app at $(date -u)..."
+
 if [ "$CIRCLECI" = true ]
 then
   bundle check || bundle install --path vendor/bundle

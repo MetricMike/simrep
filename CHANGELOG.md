@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](#) - ????-??-??
 ### Added
+- bin/start_app reports time when ran to make logs more readable
+
 ### Fixed
 ### Broke
 ### Changed

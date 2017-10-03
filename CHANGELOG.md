@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - bin/start_app reports time when ran to make logs more readable
 
 ### Fixed
+- Locking AthenaPDF to version 2
+
 ### Broke
 ### Changed
 ### Removed

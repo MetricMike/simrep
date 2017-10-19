@@ -24,6 +24,7 @@ gem 'redis-rack-cache'
 
 # Assets
 gem 'bootstrap', '~> 4.0.0.beta'
+gem 'active_bootstrap_skin'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether'

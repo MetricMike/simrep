@@ -28,8 +28,6 @@ GEM
     active_admin_versioning (0.3.0)
       activeadmin (>= 1.0.0.pre4)
       paper_trail (>= 4.2.0)
-    active_bootstrap_skin (0.1.4)
-      bootstrap-sass (~> 3.3.6)
     active_record_query_trace (1.5.4)
     active_record_union (1.2.0)
       activerecord (>= 4.0)
@@ -85,9 +83,6 @@ GEM
       autoprefixer-rails (>= 6.0.3)
       popper_js (~> 1.11.1)
       sass (>= 3.4.19)
-    bootstrap-sass (3.3.7)
-      autoprefixer-rails (>= 5.2.1)
-      sass (>= 3.3.4)
     builder (3.2.3)
     bullet (5.6.1)
       activesupport (>= 3.0.0)
@@ -494,7 +489,6 @@ PLATFORMS
 
 DEPENDENCIES
   active_admin_versioning
-  active_bootstrap_skin
   active_record_query_trace
   active_record_union
   activeadmin

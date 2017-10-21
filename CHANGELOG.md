@@ -5,15 +5,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](#) - ????-??-??
 ### Added
+### Fixed
+### Broke
+### Changed
+### Removed
+
+## [2.8.3](v2.8.3) - 2017-10-20
+### Added
 - bin/start_app reports time when ran to make logs more readable
 - Statistics page on Admin (frequencies!)
 
 ### Fixed
 - Locking AthenaPDF to version 2
-
-### Broke
-### Changed
-### Removed
 
 ## [2.8.2](v2.8.2) - 2017-09-21
 ### Added

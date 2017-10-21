@@ -96,6 +96,7 @@ class Character < ApplicationRecord
   end
 
   def third_last_event(index_event=self.last_event)
+    return nil if index_event.nil?
     all_events = self.events.where('weekend <= ?', index_event.weekend).newest
     num_events = all_events.count
     @third_last_event = num_events >= 3 ? all_events.third : all_events.last
@@ -242,10 +243,12 @@ class Character < ApplicationRecord
   end
 
   def perm_chance(index_last=self.third_last_event, index_first=self.last_event)
+    return 0 if index_first.nil?
     DEATH_PERCENTAGES[active_deaths(index_last, index_first).count]
   end
 
   def perm_counter(index_last=self.third_last_event, index_first=self.last_event)
+    return 0 if index_first.nil?
     num_events_since = active_deaths(index_last, index_first).last.try(:events_since) || 3
     [3 - num_events_since, 0].max
   end

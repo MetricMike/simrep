@@ -6,6 +6,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](#) - ????-??-??
 ### Added
 ### Fixed
+- Characters without events are viewable again
+
 ### Broke
 ### Changed
 ### Removed

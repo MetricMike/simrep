@@ -1,3 +1,3 @@
 class SimRep::Application
-  Version = '2.8.2'
+  Version = '2.8.3'
 end

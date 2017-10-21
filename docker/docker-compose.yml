@@ -137,7 +137,7 @@ services:
     command: bash ./bin/start_worker
 
   athena:
-    image: arachnysdocker/athenapdf-service
+    image: arachnysdocker/athenapdf-service:2
     environment:
       GIN_MODE: "debug"
       WEAVER_AUTH_KEY: "arachnys-weaver"

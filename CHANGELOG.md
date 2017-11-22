@@ -12,6 +12,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 ### Removed
 
+## [2.8.4](v2.8.4) - 2017-11-22
+### Added
+- Link to "view on site" for characters from the index
+
+### Fixed
+- Characters without events are viewable again
+
 ## [2.8.3](v2.8.3) - 2017-10-20
 ### Added
 - bin/start_app reports time when ran to make logs more readable

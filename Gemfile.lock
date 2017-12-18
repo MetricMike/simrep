@@ -333,7 +333,7 @@ GEM
       railties (= 5.1.4)
       sprockets-rails (>= 2.0.0)
     rails-assets-seiyria-bootstrap-slider (9.8.1)
-    rails-assets-tether (1.4.0)
+    rails-assets-tether (1.4.3)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)

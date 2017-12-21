@@ -6,10 +6,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](#) - ????-??-??
 ### Added
 ### Fixed
+- Bootsnap loads correctly now
 - Characters without events are viewable again
 
 ### Broke
 ### Changed
+- Bundle updated EVERYTHING
+
 ### Removed
 
 ## [2.8.4](v2.8.4) - 2017-11-22

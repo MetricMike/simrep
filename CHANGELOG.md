@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Broke
 ### Changed
+- Ruby version bump :D
 - Bundle updated EVERYTHING
 
 ### Removed

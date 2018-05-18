@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.5.0'
+ruby '2.5.1'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -95,7 +95,7 @@ gem 'memory_profiler',    require: false
 gem 'flamegraph',         require: false
 gem 'stackprof',          require: false
 
-gem 'dotenv-rails',       require: false
+gem 'dotenv-rails', require: false
 
 group :development, :test do
   gem 'letter_opener_web', require: false

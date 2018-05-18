@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](#) - ????-??-??
 ### Added
+- .env so we can run from outside again
+
 ### Fixed
 - Bootsnap loads correctly now
 - Characters without events are viewable again

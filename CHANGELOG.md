@@ -6,12 +6,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](#) - ????-??-??
 ### Added
 - .env so we can run from outside again
+- Hella and Thundermark are first-class Cultures now
 
 ### Fixed
+- admin/character.rb translates event id to weekend so killing characters works again
+- Active Deaths now correctly search >= <= instead of <= >=
 - Bootsnap loads correctly now
 - Characters without events are viewable again
 
 ### Broke
+- ? A bunch of freign_keys got deleted and I'm not entirely sure why or how
+
 ### Changed
 - Ruby version bump :D
 - Bundle updated EVERYTHING

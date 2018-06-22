@@ -9,5 +9,6 @@ class CharacterSkill < ApplicationRecord
       "#{self.character.display_name}'s #{self.skill.display_name}"
     else
       "ORPHANED PLS DELETE: #{self.skill.display_name}"
+    end
   end
 end

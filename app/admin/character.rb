@@ -36,6 +36,7 @@ ActiveAdmin.register Character do
       weekend:      Event.newest.for_form }
     } do |ids, inputs|
       batch_action_collection.find(ids).each do |character|
+        inputs[:weekend] = Event.find(inputs[:weekend]).weekend
         character.deaths.create(inputs)
       end
       redirect_to collection_path, notice: [ids, inputs].to_s

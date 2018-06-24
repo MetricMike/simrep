@@ -23,14 +23,14 @@ gem 'redis-rails'
 gem 'redis-rack-cache'
 
 # Assets
-gem 'bootstrap', '~> 4.0.0.beta'
+gem 'bootstrap'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether'
   gem 'rails-assets-seiyria-bootstrap-slider'
 end
 
-gem 'sprockets', '~> 4.0.0.beta'
+gem 'sprockets', '>= 4.0.beta'
 gem 'sassc-rails'
 gem 'uglifier'
 gem 'jquery-rails'

@@ -15,11 +15,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Characters without events are viewable again
 
 ### Broke
-- ? A bunch of freign_keys got deleted and I'm not entirely sure why or how
+- ? A bunch of foreign_keys got deleted and I'm not entirely sure why or how
+- bootstrap-slider and bootstrap-sortable aren't compatible with bootstrap 4
 
 ### Changed
 - Ruby version bump :D
-- Bundle updated EVERYTHING
+- Bundle updated EVERYTHING (twice)
 
 ### Removed
 

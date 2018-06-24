@@ -47,12 +47,14 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    environment:
+      COMPOSE_CONVERT_WINDOWS_PATHS: 1
 
   app_development:
     depends_on:
       - postgres
       - redis-worker
-    image: metricmike/simrep:1.1.3
+    image: metricmike/simrep:1.2.1
     environment:
       RAILS_ENV: "development"
       WEB_CONTAINER_URL: "web_development/okcomputer/all"
@@ -62,8 +64,8 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - ..:/var/www/simrep
-      - vol-bundle:/usr/local/bundle
+      - ..:/app/simrep
+      - vol-bundle:/app/bundle
     command: bash ./bin/start_app
 
   web_development:
@@ -76,28 +78,28 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - ..:/var/www/simrep
+      - ..:/app/simrep
       - ../config/nginx.conf.template:/tmp/nginx.conf.template
     command: sh -c "envsubst '$$APP_URL' < /tmp/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
 
   worker_development:
     depends_on:
       - web_development
-    image: metricmike/simrep:1.1.3
+    image: metricmike/simrep:1.2.1
     environment:
       RAILS_ENV: "development"
       WEB_CONTAINER_URL: "app_development:3000/okcomputer/all"
     env_file: "${ENV_FILE:-.simrep.env}"
     volumes:
-      - ..:/var/www/simrep
-      - vol-bundle:/usr/local/bundle
+      - ..:/app/simrep
+      - vol-bundle:/app/bundle
     command: bash ./bin/start_worker
 
   app_production:
     depends_on:
       - postgres
       - redis-worker
-    image: metricmike/simrep:1.1.3
+    image: metricmike/simrep:1.2.1
     environment:
       RAILS_ENV: "production"
       WEB_CONTAINER_URL: "web_production/okcomputer/all"
@@ -105,8 +107,8 @@ services:
     ports:
       - 3001:3000
     volumes:
-      - ..:/var/www/simrep
-      - vol-bundle:/usr/local/bundle
+      - ..:/app/simrep
+      - vol-bundle:/app/bundle
     command: bash ./bin/start_app
 
   web_production:
@@ -119,21 +121,21 @@ services:
     ports:
       - "8082:80"
     volumes:
-      - ..:/var/www/simrep
+      - ..:/app/simrep
       - ../config/nginx.conf.template:/tmp/nginx.conf.template
     command: sh -c "envsubst '$$APP_URL' < /tmp/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
 
   worker_production:
     depends_on:
       - web_production
-    image: metricmike/simrep:1.1.3
+    image: metricmike/simrep:1.2.1
     environment:
       RAILS_ENV: "production"
       WEB_CONTAINER_URL: "app_production:3000/okcomputer/all"
     env_file: "${ENV_FILE:-.simrep.env}"
     volumes:
-      - ..:/var/www/simrep
-      - vol-bundle:/usr/local/bundle
+      - ..:/app/simrep
+      - vol-bundle:/app/bundle
     command: bash ./bin/start_worker
 
   athena:

@@ -1,6 +1,6 @@
 class Character < ApplicationRecord
   RACES = ["Human", "Elf", "Dwarf", "Gnome", "Ent", "Custom"]
-  CULTURES = ["Cryogen", "Venthos", "Sengra", "Illumen/Lumiend", "Shaiden/Om'Oihanna", "Illugar/Unan Gens", "Shaigar/Alkon'Gol", "Minor", "Custom"]
+  CULTURES = ["Cryogen", "Venthos", "Sengra", "Illumen/Lumiend", "Shaiden/Om'Oihanna", "Illugar/Unan Gens", "Shaigar/Alkon'Gol", "Hella", "Thundermark", "Minor", "Custom"]
   # (1..50).each { |i| EXP_CHART << EXP_CHART[i-1] + 15 + i-1 }
   EXP_CHART = [0, 15, 31, 48, 66, 85, 105, 126, 148, 171, 195, 220,
   246, 273, 301, 330, 360, 391, 423, 456, 490, 525, 561, 598, 636, 675, 715,
@@ -96,6 +96,7 @@ class Character < ApplicationRecord
   end
 
   def third_last_event(index_event=self.last_event)
+    return nil if index_event.nil?
     all_events = self.events.where('weekend <= ?', index_event.weekend).newest
     num_events = all_events.count
     @third_last_event = num_events >= 3 ? all_events.third : all_events.last
@@ -242,10 +243,12 @@ class Character < ApplicationRecord
   end
 
   def perm_chance(index_last=self.third_last_event, index_first=self.last_event)
+    return 0 if index_first.nil?
     DEATH_PERCENTAGES[active_deaths(index_last, index_first).count]
   end
 
   def perm_counter(index_last=self.third_last_event, index_first=self.last_event)
+    return 0 if index_first.nil?
     num_events_since = active_deaths(index_last, index_first).last.try(:events_since) || 3
     [3 - num_events_since, 0].max
   end

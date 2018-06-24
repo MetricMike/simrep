@@ -5,6 +5,4 @@ if defined?(JazzFingers)
     config.coolline = false
     config.application_name = SimRep
   end
-
-  require 'jazz_fingers/setup'
 end

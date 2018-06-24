@@ -5,6 +5,10 @@ class CharacterSkill < ApplicationRecord
   accepts_nested_attributes_for :skill, allow_destroy: true
 
   def display_name
-    "#{self.character.display_name}'s #{self.skill.display_name}"
+    if self.character
+      "#{self.character.display_name}'s #{self.skill.display_name}"
+    else
+      "ORPHANED PLS DELETE: #{self.skill.display_name}"
+    end
   end
 end

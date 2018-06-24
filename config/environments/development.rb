@@ -13,7 +13,7 @@ Rails.application.configure do
   config.active_support.deprecation = :log
   config.active_record.migration_error = :page_load
 
-  config.sass.inline_source_maps = true
+  config.sass.inline_source_maps = false
   config.assets.debug = true
   config.assets.quiet = false
 

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.4.2'
+ruby '2.5.1'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -15,7 +15,7 @@ gem 'active_record_union'
 gem 'jsonapi-resources'
 gem 'high_voltage'
 gem 'puma'
-gem 'bootsnap'
+gem 'bootsnap', require: false
 
 # Gimme The Cache
 # https://www.youtube.com/watch?v=OADJl-CVDo0
@@ -23,14 +23,14 @@ gem 'redis-rails'
 gem 'redis-rack-cache'
 
 # Assets
-gem 'bootstrap', '~> 4.0.0.beta'
+gem 'bootstrap'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether'
   gem 'rails-assets-seiyria-bootstrap-slider'
 end
 
-gem 'sprockets', '~> 4.0.0.beta'
+gem 'sprockets', '>= 4.0.beta'
 gem 'sassc-rails'
 gem 'uglifier'
 gem 'jquery-rails'
@@ -95,7 +95,7 @@ gem 'memory_profiler',    require: false
 gem 'flamegraph',         require: false
 gem 'stackprof',          require: false
 
-gem 'dotenv-rails',       require: false
+gem 'dotenv-rails', require: false
 
 group :development, :test do
   gem 'letter_opener_web', require: false

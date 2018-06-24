@@ -15,6 +15,7 @@
 *.bak
 
 # Ignore secrets and environment
+.env
 /config/simrep-google-serviceaccount.json
 /docker/url
 /docker/.simrep.env

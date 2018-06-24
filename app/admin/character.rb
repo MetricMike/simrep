@@ -36,6 +36,7 @@ ActiveAdmin.register Character do
       weekend:      Event.newest.for_form }
     } do |ids, inputs|
       batch_action_collection.find(ids).each do |character|
+        inputs[:weekend] = Event.find(inputs[:weekend]).weekend
         character.deaths.create(inputs)
       end
       redirect_to collection_path, notice: [ids, inputs].to_s
@@ -70,7 +71,9 @@ ActiveAdmin.register Character do
       link_to humanized_money_with_symbol(c.bank_accounts.first.balance),
         admin_bank_account_path(c.bank_accounts.first)
     end
-    actions
+    actions do |character|
+      item "OnSite", character_path(character)
+    end
   end
 
   filter :user_name, as: :string, label: 'Player Name'

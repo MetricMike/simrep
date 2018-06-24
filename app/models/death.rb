@@ -8,7 +8,7 @@ class Death < ApplicationRecord
 
   scope :latest,          ->              { order(weekend: :desc) }
   scope :affects_perm,    ->              { where(countable: true) }
-  scope :between_events,  ->(last, first) { where(weekend: first..last) }
+  scope :between_events,  ->(last, first) { where(weekend: last..first) }
 
   validates :description, :physical, :roleplay, :weekend, presence: true
 
